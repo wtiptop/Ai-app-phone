@@ -4,3 +4,5 @@
 *.jar binary
 # Teksty dostawców zachowują oryginalne odstępy licencji.
 docs/THIRD_PARTY_NOTICES.txt -whitespace
+# Logi są dowodami narzędzi; zachowują ich oryginalne odstępy.
+docs/test-results/*.log -whitespace

@@ -168,7 +168,9 @@ class _HomeState extends State<Home> {
                 subtitle: Text(
                   p.id == 'demo'
                       ? 'Działa offline • jawna atrapa • 0 USD'
-                      : 'Wymaga klucza i modelu • API',
+                      : p.id == 'minicpm'
+                          ? 'Eksperymentalna • własny serwer HTTPS • offline w APK zaplanowane'
+                          : 'Wymaga klucza i modelu • API',
                 ),
                 trailing: provider == p.id ? const Icon(Icons.check) : null,
                 onTap: () => Navigator.pop(context, p.id),
@@ -224,10 +226,11 @@ class _HomeState extends State<Home> {
       await _draftWrites;
       RequestPermit? permit;
       String key = '';
+      String? expectedEndpoint;
       if (provider != 'demo') {
         key = await widget.secrets.read('api_$provider') ?? '';
         model = await widget.store.setting('model_$provider', '');
-        if (key.isEmpty || model.isEmpty) {
+        if ((provider != 'minicpm' && key.isEmpty) || model.isEmpty) {
           throw StateError('Wprowadź klucz i model w Ustawienia → Dostawcy.');
         }
         final contextText = [
@@ -236,11 +239,22 @@ class _HomeState extends State<Home> {
           if (!retry) text,
         ].join('\n');
         final estimate = await costs.estimate(provider, model, contextText);
+        final target = widget.registry.adapter(provider);
+        final recipient = target is MiniCpmAdapter
+            ? (await target.endpoint()).recipient
+            : target.label;
+        if (target is MiniCpmAdapter) expectedEndpoint = recipient;
+        final costInfo = provider == 'minicpm' && estimate == 0
+            ? 'Własny serwer bez opłat za API według Twojej deklaracji. '
+                'Aplikacja nie weryfikuje jego rozliczeń. Limit wyjścia: 1024 tokeny.'
+            : 'Lokalna rezerwa: ${estimate.toStringAsFixed(6)} USD. '
+                'To konserwatywny szacunek według Twoich stawek, nie gwarancja rachunku. '
+                'Limit wyjścia: 1024 tokeny. Anulowanie może pozostawić opłatę u dostawcy.';
         if (!mounted) return;
         if (!await confirm(
           context,
           'Wyślij do ${widget.registry.adapter(provider).label}?',
-          'Model: $model\n\nZostanie wysłana treść tej rozmowy: wiadomości użytkownika i ukończone odpowiedzi modeli. Pamięć, inne czaty i pliki nie są dołączane.\n\nLokalna rezerwa: ${estimate.toStringAsFixed(6)} USD. To konserwatywny szacunek według Twoich stawek, nie gwarancja rachunku. Limit wyjścia: 1024 tokeny. Anulowanie może pozostawić opłatę u dostawcy.\n\nNowa wiadomość:\n$text',
+          'Odbiorca: $recipient\nModel: $model\n\nZostanie wysłana treść tej rozmowy: wiadomości użytkownika i ukończone odpowiedzi modeli. Pamięć, inne czaty i pliki nie są dołączane.\n\n$costInfo\n\nNowa wiadomość:\n$text',
           action: 'Zatwierdź wysłanie i koszt',
         )) {
           return;
@@ -258,6 +272,7 @@ class _HomeState extends State<Home> {
         key,
         repeat: retry,
         permit: permit,
+        expectedEndpoint: expectedEndpoint,
       );
       await _load();
     } on StateError catch (e) {
@@ -404,16 +419,24 @@ class _HomeState extends State<Home> {
     }
     if (_loadError != null) {
       return Scaffold(
-          body: SafeArea(
-              child: Center(
-                  child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        Text(_loadError!),
-                        TextButton(
-                            onPressed: _load,
-                            child: const Text('Spróbuj ponownie'))
-                      ])))));
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(_loadError!),
+                  TextButton(
+                    onPressed: _load,
+                    child: const Text('Spróbuj ponownie'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
     }
     WidgetsBinding.instance.addPostFrameCallback((_) => _onboard());
     final busy = session.busy || _sending;
@@ -521,7 +544,9 @@ class _HomeState extends State<Home> {
                     ? 'Tryb prywatny • rozmowa tylko w RAM'
                     : provider == 'demo'
                         ? 'DEMO OFFLINE • atrapa odpowiedzi • bez opłat'
-                        : 'API • dane opuszczą telefon po potwierdzeniu',
+                        : provider == 'minicpm'
+                            ? 'MiniCPM • dane trafią na Twój serwer HTTPS'
+                            : 'API • dane opuszczą telefon po potwierdzeniu',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
@@ -619,7 +644,7 @@ class _HomeState extends State<Home> {
                                 ),
                               if (m.role != 'user')
                                 Text(
-                                  '${_statusLabel(m.status)} • ${m.provider == 'demo' ? '0 USD' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
+                                  '${_statusLabel(m.status)} • ${m.provider == 'demo' ? '0 USD' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
                                   style: Theme.of(context).textTheme.labelSmall,
                                 ),
                               Wrap(
@@ -731,27 +756,31 @@ class _HomeState extends State<Home> {
                 const SizedBox(width: 8),
                 if (session.busy)
                   Semantics(
-                      label: 'Anuluj generowanie',
-                      button: true,
-                      onTap: session.cancel,
-                      child: ExcludeSemantics(
-                          child: IconButton.filled(
+                    label: 'Anuluj generowanie',
+                    button: true,
+                    onTap: session.cancel,
+                    child: ExcludeSemantics(
+                      child: IconButton.filled(
                         tooltip: 'Anuluj generowanie',
                         onPressed: session.cancel,
                         icon: const Icon(Icons.stop),
-                      )))
+                      ),
+                    ),
+                  )
                 else
                   Semantics(
-                      label: 'Wyślij wiadomość',
-                      button: true,
-                      enabled: !_sending,
-                      onTap: _sending ? null : _send,
-                      child: ExcludeSemantics(
-                          child: IconButton.filled(
+                    label: 'Wyślij wiadomość',
+                    button: true,
+                    enabled: !_sending,
+                    onTap: _sending ? null : _send,
+                    child: ExcludeSemantics(
+                      child: IconButton.filled(
                         tooltip: 'Wyślij wiadomość',
                         onPressed: _sending ? null : _send,
                         icon: const Icon(Icons.arrow_upward),
-                      ))),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -1206,12 +1235,14 @@ class _HomeState extends State<Home> {
           ),
           const Divider(),
           ListTile(
-              leading: const Icon(Icons.balance_outlined),
-              title: const Text('Licencje zależności'),
-              onTap: () => showLicensePage(
-                  context: context,
-                  applicationName: 'Scalająca',
-                  applicationVersion: '0.1.0')),
+            leading: const Icon(Icons.balance_outlined),
+            title: const Text('Licencje zależności'),
+            onTap: () => showLicensePage(
+              context: context,
+              applicationName: 'Scalająca',
+              applicationVersion: '0.1.0',
+            ),
+          ),
           const ListTile(
             leading: Icon(Icons.link_off),
             title: Text('JARVIS / OPPO: wyłączony'),

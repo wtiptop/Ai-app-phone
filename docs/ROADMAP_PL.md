@@ -1,5 +1,7 @@
 # Plan realizacji i dostępność rozszerzeń
 
+Rozszerzenie zakresu 18.10.2026 — MiniCPM: w 0.1.1 dodano tekstowy adapter własnego serwera HTTPS i konfigurację/zgody/koszty. Testy Dart oraz kompilacja Flutter bundle potwierdzone; realna generacja i nowy APK niewykonane. **Następny etap lokalnego AI:** przypięty llama.cpp JNI/FFI ARM64, dobrowolny import GGUF z kontrolą SHA-256 i pochodzenia, limity RAM/kontekstu, usuwanie zasobów, stop i testy realnego telefonu. Bez pobierania wag lub usług płatnych bez zgody. Serwer MiniCPM nie zastępuje tego etapu i nie staje się obowiązkowym backendem. MiniCPM-V/audio i narzędzia wymagają osobnego wdrożenia. Pozostałe wymagania specyfikacji nadal obowiązują.
+
 Stan planu: **17.10.2026**. Pełny zakres 17 sekcji specyfikacji jest śledzony w `REQUIREMENTS_TRACEABILITY_PL.md`. Kolejność wynika z samodzielności telefonu, kontroli danych i kosztów. Ten dokument nie oznacza ukończenia etapów.
 
 | Faza | Rezultat | Warunek odbioru | Status planu |

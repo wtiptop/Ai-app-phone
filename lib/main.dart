@@ -51,7 +51,9 @@ class ScalajacaApp extends StatefulWidget {
 }
 
 class _ScalajacaAppState extends State<ScalajacaApp> {
-  final registry = ProviderRegistry.standard();
+  late final registry = ProviderRegistry.standard(
+    miniCpmEndpoint: () => widget.store.setting('endpoint_minicpm', ''),
+  );
   ThemeMode mode = ThemeMode.system;
   @override
   void initState() {

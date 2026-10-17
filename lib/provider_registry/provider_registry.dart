@@ -1,20 +1,24 @@
 import 'adapters.dart';
 import 'provider_adapter.dart';
+import 'minicpm_adapter.dart';
 
 export 'adapters.dart';
 export 'http_provider_adapter.dart' show HttpClientFactory, ProviderHttpConfig;
 export 'provider_adapter.dart';
 export 'provider_descriptor.dart';
+export 'minicpm_adapter.dart';
 
 class ProviderRegistry {
   ProviderRegistry(Iterable<ProviderAdapter> adapters)
       : _adapters = {for (final adapter in adapters) adapter.id: adapter};
-  factory ProviderRegistry.standard() => ProviderRegistry([
+  factory ProviderRegistry.standard({MiniCpmEndpointReader? miniCpmEndpoint}) =>
+      ProviderRegistry([
         DemoAdapter(),
         OpenAiAdapter(),
         AnthropicAdapter(),
         GeminiAdapter(),
         XaiAdapter(),
+        MiniCpmAdapter(readEndpoint: miniCpmEndpoint ?? () async => ''),
       ]);
   final Map<String, ProviderAdapter> _adapters;
   List<ProviderAdapter> get adapters => List.unmodifiable(_adapters.values);

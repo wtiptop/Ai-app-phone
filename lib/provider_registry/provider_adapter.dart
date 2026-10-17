@@ -13,12 +13,16 @@ class ProviderRequest {
     required List<ChatTurn> turns,
     this.apiKey = '',
     this.maxOutputTokens = 1024,
+    this.expectedEndpoint,
   }) : turns = List.unmodifiable(turns);
 
   final String model;
   final List<ChatTurn> turns;
   final String apiKey;
   final int maxOutputTokens;
+
+  /// Adres własnego serwera pokazany w zgodzie; chroni przed zmianą konfiguracji.
+  final String? expectedEndpoint;
 
   // Celowo bez toString(): klucz i treść nie należą do logów.
 }

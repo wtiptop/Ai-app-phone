@@ -1,5 +1,26 @@
 # Rzeczywiste testy Scalającej
 
+## Aktualizacja MiniCPM 0.1.1 — 17–18.10.2026
+
+| Sprawdzenie | Wynik rzeczywisty | Dowód / ograniczenie |
+|---|---|---|
+| Offline pub get | Rozwiązane; 106 pakietów, notice bez braków | Bieżący pubspec.lock, scripts/collect_notices.ps1 |
+| Dart analyze | **PASS, No issues found, exit 0** | test-results/analyze-0.1.1.log |
+| Dart test: providers + minicpm_cost | **73/73 PASS, exit 0** | test-results/dart-tests-0.1.1.log; 37 wcześniejszych + 29 MiniCPM + 7 kosztów |
+| SQLite kosztów | **7/7 PASS**, część powyższych 73 | Prawdziwy SQLite FFI: deklaracja 0, jednorazowy permit, brak odblokowania płatnego API, mieszane porównanie, atomowe równoległe rezerwy |
+| Flutter bundle ARM64 debug | **PASS, exit 0** | test-results/flutter-bundle-0.1.1.json; kernel_blob.bin 79 307 200 bajtów, to kompilacja części Flutter, nie APK |
+| Pełny runner Flutter / widgety | **Zablokowane przed wykonaniem testów** | test-results/flutter-tests-0.1.1-blocked.log; SocketException localhost errno 10057, 11 plików nie załadowano; nie jest to zaliczenie testów UI |
+| Android APK 0.1.1 | **Zablokowane, brak nowego APK** | test-results/android-build-0.1.1-blocked.log; Gradle „Could not connect to the Gradle daemon”, zgłoszony exit 1, proces Flutter zakończył się NTSTATUS -1073741816 |
+| Serwer, wagi, generacja i telefon MiniCPM | **Niewykonane** | Bez pobrania wag, kont, płatnych operacji i publikacji |
+
+Testy adapterów używają prawdziwych atrap `package:http`, bez ruchu sieciowego. Zestaw zawiera walidację HTTPS/URL, tekst UTF-8, parametry, katalog, opcjonalny klucz, błędy 302/401/429/503, brak retry/redirect, redakcję body, niepełny stream, stop przed dispatch i nagłówkami, blokadę narzędzi oraz zmianę zatwierdzonego odbiorcy. Nie dowodzi jakości ani tożsamości modelu na serwerze.
+
+W tej sesji pierwszy test odpowiedzi Unicode miał błędną atrapę `http.Response` bez charset UTF-8; poprawiono fixture, a końcowy zestaw 73/73 przeszedł. Pierwsza analiza wskazała styl składania tekstu w teście; poprawiono. Próba testów Flutter nie doszła do asercji z powodu ograniczenia środowiska; nie przemianowano jej na PASS. Dwa nowe widget testy są przygotowane, lecz wymagają uruchomienia standardowego runnera w środowisku z działającym localhost. Nowy pakiet `test` jest zależnością deweloperską, nie silnikiem MiniCPM.
+
+Odtworzenie po `flutter pub get`: `dart test test/providers test/security/minicpm_cost_test.dart --reporter expanded` (lub scripts/test_dart.ps1). W ograniczonym środowisku uruchomiono bezpośrednio `test-1.31.1/bin/test.dart` z `--packages=.dart_tool/package_config.json`; jest to standardowy runner Dart i te same pliki testów, bez własnego licznika udającego framework. Pełne `flutter test` i build APK trzeba ponowić po usunięciu blokady localhost. Bez obchodzenia uprawnień systemowych.
+
+## Historia potwierdzonej wersji 0.1.0
+
 Data: **17.10.2026**, Europe/Warsaw. Środowisko: Windows, Flutter **3.47.7**, Dart **3.13.5**, JDK **17.0.20.1**, AGP **9.1.0**, Gradle **9.3.1**, SDK 36, NDK **28.2.13676358**. Testy hosta nie oznaczają instalacji na telefonie.
 
 | Sprawdzenie | Rzeczywisty wynik | Dowód / granica |

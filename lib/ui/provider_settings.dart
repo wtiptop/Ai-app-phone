@@ -90,9 +90,12 @@ class ProviderCard extends StatefulWidget {
 
 class _ProviderCardState extends State<ProviderCard> {
   final keyInput = TextEditingController(), model = TextEditingController();
+  final endpoint = TextEditingController();
   final inputRate = TextEditingController(),
       outputRate = TextEditingController();
   bool configured = false, working = false;
+  bool selfHostedFree = false;
+  bool get isMiniCpm => widget.provider.id == 'minicpm';
   String status = 'Wymaga konfiguracji';
   List<ProviderModel> models = [];
   @override
@@ -104,6 +107,13 @@ class _ProviderCardState extends State<ProviderCard> {
   Future<void> _load() async {
     final id = widget.provider.id;
     model.text = await widget.store.setting('model_$id', '');
+    if (isMiniCpm) {
+      endpoint.text = await widget.store.setting('endpoint_minicpm', '');
+      selfHostedFree = await widget.store.setting(
+        'minicpm_self_hosted_free',
+        false,
+      );
+    }
     final i = await widget.store.setting<double>('input_rate_$id', -1);
     final o = await widget.store.setting<double>('output_rate_$id', -1);
     inputRate.text = i < 0 ? '' : i.toString();
@@ -111,9 +121,13 @@ class _ProviderCardState extends State<ProviderCard> {
     configured = (await widget.secrets.read('api_$id'))?.isNotEmpty ?? false;
     if (mounted) {
       setState(
-        () => status = configured
-            ? 'Klucz zapisany • połączenie niesprawdzone'
-            : 'Wymaga konfiguracji',
+        () => status = isMiniCpm
+            ? (endpoint.text.isEmpty
+                ? 'Eksperymentalna • wymaga własnego serwera'
+                : 'Serwer zapisany • połączenie niesprawdzone')
+            : configured
+                ? 'Klucz zapisany • połączenie niesprawdzone'
+                : 'Wymaga konfiguracji',
       );
     }
   }
@@ -124,6 +138,7 @@ class _ProviderCardState extends State<ProviderCard> {
     model.dispose();
     inputRate.dispose();
     outputRate.dispose();
+    endpoint.dispose();
     super.dispose();
   }
 
@@ -143,9 +158,38 @@ class _ProviderCardState extends State<ProviderCard> {
       );
       return;
     }
+    String? target;
+    if (isMiniCpm) {
+      try {
+        target = MiniCpmEndpoint.parse(endpoint.text).recipient;
+      } on ProviderException catch (e) {
+        notice(context, e.message);
+        return;
+      }
+      if (selfHostedFree && (i != 0 || o != 0)) {
+        notice(context, 'Tryb własnego serwera bez opłat wymaga obu stawek 0.');
+        return;
+      }
+      if (!selfHostedFree && i + o == 0) {
+        notice(context, 'Podaj stawki albo potwierdź własny serwer bez opłat.');
+        return;
+      }
+    }
     setState(() => working = true);
     try {
       final id = widget.provider.id;
+      if (target != null) {
+        final previous = await widget.store.setting('endpoint_minicpm', '');
+        if (previous != target && keyInput.text.trim().isEmpty) {
+          // Nie przenosimy starego sekretu do nowego odbiorcy.
+          await widget.secrets.delete('api_minicpm');
+        }
+        await widget.store.setSetting('endpoint_minicpm', target);
+        await widget.store.setSetting(
+          'minicpm_self_hosted_free',
+          selfHostedFree,
+        );
+      }
       if (keyInput.text.trim().isNotEmpty) {
         await widget.secrets.write('api_$id', keyInput.text.trim());
       }
@@ -174,10 +218,21 @@ class _ProviderCardState extends State<ProviderCard> {
   }
 
   Future<void> _test() async {
+    String recipient = 'oficjalnego API ${widget.provider.label}';
+    if (isMiniCpm) {
+      try {
+        recipient =
+            (await (widget.provider as MiniCpmAdapter).endpoint()).recipient;
+      } on ProviderException catch (e) {
+        if (mounted) notice(context, e.message);
+        return;
+      }
+      if (!mounted) return;
+    }
     if (!await confirm(
       context,
       'Test połączenia',
-      'Pobierz katalog z oficjalnego API ${widget.provider.label}. Zostanie wysłany zapisany klucz; bez promptu i bez generowania odpowiedzi. Katalog potwierdza uwierzytelnienie, nie uprawnienia wybranego modelu.',
+      'Odbiorca: $recipient. Pobierz katalog. Zapisany klucz, jeśli istnieje, trafi wyłącznie do tego odbiorcy; bez promptu i bez generowania odpowiedzi. Katalog nie dowodzi tożsamości wag ani uprawnień wybranego modelu. Najpierw zapisz konfigurację.',
       action: 'Pobierz katalog',
     )) {
       return;
@@ -185,7 +240,10 @@ class _ProviderCardState extends State<ProviderCard> {
     setState(() => working = true);
     try {
       final key = await widget.secrets.read('api_${widget.provider.id}') ?? '';
-      final found = await widget.provider.discoverModels(key);
+      final provider = widget.provider;
+      final found = provider is MiniCpmAdapter
+          ? await provider.discoverModels(key, expectedEndpoint: recipient)
+          : await provider.discoverModels(key);
       if (mounted) {
         setState(() {
           models = found;
@@ -212,18 +270,40 @@ class _ProviderCardState extends State<ProviderCard> {
           childrenPadding: const EdgeInsets.all(16),
           children: [
             Text(
-              widget.provider.id == 'gemini'
-                  ? 'Google API • przetwarzanie w chmurze. Ograniczenia wieku/przeznaczenia i Paid Services w EOG: sprawdź aktualne warunki Gemini API przed użyciem.'
-                  : 'Oficjalne API • BYOK • przetwarzanie w chmurze dostawcy. Brak gwarancji regionu danych.',
+              isMiniCpm
+                  ? 'Opcjonalna integracja z własnym serwerem MiniCPM / llama.cpp. Dane trafiają na wskazany serwer. Ten APK nie zawiera silnika LLM ani wag: inferencja bezpośrednio w aplikacji jest zaplanowana. Nie wymaga OPPO ani JARVIS. Obsługa tekstu; bez obrazów, głosu i wykonywania narzędzi.'
+                  : widget.provider.id == 'gemini'
+                      ? 'Google API • przetwarzanie w chmurze. Ograniczenia wieku/przeznaczenia i Paid Services w EOG: sprawdź aktualne warunki Gemini API przed użyciem.'
+                      : 'Oficjalne API • BYOK • przetwarzanie w chmurze dostawcy. Brak gwarancji regionu danych.',
             ),
             const SizedBox(height: 12),
+            if (isMiniCpm) ...[
+              TextField(
+                controller: endpoint,
+                onChanged: (_) => setState(() => selfHostedFree = false),
+                autocorrect: false,
+                enableSuggestions: false,
+                keyboardType: TextInputType.url,
+                decoration: const InputDecoration(
+                  labelText: 'Adres HTTPS serwera MiniCPM',
+                  hintText: 'https://ai.example.org/v1',
+                ),
+              ),
+              const Text(
+                'Certyfikat TLS musi być zaufany przez Androida. '
+                'HTTP i wyłączanie weryfikacji certyfikatu nie są obsługiwane. '
+                'Zmiana adresu usuwa poprzedni klucz, jeśli nie wpiszesz nowego.',
+              ),
+            ],
             TextField(
               controller: keyInput,
               obscureText: true,
               autocorrect: false,
               enableSuggestions: false,
               decoration: InputDecoration(
-                labelText: 'Klucz API',
+                labelText: isMiniCpm
+                    ? 'Klucz własnego serwera (opcjonalny)'
+                    : 'Klucz API',
                 hintText: configured
                     ? 'Pozostaw puste, aby zachować'
                     : 'Wprowadź swój klucz',
@@ -278,6 +358,20 @@ class _ProviderCardState extends State<ProviderCard> {
             const Text(
               'Cennik sprawdza właściciel. Zmiana modelu wymaga aktualizacji stawek. Szacunek nie jest rachunkiem dostawcy.',
             ),
+            if (isMiniCpm)
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('To mój serwer bez opłat za wywołania API'),
+                subtitle: const Text(
+                  'Wymaga obu stawek 0. Potwierdzasz warunki serwera. '
+                  'Aplikacja nie sprawdza jego rozliczeń; energia i hosting mogą kosztować.',
+                ),
+                value: selfHostedFree,
+                onChanged: working
+                    ? null
+                    : (value) =>
+                        setState(() => selfHostedFree = value ?? false),
+              ),
             const SizedBox(height: 12),
             Wrap(
               spacing: 8,

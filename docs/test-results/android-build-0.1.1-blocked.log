@@ -1,0 +1,39 @@
+Running Gradle task 'assembleDebug'...                          
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not connect to the Gradle daemon.
+Daemon uid: be16a3b0-0709-4830-8901-a448853124f7 with diagnostics:
+Daemon pid: 19696
+  log file: C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\gradle-user\daemon\9.3.1\daemon-19696.out.log
+----- Last 20 lines from daemon log file - daemon-19696.out.log -----
+2026-10-17T23:57:02.743+0200 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-10-17T23:57:02.744+0200 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Adding IP addresses for network interface Microsoft Wi-Fi Direct Virtual Adapter #2-WFP 802.3 MAC Layer LightWeight Filter-0000
+2026-10-17T23:57:02.747+0200 [DEBUG] [org.gradle.internal.remote.internal.inet.InetAddresses] Is this a loopback interface? false
+2026-10-17T23:57:02.782+0200 [INFO] [org.gradle.launcher.daemon.server.Daemon] start() called on daemon - DefaultDaemonContext[uid=be16a3b0-0709-4830-8901-a448853124f7,javaHome=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\jdk\jdk-17.0.20.1+1,javaVersion=17,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\gradle-user\daemon,pid=19696,idleTimeout=120000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=1G,-XX:ReservedCodeCacheSize=256m,-Xmx3G,-Dfile.encoding=windows-1250,-Duser.country=GB,-Duser.language=en,-Duser.variant]
+2026-10-17T23:57:02.844+0200 [DEBUG] [org.gradle.internal.remote.internal.inet.TcpIncomingConnector] Listening on [293e19fa-0028-4604-988c-93b84f0565cb port:54908, addresses:[localhost/127.0.0.1]].
+2026-10-17T23:57:02.860+0200 [DEBUG] [org.gradle.launcher.daemon.server.Daemon] Daemon starting at: Sat Oct 17 23:57:02 CEST 2026, with address: [293e19fa-0028-4604-988c-93b84f0565cb port:54908, addresses:[localhost/127.0.0.1]]
+2026-10-17T23:57:02.860+0200 [INFO] [org.gradle.launcher.daemon.server.DaemonRegistryUpdater] Advertising the daemon address to the clients: [293e19fa-0028-4604-988c-93b84f0565cb port:54908, addresses:[localhost/127.0.0.1]]
+2026-10-17T23:57:02.860+0200 [DEBUG] [org.gradle.launcher.daemon.server.DaemonRegistryUpdater] Advertised daemon context: DefaultDaemonContext[uid=be16a3b0-0709-4830-8901-a448853124f7,javaHome=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\jdk\jdk-17.0.20.1+1,javaVersion=17,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\gradle-user\daemon,pid=19696,idleTimeout=120000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=1G,-XX:ReservedCodeCacheSize=256m,-Xmx3G,-Dfile.encoding=windows-1250,-Duser.country=GB,-Duser.language=en,-Duser.variant]
+2026-10-17T23:57:02.861+0200 [DEBUG] [org.gradle.launcher.daemon.registry.PersistentDaemonRegistry] Storing daemon address: [293e19fa-0028-4604-988c-93b84f0565cb port:54908, addresses:[localhost/127.0.0.1]], context: DefaultDaemonContext[uid=be16a3b0-0709-4830-8901-a448853124f7,javaHome=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\jdk\jdk-17.0.20.1+1,javaVersion=17,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\niezn\Documents\Codex\Scalajaca\work\toolchain\gradle-user\daemon,pid=19696,idleTimeout=120000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=1G,-XX:ReservedCodeCacheSize=256m,-Xmx3G,-Dfile.encoding=windows-1250,-Duser.country=GB,-Duser.language=en,-Duser.variant]
+2026-10-17T23:57:02.876+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Waiting to acquire exclusive lock on daemon addresses registry.
+2026-10-17T23:57:02.879+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Lock acquired on daemon addresses registry.
+2026-10-17T23:57:02.880+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Releasing lock on daemon addresses registry.
+2026-10-17T23:57:02.888+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Waiting to acquire exclusive lock on daemon addresses registry.
+2026-10-17T23:57:02.888+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Lock acquired on daemon addresses registry.
+2026-10-17T23:57:02.891+0200 [DEBUG] [org.gradle.cache.internal.DefaultFileLockManager] Releasing lock on daemon addresses registry.
+2026-10-17T23:57:02.892+0200 [LIFECYCLE] [org.gradle.launcher.daemon.server.Daemon] Daemon server started.
+2026-10-17T23:57:02.893+0200 [DEBUG] [org.gradle.launcher.daemon.bootstrap.DaemonStartupCommunication] Completed writing the daemon greeting. Closing streams...
+2026-10-17T23:57:02.902+0200 [DEBUG] [org.gradle.launcher.daemon.server.Daemon] stopOnExpiration() called on daemon
+2026-10-17T23:57:02.903+0200 [DEBUG] [org.gradle.launcher.daemon.server.Daemon] awaitExpiration() called on daemon
+2026-10-17T23:57:02.903+0200 [DEBUG] [org.gradle.launcher.daemon.server.DaemonStateCoordinator] daemon is running. Sleeping until state changes.----- End of the daemon log -----
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+Running Gradle task 'assembleDebug'...                             17.7s
+Gradle task assembleDebug failed with exit code 1

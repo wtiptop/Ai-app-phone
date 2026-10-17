@@ -1,0 +1,11 @@
+{
+  "version": "0.1.1+2",
+  "command": "flutter --suppress-analytics --no-version-check build bundle --debug --no-pub --target-platform android-arm64",
+  "exitCode": 0,
+  "artifact": "build/flutter_assets/kernel_blob.bin",
+  "size": 79307200,
+  "sha256": "fc06e408b5dd34d07335cce235fbed800b8961fcd051fd9c4a5408fa43c40fce",
+  "builtUtc": "2026-10-17T22:03:19.3711018Z",
+  "apkBuilt": false,
+  "deviceTested": false
+}

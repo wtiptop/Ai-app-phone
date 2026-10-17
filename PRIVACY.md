@@ -1,5 +1,7 @@
 # Prywatność Scalającej
 
+Aktualizacja 0.1.1: po wybraniu MiniCPM treść wskazanej rozmowy trafia do własnego serwera HTTPS pokazanego przed wysłaniem. Nie zakładamy, że ten serwer jest prywatny, lokalny lub bez logów: odpowiada za to właściciel. Adres serwera, model, stawki i deklaracja opłat są jawnymi ustawieniami SQLite; opcjonalny klucz pozostaje w Keystore i nie jest eksportowany. Nie ma automatycznego połączenia, pobierania wag, fallbacks do chmury ani telemetrii. Inferencja wbudowana w APK jest zaplanowana.
+
 Stan: 17.10.2026. Scalająca przechowuje dane na telefonie i działa bez konta, serwera JARVIS, OPPO i Obsidiana. Dostęp do chmurowego AI wymaga internetu i dobrowolnej konfiguracji dostawcy.
 
 ## Jakie dane są przechowywane

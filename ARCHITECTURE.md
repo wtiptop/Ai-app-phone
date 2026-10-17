@@ -1,5 +1,7 @@
 # Architektura Scalającej
 
+Aktualizacja 0.1.1 (18.10.2026): `MiniCpmAdapter` jest opcjonalnym klientem własnego serwera HTTPS, wstrzykującym zapisany adres do istniejącego transportu. Nie tworzy połączenia podczas startu. Zweryfikowany adres jest przypisany do żądania; zmiana konfiguracji po zgodzie blokuje wysłanie. Minimalny port `CostStore` pozwala testować koszt i transakcje bez Fluttera; `AppDatabase` nadal dostarcza realny SQLite. Rdzeń nie zależy od MiniCPM. Natywny `local_inference` z zarządzaniem GGUF jest osobnym zaplanowanym modułem. Zobacz ADR 005 i `docs/MINICPM_PL.md`.
+
 Data decyzji: 2026-10-17. Główny produkt to proces Android/Flutter i lokalna baza na telefonie. OPPO nie uczestniczy w uruchamianiu, przechowywaniu danych ani podstawowym czacie.
 
 ```mermaid

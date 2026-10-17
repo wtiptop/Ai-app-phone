@@ -15,6 +15,8 @@ OpenAI: [SIWC Quickstart](https://developers.openai.com/siwc/quickstart), [plan 
 
 ## Transport zaimplementowany w repozytorium
 
+Aktualizacja 0.1.1: dodano **MiniCPM na własnym serwerze HTTPS** — `POST /v1/chat/completions`, `GET /v1/models`, tekst/SSE, katalog i anulowanie. To opcjonalny serwer właściciela, bez automatycznego konta lub subskrypcji OpenBMB. Klucz serwera jest opcjonalny; źródła wag i miejsce przetwarzania kontroluje właściciel. Oficjalne [MiniCPM](https://github.com/OpenBMB/MiniCPM), [wdrożenie llama.cpp](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md) i [instrukcja Scalającej](docs/MINICPM_PL.md). Silnik lokalny w APK jest zaplanowany; wagi i inferencja na żywo nie były uruchamiane. Ta integracja nie zmienia uprawnień pozostałych dostawców.
+
 | Adapter | Generacja — stały oficjalny adres HTTPS | Katalog — tylko na jawną akcję | Zakres obecnego kodu | Pozostałe możliwości |
 |---|---|---|---|---|
 | `OpenAiAdapter` | `POST api.openai.com/v1/responses` z `stream:true`, `store:false` | `GET /v1/models` | Tekst, historia wejściowa, SSE delta/completed, usage | Obrazy, pliki, tools, audio i szczegółowe możliwości modelu: zaplanowane |
@@ -41,7 +43,7 @@ SSO potrzebuje odrębnego buildera żądania: preview SIWC wymaga `store:false`,
 
 ## Przetwarzanie danych i warunki
 
-W każdym realnym adapterze wybrane wiadomości opuszczają telefon i trafiają do chmury dostawcy. Publiczny globalny endpoint nie stanowi gwarancji regionu EOG. Regionalizacja, konkretne okresy retencji i szczególne umowy konta nie są automatycznie weryfikowane przez MVP.
+W czterech adapterach chmurowych wybrane wiadomości opuszczają telefon i trafiają do dostawcy; MiniCPM wysyła je do jawnie skonfigurowanego własnego serwera HTTPS. Publiczny globalny endpoint nie stanowi gwarancji regionu EOG. Regionalizacja, konkretne okresy retencji i szczególne umowy konta nie są automatycznie weryfikowane przez MVP.
 
 OpenAI ma odrębne kontrole danych API i retencji; `store:false` wyłącza przechowywanie stanu Responses, ale nie oznacza ogólnego braku retencji ani automatycznego ZDR. [Kontrole danych API](https://developers.openai.com/api/docs/guides/your-data). Anthropic opisuje retencję według modelu, endpointu i uprawnień organizacji; nie zakładamy, że każdy model kwalifikuje się do ZDR. [Retencja Claude API](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
 

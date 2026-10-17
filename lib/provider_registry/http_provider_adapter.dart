@@ -52,7 +52,7 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
   List<ProviderModel> parseModels(Map<String, dynamic> json);
   Uri? nextModelsPage(Map<String, dynamic> json) => null;
 
-  void _validateKey(String key) {
+  void validateKey(String key) {
     if (key.trim().isEmpty) {
       throw const ProviderException(
         'missing_key',
@@ -66,6 +66,11 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
       );
     }
   }
+
+  bool isAllowedModelsPage(Uri page) =>
+      page.scheme == 'https' &&
+      page.origin == modelsUri.origin &&
+      page.userInfo.isEmpty;
 
   _Operation _begin() {
     if (_active != null) {
@@ -201,7 +206,7 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
 
   @override
   Stream<ProviderEvent> stream(ProviderRequest request) async* {
-    _validateKey(request.apiKey);
+    validateKey(request.apiKey);
     if (!RegExp(r'^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$')
             .hasMatch(request.model) ||
         request.turns.isEmpty ||
@@ -245,10 +250,14 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
         );
       }
       iterator = StreamIterator(
-        parseEvents(decodeSse(_interruptibleBytes(
-          response.stream.timeout(config.idleTimeout),
-          operation,
-        ))),
+        parseEvents(
+          decodeSse(
+            _interruptibleBytes(
+              response.stream.timeout(config.idleTimeout),
+              operation,
+            ),
+          ),
+        ),
       );
       var completed = false;
       while (await _wait(iterator.moveNext(), operation)) {
@@ -279,7 +288,7 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
 
   @override
   Future<List<ProviderModel>> discoverModels(String apiKey) async {
-    _validateKey(apiKey);
+    validateKey(apiKey);
     final operation = _begin();
     final timer = Timer(
       config.totalTimeout,
@@ -295,8 +304,7 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
       Uri? page = modelsUri;
       final visited = <String>{};
       while (page != null) {
-        if (page.scheme != 'https' ||
-            page.host != modelsUri.host ||
+        if (!isAllowedModelsPage(page) ||
             !visited.add(page.toString()) ||
             visited.length > 100) {
           throw const ProviderException(
@@ -313,10 +321,12 @@ abstract class HttpProviderAdapter implements ProviderAdapter {
         );
         _checkStatus(response.statusCode);
         final raw = await _wait(
-          _catalogBytes(_interruptibleBytes(
-            response.stream.timeout(config.idleTimeout),
-            operation,
-          )),
+          _catalogBytes(
+            _interruptibleBytes(
+              response.stream.timeout(config.idleTimeout),
+              operation,
+            ),
+          ),
           operation,
         );
         final decoded = jsonDecode(utf8.decode(raw)) as Map<String, dynamic>;

@@ -56,6 +56,7 @@ class ChatSession extends ChangeNotifier {
     String key, {
     bool repeat = false,
     RequestPermit? permit,
+    String? expectedEndpoint,
   }) async {
     if (busy || text.trim().isEmpty) return;
     if (provider != 'demo') {
@@ -139,7 +140,12 @@ class ChatSession extends ChangeNotifier {
         }
         _active = registry.adapter(provider);
         await for (final event in _active!.stream(
-          ProviderRequest(model: model, turns: turns, apiKey: key),
+          ProviderRequest(
+            model: model,
+            turns: turns,
+            apiKey: key,
+            expectedEndpoint: expectedEndpoint,
+          ),
         )) {
           if (_cancelled) break;
           response = response.copyWith(

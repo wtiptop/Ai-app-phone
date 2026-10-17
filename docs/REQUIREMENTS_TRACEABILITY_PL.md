@@ -1,5 +1,21 @@
 # Macierz wymagań Scalającej
 
+## Uzupełnienie użytkownika: MiniCPM — 18.10.2026
+
+Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
+
+| ID | Zakres | Status / dowód |
+|---|---|---|
+| MX1 | Oficjalne repozytorium, formaty i licencje | Zweryfikowane źródła wydawcy w MINICPM_PL.md; brak dołączonych wag |
+| MX2 | Adapter własnego serwera tekst/SSE/katalog/stop/błędy | Potwierdzone testami Dart; realny model wymaga konfiguracji i testu |
+| MX3 | HTTPS, opcjonalny klucz Keystore, jawny adres, brak przenoszenia sekretu | Transport i zmiana zatwierdzonego adresu testowane; widget/Keystore wymagają testu Android |
+| MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 7 testów polityki na SQLite FFI PASS |
+| MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod i kompilacja Flutter bundle PASS; UI i realne żądanie niepotwierdzone |
+| MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Zaplanowane; źródła silnika niepobrane z powodu blokady sieci środowiska |
+| MX7 | APK i test telefonu z modelem | APK 0.1.1 zablokowany przez komunikację Gradle localhost; urządzenie/model nieuruchomione |
+
+## Pierwotna specyfikacja
+
 Źródło: pełna `SPECYFIKACJA.md`, sekcje 0–16. Data przeglądu: **17.10.2026**. Każdy wiersz jest wymaganiem do odbioru; zebranie kilku elementów w jednym wierszu nie znosi żadnego z nich.
 
 Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczone** = istnieje część kodu lub projekt, ale brak pełnego potwierdzenia; **potwierdzone** = wskazany dowód i test. Status realizacji różni się od statusów integracji pokazywanych użytkownikowi: `działa`, `wymaga konfiguracji`, `wymaga zatwierdzenia dostawcy`, `eksperymentalna`, `niedostępna`. Sam kod adaptera nie potwierdza działającego konta ani poprawności na Androidzie. Wyniki uruchomień znajdują się w `TESTS_PL.md`.

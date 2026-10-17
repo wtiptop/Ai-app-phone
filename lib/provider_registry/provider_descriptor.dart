@@ -27,6 +27,13 @@ class ProviderDescriptor {
 }
 
 const providerDescriptors = <String, ProviderDescriptor>{
+  'minicpm': ProviderDescriptor(
+    id: 'minicpm',
+    authentication: 'Własny serwer HTTPS; opcjonalny klucz jego API',
+    processing: 'Na wskazanym serwerze; inferencja wbudowana w APK zaplanowana',
+    status: 'eksperymentalna — wymaga konfiguracji własnego serwera',
+    documentationUrl: 'https://github.com/OpenBMB/MiniCPM',
+  ),
   'demo': ProviderDescriptor(
     id: 'demo',
     authentication: 'Brak — lokalna atrapa',

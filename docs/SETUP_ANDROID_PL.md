@@ -1,5 +1,7 @@
 # Budowanie i instalacja na Androidzie
 
+**Aktualizacja 0.1.1 z MiniCPM:** dostępna jako źródła. Kompilacja Flutter bundle przeszła; nowy APK jest zablokowany przez brak połączenia z lokalnym procesem Gradle w środowisku wykonania. Poniższy APK 0.1.0 jest historyczny i nie zawiera MiniCPM. Po usunięciu ograniczenia środowiska wykonaj pełne `flutter test`, build APK i weryfikację podpisu; nie traktuj starego artefaktu jako aktualizacji. Instrukcja MiniCPM: `MINICPM_PL.md`.
+
 Potrzebne: Flutter stable (środowisko prac: 3.47.7, Dart 3.13.5), Git, JDK 17, Android SDK Platform 36, Build Tools 36.0.0 i platform-tools. Projekt wymaga minSdk 24 (Android 7+) zgodnie z Flutter 3.47; bezpieczny magazyn wymaga co najmniej 23. Wiążące wersje zależności zapisuje pubspec.lock po rozwiązaniu.
 
 W zweryfikowanym buildzie użyto także NDK 28.2.13676358 i CMake 3.22.1. Pluginy pobrały SDK Platform 35. ABI celu określa parametr `--target-platform`; dostarczany debug APK jest przeznaczony dla ARM64. Rozwiąż licencje SDK zgodnie z oficjalną instrukcją przed samodzielnym budowaniem.

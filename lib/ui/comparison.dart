@@ -27,10 +27,12 @@ class _ComparisonState extends State<Comparison> {
   final results = <String, String>{}, statuses = <String, String>{};
   final estimates = <String, double>{};
   final modelNames = <String, String>{};
+  final recipients = <String, String>{};
   bool busy = false, cancelled = false, disposed = false;
   @override
   void dispose() {
     disposed = true;
+    cancelled = true;
     for (final id in selected) {
       widget.registry.adapter(id).cancel();
     }
@@ -66,26 +68,34 @@ class _ComparisonState extends State<Comparison> {
         modelNames[id] = id == 'demo'
             ? 'demo-local'
             : await widget.store.setting('model_$id', '');
-        if (id != 'demo' && (keys[id]!.isEmpty || modelNames[id]!.isEmpty)) {
+        if (id != 'demo' &&
+            ((id != 'minicpm' && keys[id]!.isEmpty) ||
+                modelNames[id]!.isEmpty)) {
           throw StateError(
             'Skonfiguruj ${widget.registry.adapter(id).label} w Dostawcach.',
           );
         }
         estimates[id] = await gate.estimate(id, modelNames[id]!, prompt.text);
+        final adapter = widget.registry.adapter(id);
+        recipients[id] = adapter is MiniCpmAdapter
+            ? (await adapter.endpoint()).recipient
+            : adapter.label;
       }
       if (!mounted || cancelled) return;
       if (!await confirm(
         context,
         'Zatwierdź porównanie',
-        'Ta sama wiadomość trafi wyłącznie do:\n${selected.map((id) => '${widget.registry.adapter(id).label} / ${modelNames[id]} · rezerwa ${estimates[id]!.toStringAsFixed(6)} USD').join('\n')}\n\nHistoria i notatki nie są dołączane. Odpowiedzi nie są przesyłane między modelami. Cennik pochodzi z Twojej konfiguracji; rezerwa nie gwarantuje kwoty rachunku.\n\nWiadomość:\n${prompt.text}',
+        'Ta sama wiadomość trafi wyłącznie do:\n${selected.map((id) => '${recipients[id]} / ${modelNames[id]} · rezerwa ${estimates[id]!.toStringAsFixed(6)} USD').join('\n')}\n\nHistoria i notatki nie są dołączane. Odpowiedzi nie są przesyłane między modelami. Cennik pochodzi z Twojej konfiguracji; rezerwa nie gwarantuje kwoty rachunku. MiniCPM 0 USD wymaga Twojej deklaracji własnego serwera bez opłat za API.\n\nWiadomość:\n${prompt.text}',
         action: 'Wyślij do wskazanych odbiorców',
       )) {
         return;
       }
-      permits.addAll(await gate.authorizeMany({
-        for (final id in selected)
-          id: (model: modelNames[id]!, amount: estimates[id]!)
-      }));
+      permits.addAll(
+        await gate.authorizeMany({
+          for (final id in selected)
+            id: (model: modelNames[id]!, amount: estimates[id]!),
+        }),
+      );
       if (cancelled) return;
       await Future.wait(
         selected.map((id) async {
@@ -100,6 +110,7 @@ class _ComparisonState extends State<Comparison> {
                   ProviderRequest(
                     model: modelNames[id]!,
                     apiKey: keys[id]!,
+                    expectedEndpoint: id == 'minicpm' ? recipients[id] : null,
                     turns: [
                       ChatTurn(role: ChatRole.user, text: prompt.text),
                     ],

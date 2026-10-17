@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import '../storage/app_database.dart';
 import '../storage/models.dart';
+import 'cost_store.dart';
 
 class RequestPermit {
   RequestPermit._(this.provider, this.model);
@@ -19,7 +19,11 @@ class RequestPermit {
 /// Cennik podaje właściciel. To nie jest gwarancja limitu na rachunku dostawcy.
 class LocalCostGate {
   LocalCostGate(this.store);
-  final AppDatabase store;
+  final CostStore store;
+  Future<bool> _freeMiniCpm() async =>
+      await store.setting('minicpm_self_hosted_free', false) &&
+      await store.setting<double>('input_rate_minicpm', -1) == 0 &&
+      await store.setting<double>('output_rate_minicpm', -1) == 0;
   Future<double> estimate(String provider, String model, String context) async {
     if (provider == 'demo') return 0;
     final configuredModel = await store.setting('model_$provider', '');
@@ -28,6 +32,7 @@ class LocalCostGate {
     }
     final input = await store.setting<double>('input_rate_$provider', -1);
     final output = await store.setting<double>('output_rate_$provider', -1);
+    if (provider == 'minicpm' && await _freeMiniCpm()) return 0;
     if (!input.isFinite ||
         !output.isFinite ||
         input < 0 ||
@@ -47,6 +52,12 @@ class LocalCostGate {
   }
 
   Future<void> _reserveGroup(Map<String, double> amounts) async {
+    if (amounts.containsKey('minicpm') && amounts['minicpm'] == 0) {
+      if (!await _freeMiniCpm()) {
+        throw StateError('Potwierdź własny serwer MiniCPM bez opłat za API.');
+      }
+      amounts = Map.of(amounts)..remove('minicpm');
+    }
     if (amounts.isEmpty) return;
     if (!await store.setting('paid_enabled', false)) {
       throw StateError('Płatne API jest wyłączone w ustawieniach.');
@@ -68,8 +79,10 @@ class LocalCostGate {
       double sum(int since) => rows
           .where((r) => (r['created'] as int) >= since)
           .fold(0, (total, r) => total + (r['amount'] as num).toDouble());
-      final amount =
-          amounts.values.fold<double>(0, (total, value) => total + value);
+      final amount = amounts.values.fold<double>(
+        0,
+        (total, value) => total + value,
+      );
       if (amounts.values.any((v) => !v.isFinite || v <= 0) ||
           !amount.isFinite ||
           !sum(day).isFinite ||
@@ -94,6 +107,11 @@ class LocalCostGate {
     String model,
     double amount,
   ) async {
+    if (provider == 'minicpm' &&
+        amount == 0 &&
+        (model.isEmpty || model != await store.setting('model_minicpm', ''))) {
+      throw StateError('Skonfiguruj model MiniCPM przed zatwierdzeniem.');
+    }
     await reserve(provider, amount);
     return RequestPermit._(provider, model);
   }
@@ -101,13 +119,20 @@ class LocalCostGate {
   Future<Map<String, RequestPermit>> authorizeMany(
     Map<String, ({String model, double amount})> requests,
   ) async {
+    final miniCpm = requests['minicpm'];
+    if (miniCpm != null &&
+        miniCpm.amount == 0 &&
+        (miniCpm.model.isEmpty ||
+            miniCpm.model != await store.setting('model_minicpm', ''))) {
+      throw StateError('Skonfiguruj model MiniCPM przed zatwierdzeniem.');
+    }
     await _reserveGroup({
       for (final e in requests.entries)
-        if (e.key != 'demo') e.key: e.value.amount
+        if (e.key != 'demo') e.key: e.value.amount,
     });
     return {
       for (final e in requests.entries)
-        e.key: RequestPermit._(e.key, e.value.model)
+        e.key: RequestPermit._(e.key, e.value.model),
     };
   }
 }

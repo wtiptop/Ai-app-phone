@@ -1,5 +1,15 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.1.1+2: MiniCPM — 18.10.2026
+
+Dodano opcjonalny `MiniCpmAdapter`, konfigurację własnego serwera HTTPS, opcjonalny klucz Keystore, katalog modeli, tekst/SSE/usage/stop i bezpieczne błędy. Czat oraz porównanie pokazują adres odbiorcy. Zmiana adresu nie przenosi poprzedniego sekretu i zeruje deklarację bezpłatnego API. Własny serwer bez opłat wymaga jawnej deklaracji oraz obu stawek 0; pozostałe API nadal wymagają osobnej zgody i limitów. Minimalny port `CostStore` oddziela politykę kosztów od Fluttera, zachowując transakcje SQLite.
+
+**Rzeczywisty wynik 0.1.1:** 73/73 testów Dart PASS, exit 0 (66 testów adapterów + 7 testów kosztów z prawdziwym SQLite FFI). Analiza kodu: bez uwag, exit 0. Kompilacja Flutter bundle ARM64 debug: PASS, exit 0. Pełny runner testów Flutter został zablokowany przed startem testów przez SocketException localhost; testów UI tej aktualizacji nie uznano za zaliczone. Próba APK: Gradle nie może połączyć się ze swoim procesem lokalnym. **Nie dostarczono nowego APK 0.1.1.** Wcześniejszy APK 0.1.0 nie zawiera MiniCPM.
+
+**Zaplanowane / niewykonane:** silnik MiniCPM bezpośrednio w aplikacji, zarządzanie GGUF i test urządzenia; realny serwer/generacja, MiniCPM-V/audio i narzędzia. Nie pobrano wag, nie podłączono kont, nie wykonano płatnych operacji i niczego nie opublikowano. Szczegóły: `docs/MINICPM_PL.md`, ADR 005 i aktualna sekcja `docs/TESTS_PL.md`.
+
+## Historia bazowej wersji 0.1.0
+
 Data: **17.10.2026**. Wersja: **0.1.0+1**. Scalająca jest samodzielnym projektem Flutter/Android. Nie korzysta z OPPO, JARVIS, Termuxa, Obsidiana ani obowiązkowego serwera.
 
 ## Co działa w testach

@@ -1,5 +1,7 @@
 # UX mobilnej Scalającej
 
+Aktualizacja 0.1.1: wybór „MiniCPM • własny serwer” pokazuje status eksperymentalny i plan inferencji offline w APK. Karta dostawcy ma adres HTTPS, opcjonalny klucz serwera, ID/katalog modelu, stawki i osobną deklarację własnego serwera bez opłat. Zapis niczego nie wysyła, test katalogu wymaga zgody. Czat i porównanie wyświetlają pełny adres odbiorcy; zmiana adresu po zgodzie blokuje wysłanie. Zmiana adresu w formularzu resetuje deklarację, a zapis bez nowego klucza usuwa stary. Dwa scenariusze widgetów są przygotowane; w obecnym środowisku runner Flutter jest zablokowany, dlatego nie uznano UI MiniCPM za przetestowane.
+
 Projekt interakcji na 17.10.2026. Makiety opisują **docelowe zachowanie**, a nie dowód, że każdy ekran już działa. Zakres aktualnego kodu i testów opisują `IMPLEMENTATION_STATUS.md` i `TESTS_PL.md`.
 
 ## Zasady

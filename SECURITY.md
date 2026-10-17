@@ -1,5 +1,7 @@
 # Bezpieczeństwo Scalającej
 
+Aktualizacja MiniCPM 0.1.1: własny serwer jest ręcznie wskazanym odbiorcą HTTPS, bez hasła/tokenów/query/fragmentu w URL i bez wyłączania TLS. Generacja wymaga adresu zgodnego z pokazanym w zgodzie; zmiana adresu po zatwierdzeniu blokuje HTTP. Zmiana adresu w ustawieniach nie przenosi starego klucza bez wpisania nowego i wymaga ponownej deklaracji serwera bez opłat. Przekierowania i retry są wyłączone; paginacja wspólnego transportu wymaga tego samego origin, także portu. Zero kosztu MiniCPM wymaga obu stawek 0 i deklaracji właściciela; nie odblokowuje innych API. Wagi/silnik nie są dołączone i narzędzia modelu nie są wykonywane. Zobacz `docs/MINICPM_PL.md`.
+
 Stan dokumentu: 17.10.2026. To opis obecnej implementacji i granic ochrony, nie certyfikat bezpieczeństwa. Scalająca jest samodzielną aplikacją Android. Wyłączony most OPPO nie jest warunkiem dostępu do danych ani czatu.
 
 ## Zaimplementowane mechanizmy

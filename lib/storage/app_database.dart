@@ -4,10 +4,12 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 import '../auth/secret_store.dart';
+import '../costs/cost_store.dart';
 import 'models.dart';
 
-class AppDatabase {
+class AppDatabase implements CostStore {
   AppDatabase(this.db, this.cipher);
+  @override
   final Database db;
   final ContentCipher cipher;
   static Future<AppDatabase> open(
@@ -195,6 +197,7 @@ class AppDatabase {
             .delete('operations', where: 'conversation_id=?', whereArgs: [id]);
         await tx.delete('conversations', where: 'id=?', whereArgs: [id]);
       });
+  @override
   Future<T> setting<T>(String key, T fallback) async {
     final rows = await db.query('settings', where: 'key=?', whereArgs: [key]);
     return rows.isEmpty

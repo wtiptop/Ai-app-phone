@@ -1,0 +1,77 @@
+00:00 +0: loading test/providers\minicpm_test.dart
+00:00 +0: test/providers\minicpm_test.dart: Adres MiniCPM odrzuca: 
+00:00 +1: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +2: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +3: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +4: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +5: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +6: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +7: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +8: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +9: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +10: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +11: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +12: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +13: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +14: test/providers\providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:00 +15: test/security/minicpm_cost_test.dart: (setUpAll)
+00:00 +16: test/security/minicpm_cost_test.dart: (setUpAll)
+00:00 +17: test/security/minicpm_cost_test.dart: (setUpAll)
+00:00 +18: test/security/minicpm_cost_test.dart: (setUpAll)
+00:00 +19: test/security/minicpm_cost_test.dart: (setUpAll)
+00:00 +19: test/providers\minicpm_test.dart: Mapuje tekst, limit, profil i Bearer tylko do własnego serwera
+00:00 +20: test/providers\providers_test.dart: OpenAI Responses mapuje żądanie, delta, usage i completed
+00:00 +21: test/providers\providers_test.dart: OpenAI Responses mapuje żądanie, delta, usage i completed
+00:00 +22: test/providers\providers_test.dart: OpenAI Responses mapuje żądanie, delta, usage i completed
+00:00 +23: test/providers\providers_test.dart: OpenAI Responses mapuje żądanie, delta, usage i completed
+00:00 +24: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +25: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +26: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +27: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +28: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +29: test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:00 +30: test/providers\providers_test.dart: Gemini używa nagłówka klucza, systemInstruction, pomija thought
+00:00 +31: test/providers\providers_test.dart: Gemini używa nagłówka klucza, systemInstruction, pomija thought
+00:00 +32: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +33: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +34: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +35: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +36: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +37: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +38: test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:00 +39: test/providers\providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: 429 bez retry i bez ujawniania body
+00:00 +40: test/security/minicpm_cost_test.dart: Zero wymaga zgodnego modelu i obu stawek 0
+00:00 +41: test/providers\providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: urwany stream nie udaje sukcesu
+00:00 +42: test/security/minicpm_cost_test.dart: Porównanie demo + darmowy serwer działa bez płatnego API
+00:00 +43: test/providers\providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: błąd wewnątrz SSE jest jawny i zredagowany
+00:00 +44: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +45: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +46: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +47: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +48: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +49: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +50: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +51: test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:00 +52: test/providers\providers_test.dart: wspólne zabezpieczenia transportu dostawca 2: błąd wewnątrz SSE jest jawny i zredagowany
+00:00 +53: test/security/minicpm_cost_test.dart: Zerowe kwoty innych dostawców nie uzyskują permit
+00:00 +54: test/security/minicpm_cost_test.dart: Zerowe kwoty innych dostawców nie uzyskują permit
+00:00 +55: test/security/minicpm_cost_test.dart: Zerowe kwoty innych dostawców nie uzyskują permit
+00:00 +56: test/providers\providers_test.dart: wspólne zabezpieczenia transportu dostawca 3: urwany stream nie udaje sukcesu
+00:00 +57: test/security/minicpm_cost_test.dart: Równoległe rezerwy dodatnie nie przekraczają budżetu SQLite
+00:00 +58: test/security/minicpm_cost_test.dart: Równoległe rezerwy dodatnie nie przekraczają budżetu SQLite
+00:00 +59: test/providers\providers_test.dart: wspólne zabezpieczenia transportu anulowanie przed nagłówkami zamyka klienta i kończy oczekiwanie
+00:00 +60: test/security/minicpm_cost_test.dart: (tearDownAll)
+00:00 +60: test/providers\providers_test.dart: wspólne zabezpieczenia transportu anulowanie podczas oczekiwania na chunk
+00:00 +61: test/providers\providers_test.dart: wspólne zabezpieczenia transportu timeout nagłówków i brak retry
+00:00 +62: test/providers\providers_test.dart: wspólne zabezpieczenia transportu timeout bezczynności strumienia zamyka klienta
+00:00 +63: test/providers\providers_test.dart: wspólne zabezpieczenia transportu odrzuca JSON lub HTML zamiast SSE
+00:00 +64: test/providers\providers_test.dart: wspólne zabezpieczenia transportu błędny JSON nie ujawnia odpowiedzi dostawcy
+00:00 +65: test/providers\providers_test.dart: wspólne zabezpieczenia transportu odrzuca przekierowanie zamiast wysyłać klucz do obcej domeny
+00:00 +66: test/providers\providers_test.dart: wspólne zabezpieczenia transportu nieprawidłowy model nie wykonuje sieci
+00:00 +67: test/providers\providers_test.dart: wspólne zabezpieczenia transportu 401 mapuje błąd autoryzacji
+00:00 +68: test/providers\providers_test.dart: wspólne zabezpieczenia transportu OpenAI incomplete zachowuje sygnał niepełności
+00:00 +69: test/providers\providers_test.dart: katalog modeli tylko na żądanie OpenAI i xAI mapują katalog bez sugerowania cen
+00:00 +70: test/providers\providers_test.dart: katalog modeli tylko na żądanie Claude obsługuje paginację i nazwę wyświetlaną
+00:00 +71: test/providers\providers_test.dart: katalog modeli tylko na żądanie Gemini filtruje embeddingi i obsługuje pageToken
+00:00 +72: test/providers\providers_test.dart: lokalne Demo nie nazywa atrapy prawdziwym AI
+00:00 +73: All tests passed!

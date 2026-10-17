@@ -1,0 +1,240 @@
+00:00 +0: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63321
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.1673f277/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63323
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.e583c7a9/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63322
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.eae6ff14/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -1: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart": Connection closed before test suite loaded.
+00:00 +0 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart": Connection closed before test suite loaded.
+00:00 +0 -3: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63325
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.5ba67c7/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -4: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/encrypted_backup_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/encrypted_backup_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63327
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.386e81db/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -5: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63329
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.41b7e70d/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -6: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63331
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.4932d2dc/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -7: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63333
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.95278e1b/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -8: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63334
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.3f613a22/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -9: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63336
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.3c37171d/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -10: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart": Connection closed before test suite loaded.
+Shell: [ERROR:flutter/shell/testing/tester_main.cc(622)] Unhandled exception
+Shell: Exception: SocketException: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied (OS Error: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied, errno = 10057), address = 127.0.0.1, port = 63338
+Shell: Stack trace: #0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+Shell: #1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+Shell: #2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+Shell: #3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+Shell: #4      Socket.startConnect (dart:io/socket.dart:918:21)
+Shell: #5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+Shell: #6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+Shell: #7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+Shell: #8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+Shell: #9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+Shell: #10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+Shell: #11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+Shell: #12     main (file:///C:/Users/niezn/Documents/Codex/Scalajaca/work/runtime/root-temp/flutter_tools.69aac03f/flutter_test_listener.c12f5280/listener.dart:51:13)
+Shell: #13     _runMain.<anonymous closure> (dart:ui/hooks.dart:430:23)
+Shell: #14     _delayEntrypointInvocation.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:313:19)
+Shell: #15     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
+Shell: 
+00:00 +0 -11: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart": Connection closed before test suite loaded.
+00:00 +0 -11: Some tests failed.
+
+Failing tests:
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart
+  ... and 7 more
