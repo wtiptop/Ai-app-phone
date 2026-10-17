@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-17",
+  "command": "flutter --suppress-analytics --no-version-check build apk --debug --target-platform android-arm64 --no-pub",
+  "exitCode": 0,
+  "signatureExitCode": 0,
+  "badgingExitCode": 0,
+  "sha256": "65fb46821a1c36240529543e98aa7030b0a1c3be776d390a36c09b85a3cdd9db",
+  "bytes": 90011814,
+  "minSdk": 24,
+  "targetSdk": 36,
+  "abi": "arm64-v8a",
+  "deviceInstallTested": false,
+  "liveApiTested": false,
+  "nativeLibraries": [
+    "lib/arm64-v8a/libVkLayer_khronos_validation.so",
+    "lib/arm64-v8a/libdartjni.so",
+    "lib/arm64-v8a/libflutter.so"
+  ],
+  "buildDurationSeconds": 35.5
+}

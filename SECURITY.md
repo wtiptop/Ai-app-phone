@@ -1,0 +1,48 @@
+# Bezpieczeństwo Scalającej
+
+Stan dokumentu: 17.10.2026. To opis obecnej implementacji i granic ochrony, nie certyfikat bezpieczeństwa. Scalająca jest samodzielną aplikacją Android. Wyłączony most OPPO nie jest warunkiem dostępu do danych ani czatu.
+
+## Zaimplementowane mechanizmy
+
+- Klucze API są oddzielone od SQLite i eksportu danych: `KeystoreSecrets` korzysta z `flutter_secure_storage`. Na Androidzie ochrona kluczy jest realizowana przez implementację pluginu wykorzystującą Android Keystore. `MemorySecrets` służy testom, nie przechowywaniu kluczy użytkownika w wydaniu Android.
+- `ContentCipher` szyfruje tytuły rozmów, szkice, treść wiadomości i notatek oraz tytuły zadań algorytmem AES-256-GCM. Losowy klucz danych jest zapisany w bezpiecznym magazynie. Aplikacja inicjalizuje jeden szyfr przed otwarciem repozytorium.
+- SQLite **nie jest w całości szyfrowana**. Identyfikatory, znaczniki czasu, role wiadomości, modele/dostawcy, statusy, foldery, konfiguracja i rezerwy kosztów mogą pozostawać jawnymi metadanymi. Projekt nie używa SQLCipher. Utrata klucza lokalnego uniemożliwia odzyskanie zaszyfrowanych pól z samego pliku bazy.
+- `EncryptedBackup` tworzy wersjonowaną kopię AES-256-GCM z osobnym hasłem, PBKDF2-HMAC-SHA256 (600 000 iteracji), losową solą 16 B i nonce 12 B. Identyfikator formatu i zestawu algorytmów jest uwierzytelniany jako AAD. Import odrzuca zmienione parametry, nieznaną wersję i nieprawidłowy tag. Hasło ma co najmniej 12 znaków; zalecana jest długa, unikalna fraza. Nie ma funkcji odzyskiwania hasła. Rozmiar szyfrogramu ujawnia przybliżony rozmiar kopii.
+- Warstwa HTTP korzysta z jawnych oficjalnych endpointów HTTPS, nie podąża automatycznie za przekierowaniem z kluczem, ogranicza czas odpowiedzi i obsługuje anulowanie. Błędy HTTP nie pokazują surowej treści odpowiedzi serwera. Nie ma automatycznych płatnych ponowień po błędzie lub restarcie.
+- Zwykłe uruchomienie, testy i demo nie wymagają klucza, konta, OPPO ani płatnego żądania. Dostęp do płatnych API jest domyślnie wyłączony; konfiguracja modelu i ceny oraz zgoda właściciela są konieczne do użycia go w interfejsie.
+- Odtwarzanie danych jest transakcyjne i dopisuje dane. Import rozmowy dopuszcza wyłącznie role `user` i `assistant`; importowana treść nie może utworzyć wiadomości systemowej. Import nie zawiera poświadczeń i nie przyznaje uprawnień.
+
+## Działające komponenty domenowe, wymagające pełnego podłączenia
+
+Te komponenty mają kod i testy jednostkowe. Ich obecność nie oznacza, że wszystkie ekrany i przyszłe integracje korzystają już z nich:
+
+- `MemoryAccessPolicy` sprawdza tożsamość właściciela, projekt, kampanię, widoczność, listę jawnych odbiorców i zatwierdzenie pamięci. Selekcja następuje przed retrieval, budową promptu, recenzją, indeksem lub eksportem. Nie zatwierdzone rekordy nie trafiają do modeli. Rekord odrzucony nie jest udostępniany.
+- `gmSecret` odpowiada etykiecie `GM_SECRET`. Taki rekord wymaga kampanii i jest domyślnie niedostępny. Dostęp jest możliwy tylko dla właściciela w roli MG, w dokładnej kampanii, po jawnym włączeniu kontekstu sekretów. **GM_SECRET jest wykluczony z widoku gracza, promptu recenzenta, zwykłego indeksu i eksportu także wtedy, gdy odbiorcą jest właściciel.** Przywracanie pełnych zaszyfrowanych zasobów RPG wymaga w przyszłości odrębnego formatu i polityki; zwykły eksport pamięci nie obejmuje sekretów.
+- `ChannelIdentityDirectory` rozróżnia transportowe identyfikatory kanałów. Nazwa wyświetlana ani oświadczenie w wiadomości nie są tożsamością. Mapowanie musi zostać utworzone przez właściciela na podstawie zweryfikowanego transportu. Adaptery komunikatorów i ich uwierzytelnianie nie są jeszcze wdrożone.
+- `AgentRun` wymusza plan, zgodę konkretnego właściciela i dokładny zakres uprawnień, osobnego wskazanego kontrolera, zatrzymanie oraz maksymalnie dwie korekty. Nie wykonuje narzędzi zewnętrznych. Przy wznowieniu po błędzie wymagana jest ponowna zgoda. Tożsamości przekazywane do tego API muszą pochodzić z zaufanej warstwy aplikacji.
+- `BudgetGuard` wymusza kroki, wywołania, czas oraz rezerwy na zadanie/dzień/miesiąc w całkowitych mikrojednostkach jednej waluty. Okresy budżetu są liczone w UTC. Płatne wywołanie bez zgody albo jawnej górnej rezerwy jest blokowane. Brak danych o zużyciu rozlicza pełną rezerwę. Anulowanie nie zwalnia już wysłanego żądania. Równoległe rezerwy w jednym izolacie nie przekraczają lokalnego limitu. Historia i rezerwy tego komponentu wymagają atomowego trwałego zapisu przed zleceniem płatnej operacji; sam komponent działa w pamięci.
+- `LocalCostGate` stanowi odrębną, podłączoną do SQLite warstwę konserwatywnych rezerw czatu. Rachunek dostawcy może zawierać inne pozycje niż szacunek aplikacji; limit lokalny dotyczy operacji tej aplikacji, nie innych klientów tego samego konta. Nie jest gwarancją limitu na fakturze dostawcy.
+- `CampaignJournal` oddziela stan kampanii, właścicieli i rewizje, kontroluje konflikty, zachowuje audyt cofania oraz filtruje odczyt przez politykę pamięci. Jest agregatem w pamięci; trwały silnik RPG i import zweryfikowanego kanonu są zaplanowane. Nie importowano ani nie rozpoczęto kampanii Fio lub `wfrp 3`.
+- `DisabledJarvisBridge` ma zerowe uprawnienia i odrzuca delegowanie oraz synchronizację. Istnieje interfejs rozszerzenia; nie istnieje aktywny transport, sparowanie ani automatyczne wykrywanie OPPO.
+
+## Granice zaufania
+
+Tekst użytkownika, importowany dokument, strona internetowa i odpowiedź modelu to dane. Nie mogą zmieniać właściciela, roli, zatwierdzenia, mapowania osoby, budżetu ani uprawnień narzędzi. `UntrustedSource` nie ma możliwości nadawania uprawnień. Kontroler i recenzent otrzymują wyłącznie jawnie wybrane uprawnione fragmenty; nie cały vault. Sam test typu lub deklaracja roli w JSON nie potwierdza tożsamości.
+
+Klucz BYOK musi znaleźć się w pamięci procesu w chwili żądania HTTPS. Keystore ogranicza ryzyko kradzieży klucza w spoczynku, ale nie chroni całkowicie urządzenia przejętego, odblokowanego lub zrootowanego. Należy używać ograniczonych kluczy projektu, limitów po stronie dostawcy i odwołania klucza po utracie telefonu. Nie ma przechwytywania cookies, sesji aplikacji konsumenckich ani automatyzacji Accessibility.
+
+Zaszyfrowany backup nie zastępuje autoryzacji. Zwykły Markdown lub Android Sharesheet po jawnym eksporcie zawiera czytelny tekst dla wybranej aplikacji docelowej. Ręczne zapisanie sekretu MG w zwykłej notatce/czacie omija semantyczną klasyfikację — system nie rozpoznaje automatycznie wszystkich spoilerów. Nie należy wprowadzać sekretów kampanii do nieklasyfikowanych notatek, dopóki pełny moduł RPG nie jest podłączony.
+
+## Zaplanowane i nieweryfikowane
+
+Nie wdrożono jeszcze wielu profili Android, pełnego repozytorium uprawnień pamięci/RPG, zdalnego uwierzytelniania osób, wykonywania narzędzi przez agentów, OAuth dostawców, synchronizacji ani produkcyjnego mostu JARVIS. Most wymaga wzajemnego uwierzytelnienia, TLS/VPN, wyboru zasobów, odwołania i kontroli ryzyka. Nie istnieje obietnica całodobowej pracy w tle.
+
+Wymagane przed wydaniem produkcyjnym: test na urządzeniu, audyt Android Keystore i odtwarzania po zmianie blokady ekranu, test backupu systemowego Android, walidacja limitów pamięci importu/streamingu, bezpieczeństwo transportów nowych adapterów, pełne powiązanie ACL z każdym indeksem i eksportem, audyt zależności oraz testy odporności na prompt injection w rzeczywistych przepływach narzędzi. Test jednostkowy nie potwierdza odporności przejętego telefonu.
+
+## Weryfikacja
+
+Aktualizacja zbiorcza głównego procesu: **83/83 testów Flutter PASS, exit 0**, w tym cały zestaw bezpieczeństwa; analiza **No issues found, exit 0**. Dalsza korekta deduplikacji: **6/6 testów storage PASS**. Ograniczenie IPC wcześniejszych prób subagentów zostało pokonane. Natywny Android Keystore nadal wymaga testu urządzenia.
+
+Testy znajdują się w `test/security/`: autoryzacja, izolacja projektów/kampanii, sekret MG we wszystkich kanałach wyjścia, zatwierdzanie pamięci, próby podszycia, plan/zgoda/korekty agentów, limity i rezerwacje, szyfrowanie kopii, uszkodzony szyfrogram i złe hasło, transakcyjne granice importu oraz szyfrowane pola SQLite. Rzeczywiste wyniki uruchomienia są raportowane centralnie w `docs/TESTS_PL.md`; lista testów nie oznacza sama w sobie, że zostały uruchomione lub przeszły.
+
+17.10.2026 uruchomiono też `dart --packages=.dart_tool/package_config.json test/security/standalone_domain_check.dart`: **35 kontroli PASS, exit 0**, w tym rzeczywiste operacje szyfrowania/odszyfrowania oraz odrzucenie złego hasła i modyfikacji szyfrogramu. Skrypt nie używa sieci ani silnika Flutter. Jego analiza Dart zakończyła się bez problemów. Próba pełnego `flutter test ... test/security` w piaskownicy agenta została zatrzymana przed wykonaniem testów przez blokadę lokalnego WebSocket do `127.0.0.1` (OS 10057); ten wynik nie jest zaliczeniem pełnego zestawu testów. Aktualny wynik zbiorczy, jeżeli wykonano późniejsze uruchomienie w innym kontekście uprawnień, ma pierwszeństwo w `docs/TESTS_PL.md`.

@@ -1,0 +1,25 @@
+# Zależności i licencje
+
+Stan rozwiązany: Flutter 3.47.7, sqflite 2.4.4+2, flutter_secure_storage 11.2.0, http 1.6.0, cryptography 2.9.0, flutter_markdown_plus 1.0.12. Testowy backend: sqflite_common_ffi 2.3.6 + sqlite3 2.9.4 (ADR 004), bez zmiany magazynu Androida. Zebrano lokalne teksty licencji/NOTICE **82 zależności** w `THIRD_PARTY_NOTICES.txt`; ekran licencji jest dostępny w Ustawieniach. Lockfile jest prawdziwym wynikiem pub, a zgodność potwierdza analiza i 83 testy hosta. Android/Gradle i dystrybucja produkcyjna wymagają osobnego przeglądu.
+
+Weryfikacja stron wydawców na pub.dev: **17.10.2026**. Numery w tabeli są wersjami zaobserwowanymi w źródle, a nie deklaracją wersji zainstalowanych. Faktycznie rozwiązane wersje określa `pubspec.lock`; kompatybilność musi potwierdzić `flutter pub get`, analiza, testy oraz build Android. Samo istnienie świeżej wersji nie jest audytem bezpieczeństwa.
+
+| Biblioteka | Wersja na pub.dev / utrzymanie | Licencja | Rola / ważne ograniczenie | Źródło |
+|---|---|---|---|---|
+| sqflite | 2.4.4+2, publikacja 3 dni przed przeglądem; wydawca tekartik.com | BSD-2-Clause | SQLite Android, transakcje/batch i wersjonowanie. Sama biblioteka nie szyfruje całej bazy. Desktop testy mogą wymagać sqflite_common_ffi. | [sqflite](https://pub.dev/packages/sqflite) |
+| flutter_secure_storage | 11.2.0, publikacja 30 dni przed przeglądem; wydawca steenbakker.dev | BSD-3-Clause | Sekrety; Android minSdk 23. Domyślne szyfry RSA OAEP + AES-GCM; encryptedSharedPreferences odradzane od v10. Wyłączyć/wykluczyć backup sekretów i zweryfikować Keystore na telefonie. | [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) |
+| http | 1.6.0, publikacja 11 miesięcy przed przeglądem; wydawca dart.dev | BSD-3-Clause | HTTP/stream; wstrzykiwany Client ułatwia testy. IOClient wspiera AbortableRequest. Retry płatnych POST wymaga polityki, timeout Future sam nie dowodzi anulowania. | [http](https://pub.dev/packages/http) |
+| cryptography | 2.9.0, publikacja 10 miesięcy przed przeglądem; wydawca dint.dev | Apache-2.0 | AES-GCM i KDF dla backupu/danych wrażliwych; bez własnych algorytmów. Nie używać testowego generatora losowego w produkcji. Wymaga poprawnego zarządzania kluczem i testów integralności. | [cryptography](https://pub.dev/packages/cryptography) |
+| path | 1.9.1; wydawca dart.dev | BSD-3-Clause | Operacje ścieżek lokalnej bazy; nie zastępuje walidacji nazw/URI z importu. | [path](https://pub.dev/packages/path) |
+| flutter_markdown_plus | 1.0.12, publikacja 3 miesiące przed przeglądem; wydawca foresightmobile.com deklaruje aktywne utrzymanie | BSD-3-Clause | Utrzymywana kontynuacja renderera Markdown. Domyślne obrazy sieciowe/lokalne wymagają blokady w aplikacji, aby odpowiedź modelu nie uruchamiała pobrania bez zgody. | [flutter_markdown_plus](https://pub.dev/packages/flutter_markdown_plus) |
+| flutter_lints | 6.0.0; wydawca flutter.dev | BSD-3-Clause | Zestaw reguł analizy, zależność deweloperska. | [flutter_lints](https://pub.dev/packages/flutter_lints) |
+| sqflite_common_ffi | 2.4.4, publikacja 3 dni przed przeglądem; wydawca tekartik.com | BSD-2-Clause | SQLite do testów na desktopie, nie zamiennik testu natywnego pluginu Android. Wersja 2.4.x używa sqlite3 v3/build hooks. | [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi) |
+| Flutter framework / pakiety SDK | Wersja instalowana odnotowana w TESTS_PL.md | BSD-3-Clause | Zachować notice frameworka oraz licencje składników dystrybuowanych w artefakcie. | [Flutter LICENSE](https://github.com/flutter/flutter/blob/master/LICENSE) |
+
+Odrzucona zależność: [flutter_markdown 0.7.7+1](https://pub.dev/packages/flutter_markdown) ma na pub.dev status „discontinued” i deklarowany brak kolejnych aktualizacji. Weryfikacja ujawniła to podczas przeglądu i wskazano `flutter_markdown_plus` do zamiany; finalny stan potwierdza `pubspec.yaml` i lockfile.
+
+Licencje źródłowe tych pakietów i wymagane informacje copyright/NOTICE należy zachować przy dystrybucji zgodnie z ich tekstem. Rejestr bez pełnych tekstów zależności tranzytywnych nie jest jeszcze gotowym kompletem notice do wydania produkcyjnego. Flutter udostępnia ekran licencji pakietów; komplet zależności powinien zostać wyeksportowany po rozwiązaniu lockfile i obejmować również pluginy natywne/Android Gradle.
+
+Licencja własnego kodu projektu pozostaje do decyzji właściciela. Dostarczenie źródeł w tym repozytorium nie nadaje automatycznie licencji open source. Znaki ChatGPT, Claude, Gemini, Grok, Discord, Telegram, WhatsApp, Signal, Obsidian i Warhammer pozostają znakami swoich właścicieli; nie sugerujemy partnerstwa ani zatwierdzenia. Źródła kanonu, ilustracje i podręczniki RPG wymagają praw do użycia; nie są dołączane bez materiałów uprawnionego właściciela.
+
+Przed wydaniem: sprawdzić `pubspec.lock`, `flutter pub deps`, licencje tranzytywne oraz NOTICE Apache; włączyć ekran informacji prawnych i zachować datę audytu. Zmiana wersji zależności wymaga ponownego przeglądu wymagań SDK i migracji, szczególnie secure storage.

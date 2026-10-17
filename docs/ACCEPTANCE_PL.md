@@ -1,0 +1,37 @@
+# Testy akceptacyjne
+
+Każdy scenariusz ma wynik **nieuruchomiony**, dopóki rzeczywisty raport `TESTS_PL.md` nie wskaże inaczej. Test jednostkowy atrapy HTTP potwierdza logikę klienta, a nie połączenie z prawdziwym dostawcą. Live API, prywatne konta, publikacja i wiadomości zewnętrzne są wyłączone bez osobnej zgody właściciela.
+
+| ID | Scenariusz i oczekiwany wynik | Dowód / środowisko |
+|---|---|---|
+| A01 | Czysta instalacja Android, tryb samolotowy, brak kluczy/OPPO/Obsidiana/Termuxa. Start i lokalne demo bez żądań sieci, opłat i zbędnych pozwoleń. | Emulator/telefon + log sieci + APK build |
+| A02 | Utwórz dwie rozmowy, wpisz polskie znaki i emoji, zamknij aplikację, wymuś zatrzymanie, ponownie otwórz; treści i kolejność zachowane. Szukaj istniejącej i brakującej frazy. | SQLite na urządzeniu + integracja repozytorium |
+| A03 | Skonfiguruj API dopiero po zgodzie; jawny dostawca/model; poprawny stream, stop przed nagłówkiem i w środku odpowiedzi, częściowa treść oznaczona. Bez klucza brak HTTP i czytelny błąd. Zmiana dostawcy zachowuje historię. | Fake HTTP automatycznie; live dopiero za zgodą |
+| A04 | Porównaj 2, 3 i 4 modele. Równoległe osobne wyniki z pochodzeniem i kosztem/„nieznany”; jedna awaria pozostawia inne. Kopiuj i zestaw wyniki. Anuluj jedną/wszystkie. | Fake HTTP + widget/integracja |
+| A05 | Wprowadź klucz znacznikowy; brak sekretu w SQLite, eksportach, logach, błędach, zrzutach diagnostyki i repo. Secure storage read/write/delete. Szyfrowany backup ma losowy nonce i odrzuca złe hasło/modyfikację. | Testy bezpieczeństwa + Keystore na Android |
+| A06 | Most domyślnie wyłączony. Błędne parowanie/timeout/revoke/utrata sieci nie blokuje czatu, pamięci i zadań lokalnych. | Fake bridge; Android po implementacji |
+| A07 | Eksport MD/JSON z polskimi znakami i blokiem kodu, import MD, odtworzenie danych bez Obsidiana; odmowa SAF nie usuwa danych. Porównaj treść i metadane. | Unit + Android SAF |
+| A08 | Ekran rozróżnia demo, wymaganie klucza, zatwierdzenie SSO i brak integracji. Zakaz konsumenckich cookies/tokenów, nieudokumentowanych endpointów, Accessibility i CAPTCHA bypass. | Przegląd źródeł + UI |
+| A09 | Odrębne profile/projekty/kampanie i role. Canary GM_SECRET z kampanii A nie trafia do gracza A/B, zwykłego czatu, promptu kontrolera, retrievalu, logu ani eksportu. Gość nie podmienia ownerId/role. | Unit negatywne + integracja; nie sam filtr UI |
+| A10 | Raport zawiera pliki, polecenia, exit code, ograniczenia, instrukcję, następny krok. APK tylko po exit 0, istniejącym pliku i sumie SHA-256. | Artefakty builda i TESTS_PL.md |
+| A11 | Kolejka przetrwa restart i awarię; deduplikacja ID; atomowy zapis użytkownik/próba/stan; anulowane/niepewne płatne próby nie ponawiają się bez zgody. Sprawdź brak duplikatu po przerwaniu w każdej fazie zapisu. | SQLite unit/integration + force stop |
+| A12 | Ekran 320 dp, tekst 200%, klawiatura, jasny/ciemny motyw, TalkBack, rotacja, Android Wstecz; brak overflow i utraty szkicu. | Widget golden/layout + ręczny Android |
+| A13 | Plan agenta widoczny przed wykonaniem; ID i rejestr decyzji, 2 korekty domyślnie; limit kroku/czasu/kosztu/wywołań blokuje start; stop i bezpieczne wznowienie; Auto wyjaśnia model i daje zmianę; recenzent/arbiter ujawnia spór. | Unit router/orchestrator + UI |
+| A14 | Notatka/fakt/dokument/stan zadania mają wymagane metadane i wersję; foldery ze specyfikacji; zakres retrievalu; zatwierdzenie trwałego faktu, korekta, usuwanie i zapomnienie także z indeksu. | Storage/retrieval unit + integracja |
+| A15 | SAF wybiera konkretny plik/katalog, odmowa/anulowanie bez szkody; ACTION_SEND/MULTIPLE działa przez chooser z właściwym MIME i tymczasowym URI permission. Niewspierany załącznik blokowany przed siecią. | Android natywna integracja |
+| A16 | Fake odpowiedzi: 401/403/408/429/500/503, timeout nagłówków i przerwa streamu, SSE podzielone między bajtami UTF-8 i ramkami, puste/malformed JSON, rozłączenie. Błędy bez surowego body/sekr. Retry ograniczony, bez cichego dublowania płatnego POST. | Unit HTTP, parser, cancellation |
+| A17 | Ponów/edytuj/rozgałęź zachowuje oryginalną próbę i metadane, nie dubluje poprzedniej user message. Stop oznacza „anulowano”, pełna odpowiedź „zakończono”. | Unit controller + widget |
+| A18 | Cytat ma faktyczne źródło/link/datę/stronę jeśli dostępna; brak źródła = „niezweryfikowane”. Zgodność kilku modeli nie uzyskuje etykiety „prawda”. Przykład prompt injection w dokumencie nie uruchamia narzędzia. | Unit walidator + review scenariuszowe |
+| A19 | Mikrofon/aparat/powiadomienia proszą o pozwolenie przy funkcji; odmowa nie blokuje czatu; nagrywanie tylko push-to-talk; brak stałego mikrofonu. TTS start/stop. | Ręczny Android + manifest review |
+| A20 | Zgoda wylicza odbiorców, historię, fragmenty pamięci i załączniki. Odmowa daje 0 żądań. Nowy odbiorca/załącznik wymaga nowego zakresu. Zewnętrzna wiadomość/plik/zakup nie zachodzi na instrukcję z dokumentu ani bez zgody właściciela. | Unit polityk + fake tools + UI |
+| A21 | Migracja poprzedniej wersji zachowuje dane; brakujące/zepsute dane nie tworzą cichego pustego profilu. Backup/restore sprawdza wersję i integralność, konflikt sync ma jawny wybór/rejestr, nie nadpisuje po cichu. | SQLite migracja + crypto unit |
+| A22 | Domeny osobiste/IT/badania/GPW/AI/gry/RPG/komunikacja mają kontrolera. GPW: ticker zawsze z pełną zweryfikowaną nazwą, bez tradingu; WFRP wszystkie edycje i Hamburg tylko ze źródeł; PL/DE objaśnienia. Repo zmieniane dopiero za zgodą/dostępem. | Testy fixture + kontrola produktu |
+| A23 | Zadanie/przypomnienie/lista ma status, ostatni przebieg, retry i dedup; tryb lokalny opisany best-effort. Test Doze/reboot/odmowa notyfikacji/brak sieci; brak obietnicy konkretnej godziny i 24/7. | WorkManager na Android + fake clock |
+| A24 | Discord/Telegram bot, WhatsApp oficjalna platforma biznesowa; Signal brak obietnicy oficjalnego bot API. Mapowanie ID kanału→osoba nie daje podszycia; webhook ma auth/replay/dedup. Bez backendu brak fałszywej obietnicy stałego odbioru. | Fake webhook + review; live tylko za zgodą |
+| A25 | Kampania ma manifest i rewizje, replay/rollback spójny, świat oddzielony od wiedzy; brak decyzji za gracza; ilustracja async; role świata i lore niezależne. Brak plików kanonu Fio = brak importu/startu/resetu. wfrp 3 nigdy nie scala się z Fio. | Domain unit + A09 + fixtures bez danych prywatnych |
+| A26 | Estymata przed multi i rezerwacja budżetu atomowo; dzień/miesiąc; usage API jeśli obecne, nieznane ceny nie są zerem; konkurencyjne starty nie przekraczają limitu. Fallback tylko polityka/zgoda, lokalny limit opisany jako lokalny. | Unit fake clock + równoległe żądania |
+| A27 | Wiadomość/import Markdown z obrazem HTTPS do serwera śledzącego i obrazem `file:`/lokalną ścieżką nie pobiera nic ani nie czyta lokalnego pliku podczas renderowania. Link wymaga jawnej akcji; renderer bez auto-HTML/skryptów. | Widget z imageBuilder + fake klient/HttpOverrides |
+
+## Warunki zamknięcia faz
+
+Faza 0: datowane źródła pierwotne i jawne ograniczenia. Faza 1: repo, ADR, macierz, UX, akceptacja i zależności. Faza 2: sam kod nie wystarcza — wymagane wyniki analizy, testów oraz w miarę środowiska build i instalacja. Brak urządzenia lub klucza jest wynikiem „nieuruchomiony/ograniczony”, nigdy pozytywnym testem. Fazy 3–6 mają osobne kryteria wymienione wyżej i pozostają otwarte, dopóki nie ma dowodów.

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "defaultProvider": "demo",
+  "paidApiEnabled": false,
+  "dailyBudgetUsd": 1,
+  "monthlyBudgetUsd": 5,
+  "jarvisEnabled": false,
+  "providers": {
+    "openai": {"model": "", "auth": "byok", "status": "wymaga konfiguracji"},
+    "anthropic": {"model": "", "auth": "byok", "status": "wymaga konfiguracji"},
+    "gemini": {"model": "", "auth": "byok", "status": "ograniczona; sprawdź warunki"},
+    "xai": {"model": "", "auth": "byok", "status": "wymaga konfiguracji"}
+  },
+  "informacja": "Przykład dokumentacyjny. Klucze wyłącznie przez ekran Dostawcy do Android Keystore; aplikacja nie importuje sekretów z tego pliku."
+}

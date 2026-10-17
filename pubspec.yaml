@@ -1,0 +1,29 @@
+name: scalajaca
+description: Samodzielny, prywatny czat wielu modeli AI na Androida.
+publish_to: none
+version: 0.1.0+1
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  http: ^1.6.0
+  sqflite: ^2.4.2
+  path: ^1.9.1
+  flutter_secure_storage: ^11.2.0
+  cryptography: ^2.9.0
+  flutter_markdown_plus: ^1.0.12
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  # Testowy backend bez hooka C wymagającego Visual Studio na hoście Windows.
+  # Nie wpływa na natywny sqflite używany przez aplikację Android.
+  sqflite_common_ffi: 2.3.6
+  sqlite3: ^2.9.0
+flutter:
+  uses-material-design: true

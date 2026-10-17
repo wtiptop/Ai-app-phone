@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jar binary
+# Teksty dostawców zachowują oryginalne odstępy licencji.
+docs/THIRD_PARTY_NOTICES.txt -whitespace
