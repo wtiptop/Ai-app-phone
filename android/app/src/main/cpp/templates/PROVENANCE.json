@@ -1,0 +1,14 @@
+[
+  {
+    "model": "openbmb/MiniCPM5-1B",
+    "revision": "87179e5c1f455ef22e6223592d2d61351b525bfc",
+    "source": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/chat_template.jinja",
+    "sha256": "7451a05cf1e28a79d97d7c0bc951028c0b1915119bf9046acd06a0e3d931f47c"
+  },
+  {
+    "model": "openbmb/MiniCPM5-2B",
+    "revision": "f97400052a43d642bbc6e9975e2397e3ae6a6b52",
+    "source": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/f97400052a43d642bbc6e9975e2397e3ae6a6b52/chat_template.jinja",
+    "sha256": "bc1f78ef8a86b6bdf64a056cf89dd0ac506db4f198ab363d85168e2500ab44dd"
+  }
+]

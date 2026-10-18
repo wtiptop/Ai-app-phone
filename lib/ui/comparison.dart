@@ -63,13 +63,14 @@ class _ComparisonState extends State<Comparison> {
       final permits = <String, RequestPermit>{};
       final gate = LocalCostGate(widget.store);
       for (final id in selected) {
-        keys[id] =
-            id == 'demo' ? '' : await widget.secrets.read('api_$id') ?? '';
+        keys[id] = id == 'demo' || id == 'minicpm_local'
+            ? ''
+            : await widget.secrets.read('api_$id') ?? '';
         modelNames[id] = id == 'demo'
             ? 'demo-local'
             : await widget.store.setting('model_$id', '');
         if (id != 'demo' &&
-            ((id != 'minicpm' && keys[id]!.isEmpty) ||
+            ((id != 'minicpm' && id != 'minicpm_local' && keys[id]!.isEmpty) ||
                 modelNames[id]!.isEmpty)) {
           throw StateError(
             'Skonfiguruj ${widget.registry.adapter(id).label} w Dostawcach.',
@@ -79,7 +80,9 @@ class _ComparisonState extends State<Comparison> {
         final adapter = widget.registry.adapter(id);
         recipients[id] = adapter is MiniCpmAdapter
             ? (await adapter.endpoint()).recipient
-            : adapter.label;
+            : id == 'minicpm_local'
+                ? 'Ten telefon • MiniCPM offline'
+                : adapter.label;
       }
       if (!mounted || cancelled) return;
       if (!await confirm(

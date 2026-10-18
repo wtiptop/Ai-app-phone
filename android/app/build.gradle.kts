@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    ndkVersion = "28.2.13676358"
     namespace = "pl.scalajaca.scalajaca"
     compileSdk = flutter.compileSdkVersion
 
@@ -26,6 +27,9 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        externalNativeBuild {
+            cmake { arguments += listOf("-DANDROID_STL=c++_static", "-DCMAKE_BUILD_TYPE=Release") }
+        }
         // Debug zależności JNI zawierają kilka ABI. Ograniczamy cały APK do
         // jawnie wybranego celu, aby instalator nie wybrał niepełnego ABI.
         val selectedPlatforms = providers.gradleProperty("target-platform").orNull
@@ -52,6 +56,9 @@ android {
             // Release wymaga osobnej konfiguracji klucza właściciela.
         }
     }
+    externalNativeBuild {
+        cmake { path = file("src/main/cpp/CMakeLists.txt"); version = "3.22.1" }
+    }
 }
 
 kotlin {
@@ -62,4 +69,12 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies { testImplementation("junit:junit:4.13.2") }
+
+tasks.withType<org.gradle.api.tasks.testing.Test>().configureEach {
+    providers.environmentVariable("SCALAJACA_TEST_MODEL").orNull?.let {
+        systemProperty("scalajaca.testModel", it)
+    }
 }

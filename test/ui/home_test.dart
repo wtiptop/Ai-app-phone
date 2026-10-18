@@ -10,6 +10,7 @@ import 'package:scalajaca/storage/app_database.dart';
 import 'package:scalajaca/storage/models.dart';
 import 'package:scalajaca/ui/home.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import '../local/local_adapter_test.dart' show FakeLocalEngine, modelId;
 
 /// Rejestruje próbę wejścia do adaptera, bez wykonywania sieci i opłat.
 class _CountingApi implements ProviderAdapter {
@@ -130,6 +131,44 @@ void main() {
     expect(messages.last.provider, 'demo');
     expect(messages.last.text, contains('demo'));
     expect(find.textContaining('Ukończono'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets(
+      'Czat uruchamia model lokalny po zgodzie, bez klucza i płatnego API',
+      (tester) async {
+    final engine = FakeLocalEngine();
+    final cloud = _CountingApi();
+    await tester
+        .runAsync(() => store.setSetting('model_minicpm_local', modelId));
+    await _boot(tester, store, secrets,
+        registry: ProviderRegistry([
+          DemoAdapter(chunkDelay: Duration.zero),
+          cloud,
+          LocalModelAdapter(engine: engine)
+        ]));
+    await tester.tap(find.textContaining('Demo lokalne').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('MiniCPM • offline w telefonie').last);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'Wiadomość offline');
+    await _flush(tester);
+    await tester.tap(find.byTooltip('Wyślij wiadomość'));
+    await _flush(tester);
+    expect(find.text('Uruchom model offline?'), findsOneWidget);
+    await tester.tap(find.text('Uruchom offline'));
+    await _flush(tester, rounds: 20);
+    expect(engine.calls, 1);
+    expect(cloud.calls, 0);
+    expect(await tester.runAsync(() => store.setting('paid_enabled', false)),
+        isFalse);
+    final chats = await tester.runAsync(() => store.conversations());
+    final messages =
+        await tester.runAsync(() => store.messages(chats!.single.id));
+    expect(messages!.last.provider, 'minicpm_local');
+    expect(messages.last.text, 'Odpowiedź');
+    expect(messages.last.status, 'complete');
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

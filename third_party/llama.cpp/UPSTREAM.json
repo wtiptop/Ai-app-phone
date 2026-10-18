@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/ggml-org/llama.cpp",
+  "commit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "included": [
+    "CMakeLists.txt",
+    "LICENSE",
+    "licenses",
+    "cmake",
+    "src",
+    "include",
+    "ggml",
+    "vendor",
+    "common"
+  ],
+  "modifications": "Brak zmian kodu upstream; konfiguracja i most należą do Scalającej",
+  "networkBackendsEnabled": false
+}

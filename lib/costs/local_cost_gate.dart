@@ -30,6 +30,7 @@ class LocalCostGate {
     if (model.isEmpty || configuredModel != model) {
       throw StateError('Ustaw model i jego cennik w Dostawcach.');
     }
+    if (provider == 'minicpm_local') return 0;
     final input = await store.setting<double>('input_rate_$provider', -1);
     final output = await store.setting<double>('output_rate_$provider', -1);
     if (provider == 'minicpm' && await _freeMiniCpm()) return 0;
@@ -52,6 +53,12 @@ class LocalCostGate {
   }
 
   Future<void> _reserveGroup(Map<String, double> amounts) async {
+    if (amounts.containsKey('minicpm_local') && amounts['minicpm_local'] != 0) {
+      throw StateError('Lokalna inferencja nie nalicza kosztów API.');
+    }
+    if (amounts['minicpm_local'] == 0) {
+      amounts = Map.of(amounts)..remove('minicpm_local');
+    }
     if (amounts.containsKey('minicpm') && amounts['minicpm'] == 0) {
       if (!await _freeMiniCpm()) {
         throw StateError('Potwierdź własny serwer MiniCPM bez opłat za API.');
@@ -107,9 +114,10 @@ class LocalCostGate {
     String model,
     double amount,
   ) async {
-    if (provider == 'minicpm' &&
+    if ((provider == 'minicpm' || provider == 'minicpm_local') &&
         amount == 0 &&
-        (model.isEmpty || model != await store.setting('model_minicpm', ''))) {
+        (model.isEmpty ||
+            model != await store.setting('model_$provider', ''))) {
       throw StateError('Skonfiguruj model MiniCPM przed zatwierdzeniem.');
     }
     await reserve(provider, amount);
@@ -119,6 +127,13 @@ class LocalCostGate {
   Future<Map<String, RequestPermit>> authorizeMany(
     Map<String, ({String model, double amount})> requests,
   ) async {
+    final local = requests['minicpm_local'];
+    if (local != null &&
+        (local.amount != 0 ||
+            local.model.isEmpty ||
+            local.model != await store.setting('model_minicpm_local', ''))) {
+      throw StateError('Skonfiguruj lokalny model przed zatwierdzeniem.');
+    }
     final miniCpm = requests['minicpm'];
     if (miniCpm != null &&
         miniCpm.amount == 0 &&

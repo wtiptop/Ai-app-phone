@@ -1,6 +1,32 @@
 # Rzeczywiste testy Scalającej
 
-## Aktualizacja MiniCPM 0.1.1 — 17–18.10.2026
+## MiniCPM offline 0.2.0 — 18.10.2026
+
+| Sprawdzenie | Wynik rzeczywisty | Dowód / granica |
+|---|---|---|
+| Dart analyze | **PASS, No issues found, exit 0** | test-results/analyze-0.2.0.log |
+| Pełny Flutter test, concurrency=1 | **141/141 PASS, exit 0** | test-results/flutter-tests-0.2.0.log; obejmuje poprzednie testy, transporty, koszty, SQLite, kanał natywny oraz widgety |
+| JUnit lokalnych modeli | **21/21 PASS, 0 skipped/errors/failures** | test-results/gguf-junit-0.2.0.xml; standardowy JUnit 4.13.2, prawdziwy plik GGUF przekazany przez SCALAJACA_TEST_MODEL |
+| Gradle testDebugUnitTest | **BUILD SUCCESSFUL, exit 0** | test-results/android-unit-0.2.0.log; także dostępne zadania testów pluginów; nie dodajemy ich do licznika 21 aplikacji |
+| Wspólny rdzeń C++ / Windows | **PASS, exit 0** | test-results/native-real-model-0.2.0.log; rzeczywiste wagi 1B, odpowiedź OK, wejście 21 / wyjście 1, finish stop; drugi scenariusz: anulowanie przed startem, 0 tokenów |
+| Kompilacja JNI ARM64 i APK debug | **PASS, exit 0** | test-results/android-build-0.2.0.log oraz android-build-0.2.0.json |
+| APK: podpis / manifest / ZIP 16 KiB / JNI | **PASS** | podpis debug v2, minSdk 24, targetSdk 36, arm64-v8a; ELF LOAD 0x4000, cztery eksporty JNI, brak importów funkcji sieciowych w silniku |
+| Licencje / pochodzenie | **106 pakietów bez braków; 1818 plików upstream zgodnych** | THIRD_PARTY_NOTICES.txt, assets/native_notices.txt, vendor-audit-0.2.0.json i FILE_SHA256.json |
+| Fizyczny Android / emulator | **Niewykonane** | Brak testu JNI na urządzeniu, SAF, cyklu życia, RAM, baterii, termiki i TalkBack; host/build nie zastępują odbioru |
+| Jakość polskiego i rzeczywisty 2B | **Niepotwierdzone** | Pierwszy prompt PL: słaba odpowiedź, limit 128 tokenów. Test techniczny OK nie jest oceną jakości; nie pobrano wag 2B |
+| Konta / płatne API / publikacja | **Niewykonane** | Model pobrano po osobnej zgodzie; brak kont, płatnych operacji i publikacji |
+
+Zestaw natywny sprawdza metadane 1B/2B, błędne magic/version/architekturę/rodzinę, zduplikowane klucze, limity rozmiarów, nieznaną kwantyzację, wyrównanie wierszy, zakresy/nakładanie i ucięcie tensorów, anulowanie, SHA-256, deduplikację, ochronę ścieżek oraz sprzątanie wyłącznie zarządzanych plików częściowych/osieroconych. Test realnego pliku kopiuje 688 065 920 bajtów, weryfikuje oficjalny hash i 219 tensorów, usuwa kopię i potwierdza istnienie oryginału. Nie jest testem platformowego selektora SAF.
+
+Nowe testy Flutter obejmują granice adaptera offline (bez klucza/chmury, kontekst, limity i stop), składanie UTF-8 między tokenami, redakcję błędów platformy, częściowe odpowiedzi i ignorowanie obcych zdarzeń, wybór/import/usuwanie w UI oraz lokalny czat po zgodzie bez płatnego API. Atrapa kanału potwierdza protokół, nie uruchamia JNI. Pojedynczy silnik w porównaniu nie przekazuje odpowiedzi do innych kart.
+
+Naprawy podczas testowania: dopasowano kod do rzeczywistego API llama.cpp 0.7; testy UI przewijają zewnętrzną listę zamiast pola SelectableText, czekają na zniknięcie SnackBar przed usuwaniem i wykonują rzeczywisty SQLite przez runAsync poza zegarem testWidgets. Pierwsze przebiegi zawierały błędy fixture i zostały odrzucone; dopiero końcowy pełny wynik to 141 PASS. Początkowe blokady localhost/PDB zostały rozwiązane przez zatwierdzone uruchomienie poza piaskownicą. Nie zastępowano frameworka ani kodów błędów sztucznym sukcesem.
+
+Odtworzenie: `flutter analyze`, `flutter test --reporter expanded --concurrency=1`, `scripts/test_android_local.ps1 -Model <pełna-ścieżka-GGUF>`, a w środowisku z kompilatorem C++/CMake/Ninja `scripts/test_local_native.ps1 -Model <pełna-ścieżka-GGUF>`. Bez wskazanego pliku JUnit pomija jeden test prawdziwych wag; takiego przebiegu nie wolno opisać jako 21 testów z wagami. Skrypty nie pobierają modelu. Build: `flutter build apk --debug --target-platform android-arm64`. Narzędzia: Flutter 3.47.7, Dart 3.13.5, JDK 17.0.20.1, Gradle 9.3.1, AGP 9.1.0, SDK/build-tools 36, NDK 28.2.13676358, CMake 3.22.1, MSVC 2022 dla testu hosta.
+
+Ostrzeżenia buildu: starszy parser SDK XML i zapowiedzi usunięcia opcji zgodności Kotlin/AGP w Gradle/AGP 10. Obecny build kończy się kodem 0; nie wykonano migracji do przyszłej wersji narzędzi. Historyczne nieudane próby 0.1.1 poniżej nie opisują bieżącego APK.
+
+## Historia MiniCPM 0.1.1 — 17–18.10.2026
 
 | Sprawdzenie | Wynik rzeczywisty | Dowód / ograniczenie |
 |---|---|---|

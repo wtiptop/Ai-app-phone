@@ -6,3 +6,6 @@
 docs/THIRD_PARTY_NOTICES.txt -whitespace
 # Logi są dowodami narzędzi; zachowują ich oryginalne odstępy.
 docs/test-results/*.log -whitespace
+third_party/** -whitespace
+android/app/src/main/cpp/templates/** -whitespace
+assets/native_notices.txt -whitespace

@@ -41,8 +41,9 @@ Uzupełnienie MiniCPM 0.1.1:
 | A28 | Zły URL, HTTP, URL credentials/query/fragment odrzucone, brak wysyłki sekretu po zmianie zatwierdzonego adresu | Dart mock — PASS |
 | A29 | SSE UTF-8, usage, stop, brak retry/redirect, niepełna odpowiedź i odrzucone tool_calls | Dart mock — PASS |
 | A30 | Zero kosztu wymaga obu stawek i deklaracji, nie odblokowuje płatnych API; rezerwy porównania atomowe | Dart + prawdziwy SQLite FFI — PASS |
-| A31 | UI pokazuje status serwera/plan offline; zmiana adresu usuwa stary klucz i resetuje deklarację | Dwa testy widgetów przygotowane; runner Flutter zablokowany, niezaliczone |
+| A31 | UI rozróżnia serwer i silnik offline; zmiana adresu usuwa stary klucz i resetuje deklarację | Dwa testy widgetów wykonane w pełnym zestawie Flutter 141 PASS; Keystore urządzenia do odbioru |
 | A32 | Rzeczywista generacja MiniCPM w czacie i porównaniu, Keystore i TLS na Androidzie | Nieuruchomione; wymaga własnego serwera i urządzenia |
-| A33 | Wbudowany silnik bez serwera, import GGUF, uszkodzony model, brak RAM, stop i usuwanie | Zaplanowane; silnik niewdrożony |
+| A33 | Wbudowany silnik bez serwera, import GGUF, uszkodzony model, brak RAM, stop i usuwanie | Wdrożony CPU/JNI; 21 JUnit z prawdziwym GGUF i testy adaptera/kanału/UI PASS. Host C++ realna generacja/stop PASS. RAM/SAF/JNI/tło/termika na telefonie niewykonane |
+| A34 | Android w trybie samolotowym po imporcie GGUF: start, krótka generacja, Stop, tło/powrót, rotacja, usuwanie; brak sieci/fallbacku, pomiar RAM/baterii i jakość PL | Scenariusz przygotowany; fizyczne urządzenie/emulator niewykonane |
 
 Faza 0: datowane źródła pierwotne i jawne ograniczenia. Faza 1: repo, ADR, macierz, UX, akceptacja i zależności. Faza 2: sam kod nie wystarcza — wymagane wyniki analizy, testów oraz w miarę środowiska build i instalacja. Brak urządzenia lub klucza jest wynikiem „nieuruchomiony/ograniczony”, nigdy pozytywnym testem. Fazy 3–6 mają osobne kryteria wymienione wyżej i pozostają otwarte, dopóki nie ma dowodów.

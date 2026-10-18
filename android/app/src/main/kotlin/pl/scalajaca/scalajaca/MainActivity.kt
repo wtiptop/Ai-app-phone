@@ -8,15 +8,22 @@ import io.flutter.plugin.common.MethodChannel
 import java.nio.ByteBuffer
 import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
+import pl.scalajaca.scalajaca.local.LocalInferencePlugin
 
 /** Jednorazowe wybory SAF, bez szerokich uprawnień do plików. */
 class MainActivity : FlutterActivity() {
+    private var localInference: LocalInferencePlugin? = null
     private var pending: MethodChannel.Result? = null
     private var saveContent: String? = null
     private val maxBytes = 16 * 1024 * 1024
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        try { localInference = LocalInferencePlugin(this, flutterEngine.dartExecutor.binaryMessenger) }
+        catch (_: Exception) {
+            MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pl.scalajaca/local_inference")
+                .setMethodCallHandler { _, result -> result.error("storage", "Magazyn modeli lokalnych jest niedostępny.", null) }
+        }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pl.scalajaca/files")
             .setMethodCallHandler { call, result ->
                 if (pending != null && (call.method == "save" || call.method == "import")) {
@@ -74,6 +81,7 @@ class MainActivity : FlutterActivity() {
     @Deprecated("Platform callback supported by FlutterActivity")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (localInference?.activityResult(requestCode, resultCode, data) == true) return
         if (requestCode != 8101 && requestCode != 8102) return
         val result = pending ?: return
         val content = saveContent
@@ -110,5 +118,14 @@ class MainActivity : FlutterActivity() {
                 runOnUiThread { result.error("file_error", "Plik niedostępny, zbyt duży lub nie jest tekstem UTF-8.", null) }
             }
         }.start()
+    }
+    override fun onStop() {
+        localInference?.background()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        localInference?.close()
+        super.onDestroy()
     }
 }

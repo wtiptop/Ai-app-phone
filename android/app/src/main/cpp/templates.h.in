@@ -1,0 +1,3 @@
+#pragma once
+static const char * TEMPLATE_MINICPM_1B = R"SCALA(@TEMPLATE_1B@)SCALA";
+static const char * TEMPLATE_MINICPM_2B = R"SCALA(@TEMPLATE_2B@)SCALA";

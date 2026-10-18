@@ -45,25 +45,27 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('UI jawnie odróżnia serwer od zaplanowanego silnika offline',
-      (tester) async {
+  testWidgets('UI jawnie odróżnia serwer od silnika offline', (tester) async {
     await boot(tester);
-    expect(find.textContaining('Ten APK nie zawiera silnika LLM ani wag'),
-        findsOneWidget);
+    expect(
+        find.textContaining('Model offline jest osobną opcją'), findsOneWidget);
     expect(field('Adres HTTPS serwera MiniCPM'), findsOneWidget);
     expect(field('Klucz własnego serwera (opcjonalny)'), findsOneWidget);
     expect(find.byType(CheckboxListTile), findsOneWidget);
     expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
   testWidgets(
       'Zmiana odbiorcy usuwa poprzedni sekret i wymaga nowej deklaracji',
       (tester) async {
-    await store.setSetting('endpoint_minicpm', 'https://old.example.org/v1');
-    await store.setSetting('model_minicpm', 'owner-model');
-    await store.setSetting('input_rate_minicpm', 0.0);
-    await store.setSetting('output_rate_minicpm', 0.0);
-    await store.setSetting('minicpm_self_hosted_free', true);
-    await secrets.write('api_minicpm', 'old-server-secret-placeholder');
+    await tester.runAsync(() async {
+      await store.setSetting('endpoint_minicpm', 'https://old.example.org/v1');
+      await store.setSetting('model_minicpm', 'owner-model');
+      await store.setSetting('input_rate_minicpm', 0.0);
+      await store.setSetting('output_rate_minicpm', 0.0);
+      await store.setSetting('minicpm_self_hosted_free', true);
+      await secrets.write('api_minicpm', 'old-server-secret-placeholder');
+    });
     await boot(tester);
     await tester.ensureVisible(field('Adres HTTPS serwera MiniCPM'));
     await tester.enterText(
@@ -83,5 +85,6 @@ void main() {
     expect(await tester.runAsync(() => store.setting('paid_enabled', false)),
         isFalse);
     expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

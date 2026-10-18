@@ -8,11 +8,11 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 |---|---|---|
 | MX1 | Oficjalne repozytorium, formaty i licencje | Zweryfikowane źródła wydawcy w MINICPM_PL.md; brak dołączonych wag |
 | MX2 | Adapter własnego serwera tekst/SSE/katalog/stop/błędy | Potwierdzone testami Dart; realny model wymaga konfiguracji i testu |
-| MX3 | HTTPS, opcjonalny klucz Keystore, jawny adres, brak przenoszenia sekretu | Transport i zmiana zatwierdzonego adresu testowane; widget/Keystore wymagają testu Android |
-| MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 7 testów polityki na SQLite FFI PASS |
-| MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod i kompilacja Flutter bundle PASS; UI i realne żądanie niepotwierdzone |
-| MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Zaplanowane; źródła silnika niepobrane z powodu blokady sieci środowiska |
-| MX7 | APK i test telefonu z modelem | APK 0.1.1 zablokowany przez komunikację Gradle localhost; urządzenie/model nieuruchomione |
+| MX3 | HTTPS, opcjonalny klucz Keystore, jawny adres, brak przenoszenia sekretu | Transport i zmiana zatwierdzonego adresu testowane; widgety PASS; Keystore wymaga testu Android |
+| MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
+| MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat lokalny testowany atrapą kanału, rzeczywisty rdzeń osobno; Android nadal do odbioru |
+| MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; limity/tło/termika urządzenia do odbioru |
+| MX7 | APK i test telefonu z modelem | APK 0.2.0 build/podpis/manifest PASS; generacja prawdziwych wag na hoście PASS; telefon/JNI niewykonane |
 
 ## Pierwotna specyfikacja
 
@@ -27,7 +27,7 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | R00.1 | Instalowalny samodzielny Android APK; AAB docelowo | 2/6 | Ograniczone: APK ARM64 zbudowany, podpis/manifest PASS; instalacja urządzenia niewykonana |
 | R00.2 | Start, lokalne dane, czaty, chmura i podstawowe zadania bez OPPO, RPi, VPS, Termuxa i serwera | 2 | Ograniczone: kod lokalnego startu/UI/SQLite/BYOK obecny; uruchomienie Android A01 do odbioru |
 | R00.3 | JARVIS/OPPO jako odłączalny moduł wyłączony domyślnie | 6 | Ograniczone: wyłączony JarvisBridge i test braku uprawnień; rzeczywiste parowanie zaplanowane |
-| R00.4 | Offline: dane, szkice, wyszukiwanie, trwała kolejka i eksport | 2/3 | Ograniczone: kod historii/szkiców/notatek/listy zadań/kolejki odnośników/transferów; pełny dispatcher i model offline zaplanowane; A02/A11 do odbioru |
+| R00.4 | Offline: dane, szkice, wyszukiwanie, trwała kolejka i eksport | 2/3 | Ograniczone: kod historii/szkiców/notatek/listy zadań/kolejki odnośników/transferów; model MiniCPM CPU/JNI wdrożony w 0.2.0, odbiór telefonu otwarty; pełny dispatcher zaplanowany; A02/A11 do odbioru |
 | R00.5 | Polski domyślny, i18n, responsywność i dostępność | 2 | Ograniczone: polski UI, motywy, semantyka i test 320×640 / 200% PASS; ARB i TalkBack urządzenia zaplanowane |
 
 ## 1. Cel i zasady

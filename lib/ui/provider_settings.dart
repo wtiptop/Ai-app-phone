@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../auth/secret_store.dart';
 import '../provider_registry/provider_registry.dart';
 import '../storage/app_database.dart';
+import 'local_models.dart';
 
 Future<bool> confirm(
   BuildContext context,
@@ -59,7 +60,22 @@ class ProviderSettings extends StatelessWidget {
             const Text(
               'API i abonament aplikacji konsumenckiej to odrębne sposoby dostępu. Zapis klucza nie uruchamia zapytań. Klucz BYOK w telefonie może zostać przejęty na zrootowanym urządzeniu. Ustaw limity także u dostawcy.',
             ),
-            for (final p in registry.adapters.where((p) => p.id != 'demo'))
+            for (final p in registry.adapters.whereType<LocalModelAdapter>())
+              Card(
+                  child: ListTile(
+                leading: const Icon(Icons.offline_bolt_outlined),
+                title: const Text('MiniCPM offline w telefonie'),
+                subtitle: const Text(
+                    'Wbudowany llama.cpp • import GGUF • bez konta i opłat API'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (_) =>
+                            LocalModelsPage(engine: p.engine, store: store))),
+              )),
+            for (final p in registry.adapters
+                .where((p) => p.id != 'demo' && p.id != 'minicpm_local'))
               ProviderCard(provider: p, store: store, secrets: secrets),
             const Card(
               child: Padding(
@@ -271,7 +287,7 @@ class _ProviderCardState extends State<ProviderCard> {
           children: [
             Text(
               isMiniCpm
-                  ? 'Opcjonalna integracja z własnym serwerem MiniCPM / llama.cpp. Dane trafiają na wskazany serwer. Ten APK nie zawiera silnika LLM ani wag: inferencja bezpośrednio w aplikacji jest zaplanowana. Nie wymaga OPPO ani JARVIS. Obsługa tekstu; bez obrazów, głosu i wykonywania narzędzi.'
+                  ? 'Opcjonalna integracja z własnym serwerem MiniCPM / llama.cpp. Dane trafiają na wskazany serwer. Model offline jest osobną opcją „MiniCPM offline w telefonie”. Obsługa tekstu; bez obrazów, głosu i wykonywania narzędzi.'
                   : widget.provider.id == 'gemini'
                       ? 'Google API • przetwarzanie w chmurze. Ograniczenia wieku/przeznaczenia i Paid Services w EOG: sprawdź aktualne warunki Gemini API przed użyciem.'
                       : 'Oficjalne API • BYOK • przetwarzanie w chmurze dostawcy. Brak gwarancji regionu danych.',

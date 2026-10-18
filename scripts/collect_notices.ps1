@@ -30,6 +30,11 @@ foreach ($taskPackage in ($taskPackages | Sort-Object name)) {
   }
   $taskCount++
 }
+$taskNativeNotices = Join-Path $taskRepo 'assets/native_notices.txt'
+if (Test-Path -LiteralPath $taskNativeNotices) {
+  [void]$taskText.AppendLine('===== NATYWNY SILNIK I SZABLONY =====')
+  [void]$taskText.AppendLine([System.IO.File]::ReadAllText($taskNativeNotices))
+}
 [System.IO.File]::WriteAllText((Join-Path $taskRepo 'docs/THIRD_PARTY_NOTICES.txt'), $taskText.ToString(), [System.Text.UTF8Encoding]::new($false))
 Write-Output "Pakiety: $taskCount; brak lokalnej licencji: $($taskMissing -join ', ')"
 if ($taskMissing.Count -gt 0) { throw 'Przejrzyj brakujące licencje przed dystrybucją.' }

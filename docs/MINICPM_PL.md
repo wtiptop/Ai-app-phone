@@ -1,37 +1,46 @@
-# MiniCPM w Scalającej
+# MiniCPM offline w Scalającej 0.2.0
 
-Przegląd oficjalnych źródeł: 17.10.2026. Wersja aplikacji: 0.1.1.
+Stan: **18.10.2026**. APK zawiera prawdziwy silnik llama.cpp CPU połączony przez JNI. Generacja odbywa się w procesie Androida, bez serwera, Termuxa, OPPO, konta, klucza API i automatycznego fallbacku do sieci. **Na hoście wykonano rzeczywistą generację; test fizycznego Androida pozostaje niewykonany.** Funkcja jest eksperymentalna.
 
-**Zaimplementowany jest opcjonalny klient własnego serwera HTTPS. Wbudowana inferencja na Androidzie pozostaje zaplanowana.** Aplikacja nadal uruchamia się i obsługuje dane lokalne bez serwera, OPPO, JARVIS i Termuxa. Wybranie MiniCPM nie uruchamia pobierania modelu ani połączenia.
+## Pierwsze uruchomienie na telefonie
 
-## Zweryfikowane możliwości i licencje
+1. Zainstaluj `Scalajaca-0.2.0-debug-arm64.apk` zgodnie z [instrukcją](SETUP_ANDROID_PL.md). Wymagany Android 7+ i procesor ARM64. Wagi nie są częścią APK.
+2. Skopiuj na telefon pobrany za zgodą właściciela `MiniCPM5-1B-Q4_K_M.gguf`. Oficjalny przypięty plik: [OpenBMB na Hugging Face](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF/resolve/3d55fac80935ae6456986ad2384b5cbcc4d6c948/MiniCPM5-1B-Q4_K_M.gguf). Nie wymaga logowania ani płatnego API. Aplikacja sama go nie pobiera.
+3. Ustawienia → Dostawcy AI → **MiniCPM offline** → zarządzanie modelami. Wklej zalecane SHA-256 podane poniżej, wybierz **Importuj plik GGUF** i wskaż lokalny plik w systemowym selektorze. Użyj lokalnej pamięci telefonu; dostawca plików chmurowych w SAF może potrzebować internetu do samego udostępnienia pliku.
+4. Poczekaj na skopiowanie, sprawdzenie struktury i hasha. Pozostań na ekranie podczas importu. Zaimportowany model jest wybierany do czatu. Można anulować import, skopiować hash lub usunąć prywatną kopię; oryginał pozostaje w swoim katalogu.
+5. W czacie wybierz **MiniCPM offline**, wpisz krótki prompt i zatwierdź **Uruchom offline**. Zgoda wskazuje telefon jako miejsce przetwarzania i koszt API 0. Nie włączaj płatnego API. Na pierwszy test nadaje się `Reply with only the single word: OK`.
+6. Sprawdź tę samą generację w trybie samolotowym. Stop przerywa obliczenia. Przejście aplikacji w tło też je zatrzymuje. Ten scenariusz odbioru na telefonie nie został jeszcze wykonany przez twórcę.
 
-[OpenBMB MiniCPM](https://github.com/OpenBMB/MiniCPM) udostępnia tekstowe modele MiniCPM5-1B i MiniCPM5-2B. Oficjalny [poradnik llama.cpp](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md) opisuje GGUF oraz interfejs `/v1/chat/completions`. Karty [1B GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) i [2B GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) wskazują Apache-2.0. Nie przenosimy tego założenia na wszystkie starsze wydania. Wagi, kod modeli i silnik nie są dołączone ani rozpowszechniane z tym APK. Własny adapter napisano w Dart bez kopiowania kodu OpenBMB.
+Model testowy: **688 065 920 bajtów**, około **656,2 MiB** (wydawca podaje około 657 MB).
 
-Warianty Q4_K_M mają według wydawcy około 657 MB (1B) i 1,56 GB (2B). To rozmiar pliku, nie całkowite wymaganie RAM. Rozmiar kontekstu deklarowany przez model nie stanowi obietnicy działania takiego kontekstu w telefonie. Obsługa polskiego i jakość odpowiedzi wymagają pomiaru; karty eksponują angielski i chiński. MiniCPM-V oraz modele audio to odrębne integracje, niewdrożone przez ten adapter tekstowy.
+```text
+SHA-256: 81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa
+Repozytorium: openbmb/MiniCPM5-1B-GGUF
+Rewizja: 3d55fac80935ae6456986ad2384b5cbcc4d6c948
+```
 
-## Konfiguracja istniejącego własnego serwera
+Import wymaga miejsca na kopię w prywatnych danych aplikacji i 256 MiB rezerwy. Jeśli pozostawisz oryginał w Pobranych, oba pliki zajmują miejsce. Wagi są zwykłym publicznym modelem; rozmowy nadal podlegają szyfrowaniu/trybowi prywatnemu. Model nie jest dołączany do zaszyfrowanej kopii historii. Po ponownej instalacji lub przeniesieniu danych może wymagać ponownego importu; hash w ustawieniach nie zastępuje pliku.
 
-1. W Ustawienia → Dostawcy AI rozwiń „MiniCPM • własny serwer”.
-2. Wpisz adres, np. `https://ai.example.org/v1`. Akceptujemy bazę domeny albo `/v1`, z opcjonalnym portem. Ścieżki proxy inne niż `/v1` nie są obsługiwane. Certyfikat musi być zaufany przez Androida. Nie wyłączamy TLS; HTTP, dane logowania i tokeny w URL są odrzucane.
-3. Podaj ID/alias modelu faktycznie udostępnionego przez serwer. Nie zakładamy, że każdy model z katalogu jest MiniCPM. Katalog i nazwa nie dowodzą tożsamości wag; odpowiada za nie właściciel serwera.
-4. Jeśli serwer wymaga klucza API, wpisz go w osobnym polu. Jest przechowywany w Keystore, nie w adresie i nie w SQLite. Puste pole zachowuje klucz przy tym samym adresie. Zmiana adresu usuwa poprzedni klucz, jeżeli nie wprowadzono nowego.
-5. Wprowadź stawki USD za milion tokenów. Dla własnego serwera bez opłat za wywołania ustaw obie stawki 0 i jawnie zaznacz deklarację. Zmiana adresu zeruje zaznaczenie. To deklaracja użytkownika, nie audyt rozliczeń; hosting i energia mogą kosztować. Nie odblokowuje płatnych API. Jeśli serwer nalicza opłaty, obowiązują zwykłe limity i osobne włączenie API.
-6. Zapis nie łączy się z siecią. „Test / katalog” po osobnym potwierdzeniu wysyła `GET /v1/models` do zapisanego adresu, bez promptu i bez generacji. Nie dowodzi działania wybranego modelu.
-7. W czacie wybierz MiniCPM. Potwierdzenie pokazuje adres, model, zakres rozmowy, treść i koszt. W porównaniu otrzymuje tylko wspólny prompt; historia i odpowiedzi innych kart nie są dołączane.
+## Zakres i limity
 
-Domyślny profil żądania: tekst/SSE, 1024 tokeny wyjścia, temperatura 0,7, top-p 0,95, min-p 0,0, prośba szablonu o `enable_thinking:false`. Jest zbliżony do profilu No-think MiniCPM5-1B; zgodność z innym modelem/szablonem wymaga sprawdzenia. Parametry nie są gwarancją zachowania serwera. `reasoning_content` nie trafia do odpowiedzi. Adapter nie wysyła definicji narzędzi i odrzuca `tool_calls`; nigdy ich nie wykonuje.
+Obsługiwane są wyłącznie tekstowe **MiniCPM5-1B i MiniCPM5-2B** w pojedynczym GGUF v2/v3 o rozpoznanym profilu. Test prawdziwych wag dotyczy **1B Q4_K_M**. Profil 2B i jego przypięty szablon mają testy strukturalne, ale nie pobrano ani nie uruchomiono pełnych wag 2B. MiniCPM-V, audio, narzędzia, starsze rodziny, modele dzielone na pliki i pozostałe kwantyzacje nie są obsługiwane. Preflight dopuszcza F32/F16/BF16/Q8_0/Q4_K/Q6_K, w tym mieszaną Q4_K_M; zgodność każdej kombinacji wymaga osobnego testu.
 
-Oficjalny `llama-server` domyślnie pokazany w dokumentacji działa przez HTTP. Do tego adaptera potrzebny jest świadomie skonfigurowany zaufany terminator TLS albo obsługiwany przez wybraną wersję serwera TLS. Nie konfigurujemy infrastruktury ani nie otwieramy portów automatycznie. Adres `localhost` w telefonie oznacza telefon, nie komputer. Nie udostępniono żadnego publicznego serwera testowego.
+Domyślny kontekst: 2048 tokenów, do wyboru 1024 lub 4096. Maks. 512 nowych tokenów, 128 wiadomości, 64 KiB wejścia JSON, do 4 wątków CPU i 3 min całej inferencji. Zbyt długa historia jest odrzucana bez cichego usuwania wiadomości. Odpowiedź zakończona limitem jest oznaczana jako niepełna. Brak automatycznych ponowień.
 
-## Granice bezpieczeństwa i rzeczywiste testy
+Przed startem sprawdzamy niski stan RAM oraz dostępność co najmniej rozmiaru wag + 320 MiB. To konserwatywna bramka wstępna, nie pomiar szczytowego zużycia i nie gwarancja braku OOM. Po zakończeniu zwalniane są wagi i KV; kolejne pytanie ponownie ładuje model. Stan termiczny co najmniej SEVERE blokuje/zatrzymuje generację (Android 10+). Obecny wariant używa przenośnego CPU; brak GPU/NPU, usługi tła i obietnicy 24/7. Wydajność, RAM, bateria i nagrzewanie na telefonie wymagają pomiaru.
 
-Brak przekierowań, automatycznego retry, obchodzenia błędów certyfikatu i przechwytywania sesji. Klucz trafia tylko do jawnie skonfigurowanego odbiorcy HTTPS. Domyślne timeouty: 30 s nagłówki, 45 s bezczynności, 5 min całość. Stop przerywa transport; nie gwarantuje cofnięcia pracy/rachunku serwera. Brak `[DONE]`, niepoprawny protokół i zakończenie limitem są raportowane jako niepełne odpowiedzi. Body błędu nie jest wyświetlane ani logowane.
+**Jakość polskiego nie jest potwierdzona.** Pierwszy krótki prompt po polsku na hoście dał słabą, rozwlekłą odpowiedź i doszedł do limitu 128 tokenów. Nie był to pozytywny test jakości. Końcowy test techniczny po angielsku zwrócił `OK` i zakończenie `stop`. Nie należy traktować małego modelu jako zweryfikowanego źródła faktów, specjalisty ani narzędzia wykonującego działania.
 
-Testy używają atrap HTTP i lokalnego SQLite. Nie uruchomiono realnego serwera MiniCPM, nie pobrano wag, nie zalogowano kont i nie wykonano płatnej generacji. Aktualne wyniki są w [TESTS_PL.md](TESTS_PL.md).
+## Silnik, pochodzenie i bezpieczeństwo
 
-## Następny etap: model bezpośrednio w telefonie
+Ścieżkę GGUF opisuje [oficjalny poradnik MiniCPM](https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/llama_cpp.md), a budowanie natywne Androida — [llama.cpp Android](https://github.com/ggml-org/llama.cpp/blob/master/docs/android.md). Kod silnika jest przypięty do **5aeac37a35b44fde4bdffaec9159f2fcb253b622**. `third_party/llama.cpp/UPSTREAM.json` i `FILE_SHA256.json` zapisują źródło oraz pełne sumy plików. Lokalny audyt porównał 1818 plików z obiektami Git przypiętego commitu.
 
-Docelowy niezależny moduł `local_inference`: llama.cpp przez natywne JNI/FFI, bez serwera HTTP, dobrowolny import/pobranie GGUF do prywatnego magazynu aplikacji, kontrola SHA-256 i pochodzenia, usuwanie zasobów, limit RAM/kontekstu i temperatury urządzenia, przerwanie inferencji. Bez automatycznego fallbacku do chmury. [Oficjalny binding Android llama.cpp](https://github.com/ggml-org/llama.cpp/blob/master/docs/android.md) potwierdza taką ścieżkę.
+llama.cpp/ggml: MIT; parser JSON: MIT; przypięte szablony OpenBMB: Apache-2.0. Zachowano oryginalne licencje w źródłach i `assets/native_notices.txt`, widocznym w ekranie licencji aplikacji. Wagi pobrano osobno za zgodą właściciela; karty [1B GGUF](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF) i [2B GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) wskazują Apache-2.0. Nie rozszerzamy tej deklaracji na inne wydania.
 
-W obecnym środowisku próby dostępu do GitHub przez git i PowerShell zostały zablokowane na poziomie sieci/DNS. Oficjalną dokumentację sprawdzono narzędziem przeglądania. Nie ma pobranych źródeł silnika ani pomiarów na telefonie, dlatego nie deklarujemy działającego lokalnego LLM. Etap odbioru wymaga przypięcia wersji/hasza llama.cpp, kompilacji ARM64, testów importu uszkodzonych modeli i realnej generacji na urządzeniu z dostępnymi zasobami.
+Importer sprawdza granice metadanych/tensorów, kwantyzacje, rozmiar, nakładanie zakresów i oczekiwany hash. Nie jest to certyfikat bezpieczeństwa natywnego parsera. Nazwa i metadane nie dowodzą autentyczności modelu; używaj oficjalnego pliku i hasha. Szablon z importowanego GGUF jest ignorowany. Używamy wyłącznie przypiętych szablonów `MiniCPM5-1B.jinja` / `MiniCPM5-2B.jinja` wraz z rewizjami i hashami w `templates/PROVENANCE.json`. Treści wejściowe nie są traktowane jako specjalne tokeny protokołu. W silniku wyłączono logowanie llama/ggml i nie linkowano kodu HTTP z `common`. Model nie otrzymuje dostępu do notatek, plików, narzędzi ani innych rozmów.
+
+## Osobny opcjonalny adapter serwerowy
+
+**MiniCPM • własny serwer** z 0.1.1 pozostaje osobną opcją. Wymaga ręcznego adresu HTTPS (baza domeny albo `/v1`, zaufany TLS, bez credentials/query/fragmentu), ID modelu oraz opcjonalnego klucza Keystore. Zapis konfiguracji nie wysyła żądania. Test/katalog po zgodzie pobiera `/v1/models`, bez generacji. Deklaracja własnego serwera bez opłat i dwie stawki 0 nie odblokowują innych płatnych API. Zmiana adresu resetuje deklarację i nie przenosi poprzedniego sekretu bez nowego klucza.
+
+Ta opcja wysyła zatwierdzony kontekst do wskazanego serwera. Nie jest potrzebna do działania MiniCPM offline. Domyślne timeouty sieciowe: 30 s nagłówki, 45 s bezczynności, 5 min całość; brak redirect/retry i wykonywania `tool_calls`. Nie uruchamiano rzeczywistego serwera ani płatnego API. Wyniki testów obu ścieżek: [TESTS_PL.md](TESTS_PL.md).

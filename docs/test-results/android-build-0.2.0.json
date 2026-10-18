@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0+3",
+  "buildExitCode": 0,
+  "signatureExitCode": 0,
+  "manifestExitCode": 0,
+  "zipalign16KiBExitCode": 0,
+  "bytes": 104401476,
+  "sha256": "f1eb5205e51e5543a4f55efbfc69728703f6ccd72fc59d1ae47c26135e6367ef",
+  "abi": [
+    "arm64-v8a"
+  ],
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "modelWeightsInApk": false,
+  "nativeLibrarySha256": "d9e421740b80cf8ab57fc6f64e29a714fd65872017dea3c9de835faf6d2231b3",
+  "deviceTest": "Niewykonany",
+  "time": "2026-10-18T12:22:30.5895124+02:00"
+}

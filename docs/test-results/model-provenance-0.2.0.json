@@ -1,0 +1,8 @@
+{
+  "model": "openbmb/MiniCPM5-1B-GGUF",
+  "revision": "3d55fac80935ae6456986ad2384b5cbcc4d6c948",
+  "filename": "MiniCPM5-1B-Q4_K_M.gguf",
+  "sha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "bytes": 688065920,
+  "source": "https://huggingface.co/openbmb/MiniCPM5-1B-GGUF/resolve/3d55fac80935ae6456986ad2384b5cbcc4d6c948/MiniCPM5-1B-Q4_K_M.gguf"
+}

@@ -27,6 +27,14 @@ class ProviderDescriptor {
 }
 
 const providerDescriptors = <String, ProviderDescriptor>{
+  'minicpm_local': ProviderDescriptor(
+    id: 'minicpm_local',
+    authentication: 'Bez konta i klucza API; import GGUF',
+    processing:
+        'Wyłącznie na tym telefonie, CPU llama.cpp, bez sieci i fallbacku',
+    status: 'eksperymentalna — wymaga zgodnego GGUF i zasobów urządzenia',
+    documentationUrl: 'https://github.com/OpenBMB/MiniCPM',
+  ),
   'minicpm': ProviderDescriptor(
     id: 'minicpm',
     authentication: 'Własny serwer HTTPS; opcjonalny klucz jego API',

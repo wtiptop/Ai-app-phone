@@ -1,6 +1,18 @@
 # Stan rzeczywistej implementacji
 
-## Aktualizacja 0.1.1+2: MiniCPM — 18.10.2026
+## Aktualizacja 0.2.0+3: prawdziwy MiniCPM offline — 18.10.2026
+
+Dodano natywny silnik llama.cpp/ggml CPU/JNI w APK, osobny `LocalModelAdapter`, bezpośredni streaming do czatu i porównania oraz ekran lokalnych modeli. SAF importuje GGUF do prywatnego magazynu, oblicza SHA-256, sprawdza strukturę i pozwala anulować/usunąć kopię. Znane profile: tekstowe MiniCPM5-1B/2B; rzeczywiste wagi sprawdzono dla 1B Q4_K_M. Wbudowane przypięte szablony zastępują szablon z GGUF. Brak serwera, kont, klucza, pobierania w aplikacji i automatycznego fallbacku do chmury.
+
+Zgoda wskazuje telefon, model i koszt API 0. LocalCostGate wiąże permit z wybranym hashem i nie odblokowuje płatnych dostawców. Limity kontekstu/wyjścia/CPU/czasu, wstępny test RAM, termika Android 10+ i anulowanie po przejściu w tło są wdrożone; ich zachowanie na telefonie wymaga odbioru.
+
+**Wyniki rzeczywiste:** Flutter **141/141 PASS, exit 0**; JUnit modułu modeli **21/21 PASS, bez pominiętych, exit 0 całego Gradle** (w tym kopiowanie i walidacja pełnego 688 MB GGUF); Dart analyze bez uwag; ARM64 JNI build i APK **PASS**. Wspólny rdzeń C++ na Windows wygenerował `OK` z prawdziwych wag i przeszedł test anulowania przed startem. Audyt 1818 plików silnika potwierdził treść przypiętego commitu. Pobrano publiczne wagi wyłącznie po zgodzie właściciela. Nie wykonano płatnych operacji, łączenia prywatnych kont ani publikacji.
+
+**Dostarczany artefakt:** `Scalajaca-0.2.0-debug-arm64.apk`, Android 7+, ARM64, podpis debug. Bieżący rozmiar i SHA-256: `docs/test-results/android-build-0.2.0.json`; instrukcja importu: `docs/MINICPM_PL.md`. APK zawiera silnik, bez wag.
+
+**Ograniczenia:** brak instalacji, generacji JNI/SAF/Keystore/lifecycle/termiki na urządzeniu; brak benchmarku baterii/RAM/szybkości. Pierwsza próba po polsku dała słabą odpowiedź i limit tokenów; nie potwierdzono jakości PL. Brak testu rzeczywistych wag 2B, GPU/NPU, MiniCPM-V/audio, narzędzi i pobierania modeli w UI. Pozostałe niezrealizowane wymagania pierwotnej specyfikacji pozostają zaplanowane/ograniczone. Wyniki 0.1.1 i 0.1.0 poniżej są historyczne.
+
+## Historia 0.1.1+2: MiniCPM — 18.10.2026
 
 Dodano opcjonalny `MiniCpmAdapter`, konfigurację własnego serwera HTTPS, opcjonalny klucz Keystore, katalog modeli, tekst/SSE/usage/stop i bezpieczne błędy. Czat oraz porównanie pokazują adres odbiorcy. Zmiana adresu nie przenosi poprzedniego sekretu i zeruje deklarację bezpłatnego API. Własny serwer bez opłat wymaga jawnej deklaracji oraz obu stawek 0; pozostałe API nadal wymagają osobnej zgody i limitów. Minimalny port `CostStore` oddziela politykę kosztów od Fluttera, zachowując transakcje SQLite.
 

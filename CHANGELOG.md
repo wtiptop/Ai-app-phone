@@ -1,5 +1,14 @@
 # Dziennik zmian
 
+## 0.2.0 — 2026-10-18
+
+- Prawdziwy silnik llama.cpp/ggml CPU/JNI w APK ARM64; MiniCPM5-1B/2B jako osobny dostawca offline w czacie i porównaniu.
+- Dobrowolny import pojedynczego GGUF przez SAF, SHA-256, walidacja struktury, prywatny magazyn, deduplikacja, anulowanie i usuwanie kopii.
+- Przypięte zaufane szablony, bez wykonywania szablonu z wag; brak sieci/fallbacku w adapterze, klucza i opłat API dla lokalnego modelu.
+- Limity CPU/kontekstu/czasu, bramka RAM/termiki i anulowanie po przejściu w tło; pełny odbiór Androida pozostaje otwarty.
+- 141/141 Flutter oraz 21/21 JUnit PASS; rzeczywista generacja i anulowanie rdzenia C++ na Windows. Build/podpis/manifest APK PASS. Wagi 1B pobrane osobno po zgodzie, poza APK i paczką źródeł.
+- Zachowane licencje natywne, pełny hash spisu 1818 plików upstream, ADR 006 i instrukcja. Brak benchmarku telefonu, potwierdzonej jakości PL, pełnych wag 2B, GPU/NPU oraz MiniCPM-V/audio/tools.
+
 ## 0.1.1 — 2026-10-18
 
 - Opcjonalny MiniCPM: własny serwer HTTPS, katalog, tekst/SSE, usage, anulowanie i bezpieczne błędy; czat oraz porównanie.

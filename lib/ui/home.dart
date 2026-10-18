@@ -168,9 +168,11 @@ class _HomeState extends State<Home> {
                 subtitle: Text(
                   p.id == 'demo'
                       ? 'Działa offline • jawna atrapa • 0 USD'
-                      : p.id == 'minicpm'
-                          ? 'Eksperymentalna • własny serwer HTTPS • offline w APK zaplanowane'
-                          : 'Wymaga klucza i modelu • API',
+                      : p.id == 'minicpm_local'
+                          ? 'Bez sieci • wbudowany llama.cpp • import GGUF'
+                          : p.id == 'minicpm'
+                              ? 'Eksperymentalna • opcjonalny własny serwer HTTPS'
+                              : 'Wymaga klucza i modelu • API',
                 ),
                 trailing: provider == p.id ? const Icon(Icons.check) : null,
                 onTap: () => Navigator.pop(context, p.id),
@@ -228,10 +230,17 @@ class _HomeState extends State<Home> {
       String key = '';
       String? expectedEndpoint;
       if (provider != 'demo') {
-        key = await widget.secrets.read('api_$provider') ?? '';
+        key = provider == 'minicpm_local'
+            ? ''
+            : await widget.secrets.read('api_$provider') ?? '';
         model = await widget.store.setting('model_$provider', '');
-        if ((provider != 'minicpm' && key.isEmpty) || model.isEmpty) {
-          throw StateError('Wprowadź klucz i model w Ustawienia → Dostawcy.');
+        if ((provider != 'minicpm' &&
+                provider != 'minicpm_local' &&
+                key.isEmpty) ||
+            model.isEmpty) {
+          throw StateError(provider == 'minicpm_local'
+              ? 'Zaimportuj i wybierz GGUF w Ustawienia → Dostawcy → MiniCPM offline.'
+              : 'Wprowadź klucz i model w Ustawienia → Dostawcy.');
         }
         final contextText = [
           for (final m in session.messages)
@@ -242,20 +251,28 @@ class _HomeState extends State<Home> {
         final target = widget.registry.adapter(provider);
         final recipient = target is MiniCpmAdapter
             ? (await target.endpoint()).recipient
-            : target.label;
+            : provider == 'minicpm_local'
+                ? 'Wyłącznie ten telefon • bez sieci'
+                : target.label;
         if (target is MiniCpmAdapter) expectedEndpoint = recipient;
-        final costInfo = provider == 'minicpm' && estimate == 0
-            ? 'Własny serwer bez opłat za API według Twojej deklaracji. '
-                'Aplikacja nie weryfikuje jego rozliczeń. Limit wyjścia: 1024 tokeny.'
-            : 'Lokalna rezerwa: ${estimate.toStringAsFixed(6)} USD. '
-                'To konserwatywny szacunek według Twoich stawek, nie gwarancja rachunku. '
-                'Limit wyjścia: 1024 tokeny. Anulowanie może pozostawić opłatę u dostawcy.';
+        final costInfo = provider == 'minicpm_local'
+            ? '0 USD za API. Obliczenia korzystają z CPU, RAM i baterii telefonu. Limit wyjścia: 512 tokenów.'
+            : provider == 'minicpm' && estimate == 0
+                ? 'Własny serwer bez opłat za API według Twojej deklaracji. '
+                    'Aplikacja nie weryfikuje jego rozliczeń. Limit wyjścia: 1024 tokeny.'
+                : 'Lokalna rezerwa: ${estimate.toStringAsFixed(6)} USD. '
+                    'To konserwatywny szacunek według Twoich stawek, nie gwarancja rachunku. '
+                    'Limit wyjścia: 1024 tokeny. Anulowanie może pozostawić opłatę u dostawcy.';
         if (!mounted) return;
         if (!await confirm(
           context,
-          'Wyślij do ${widget.registry.adapter(provider).label}?',
-          'Odbiorca: $recipient\nModel: $model\n\nZostanie wysłana treść tej rozmowy: wiadomości użytkownika i ukończone odpowiedzi modeli. Pamięć, inne czaty i pliki nie są dołączane.\n\n$costInfo\n\nNowa wiadomość:\n$text',
-          action: 'Zatwierdź wysłanie i koszt',
+          provider == 'minicpm_local'
+              ? 'Uruchom model offline?'
+              : 'Wyślij do ${widget.registry.adapter(provider).label}?',
+          'Odbiorca: $recipient\nModel: $model\n\n${provider == 'minicpm_local' ? 'Lokalny model przetworzy' : 'Zostanie wysłana'} treść tej rozmowy: wiadomości użytkownika i ukończone odpowiedzi modeli. Pamięć, inne czaty i pliki nie są dołączane.\n\n$costInfo\n\nNowa wiadomość:\n$text',
+          action: provider == 'minicpm_local'
+              ? 'Uruchom offline'
+              : 'Zatwierdź wysłanie i koszt',
         )) {
           return;
         }
@@ -544,9 +561,11 @@ class _HomeState extends State<Home> {
                     ? 'Tryb prywatny • rozmowa tylko w RAM'
                     : provider == 'demo'
                         ? 'DEMO OFFLINE • atrapa odpowiedzi • bez opłat'
-                        : provider == 'minicpm'
-                            ? 'MiniCPM • dane trafią na Twój serwer HTTPS'
-                            : 'API • dane opuszczą telefon po potwierdzeniu',
+                        : provider == 'minicpm_local'
+                            ? 'MiniCPM OFFLINE • obliczenia w tym telefonie • bez API'
+                            : provider == 'minicpm'
+                                ? 'MiniCPM • dane trafią na Twój serwer HTTPS'
+                                : 'API • dane opuszczą telefon po potwierdzeniu',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
@@ -644,7 +663,7 @@ class _HomeState extends State<Home> {
                                 ),
                               if (m.role != 'user')
                                 Text(
-                                  '${_statusLabel(m.status)} • ${m.provider == 'demo' ? '0 USD' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
+                                  '${_statusLabel(m.status)} • ${m.provider == 'demo' || m.provider == 'minicpm_local' ? '0 USD za API' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
                                   style: Theme.of(context).textTheme.labelSmall,
                                 ),
                               Wrap(

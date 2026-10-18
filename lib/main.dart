@@ -5,9 +5,12 @@ import 'auth/secret_store.dart';
 import 'provider_registry/provider_registry.dart';
 import 'storage/app_database.dart';
 import 'ui/home.dart';
+import 'local_inference/android_local_engine.dart';
+import 'local_inference/native_licenses.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  registerNativeLicenses();
   try {
     final secrets = KeystoreSecrets();
     final store = await AppDatabase.open(ContentCipher(secrets));
@@ -51,9 +54,20 @@ class ScalajacaApp extends StatefulWidget {
 }
 
 class _ScalajacaAppState extends State<ScalajacaApp> {
+  late final localEngine = AndroidLocalEngine();
   late final registry = ProviderRegistry.standard(
     miniCpmEndpoint: () => widget.store.setting('endpoint_minicpm', ''),
+    localAdapter: LocalModelAdapter(
+        engine: localEngine,
+        readContext: () => widget.store.setting('local_context', 2048)),
   );
+  @override
+  void dispose() {
+    registry.cancelAll();
+    localEngine.dispose();
+    super.dispose();
+  }
+
   ThemeMode mode = ThemeMode.system;
   @override
   void initState() {

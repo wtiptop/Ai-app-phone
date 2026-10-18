@@ -1,6 +1,6 @@
 # ADR 005: MiniCPM jako opcjonalny adapter; lokalny silnik osobnym modułem
 
-Data: 17.10.2026. Status: przyjęta dla 0.1.1.
+Data: 17.10.2026. Status: historyczna decyzja 0.1.1. W 0.2.0 lokalny silnik wdrożono zgodnie z ADR 006; opisy blokady źródeł poniżej dotyczą wyłącznie poprzedniego etapu.
 
 Użytkownik dodał OpenBMB/MiniCPM do zakresu. Repozytorium publikuje wagi i ścieżki wdrożenia, a nie konsumenckie konto lub abonament API. Zachowujemy samodzielność rdzenia Androida. Bez zgody nie pobieramy dużych wag, nie podłączamy kont i nie wykonujemy płatnych wywołań.
 

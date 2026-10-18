@@ -1,8 +1,8 @@
 # Scalająca
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.1.1 z opcjonalnym MiniCPM; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.2.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
-**Aktualizacja 0.1.1: 73/73 testów Dart PASS, analiza bez uwag i kompilacja Flutter bundle PASS.** Pełny runner Flutter oraz nowy APK są zablokowane przez komunikację localhost w obecnym środowisku. Wcześniejszy APK 0.1.0 miał potwierdzony build i 83/83 testów; nie zawiera MiniCPM. Nie przeprowadzono instalacji na prywatnym telefonie ani live API. Zaczynasz w wyraźnie oznaczonym demo bez konta.
+**0.2.0: 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Wspólny rdzeń C++ wygenerował odpowiedź z prawdziwego MiniCPM5-1B Q4_K_M na hoście. Zbudowano nowy APK ARM64 i zweryfikowano podpis/manifest. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 
 ## Uruchomienie
 
@@ -24,7 +24,7 @@ OpenAI, Anthropic, Gemini i xAI mają oddzielne adaptery oficjalnego API. **Kod 
 
 Ustawienia → Dostawcy AI → **MiniCPM • własny serwer**. Dodano adapter tekstowy HTTPS zgodny z API llama.cpp, katalog modeli, SSE, anulowanie, kontrolę kosztów i jawny adres odbiorcy w czacie oraz porównaniu. Klucz własnego serwera jest opcjonalny. Zadeklarowany własny serwer z obiema stawkami 0 nie wymaga włączania płatnych API; pozostali dostawcy pozostają zablokowani. Zmiana adresu wymaga nowej deklaracji i nie przenosi starego klucza.
 
-**MiniCPM nie jest jeszcze wbudowanym modelem offline w APK.** Nie dołączono silnika ani wag i nie uruchomiono realnej generacji MiniCPM. Docelowa inferencja Android przez llama.cpp/GGUF jest zaplanowana. [Instrukcja, licencje, ograniczenia i plan](docs/MINICPM_PL.md); [oficjalne repozytorium](https://github.com/OpenBMB/MiniCPM).
+**MiniCPM offline** jest osobną opcją: APK zawiera silnik llama.cpp CPU/JNI. Zaimportuj dobrowolnie oficjalny plik MiniCPM5-1B/2B GGUF w Ustawienia → Dostawcy AI → MiniCPM offline, a następnie wybierz go w czacie. Bez serwera i klucza; brak fallbacku do chmury. Wagi pozostają osobnym plikiem (testowany 1B: około 657 MiB). Import, SHA-256, usuwanie, strumieniowanie i stop są wdrożone. Testy hosta przeszły; wydajność, język polski i pełny cykl Androida wymagają odbioru urządzenia. [Dokładna instrukcja i ograniczenia](docs/MINICPM_PL.md).
 
 ## Dane i bezpieczeństwo
 

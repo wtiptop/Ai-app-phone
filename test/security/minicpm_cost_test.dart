@@ -33,6 +33,20 @@ void main() {
   });
   tearDown(() async => store.close());
 
+  test('Model w telefonie nie wymaga cennika ani włączenia płatnych API',
+      () async {
+    await store.setSetting('model_minicpm_local', 'a' * 64);
+    expect(await gate.estimate('minicpm_local', 'a' * 64, 'tekst'), 0);
+    final permit = await gate.authorize('minicpm_local', 'a' * 64, 0);
+    permit.consume('minicpm_local', 'a' * 64);
+    await expectLater(
+        gate.authorize('minicpm_local', 'inny', 0), throwsStateError);
+    await expectLater(
+        gate.authorize('minicpm_local', 'a' * 64, 0.1), throwsStateError);
+    expect(await store.db.query('cost_reservations'), isEmpty);
+    expect(await store.setting('paid_enabled', false), isFalse);
+  });
+
   test('Zero bez deklaracji właściciela blokuje estimate i permit', () async {
     await expectLater(
       gate.estimate('minicpm', 'owner-model', 'treść'),
