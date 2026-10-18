@@ -1,5 +1,14 @@
 # Dziennik zmian
 
+## 0.3.0 — 2026-10-19
+
+- Lokalny vault Markdown przez SAF, odczyt domyślny, osobny świadomy eksport nowych plików, stronicowany import i wznawianie po każdym pliku.
+- Szyfrowane wersje/fragmenty w SQLite v3, zatwierdzanie i cofanie źródeł, indeks słów HMAC, ograniczony retrieval oraz trwałe ręczne punkty analiz.
+- UI kampanii RPG: kanon/źródła/edycja, encje świata, wiedza gracza, checkpoint sesji, dopisywany audyt i rollback jako nowa rewizja.
+- Dokładny podgląd ograniczonego kontekstu, digest jednorazowej zgody, receipt przy odpowiedzi, osobne zakresy projektów i ról. Poprawki FK receipt i wyścigu historii. Starsze wiadomości w stronicowanym archiwum.
+- Docelowy Pixel 9, domyślny kontekst 4096 (zachowane istniejące ustawienia); bez potwierdzenia wydajności fizycznego telefonu. Synchronizacja, pełny backup nowych danych, embeddingi i pełna gra RPG zaplanowane.
+- 193 Flutter, 27 JUnit i 5 testów emulatora PASS; rzeczywisty model offline i syntetyczny vault. Nowy debug APK ARM64+x86_64, bez wag i nowych zależności.
+
 ## 0.2.1 — 2026-10-18
 
 - Jeden APK ARM64+x86_64; emulator używa natywnego x86_64 zamiast zawodnej translacji ARM. W ggml dla Androida x86_64 wyłączono instrukcje AVX/FMA/F16C/BMI2 niedostępne w testowym emulatorze.

@@ -64,6 +64,8 @@ void main() {
         findsOneWidget);
     await tester.scrollUntilVisible(find.text('Wybierz model'), 250,
         scrollable: find.byType(Scrollable).first);
+    await tester.ensureVisible(find.text('Wybierz model'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Wybierz model'));
     await flush(tester);
     expect(

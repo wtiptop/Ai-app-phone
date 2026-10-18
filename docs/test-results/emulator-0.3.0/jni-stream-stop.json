@@ -1,0 +1,9 @@
+{
+  "finish_reason": "cancelled",
+  "input_tokens": 27,
+  "output_tokens": 1,
+  "elapsedMs": 1157,
+  "stopLatencyMs": 47,
+  "fixtureOutput": "The",
+  "name": "jni-stream-stop"
+}

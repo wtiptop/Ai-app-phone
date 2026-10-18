@@ -1,5 +1,7 @@
 # UX mobilnej Scalającej
 
+0.3.0: Pamięć ma wejścia do lokalnego vaultu i kampanii RPG. Najpierw odczyt i import, następnie podgląd/zatwierdzenie wersji, wyszukanie i wybór fragmentów, podgląd pakietu oraz nowy zakres czatu. Przed modelem dokładny payload i odbiorca, po odpowiedzi dowód źródeł. MG/gracz to lokalny filtr właściciela, bez osobnych kont. Archiwum czatu jest stronicowane. Pełna kopia nowych danych i synchronizacja są wyraźnie oznaczone jako zaplanowane. Dalszy UX: czytelniejsza prezentacja dowodu źródeł i długich identyfikatorów modeli; pełny odbiór RPG/a11y na fizycznym Pixel 9.
+
 Aktualizacja 0.2.0: oddzielne karty „MiniCPM offline w telefonie” i „MiniCPM • własny serwer”. Lokalna karta prowadzi do importu GGUF przez SAF, opcjonalnego oczekiwanego SHA-256, wyboru modelu/kontekstu i potwierdzonego usuwania kopii. Import nie uruchamia generacji. Czat pokazuje miejsce przetwarzania w telefonie i wymaga „Uruchom offline”; koszt API 0, bez klucza, bez włączania płatnych dostawców. Tryb serwerowy ma jawny adres HTTPS, opcjonalny klucz i odrębną deklarację opłat. Zmiana adresu nie przenosi starego klucza i resetuje deklarację. Nowe i wcześniejsze widgety MiniCPM przeszły w pełnym zestawie 141 testów Flutter. Systemowy SAF, klawiatura, rotacja, TalkBack oraz JNI na urządzeniu pozostają do odbioru.
 
 Projekt interakcji na 17.10.2026. Makiety opisują **docelowe zachowanie**, a nie dowód, że każdy ekran już działa. Zakres aktualnego kodu i testów opisują `IMPLEMENTATION_STATUS.md` i `TESTS_PL.md`.

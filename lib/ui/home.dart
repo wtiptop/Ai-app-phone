@@ -6,6 +6,10 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 import '../auth/secret_store.dart';
 import '../chat/chat_session.dart';
+import '../memory/context_packet.dart';
+import '../memory/memory_store.dart';
+import '../rpg/campaign_store.dart';
+import '../security/memory_access.dart';
 import '../costs/local_cost_gate.dart';
 import '../provider_registry/provider_registry.dart';
 import '../security/encrypted_backup.dart';
@@ -13,6 +17,9 @@ import '../storage/app_database.dart';
 import '../storage/models.dart';
 import '../storage/transfers.dart';
 import 'comparison.dart';
+import 'campaign_page.dart';
+import 'vault_page.dart';
+import 'chat_archive.dart';
 import 'provider_settings.dart';
 
 class Home extends StatefulWidget {
@@ -47,6 +54,7 @@ class _HomeState extends State<Home> {
   List<Map<String, Object?>> tasks = [], operations = [];
   Future<void> _draftWrites = Future.value();
   String? _loadError;
+  ContextAttachment? _attachment;
 
   @override
   void initState() {
@@ -144,8 +152,81 @@ class _HomeState extends State<Home> {
   Future<void> _new() async {
     await _draftWrites;
     await session.create(privateMode: privateMode);
+    _attachment = null;
     composer.clear();
     await _load();
+  }
+
+  Future<int> _sourceBudget() async => provider == 'minicpm_local'
+      ? ((await widget.store.setting('local_context', 4096)) - 1168)
+          .clamp(400, 2304)
+      : 6000;
+
+  Future<void> _acceptContext(ContextAttachment attachment) async {
+    if (session.busy || _sending) return;
+    await attachment.validate();
+    await _new();
+    await session.bindScope(attachment);
+    if (mounted) {
+      setState(() {
+        _attachment = attachment;
+        tab = 0;
+      });
+    }
+  }
+
+  Future<void> _openVault() async {
+    try {
+      final budget = await _sourceBudget();
+      if (!mounted) return;
+      final attachment = await Navigator.push<ContextAttachment>(
+          context,
+          MaterialPageRoute(
+              builder: (_) => VaultPage(
+                  store: MemoryStore(widget.store), maxPacketBytes: budget)));
+      if (attachment != null && mounted) await _acceptContext(attachment);
+    } catch (e) {
+      if (mounted) notice(context, 'Nie otwarto kontekstu: $e');
+    }
+  }
+
+  Future<void> _openCampaign() async {
+    try {
+      final budget = await _sourceBudget();
+      if (!mounted) return;
+      final store = CampaignStore(widget.store);
+      final pack = await Navigator.push<CampaignContextPack>(
+          context,
+          MaterialPageRoute(
+              builder: (_) => CampaignPage(
+                  store: store,
+                  ownerId: 'local-owner',
+                  maxContextCharacters: budget ~/ 2)));
+      if (pack == null || !mounted) return;
+      final gm = pack.context.role == AccessRole.gameMaster;
+      await _acceptContext(ContextAttachment(
+          label: 'Kampania · ${gm ? 'MG' : 'gracz'} · wersja ${pack.revision}',
+          text: pack.text,
+          scopeKey: 'rpg:${pack.campaignId}:${pack.context.role.name}',
+          confidential: gm,
+          validate: () async {
+            final current =
+                await store.readCampaign(pack.campaignId, pack.context);
+            if (current.revision != pack.revision) {
+              throw StateError(
+                  'Kampania zmieniła się. Wybierz aktualny kontekst ponownie.');
+            }
+          },
+          receipt: {
+            'campaignId': pack.campaignId,
+            'role': pack.context.role.name,
+            'revision': pack.revision,
+            'records': pack.recordIds,
+            'fingerprint': pack.fingerprint
+          }));
+    } catch (e) {
+      if (mounted) notice(context, 'Nie otwarto kontekstu kampanii: $e');
+    }
   }
 
   Future<void> _chooseProvider() async {
@@ -229,6 +310,9 @@ class _HomeState extends State<Home> {
       RequestPermit? permit;
       String key = '';
       String? expectedEndpoint;
+      if (session.conversation == null) {
+        await session.create(privateMode: privateMode);
+      }
       if (provider != 'demo') {
         key = provider == 'minicpm_local'
             ? ''
@@ -242,12 +326,12 @@ class _HomeState extends State<Home> {
               ? 'Zaimportuj i wybierz GGUF w Ustawienia → Dostawcy → MiniCPM offline.'
               : 'Wprowadź klucz i model w Ustawienia → Dostawcy.');
         }
-        final contextText = [
-          for (final m in session.messages)
-            if (m.role == 'user' || m.status == 'complete') m.text,
-          if (!retry) text,
-        ].join('\n');
-        final estimate = await costs.estimate(provider, model, contextText);
+      }
+      final prepared = await session.prepare(text, provider, model,
+          repeat: retry, attachment: _attachment);
+      if (provider != 'demo' || _attachment != null) {
+        final estimate =
+            await costs.estimate(provider, model, prepared.preview);
         final target = widget.registry.adapter(provider);
         final recipient = target is MiniCpmAdapter
             ? (await target.endpoint()).recipient
@@ -269,17 +353,16 @@ class _HomeState extends State<Home> {
           provider == 'minicpm_local'
               ? 'Uruchom model offline?'
               : 'Wyślij do ${widget.registry.adapter(provider).label}?',
-          'Odbiorca: $recipient\nModel: $model\n\n${provider == 'minicpm_local' ? 'Lokalny model przetworzy' : 'Zostanie wysłana'} treść tej rozmowy: wiadomości użytkownika i ukończone odpowiedzi modeli. Pamięć, inne czaty i pliki nie są dołączane.\n\n$costInfo\n\nNowa wiadomość:\n$text',
+          'Odbiorca: $recipient\nModel: $model\n\nZakres: ${_attachment?.label ?? 'bez dołączonych plików i pamięci'}. Pominięte starsze wiadomości: ${prepared.omitted}. Zachowano je w archiwum lokalnym.\n\n$costInfo\n\nDokładny pakiet wejściowy (role i treść):\n${prepared.preview}',
           action: provider == 'minicpm_local'
               ? 'Uruchom offline'
               : 'Zatwierdź wysłanie i koszt',
         )) {
           return;
         }
-        permit = await costs.authorize(provider, model, estimate);
-      }
-      if (session.conversation == null) {
-        await session.create(privateMode: privateMode);
+        await prepared.attachment?.validate();
+        permit = await costs.authorize(provider, model, estimate,
+            contextDigest: prepared.digest);
       }
       if (!retry) composer.clear();
       await session.send(
@@ -290,6 +373,7 @@ class _HomeState extends State<Home> {
         repeat: retry,
         permit: permit,
         expectedEndpoint: expectedEndpoint,
+        prepared: prepared,
       );
       await _load();
     } on StateError catch (e) {
@@ -355,6 +439,11 @@ class _HomeState extends State<Home> {
                                 ),
                                 onTap: () async {
                                   await session.load(c);
+                                  if (!context.mounted ||
+                                      session.conversation?.id != c.id) {
+                                    return;
+                                  }
+                                  _attachment = null;
                                   composer.text = c.draft;
                                   if (context.mounted) Navigator.pop(context);
                                 },
@@ -381,6 +470,7 @@ class _HomeState extends State<Home> {
                                           privateMode: privateMode,
                                         );
                                         composer.clear();
+                                        _attachment = null;
                                       }
                                     }
                                     if (action == 'export') {
@@ -536,18 +626,19 @@ class _HomeState extends State<Home> {
                 IconButton(
                   tooltip: 'Porównaj modele',
                   icon: const Icon(Icons.view_week_outlined),
-                  onPressed: session.busy || _sending
-                      ? null
-                      : () => Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (_) => Comparison(
-                                store: widget.store,
-                                secrets: widget.secrets,
-                                registry: widget.registry,
+                  onPressed:
+                      session.busy || _sending || session.scopeKey != null
+                          ? null
+                          : () => Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (_) => Comparison(
+                                    store: widget.store,
+                                    secrets: widget.secrets,
+                                    registry: widget.registry,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                 ),
               ],
             ),
@@ -570,6 +661,25 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          if (session.scopeKey != null)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                    _attachment?.label ??
+                        'Rozmowa z archiwum. Wybierz aktualny kontekst w Pamięci, aby otworzyć nową rozmowę.',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis)),
+          if (session.totalMessages > 80)
+            TextButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (_) => ChatArchive(
+                            store: widget.store,
+                            conversationId: session.conversation!.id,
+                            confidential: session.confidential))),
+                child: Text(
+                    'Archiwum · ${session.totalMessages} wiadomości · w czacie ostatnie 80')),
           Expanded(
             child: session.messages.isEmpty
                 ? Center(
@@ -651,7 +761,7 @@ class _HomeState extends State<Home> {
                               if (m.text.isNotEmpty)
                                 MarkdownBody(
                                   data: m.text,
-                                  selectable: true,
+                                  selectable: !session.confidential,
                                   imageBuilder: (uri, title, alt) => Text(
                                     '[Obraz: ${alt ?? 'bez opisu'} • pobieranie wyłączone]',
                                   ),
@@ -674,13 +784,48 @@ class _HomeState extends State<Home> {
                                 ),
                               Wrap(
                                 children: [
+                                  if (m.role == 'assistant' && !session.private)
+                                    IconButton(
+                                        tooltip: 'Źródła użyte w odpowiedzi',
+                                        icon: const Icon(Icons.source_outlined,
+                                            size: 18),
+                                        onPressed: () async {
+                                          final rows = await widget.store.db
+                                              .query('chat_context_receipts',
+                                                  where: 'message_id=?',
+                                                  whereArgs: [m.id],
+                                                  limit: 1);
+                                          final value = rows.isEmpty
+                                              ? 'Ta odpowiedź nie ma dołączonego pakietu źródeł.'
+                                              : await widget.store.cipher.open(
+                                                  rows.single['evidence']
+                                                      as String);
+                                          if (context.mounted) {
+                                            await showDialog<void>(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                        title: const Text(
+                                                            'Zapisany pakiet źródeł'),
+                                                        content: SizedBox(width: 600, child: SingleChildScrollView(child: Text(value))),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      ctx),
+                                                              child: const Text(
+                                                                  'Zamknij'))
+                                                        ]));
+                                          }
+                                        }),
                                   IconButton(
                                     tooltip: 'Kopiuj tekst',
                                     visualDensity: VisualDensity.compact,
                                     icon: const Icon(Icons.copy, size: 18),
-                                    onPressed: () => Clipboard.setData(
-                                      ClipboardData(text: m.text),
-                                    ),
+                                    onPressed: session.confidential
+                                        ? null
+                                        : () => Clipboard.setData(
+                                              ClipboardData(text: m.text),
+                                            ),
                                   ),
                                   if (m.role == 'user')
                                     IconButton(
@@ -701,25 +846,28 @@ class _HomeState extends State<Home> {
                                       Icons.share_outlined,
                                       size: 18,
                                     ),
-                                    onPressed: () async {
-                                      if (await confirm(
-                                        context,
-                                        'Udostępnić tekst?',
-                                        'Wybrana aplikacja otrzyma tę wiadomość:\n\n${m.text}',
-                                        action: 'Otwórz Sharesheet',
-                                      )) {
-                                        try {
-                                          await AndroidFiles.share(m.text);
-                                        } catch (_) {
-                                          if (context.mounted) {
-                                            notice(
+                                    onPressed: session.confidential
+                                        ? null
+                                        : () async {
+                                            if (await confirm(
                                               context,
-                                              'Udostępnianie wymaga Androida.',
-                                            );
-                                          }
-                                        }
-                                      }
-                                    },
+                                              'Udostępnić tekst?',
+                                              'Wybrana aplikacja otrzyma tę wiadomość:\n\n${m.text}',
+                                              action: 'Otwórz Sharesheet',
+                                            )) {
+                                              try {
+                                                await AndroidFiles.share(
+                                                    m.text);
+                                              } catch (_) {
+                                                if (context.mounted) {
+                                                  notice(
+                                                    context,
+                                                    'Udostępnianie wymaga Androida.',
+                                                  );
+                                                }
+                                              }
+                                            }
+                                          },
                                   ),
                                 ],
                               ),
@@ -825,6 +973,18 @@ class _HomeState extends State<Home> {
   Widget _memory() => ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          ListTile(
+              leading: const Icon(Icons.folder_open),
+              title: const Text('Obsidian i pamięć projektów'),
+              subtitle: const Text(
+                  'Lokalny vault · wersje źródeł · wznawianie analizy'),
+              onTap: session.busy || _sending ? null : _openVault),
+          ListTile(
+              leading: const Icon(Icons.auto_stories_outlined),
+              title: const Text('Kampanie RPG i lore'),
+              subtitle: const Text(
+                  'Kanon, źródła, stan świata i osobna wiedza gracza'),
+              onTap: session.busy || _sending ? null : _openCampaign),
           Text(
             'Twoja pamięć. Na urządzeniu.',
             style: Theme.of(context).textTheme.headlineSmall,
@@ -1240,7 +1400,7 @@ class _HomeState extends State<Home> {
           ),
           ListTile(
             leading: const Icon(Icons.enhanced_encryption_outlined),
-            title: const Text('Zaszyfrowana kopia danych'),
+            title: const Text('Kopia zwykłych czatów, notatek i zadań'),
             subtitle:
                 const Text('AES-GCM • hasło właściciela • bez kluczy API'),
             onTap: () => _backup(false),
@@ -1373,7 +1533,7 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Hasło minimum 12 znaków. Nie zapisujemy go i nie możemy go odzyskać. Kopia zawiera rozmowy, notatki i zadania; nie zawiera sekretów, ustawień ani rezerw kosztowych.',
+              'Hasło minimum 12 znaków. Kopia obejmuje zwykłe czaty, ręczne notatki i zadania. Nie obejmuje rozmów projektowych i RPG, vaultu, indeksu, kampanii ani punktów wznowienia. Ich pełna kopia i synchronizacja są zaplanowane. Zachowaj oryginalny vault. Hasła nie możemy odzyskać.',
             ),
             TextField(
               controller: pass,

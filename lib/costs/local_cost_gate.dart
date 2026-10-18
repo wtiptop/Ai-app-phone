@@ -4,11 +4,15 @@ import '../storage/models.dart';
 import 'cost_store.dart';
 
 class RequestPermit {
-  RequestPermit._(this.provider, this.model);
+  RequestPermit._(this.provider, this.model, [this.contextDigest]);
   final String provider, model;
+  final String? contextDigest;
   bool _used = false;
-  void consume(String provider, String model) {
-    if (_used || provider != this.provider || model != this.model) {
+  void consume(String provider, String model, {String? contextDigest}) {
+    if (_used ||
+        provider != this.provider ||
+        model != this.model ||
+        this.contextDigest != contextDigest) {
       throw StateError('Brak ważnego zatwierdzenia tego zapytania.');
     }
     _used = true;
@@ -112,8 +116,9 @@ class LocalCostGate {
   Future<RequestPermit> authorize(
     String provider,
     String model,
-    double amount,
-  ) async {
+    double amount, {
+    String? contextDigest,
+  }) async {
     if ((provider == 'minicpm' || provider == 'minicpm_local') &&
         amount == 0 &&
         (model.isEmpty ||
@@ -121,7 +126,7 @@ class LocalCostGate {
       throw StateError('Skonfiguruj model MiniCPM przed zatwierdzeniem.');
     }
     await reserve(provider, amount);
-    return RequestPermit._(provider, model);
+    return RequestPermit._(provider, model, contextDigest);
   }
 
   Future<Map<String, RequestPermit>> authorizeMany(

@@ -79,4 +79,13 @@ class ContentCipher {
     );
     return utf8.decode(await _aes.decrypt(box, secretKey: _key!));
   }
+
+  /// Indeks słów nie zapisuje ich jawnie; domena oddziela MAC od szyfrowania.
+  Future<String> indexToken(String value) async => base64UrlEncode(
+        (await Hmac.sha256().calculateMac(
+          utf8.encode('scalajaca.index.v1\u0000$value'),
+          secretKey: _key!,
+        ))
+            .bytes,
+      );
 }

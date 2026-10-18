@@ -9,16 +9,23 @@ import java.nio.ByteBuffer
 import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import pl.scalajaca.scalajaca.local.LocalInferencePlugin
+import pl.scalajaca.scalajaca.vault.VaultPlugin
 
 /** Jednorazowe wybory SAF, bez szerokich uprawnień do plików. */
 class MainActivity : FlutterActivity() {
     private var localInference: LocalInferencePlugin? = null
+    private var vault: VaultPlugin? = null
     private var pending: MethodChannel.Result? = null
     private var saveContent: String? = null
     private val maxBytes = 16 * 1024 * 1024
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        try { vault = VaultPlugin(this, flutterEngine.dartExecutor.binaryMessenger) }
+        catch (_: Exception) {
+            MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pl.scalajaca/vault")
+                .setMethodCallHandler { _, result -> result.error("vault_error", "Pamięć lokalna jest niedostępna.", null) }
+        }
         try { localInference = LocalInferencePlugin(this, flutterEngine.dartExecutor.binaryMessenger) }
         catch (_: Exception) {
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pl.scalajaca/local_inference")
@@ -82,6 +89,7 @@ class MainActivity : FlutterActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (localInference?.activityResult(requestCode, resultCode, data) == true) return
+        if (vault?.activityResult(requestCode, resultCode, data) == true) return
         if (requestCode != 8101 && requestCode != 8102) return
         val result = pending ?: return
         val content = saveContent
@@ -121,11 +129,13 @@ class MainActivity : FlutterActivity() {
     }
     override fun onStop() {
         localInference?.background()
+        vault?.background()
         super.onStop()
     }
 
     override fun onDestroy() {
         localInference?.close()
+        vault?.close()
         super.onDestroy()
     }
 }

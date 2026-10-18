@@ -1,0 +1,312 @@
+00:00 +0: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/android_local_engine_test.dart
+00:00 +0: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/android_local_engine_test.dart: Kanał składa UTF-8 rozcięte między tokenami i kończy usage
+00:00 +1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/android_local_engine_test.dart: Błąd platformy nie ujawnia wiadomości lub sekretu wyjątku
+00:00 +2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/android_local_engine_test.dart: Limit tokenów jest zgłaszany jako częściowa odpowiedź
+00:00 +3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/android_local_engine_test.dart: Stop trafia do natywnego żądania, obce zdarzenia są ignorowane
+00:00 +4: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart
+00:01 +4: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Lokalny adapter przekazuje tekst i usage, ogranicza wyjście do 512
+00:01 +5: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Mniejszy limit żądania pozostaje zachowany
+00:01 +6: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Nie przekazuje ścieżki lub złego ID: 
+00:01 +7: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Nie przekazuje ścieżki lub złego ID: ../model.gguf
+00:01 +8: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Nie przekazuje ścieżki lub złego ID: /sdcard/model.gguf
+00:01 +9: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Nie przekazuje ścieżki lub złego ID: gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+00:01 +10: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Nie przekazuje ścieżki lub złego ID: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+00:01 +11: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Sekret API nigdy nie trafia do silnika offline
+00:01 +12: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Limit bajtów, liczby wiadomości i kontekstu działa przed silnikiem
+00:01 +13: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Stop przed zakończeniem konfiguracji nie uruchamia modelu
+00:01 +14: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Przerwany strumień i brak modelu są błędem bez fallbacku
+00:01 +15: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/local_adapter_test.dart: Katalog obejmuje tylko lokalnie zaimportowane modele
+00:01 +16: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart
+00:02 +16: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: 
+00:02 +17: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: http://ai.example.org/v1
+00:02 +18: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: file:///v1
+00:02 +19: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https:///v1
+00:02 +20: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://user:secret@ai.example.org/v1
+00:02 +21: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org/v1?api_key=secret
+00:02 +22: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org/v1#secret
+00:02 +23: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org/v1/chat/completions
+00:02 +24: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org:0/v1
+00:02 +25: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org:65536/v1
+00:02 +26: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org/vi l
+00:02 +27: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org/../v1
+00:02 +28: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Adres MiniCPM odrzuca: https://ai.example.org\evil/v1
+00:02 +29: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Normalizuje bazę HTTPS i zachowuje jawny port
+00:02 +30: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Zmiana zatwierdzonego odbiorcy nie wysyła klucza ani promptu
+00:02 +31: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Rejestr standardowy dodaje opcjonalny adapter bez połączenia
+00:02 +32: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Mapuje tekst, limit, profil i Bearer tylko do własnego serwera
+00:02 +33: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Nie wymaga klucza i dekoduje UTF-8 rozcięte co bajt
+00:02 +34: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Katalog pochodzi ze wskazanego HTTPS; bez Authorization dla pustego klucza
+00:02 +35: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Klucz z CR/LF nie wychodzi do sieci
+00:02 +36: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: HTTP 302: brak ponowienia i brak sekretu z body błędu
+00:02 +37: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: HTTP 401: brak ponowienia i brak sekretu z body błędu
+00:02 +38: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: HTTP 429: brak ponowienia i brak sekretu z body błędu
+00:02 +39: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: HTTP 503: brak ponowienia i brak sekretu z body błędu
+00:02 +40: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Odrzuca uciętą odpowiedź i sam znacznik DONE
+00:02 +41: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Brak DONE oznacza przerwany strumień
+00:02 +42: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Wywołania narzędzi są odrzucone, nie wykonywane
+00:02 +43: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Anulowanie przed odczytem konfiguracji nie uruchamia HTTP
+00:02 +44: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/minicpm_test.dart: Anulowanie podczas oczekiwania na nagłówki zwalnia transport
+00:02 +45: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart
+00:02 +45: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: SSE wielowierszowe data, komentarze, BOM, CRLF i rozcięte UTF-8
+00:02 +46: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: SSE ignoruje niedomknięte zdarzenie na końcu
+00:02 +47: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: SSE ogranicza rozmiar pojedynczego zdarzenia
+00:02 +48: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: OpenAI Responses mapuje żądanie, delta, usage i completed
+00:02 +49: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: Claude oddziela system, łączy skumulowane użycie, kończy message_stop
+00:02 +50: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: Gemini używa nagłówka klucza, systemInstruction, pomija thought
+00:02 +51: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: xAI czeka na DONE i przyjmuje końcowe użycie po finish_reason
+00:02 +52: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: brak klucza nie wykonuje sieci
+00:02 +53: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: 429 bez retry i bez ujawniania body
+00:02 +54: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: urwany stream nie udaje sukcesu
+00:02 +55: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 0: błąd wewnątrz SSE jest jawny i zredagowany
+00:02 +56: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 1: brak klucza nie wykonuje sieci
+00:02 +57: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 1: 429 bez retry i bez ujawniania body
+00:02 +58: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 1: urwany stream nie udaje sukcesu
+00:02 +59: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 1: błąd wewnątrz SSE jest jawny i zredagowany
+00:02 +60: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 2: brak klucza nie wykonuje sieci
+00:02 +61: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 2: 429 bez retry i bez ujawniania body
+00:02 +62: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 2: urwany stream nie udaje sukcesu
+00:02 +63: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 2: błąd wewnątrz SSE jest jawny i zredagowany
+00:02 +64: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 3: brak klucza nie wykonuje sieci
+00:02 +65: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 3: 429 bez retry i bez ujawniania body
+00:02 +66: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 3: urwany stream nie udaje sukcesu
+00:02 +67: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu dostawca 3: błąd wewnątrz SSE jest jawny i zredagowany
+00:02 +68: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu anulowanie przed nagłówkami zamyka klienta i kończy oczekiwanie
+00:02 +69: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu anulowanie podczas oczekiwania na chunk
+00:02 +70: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu timeout nagłówków i brak retry
+00:02 +71: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu timeout bezczynności strumienia zamyka klienta
+00:02 +72: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu odrzuca JSON lub HTML zamiast SSE
+00:02 +73: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu błędny JSON nie ujawnia odpowiedzi dostawcy
+00:02 +74: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu odrzuca przekierowanie zamiast wysyłać klucz do obcej domeny
+00:02 +75: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu nieprawidłowy model nie wykonuje sieci
+00:02 +76: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu 401 mapuje błąd autoryzacji
+00:02 +77: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: wspólne zabezpieczenia transportu OpenAI incomplete zachowuje sygnał niepełności
+00:02 +78: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: katalog modeli tylko na żądanie OpenAI i xAI mapują katalog bez sugerowania cen
+00:02 +79: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: katalog modeli tylko na żądanie Claude obsługuje paginację i nazwę wyświetlaną
+00:02 +80: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: katalog modeli tylko na żądanie Gemini filtruje embeddingi i obsługuje pageToken
+00:02 +81: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/providers/providers_test.dart: lokalne Demo nie nazywa atrapy prawdziwym AI
+00:02 +82: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart
+00:03 +82: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: (setUpAll)
+00:03 +82: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Nowa kampania jest pusta; żaden cudzy kanon nie jest tworzony
+00:03 +83: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Restart zachowuje zaszyfrowany kanon, wiedzę, audyt i pełny checkpoint
+00:03 +83 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Restart zachowuje zaszyfrowany kanon, wiedzę, audyt i pełny checkpoint [E]
+  Expected: 'Tylko północna brama jest otwarta.'
+    Actual: '{"goal":"Znajdź posłańca","scene":"Brama","openThreads":"Zaginiona pieczęć","party":"Własne postacie","worldClock":"Dzień 3, wieczór"}'
+     Which: is different.
+            Expected: Tylko półn ...
+              Actual: {"goal":"Z ...
+                      ^
+             Differ at offset 0
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\rpg\campaign_store_test.dart 125:5             main.<fn>
+  
+00:03 +83 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Obcy właściciel, projekt, rola i kampania nie uzyskują dostępu
+00:03 +84 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Widok gracza nigdy nie odszyfrowuje sekretów ani stanu świata
+00:03 +85 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Sekret wymaga jawnego scope MG, nigdy eksportu, indeksu ani recenzji
+00:03 +86 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Pending nie jest wiedzą gracza ani zatwierdzonym kontekstem modelu
+00:03 +87 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Bez strony fakt jest oznaczony NIEZWERYFIKOWANE; zła edycja odrzucona
+00:03 +88 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Hierarchia źródeł i budżet pakietu są jawne i ograniczone
+00:04 +89 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Cofnięcie i kolejne gałęzie nie wskrzeszają odrzuconych rekordów
+00:04 +90 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Zapis i rollback wymagają aktualnej rewizji; konflikt nic nie dopisuje
+00:04 +91 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: SQL blokuje zmianę i skasowanie historycznych wersji i zdarzeń
+00:04 +92 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Checkpoint jest tylko MG i cofany razem z kanonem
+00:04 +93 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Paginacja nie pobiera całego świata i nie miesza kampanii
+00:04 +94 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: HMAC wyszukuje właściwy kanon bez jawnych słów i bez indeksowania sekretów
+00:04 +95 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Zmiana treści i rollback atomowo zmieniają indeks; checkpoint pozostaje pierwszy
+00:04 +96 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: (tearDownAll)
+00:04 +96 -1: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart
+00:04 +96 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Płatne wywołanie wymaga uprzedniej zgody i górnej rezerwy
+00:04 +97 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Równoległe rezerwy nie przekraczają dnia; brak usage zużywa całą rezerwę
+00:04 +98 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Budżet miesiąca obejmuje historię z innych dni
+00:04 +99 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Twarde limity kroków, wywołań, czasu i cofnięcie zegara
+00:04 +100 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Zatrzymanie zachowuje rezerwę; nadmiarowy rachunek blokuje zadanie
+00:04 +101 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Potwierdzony brak wysłania zwalnia rezerwę, nie przywraca liczby wywołań
+00:04 +102 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Nie można pominąć planu, podszyć się pod właściciela ani rozszerzyć zgody
+00:04 +103 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Niezależny kontroler i najwyżej dwie korekty
+00:04 +104 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Dziennik stanów agentów nie utrwala surowego sekretu z uzasadnienia
+00:04 +105 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Wznowienie po błędzie wymaga ponownego zatwierdzenia
+00:04 +106 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/budget_and_agents_test.dart: Opcjonalny most JARVIS jest domyślnie wyłączony i odwołalny
+00:04 +107 -1: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart
+00:05 +107 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: (setUpAll)
+00:05 +107 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Anulowanie przed dispatch nie wywołuje nawet adaptera
+00:05 +108 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Podwójna pierwsza wysyłka nie tworzy dwóch żądań ani rozmów
+00:05 +109 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Tryb prywatny nie zapisuje rozmowy, szkicu ani wiadomości
+00:05 +110 -1: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Brak permit blokuje płatny dispatch, a zatwierdzenie jest jednorazowe
+00:05 +110 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Brak permit blokuje płatny dispatch, a zatwierdzenie jest jednorazowe [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                            expectLater
+  package:flutter_test/src/widget_tester.dart 507:8          expectLater
+  test\security\chat_cancellation_boundary_test.dart 140:13  main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                 _CustomZone.registerUnaryCallback
+  test\security\chat_cancellation_boundary_test.dart 125:7   main.<fn>
+  
+00:05 +110 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: (tearDownAll)
+00:05 +110 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/encrypted_backup_test.dart
+00:06 +110 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/encrypted_backup_test.dart: Szyfrowana kopia: roundtrip, inne nonce, sabotaż, złe hasło
+00:18 +111 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/encrypted_backup_test.dart: Odrzuca krótkie hasło, zmienione parametry KDF i nieznaną wersję
+00:18 +112 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart
+00:18 +112 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Własność nie omija izolacji projektu ani kampanii
+00:18 +113 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Prywatne dane nie są dostępne dla roli zaufanej bez udostępnienia
+00:18 +114 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Sekret MG nie trafia do gracza, recenzenta, indeksu ani eksportu
+00:18 +115 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Nie zatwierdzone rekordy nie trafiają do modelu ani indeksu
+00:18 +116 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Dane osobiste domyślnie wykluczone z recenzji
+00:18 +117 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Brak kampanii dla GM_SECRET jest błędem; kolekcje są niemutowalne
+00:18 +118 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Kanał identyfikuje wyłącznie zweryfikowany identyfikator transportu
+00:18 +119 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Kampanie mają oddzielne stany, rewizje i eksport bez sekretów
+00:19 +120 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/memory_access_test.dart: Lore bez źródła lub strony jest niezweryfikowane; edycje nie są mieszane
+00:19 +121 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart
+00:19 +121 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: (setUpAll)
+00:19 +121 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Model w telefonie nie wymaga cennika ani włączenia płatnych API
+00:19 +122 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Zero bez deklaracji właściciela blokuje estimate i permit
+00:19 +123 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Deklaracja bez opłat nie odblokowuje płatnych API
+00:19 +124 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Zero wymaga zgodnego modelu i obu stawek 0
+00:19 +125 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Porównanie demo + darmowy serwer działa bez płatnego API
+00:19 +126 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Porównanie z płatnym API rezerwuje wyłącznie jego rzeczywisty koszt
+00:19 +127 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Zerowe kwoty innych dostawców nie uzyskują permit
+00:19 +128 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: Równoległe rezerwy dodatnie nie przekraczają budżetu SQLite
+00:19 +129 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/minicpm_cost_test.dart: (tearDownAll)
+00:19 +129 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart
+00:20 +129 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: (setUpAll)
+00:20 +129 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Zatwierdzony snapshot dociera dokładnie do adaptera i zachowuje źródło
+00:20 +130 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Cofnięcie źródła po podglądzie blokuje dispatch
+00:20 +131 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Zmienione role lub tekst nie mogą użyć zatwierdzonego digestu
+00:20 +132 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Zgoda na inny pakiet nie uprawnia do wysyłki
+00:20 +133 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Historia MG nie przechodzi do roli gracza ani ogólnej rozmowy
+00:20 +134 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Klasyczna kopia wyklucza czaty zakresowe, eksport MG jest blokowany
+00:20 +135 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: Długa historia ma ograniczony kontekst i stronicowany odczyt
+00:20 +136 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/prepared_context_test.dart: (tearDownAll)
+00:20 +136 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart
+00:20 +136 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: (setUpAll)
+00:21 +136 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Treści i szkice w SQLite są zaszyfrowane, snapshot nie zawiera klucza API
+00:21 +137 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Import roli system nie nadaje uprawnień i cofa całą transakcję
+00:21 +138 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Import nieznanego katalogu nie tworzy częściowych danych
+00:21 +139 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Portable snapshot odtwarza tytuł zadania z innym kluczem urządzenia
+00:21 +140 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Gate kosztów jest wyłączony bez zgody i blokuje nieskończony limit
+00:21 +141 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Gate kosztów rezerwuje atomowo i nie akceptuje nieznanej ceny
+00:21 +142 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: Porównanie rezerwuje całą grupę albo nie rezerwuje nic
+00:21 +143 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/storage_boundary_test.dart: (tearDownAll)
+00:21 +143 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart
+00:21 +143 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: (setUpAll)
+00:21 +143 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Sekret nie trafia do gracza ani niedozwolonych kanałów MG
+00:21 +144 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Wiedza gracza obejmuje wyłącznie jawnie opublikowane wpisy
+00:21 +145 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Rola, właściciel, projekt i kampania są sprawdzane przed odczytem
+00:22 +146 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Cofanie gałęzi nie wskrzesza sekretów przez zwykły eksport
+00:22 +147 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Checkpoint jest sekretem MG, a tekst źródła nie nadaje uprawnień
+00:22 +148 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Trwała kampania — niezależne testy granic Cytat obcej edycji jest odrzucony bez częściowego zapisu
+00:22 +149 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Wolny odczyt czatu MG nie podmienia nowszego widoku gracza
+00:22 +150 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Zapis odpowiedzi zachowuje dowód dokładnego kontekstu
+00:22 +151 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Frontmatter nie zatwierdza danych ani nie nadaje roli
+00:22 +152 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Nazwany sekret i katalog RPG nie trafiają do ogólnego indeksu
+00:22 +153 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Kolekcja, właściciel i dane indeksu pozostają odizolowane
+00:22 +154 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Reimport, cofnięcie zgody i usunięcie unieważniają stary pakiet
+00:22 +155 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Pakiet mieści się w budżecie UTF-8 także dla znaków wielobajtowych
+00:22 +156 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Indeks nie gubi słów na końcu zatwierdzonego krótkiego fragmentu
+00:22 +157 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Podrobiony tekst, cytat lub zakres nie przechodzi walidacji
+00:22 +158 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Zwykły plik .markdown przechodzi ten sam proces zatwierdzenia
+00:22 +159 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Import wznawia środek strony bez utraty i równoległego czytania
+00:22 +160 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: Vault — niezależne testy granic Cofnięte uprawnienie wstrzymuje import przed kolejnym plikiem
+00:22 +161 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/vault_memory_adversarial_test.dart: (tearDownAll)
+00:22 +161 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart
+00:23 +161 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: (setUpAll)
+00:23 +161 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Migracja v1→v2 zachowuje dane i dodaje nowe tabele
+00:23 +162 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Zamknięcie i ponowne otwarcie zachowuje rozmowę, szkic i notatkę
+00:23 +163 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Restart oznacza przerwane streamy i operacje bez ponawiania
+00:23 +164 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Kolejka deduplikuje szkic, a usunięcie rozmowy czyści powiązania
+00:23 +165 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Nieudany zapis obcego conversationId nie pozostawia wiadomości
+00:23 +166 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: Utrata klucza istniejącej bazy nie nadpisuje go nowym
+00:23 +167 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/storage/app_database_test.dart: (tearDownAll)
+00:23 +167 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart
+00:25 +167 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: (setUpAll)
+00:25 +167 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Start bez konta pokazuje demo i pięć miejsc nawigacji
+00:26 +168 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Czat demo zapisuje treść lokalnie i jasno oznacza atrapę
+00:28 +169 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Czat uruchamia model lokalny po zgodzie, bez klucza i płatnego API
+00:29 +170 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Pamięć i zadania pozwalają dodać własne lokalne dane
+00:30 +171 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Mały ekran i tekst 200% zachowują akcje i semantykę
+00:30 +172 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Markdown nie wczytuje obrazów sieciowych ani plików z odpowiedzi
+00:31 +173 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Bez permitu płatne API nie tworzy rozmowy ani nie wchodzi w adapter
+00:31 +174 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: Tryb prywatny pozostawia wiadomości wyłącznie w pamięci sesji
+00:31 +175 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/home_test.dart: (tearDownAll)
+00:31 +175 -2: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart
+00:32 +175 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: (setUpAll)
+00:32 +175 -2: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: Wybór lokalnego modelu nie włącza API ani inferencji
+
+Warning: A call to tap() with finder "Found 1 widget with text "Wybierz model": [
+  Text("Wybierz model", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery, _ScrollableScope]),
+]" derived an Offset (Offset(147.7, 620.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+Indeed, Offset(147.7, 620.0) is outside the bounds of the root of the render tree, Size(800.0, 600.0).
+The finder corresponds to this RenderBox: RenderParagraph#6344f relayoutBoundary=up26
+The hit test result at that offset is: HitTestResult(HitTestEntry<HitTestTarget>#2d4e0(_ReusableRenderView#61e02), HitTestEntry<HitTestTarget>#30ef5(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart:67:18)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  Actual: ''
+   Which: is different. Both strings start the same, but the actual value is missing the following
+trailing characters: aaaaaaaaaa ...
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart:69:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart line 69
+The test description was:
+  Wybór lokalnego modelu nie włącza API ani inferencji
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:33 +175 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: Wybór lokalnego modelu nie włącza API ani inferencji [E]
+  Test failed. See exception logs above.
+  The test description was: Wybór lokalnego modelu nie włącza API ani inferencji
+  
+00:33 +175 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: Import i potwierdzone usunięcie aktualizują wybór
+00:35 +176 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: (tearDownAll)
+00:35 +176 -3: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart
+00:35 +176 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart: (setUpAll)
+00:35 +176 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart: UI jawnie odróżnia serwer od silnika offline
+00:36 +177 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart: Zmiana odbiorcy usuwa poprzedni sekret i wymaga nowej deklaracji
+00:38 +178 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/minicpm_settings_test.dart: (tearDownAll)
+00:38 +178 -3: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart
+00:38 +178 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: (setUpAll)
+00:38 +178 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: połączenie samo nie czyta vaultu i nie prosi o zapis
+00:40 +179 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: import wymaga podglądu i zatwierdzenia przed doborem źródeł
+00:44 +180 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: sekret MG nie ma przycisku zatwierdzenia do ogólnej pamięci
+00:45 +181 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: wcześniejszy punkt analizy jest odczytywany z bazy
+00:47 +182 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: (tearDownAll)
+00:47 +182 -3: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart
+00:47 +182 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: domyślny wybór jest tylko do odczytu
+00:47 +183 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: zapis wymaga osobnego jawnego wywołania pick writable
+00:47 +184 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: strona przekazuje kursor i nie interpretuje dokumentu jako URI
+00:47 +185 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: odrzuca nieograniczony rozmiar strony przed kanałem
+00:47 +186 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: status zachowuje cofnięte uprawnienie
+00:47 +187 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: błędy systemu nie ujawniają ścieżek i treści
+00:47 +188 -3: C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/vault_bridge_test.dart: kursor unieważniony wymaga skanu od początku
+00:47 +189 -3: Some tests failed.
+
+Failing tests:
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/campaign_store_test.dart: Restart zachowuje zaszyfrowany kanon, wiedzę, audyt i pełny checkpoint
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/security/chat_cancellation_boundary_test.dart: Brak permit blokuje płatny dispatch, a zatwierdzenie jest jednorazowe
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/local_models_test.dart: Wybór lokalnego modelu nie włącza API ani inferencji

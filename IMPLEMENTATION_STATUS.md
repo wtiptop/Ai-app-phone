@@ -1,5 +1,17 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.3.0+5 — lokalny vault, trwała pamięć i RPG — 19.10.2026
+
+**193/193 Flutter, 27/27 JUnit (21 modeli + 6 reguł vaultu), 5/5 AndroidJUnitRunner PASS. Analiza bez uwag.** Nowy debug APK ARM64+x86_64 ma poprawny podpis/manifest i wyrównanie ZIP/ELF 16 KiB. Dokładny rozmiar/hash: `docs/test-results/android-build-0.3.0.json`. Pełny standardowy runner emulatora: `android-emulator-0.3.0.log/json`; zrzuty w `emulator-0.3.0/`. Raporty 0.2.x poniżej są historią.
+
+Wdrożono lokalny vault Androida przez SAF, domyślny odczyt i oddzielny świadomy eksport nowego pliku. Import stronicowany zapisuje kursor/offset po każdym pliku. Baza v3 przechowuje zaszyfrowane wersje, fragmenty i ręczne checkpointy analiz. Wyszukiwanie leksykalne z indeksem HMAC filtruje właściciela/kolekcję/zgodę/rewizję przed rankingiem. Zmiana źródła wymaga ponownego skanu i zatwierdzenia; nie ma automatycznej synchronizacji.
+
+Osobny moduł kampanii ma UI, kanon ze źródłami/edycją, encje świata, wiedzę gracza, checkpoint sesji, trwały audyt i cofanie jako nową rewizję. Czat używa zamrożonego ograniczonego kontekstu, dokładnego podglądu, digestu zgody i zaszyfrowanego dowodu źródeł przy odpowiedzi. Historia MG i gracza ma osobne zakresy; nowe pakiety otwierają nowe czaty. Naprawiono kasowanie receipt przez INSERT OR REPLACE oraz wyścig przy przełączaniu historii. Treść źródła nie nadaje roli ani nie zapisuje faktów automatycznie.
+
+Na emulatorze offline potwierdzono rzeczywisty import GGUF, generację, Stop JNI/UI i zatrzymanie w tle. Nowy scenariusz importuje dwa syntetyczne Markdown przez prawdziwy selektor drzewa, zatwierdza Archive.md, wybiera fragment, uzyskuje fakt LANTERN z rzeczywistego MiniCPM i otwiera zachowany dowód źródeł. .obsidian i sekret MG nie trafiają do pakietu. Nie użyto prywatnego vaultu ani płatnego API.
+
+**Granice:** fizyczny Pixel 9 nie był dostępny. Profil 4096 tokenów jest konfiguracją, nie wynikiem benchmarku. Test 205 małych dokumentów potwierdza wznawianie, nie pojemność dowolnego vaultu. Brak pomiaru baterii/termiki/szczytu RAM, testu długiej narracji PL, pełnej mechaniki WFRP, embeddingów/grafu wikilinków, autonomicznych analiz, retencji i synchronizacji. Klasyczna kopia obejmuje zwykłe czaty/notatki/zadania i **nie obejmuje nowych projektów/RPG/checkpointów ani czatów zakresowych**; pełna kopia tych danych jest zaplanowana. Lokalny filtr MG/gracz nie jest uwierzytelnianiem osobnych osób. Instrukcja: `docs/OBSIDIAN_PAMIEC_RPG_PL.md`. Wszystkie 129 wymagań i MX1–MX7 zachowano w macierzy z ograniczeniami.
+
 ## Aktualizacja 0.2.1+4: odbiór emulatora — 18.10.2026
 
 **Potwierdzone: 4/4 scenariusze AndroidJUnitRunner na Androidzie 11 / API 30 x86_64, 141/141 testów Flutter, 21/21 JUnit z prawdziwym GGUF, analiza bez uwag.** Emulator importuje GGUF przez prawdziwy SAF, czat MiniCPM zwraca `OK` bez internetu (21 tokenów wejścia, 1 wyjścia), JNI zatrzymuje rzeczywisty streaming po tokenie. Stop w UI pozwala następnie uruchomić kolejną rzeczywistą odpowiedź; przejście w tło zatrzymuje obliczenia. Każdy scenariusz sprawdza tryb samolotowy i brak aktywnej sieci przed oraz po wykonaniu. Raport: `docs/test-results/android-emulator-0.2.1.json`, log standardowego runnera i zrzuty obok.

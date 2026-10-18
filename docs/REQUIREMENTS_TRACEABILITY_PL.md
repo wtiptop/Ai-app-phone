@@ -1,5 +1,9 @@
 # Macierz wymagań Scalającej
 
+## Uzupełnienie 0.3.0: lokalny vault, duża pamięć, RPG i Pixel 9
+
+Wybór właściciela: lokalny folder Androida teraz, możliwa synchronizacja później, urządzenie docelowe Pixel 9. Aktualny zakres i ograniczenia: [OBSIDIAN_PAMIEC_RPG_PL.md](OBSIDIAN_PAMIEC_RPG_PL.md), ADR 008 i bieżący raport testów. Zachowano wszystkie 129 identyfikatorów pierwotnych wymagań oraz MX1–MX7. Wdrożony leksykalny retrieval i trwały stan kampanii nie oznaczają pełnej autonomii, mechaniki WFRP ani potwierdzonej jakości długiej kampanii. Pełny backup nowej pamięci i sync pozostają zaplanowane.
+
 ## Uzupełnienie użytkownika: MiniCPM — 18.10.2026
 
 Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
@@ -12,7 +16,7 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 | MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
 | MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat JNI offline i Stop/tło potwierdzone na emulatorze x86_64; porównanie na urządzeniu i fizyczny telefon do odbioru |
 | MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; import SAF i Stop/tło na emulatorze PASS; termika i fizyczny telefon do odbioru |
-| MX7 | APK i test telefonu z modelem | APK 0.2.1 ARM64+x86_64 build/podpis/manifest PASS; prawdziwa generacja JNI i import SAF offline na emulatorze Android 11 x86_64; fizyczny telefon nieprzetestowany |
+| MX7 | APK i test telefonu z modelem | APK 0.3.0 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; 5 scenariuszy emulatora, w tym lokalny vault i realna odpowiedź ze źródła offline; fizyczny Pixel 9 nieprzetestowany |
 
 ## Pierwotna specyfikacja
 
@@ -71,8 +75,8 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | R03.7 | Agenci: plan, przebieg, stop, kroki i koszty | 4 | Zaplanowane: A13 |
 | R03.8 | Streaming, anuluj, ponów, edytuj, rozgałęź | 2/3 | Ograniczone: ChatSession stream/cancel/retry; edycja kopiuje tekst do nowej wiadomości; pełne gałęzie zaplanowane; A03/A17 |
 | R03.9 | Szukaj, przypnij, tagi, foldery/projekty | 2/3 | Ograniczone: search/pin/notatki/foldery potwierdzone testami hosta; tagi i pełne projekty zaplanowane |
-| R03.10 | Cytowania z datami/linkami, Markdown/kod, kopiowanie, MD/JSON | 2/3 | Ograniczone: Markdown/kod/copy i eksport MD oraz zaszyfrowany JSON; cytowania ze źródeł i osobny jawny JSON czatu zaplanowane |
-| R03.11 | Pliki/obrazy zgodne z możliwościami modelu, import | 3 | Zaplanowane: A15 |
+| R03.10 | Cytowania z datami/linkami, Markdown/kod, kopiowanie, MD/JSON | 2/3 | Ograniczone: Markdown/eksport oraz zapis dokładnych źródeł z wersją/hashem/liniami przy odpowiedzi w 0.3.0; automatyczna weryfikacja cytowań modelu i osobny jawny JSON czatu zaplanowane |
+| R03.11 | Pliki/obrazy zgodne z możliwościami modelu, import | 3 | Ograniczone: wybrane zatwierdzone fragmenty Markdown jako kontekst są podłączone; obrazy/audio i inne załączniki multimodalne zaplanowane; A15 |
 | R03.12 | Dobrowolne STT push-to-talk i TTS; mikrofon/aparat dopiero po zgodzie | 5 | Zaplanowane: A19; brak zawsze włączonego mikrofonu MVP |
 | R03.13 | Wysyłka załączników do wielu AI: jawni odbiorcy i zgoda, brak cichego rozsyłania | 3/4 | Zaplanowane: A20 |
 
@@ -80,15 +84,15 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
-| R04.1 | Flutter/Dart Android, Kotlin channels tylko gdy potrzebne | 1/2 | Ograniczone: Flutter/Dart i Kotlin SAF/share; analyze i pełny build APK PASS; test urządzenia niewykonany |
+| R04.1 | Flutter/Dart Android, Kotlin channels tylko gdy potrzebne | 1/2 | Ograniczone: Flutter/Dart, Kotlin SAF/share/JNI; analiza i pełny build PASS; 5 testów emulatora 0.3.0 PASS, fizyczny telefon do odbioru |
 | R04.2 | SQLite utrzymywany, Keystore, feature-first, interfejsy domen | 1/2 | Ograniczone: AppDatabase, SecretStore, moduły i domeny obecne; natywne A02/A05 do odbioru |
 | R04.3 | Uzasadnione state/navigation ADR; HTTP timeout/cancel/stream | 1/2 | Potwierdzone w kodzie i ADR 001–004: stan/nawigacja uzasadnione; timeout/cancel/SSE testy PASS |
 | R04.4 | Moduły ui, chat, provider_registry, auth, orchestrator, agents, memory, tools, tasks, permissions, costs, notifications, rpg, optional_jarvis_bridge, storage, security, diagnostics | 1–6 | Ograniczone: pełna lista granic w ARCHITECTURE; moduły core i domenowe istnieją, pozostałe jawnie zaplanowane |
 | R04.5 | UI→zgody→router→adapter/narzędzie→walidacja→lokalny zapis→odpowiedź | 2/4 | Ograniczone: UI→zgoda→trwały gate→adapter→zapis działa w testach; router i narzędzia zaplanowane |
 | R04.6 | Agenci jako role/zadania; brak serwera Python/Termux/kontenerów na telefonie | 4 | Potwierdzone architektonicznie: role i AgentRun, brak procesu serwera Python/Termux/kontenerów w aplikacji |
 | R04.7 | Backend tylko opcjonalny: webhooks, 24/7, wieloużytkownikowe sekrety, sync, OPPO | 6 | Potwierdzone w architekturze: brak obowiązkowego backendu; opcjonalne usługi zaplanowane |
-| R04.8 | Migracje, atomowość, trwała kolejka, odzyskanie po awarii i konflikty sync | 2/3/6 | Ograniczone: schema v1→v2, transakcje, oznaczanie przerwanych prób, kolejka odnośników szkiców; pełny dispatcher i sync/conflicts zaplanowane; A11/A21 |
-| R04.9 | Start bez sieci, kont, kluczy, OPPO i Obsidiana | 2 | Ograniczone: start demo/UI/storage bez kont/OPPO/Obsidiana PASS na hoście; Android A01 niewykonany |
+| R04.8 | Migracje, atomowość, trwała kolejka, odzyskanie po awarii i konflikty sync | 2/3/6 | Ograniczone: migracje v1/v2→v3, transakcje, wznawialny import z checkpointem po pliku i rewizje kampanii; pełny dispatcher oraz sync/conflicts zaplanowane |
+| R04.9 | Start bez sieci, kont, kluczy, OPPO i Obsidiana | 2 | Ograniczone: start bez kont/kluczy/OPPO/Obsidiana oraz rzeczywisty lokalny model offline potwierdzone na emulatorze; fizyczny Pixel 9 do odbioru |
 
 ## 5. Orkiestracja
 
@@ -105,14 +109,14 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
-| R06.1 | Własne SQLite + pliki, indeks/retrieval ograniczony zakresem | 2/3 | Ograniczone: lokalna historia/notatki/szukanie odszyfrowanych treści; MemoryAccessPolicy osobno, indeks i retrieval niepodłączone; A02/A14 |
-| R06.2 | Obsidian opcjonalny; import/eksport vault przez SAF z jawnym katalogiem | 3 | Zaplanowane: A07/A15 |
+| R06.1 | Własne SQLite + pliki, indeks/retrieval ograniczony zakresem | 2/3 | Ograniczone: szyfrowane wersje i fragmenty, indeks HMAC oraz SQL filtrujące właściciela/kolekcję/zgodę/rewizję przed rankingiem; retrieval leksykalny, bez embeddingów; testy 0.3.0 |
+| R06.2 | Obsidian opcjonalny; import/eksport vault przez SAF z jawnym katalogiem | 3 | Ograniczone: lokalny vault .md/.markdown przez ACTION_OPEN_DOCUMENT_TREE, odczyt domyślny, osobna zgoda na nowy eksport do Scalajaca-Exports; tylko lokalny provider, bez Sync; OBSIDIAN_PAMIEC_RPG_PL.md |
 | R06.3 | SYSTEM, INBOX, PERSONAL, RESEARCH, TECH, FINANCE, GAMING, RPG/CAMPAIGNS/id, COMMUNICATIONS, REVIEWS, ARCHIVE | 3 | Ograniczone: podstawowe katalogi notatek istnieją; kampanie w odrębnym agregacie, pełny vault RPG/CAMPAIGNS/id zaplanowany |
-| R06.4 | Rekord: ID, właściciel, projekt/kampania, autor/czas/źródło/pewność/zakres/zgoda/wersja/powiązania | 3 | Ograniczone: MemoryRecord zawiera pola polityki/wersji; zwykłe LocalNote nie jest pełnym rekordem retrieval |
-| R06.5 | Kontekst krótki / zatwierdzone fakty długie / dokumenty / stan transakcyjny | 3/4 | Zaplanowane: A14 |
-| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: ręczna edycja/usuwanie/notatki i przenośny backup PASS; pełny audyt faktów i polityka zapominania zaplanowane |
-| R06.7 | Uprawnione fragmenty i preview, poufność; bez wysyłki całego vaultu i indeksowania GM_SECRET | 3/5 | Ograniczone: czat nie wysyła notatek/vaultu, podgląd odbiorców; ACL i GM_SECRET domenowe PASS; retrieval niepodłączony |
-| R06.8 | Szyfrowane kopie/eksporty; sync tylko dobrowolny | 3/6 | Ograniczone: EncryptedBackup AES-GCM/PBKDF2 i snapshot/restore; sync zaplanowany; A05/A21 |
+| R06.4 | Rekord: ID, właściciel, projekt/kampania, autor/czas/źródło/pewność/zakres/zgoda/wersja/powiązania | 3 | Ograniczone: prywatne wersje źródła/sha256/linie/właściciel/kolekcja/zgoda, manualne checkpointy i osobny audyt kampanii; pełne pola autor/pewność/graf relacji i retencja zaplanowane |
+| R06.5 | Kontekst krótki / zatwierdzone fakty długie / dokumenty / stan transakcyjny | 3/4 | Ograniczone: ograniczone okno czatu, zatwierdzone wersje dokumentów, checkpointy analiz i transakcyjny stan kampanii są podłączone; automatyczne streszczanie i semantyczny retrieval zaplanowane |
+| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: reimport tworzy wersję, cofnięcie zgody usuwa indeks, usunięcie kopii kasuje prywatne wersje; audyt i rollback kampanii działają; pełna przenośna kopia nowych danych i retencja zaplanowane |
+| R06.7 | Uprawnione fragmenty i preview, poufność; bez wysyłki całego vaultu i indeksowania GM_SECRET | 3/5 | Ograniczone: wybrane fragmenty/preview/digest/receipt, walidacja przed dispatch, brak indeksu GM_SECRET, izolacja kampanii i historii MG/gracz; testy negatywne 0.3.0 PASS; narzędzia agentów i fizyczny Pixel 9 do odbioru |
+| R06.8 | Szyfrowane kopie/eksporty; sync tylko dobrowolny | 3/6 | Ograniczone: klasyczny backup AES-GCM obejmuje zwykłe czaty/notatki/zadania, wyklucza czaty zakresowe i nowe projekty/RPG; pełny backup nowej pamięci oraz dobrowolny sync zaplanowane |
 
 ## 7. Asystent i narzędzia
 
@@ -150,15 +154,15 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
-| R10.1 | Moduł osobny; izolowane kampanie: czas/świat/postaci/drużyna/lokacje/przedmioty/frakcje/zadania/kanon/źródła/sekrety | 5 | Ograniczone: domenowe CampaignManifest/Journal i polityki; brak pełnego silnika/SQLite/UI/LLM, A09/A25 |
-| R10.2 | Audytowalne zdarzenia i rewizje; replay/rollback ze spójnością | 5 | Ograniczone: dziennik rewizji i rollback w RAM; trwały replay/audyt zaplanowany, A25 |
+| R10.1 | Moduł osobny; izolowane kampanie: czas/świat/postaci/drużyna/lokacje/przedmioty/frakcje/zadania/kanon/źródła/sekrety | 5 | Ograniczone: CampaignStore SQLite/UI własnych kampanii z kanonem, encjami świata, wiedzą gracza i stanem sesji, ręcznie zatwierdzany kontekst LLM; pełna mechanika/narracja wielosesyjna zaplanowane |
+| R10.2 | Audytowalne zdarzenia i rewizje; replay/rollback ze spójnością | 5 | Ograniczone: trwałe zaszyfrowane rewizje, dopisywany audyt i rollback jako nowa rewizja z CAS; test close/reopen i spójność transakcji PASS; wielomiesięczna próba na telefonie niewykonana |
 | R10.3 | MG narracja bez podejmowania decyzji za gracza | 5 | Zaplanowane: A25 |
 | R10.4 | Agenci czasu/mechaniki/drużyny/NPC/frakcji/wątków/ekwipunku/walki/lokacji/ciągłości/ilustracji | 5 | Zaplanowane: A25 |
 | R10.5 | Cele/wiedza/plany/zasoby NPC/frakcji, działania poza sceną, trwałe konsekwencje | 5 | Zaplanowane: A25 |
-| R10.6 | Oddzielny stan świata i wiedza bohatera; asynchroniczna ilustracja nie blokuje sesji | 5 | Zaplanowane: A09/A25 |
+| R10.6 | Oddzielny stan świata i wiedza bohatera; asynchroniczna ilustracja nie blokuje sesji | 5 | Ograniczone: odrębne encje świata, kanon i wiedza gracza oraz tajny checkpoint MG; widok gracza filtruje przed odczytem; asynchroniczne ilustracje zaplanowane |
 | R10.7 | Lore: koordynator, oficjalny kanon/podręczniki, chronologia/geografia, frakcje/kultury, bestiariusz/magia, lokalny kanon, niezależny kontroler stron/źródeł | 5 | Ograniczone: wszystkie role lore zadeklarowane; kontrolerzy LLM i źródła podręczników niepodłączone |
-| R10.8 | Hierarchia kanonu: kampania→właściwa edycja oficjalna→oznaczone pomocnicze; brak źródła = niezweryfikowane | 5 | Potwierdzone w domenie/testach: LorePolicy wymusza właściwą edycję i hierarchię, brak źródła zostaje niezweryfikowany; realny retrieval zaplanowany |
-| R10.9 | GM_SECRET nigdy w widoku gracza, logach, promptach recenzenta, indeksie ani eksporcie | 5 | Ograniczone: MemoryAccessPolicy blokuje role i cele; testy negatywne domeny obecne, pełne ścieżki RPG niepodłączone; A09 |
+| R10.8 | Hierarchia kanonu: kampania→właściwa edycja oficjalna→oznaczone pomocnicze; brak źródła = niezweryfikowane | 5 | Ograniczone: podłączony ręcznie zatwierdzany retrieval kampanii przestrzega hierarchii i edycji; źródło bez osobistej weryfikacji jest NIEZWERYFIKOWANE; niezależny recenzent LLM zaplanowany |
+| R10.9 | GM_SECRET nigdy w widoku gracza, logach, promptach recenzenta, indeksie ani eksporcie | 5 | Ograniczone: SQL i testy gracz/recenzent/indeks/eksport fail-closed, sekrety tylko po wyborze MG, odrębne scope historii; eksport i clipboard/share czatu MG zablokowane; lokalny filtr roli nie jest logowaniem gracza |
 | R10.10 | WFRP 4e k100/PS, tylko reguły z materiałów właściciela; bez wymyślonych talentów | 5 | Zaplanowane; zależne od zweryfikowanych źródeł |
 | R10.11 | Fio tylko import z potwierdzonych plików; brak zgadywania/resetu/startu; osobne wfrp 3 | 5 | Zaplanowane: A25; plików kanonu nie dostarczono |
 | R10.12 | Wersjonowany katalog/manifest kampanii, np. zoo.json po akceptacji formatu | 5 | Ograniczone: wersjonowany CampaignManifest w kodzie; tworzenie plikowego katalogu kampanii i akceptacja formatu zaplanowane |
@@ -177,7 +181,7 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 |---|---|---:|---|
 | R12.1 | Kontrola odbiorców, blokada danych osobistych dla recenzentów, potwierdzenie wielu AI | 2/4 | Ograniczone: jawni odbiorcy/prompt i zawsze zgoda wielu AI; polityka recenzentów zapisana, recenzent niewdrożony |
 | R12.2 | Tryb prywatny i zapisuj/nie zapisuj; minimalne uprawnienia i ochrona sekretów | 2/3 | Ograniczone: nowe prywatne rozmowy ChatSession w RAM, przełącznik UI i bezpieczne klucze; lifecycle/Android A05/A20 do odbioru |
-| R12.3 | Separacja profili/projektów/kampanii, szyfrowanie danych wrażliwych/backupów | 2/3/5 | Ograniczone: szyfrowanie i separacja kampanii domeny PASS; pełne profile/projekty i natywny Keystore do odbioru |
+| R12.3 | Separacja profili/projektów/kampanii, szyfrowanie danych wrażliwych/backupów | 2/3/5 | Ograniczone: szyfrowane projekty/kampanie i scope czatów są podłączone oraz testowane; pełne profile osób, backup nowej pamięci i natywny audyt Keystore pozostają do odbioru |
 | R12.4 | Bez promptów/kluczy w logach bez zgody; prompt injection źródła ≠ instrukcje | 2/4 | Potwierdzone dla aktywnego kodu: brak logowania treści/kluczy, import odrzuca rolę systemową, obrazy Markdown nie pobierają zasobów; przyszłe tools wymagają odrębnej ochrony |
 | R12.5 | Użycie model/dostawca/zadanie; estymata przed multi; usage rzeczywiste gdy API zwraca | 4 | Ograniczone: etykiety modelu/dostawcy, rezerwa i usage tokenów gdy API je zwróci; brak pełnej analityki zadań i rachunku USD |
 | R12.6 | Budżet dzień/miesiąc, kroki, historia, alerty, lokalna blokada nowych płatnych zadań | 4 | Ograniczone: trwałe konserwatywne rezerwy LocalCostGate i domenowy BudgetGuard; pełna analityka/alerty i rozliczenie rzeczywistych cen zaplanowane; A26 |
@@ -201,12 +205,12 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 |---|---|---:|---|
 | R14.0 | Oficjalna weryfikacja z datą/linkami; macierz konsument/API/OAuth/abonament/zgody/koszt/status | 0 | Potwierdzone dokumentacyjnie: datowana macierz czterech AI i źródła Android/komunikatorów/pakietów |
 | R14.1 | Repo, README PL, ADR, licencje, katalogi, typy/diagram, kompatybilne libs, UX/akceptacja | 1 | Potwierdzone plikami: README, ADR, architektura, UX, akceptacja, lockfile i notices; natywny odbiór pozostaje osobny |
-| R14.2 | Flutter Android, SQLite, historia, realny adapter BYOK + drugi, demo, stream/cancel/settings/errors | 2 | Ograniczone: kod core i 141 testów Flutter PASS; APK i 4 scenariusze emulatora offline PASS; live API i telefon niewykonane |
-| R14.3 | 4 adaptery, magazyn sekretów, uczciwe SSO, share i MD, Obsidian opcjonalny | 3 | Ograniczone: cztery transporty + Keystore + SAF/share/MD/backup; SSO i vault katalogowy zaplanowane |
+| R14.2 | Flutter Android, SQLite, historia, realny adapter BYOK + drugi, demo, stream/cancel/settings/errors | 2 | Ograniczone: core i 193 Flutter PASS; APK oraz 5 scenariuszy emulatora offline PASS; live API i fizyczny telefon niewykonane |
+| R14.3 | 4 adaptery, magazyn sekretów, uczciwe SSO, share i MD, Obsidian opcjonalny | 3 | Ograniczone: cztery transporty + Keystore + SAF/share/MD/backup i lokalny vault 0.3.0; SSO i synchronizacja zaplanowane |
 | R14.4 | Auto/compare/review/arbiter/role/budżety/limity/decyzje i testy przecieków | 4 | Ograniczone: porównanie, gate budżetów, domena agentów/ACL i testy; Auto/konsensus/arbiter/wykonawca zaplanowane |
 | R14.5 | Asystent/notyfikacje/głos/search/monitoring/GPW/gry/nauka/RPG/kanały | 5 | Zaplanowane: A18–A25 |
 | R14.6 | Bezpieczny backend webhook/24h, OPPO, sync, AAB, bateria/a11y | 6 | Zaplanowane: A06/A12/A21/A24 |
-| R14.7 | Każda faza: kod→lint→unit/widget/integration→urządzenie jeśli dostępne→fakty→poprawki→docs | wszystkie | Ograniczone: analyze PASS, 141 testów Flutter i 4 scenariusze emulatora PASS, naprawy i raport; rzeczywiste JNI i import GGUF na emulatorze wykonane; dalsze kryteria i telefon pozostają otwarte |
+| R14.7 | Każda faza: kod→lint→unit/widget/integration→urządzenie jeśli dostępne→fakty→poprawki→docs | wszystkie | Ograniczone: 0.3.0 analyze bez uwag, 193 Flutter i 27 JUnit PASS; szczegóły APK/emulatora w aktualnym TESTS_PL.md; fizyczny Pixel 9 i pozostałe kryteria otwarte |
 | R14.8 | Zgoda przed destrukcją, płatnym kontem, publikacją i wiadomościami | wszystkie | Wymaganie obowiązuje; brak takich autoryzacji w bieżącym zakresie |
 
 ## 15. Odbiór końcowy
@@ -219,9 +223,9 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | R15.4 | Niezależne adaptery/compare/źródło/koszt | A04 | Ograniczone: niezależne transporty i eksperymentalne porównanie; realny rachunek/lifecyle niepotwierdzone |
 | R15.5 | Brak kluczy w logach/repo; auth/separacja/encryption testy | A05/A09 | Ograniczone: testy zgód/sekretów/separacji/szyfrowania PASS; natywny Keystore i audit APK do odbioru |
 | R15.6 | Odłączenie OPPO nie wpływa na core | A06 | Ograniczone: brak zależności od mostu w core; realny transport wyłączony/niewdrożony |
-| R15.7 | MD bez Obsidiana, brak utraty po restarcie | A02/A07 | Ograniczone: MD i trwałość pliku SQLite testowane bez Obsidiana; natywny SAF niewykonany |
+| R15.7 | MD bez Obsidiana, brak utraty po restarcie | A02/A07 | Ograniczone: Markdown i trwałość SQLite testowane na hoście; rzeczywisty systemowy import vaultu i źródło MiniCPM na emulatorze PASS; pełny lifecycle/eksport vaultu i telefon do odbioru |
 | R15.8 | Uczciwe statusy integracji i brak obchodzenia | A08 | Potwierdzone w dokumentacji/kodzie: oficjalne API i uczciwe statusy; bez sesji i Accessibility |
-| R15.9 | RPG izolacja i niewymyślający źródeł weryfikator | A09/A18/A25 | Ograniczone: ACL, izolacja i źródła domeny PASS; pełna gra i weryfikator LLM niepodłączone |
+| R15.9 | RPG izolacja i niewymyślający źródeł weryfikator | A09/A18/A25 | Ograniczone: trwałe RPG i negatywne testy izolacji/źródeł/scope historii PASS; pełna gra, weryfikator LLM i jakość długiej narracji niepotwierdzone |
 | R15.10 | Raport plików/testów/ograniczeń/instalacji/kolejnego kroku | A10 | Potwierdzone dokumentacyjnie: raport testów, stan realizacji, instrukcja, lista plików i następny etap |
 
 ## 16. Sposób dostarczenia
@@ -229,9 +233,9 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
 | R16.1 | Podsumowanie samodzielnego Android, opcjonalne OPPO, integracje, architektura, ryzyka, kolejność | 0/1 | Weryfikacja w raporcie końcowym prowadzącego |
-| R16.2 | Rzeczywista implementacja 1/2 w bieżącym zadaniu, bez zbędnych pytań | 1/2 | Potwierdzone kodem: rzeczywisty Flutter/Android oraz 83 testy hosta PASS, dalsze ograniczenia jawne |
+| R16.2 | Rzeczywista implementacja 1/2 w bieżącym zadaniu, bez zbędnych pytań | 1/2 | Potwierdzone kodem: rzeczywisty Flutter/Android, 193 testy Flutter, 27 JUnit i 5 scenariuszy emulatora PASS; dalsze ograniczenia jawne |
 | R16.3 | README_PL, ARCHITECTURE, INTEGRATIONS_MATRIX, SECURITY, PRIVACY, ADR, SETUP_ANDROID_PL, TESTS_PL, ROADMAP_PL | 1/2 | Potwierdzone plikami wymaganych dokumentów, ADR i pełnej macierzy |
 | R16.4 | Flutter/config bez sekretów/migracje/testy/build scripts/CHANGELOG/IMPLEMENTATION_STATUS | 2 | Potwierdzone plikami: kod/config bez sekretów, migracje, testy, skrypt, changelog i stan |
-| R16.5 | Debug APK i instrukcja dopiero po rzeczywiście udanym buildzie | 2 | Potwierdzone: finalny debug APK ARM64, build exit 0, podpis i manifest PASS; instrukcja i SHA-256 przygotowane |
+| R16.5 | Debug APK i instrukcja dopiero po rzeczywiście udanym buildzie | 2 | Potwierdzone: debug APK 0.3.0 ARM64+x86_64, build/podpis/manifest/wyrównanie PASS, SHA-256 i instrukcja; fizyczny Pixel 9 nieprzetestowany |
 
 Nie ma domniemania ukończenia wymagań kolejnych faz. Kolejna aktualizacja tej macierzy powinna podnosić status wyłącznie dla konkretnych dowodów; dokumentacja projektu UX nie jest testem aplikacji.

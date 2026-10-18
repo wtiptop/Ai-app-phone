@@ -38,14 +38,16 @@ class LocalInferenceDeviceTest {
         assertTrue("Emulator ma aktywną sieć", connectivity.contains("Active default network: none") || connectivity.contains("Active default network: null"))
     }
 
-    private fun visible(node: UiObject2) = node.visibleBounds.let { it.width() > 1 && it.height() > 1 }
+    private fun visible(node: UiObject2): Boolean = try {
+        node.visibleBounds.let { it.width() > 1 && it.height() > 1 }
+    } catch (_: androidx.test.uiautomator.StaleObjectException) { false }
     private fun find(label: String): UiObject2? = (device.findObjects(By.text(label)) + device.findObjects(By.desc(label))).firstOrNull(::visible)
     private fun containing(label: String): UiObject2? = (device.findObjects(By.textContains(label)) + device.findObjects(By.descContains(label))).firstOrNull(::visible)
     private fun waitFor(label: String, timeout: Long = 30000, contains: Boolean = false): UiObject2 {
         val end = SystemClock.elapsedRealtime() + timeout
         do {
             val found = if (contains) containing(label) else find(label)
-            if (found != null && found.visibleBounds.height() > 0) return found
+            if (found != null && visible(found)) return found
             SystemClock.sleep(200)
         } while (SystemClock.elapsedRealtime() < end)
         checkpoint("failure-${testName.methodName}")
@@ -55,14 +57,19 @@ class LocalInferenceDeviceTest {
         waitFor(label, contains = contains)
         // Węzeł jest widoczny już podczas animacji wysuwanego menu.
         SystemClock.sleep(350)
-        waitFor(label, contains = contains).click()
+        try { waitFor(label, contains = contains).click() }
+        catch (_: androidx.test.uiautomator.StaleObjectException) {
+            SystemClock.sleep(300)
+            waitFor(label, contains = contains).click()
+        }
         SystemClock.sleep(200)
     }
     private fun scrollTo(label: String): UiObject2 {
         repeat(12) {
             val found = find(label) ?: containing(label)
-            if (found != null && found.visibleBounds.height() > 0) return found
+            if (found != null && visible(found)) return found
             device.swipe(device.displayWidth / 2, device.displayHeight * 4 / 5, device.displayWidth / 2, device.displayHeight / 3, 30)
+            SystemClock.sleep(450)
         }
         return waitFor(label, contains = true)
     }
@@ -245,5 +252,74 @@ class LocalInferenceDeviceTest {
         waitFor("Anulowano • 0 USD za API", 30000, contains = true)
         device.takeScreenshot(File(proofDir, "background-cancelled.png"))
         saveReport("background-stop", JSONObject().put("cancelledAfterHome", true))
+    }
+
+    @Test fun e_localVaultSafSourceAndRealAnswer() {
+        // Własne syntetyczne dane. Test nie otwiera prywatnego vaultu.
+        val folder = "/sdcard/Documents/ScalajacaTestVault"
+        // Fixture przygotowuje skrypt test_android_emulator.ps1 przez adb push.
+        // UiAutomation.executeShellCommand nie jest powłoką obsługującą pipe/redirection.
+        assertTrue("Brak fixture vaultu; uruchom skrypt przygotowujący test", device.executeShellCommand("cat $folder/Archive.md").contains("LANTERN"))
+        assertTrue(device.executeShellCommand("cat $folder/GM_SECRET.md").contains("VAULT_GM_SENTINEL_426"))
+        startApp(resetTask = true)
+        selectLocalProvider()
+        click("Pamięć", contains = true)
+        click("Obsidian i pamięć projektów", contains = true)
+        click("Połącz lokalny vault", contains = true)
+        // Selektor drzewa pamięta ostatni katalog Download, którego Android 11
+        // nie pozwala udostępnić jako root. Nawigujemy jawnym breadcrumbem.
+        click("sdk_gphone_x86_64")
+        click("Documents")
+        click("ScalajacaTestVault")
+        click("USE THIS FOLDER", contains = true)
+        click("ALLOW", contains = true)
+        scrollTo("Importuj / wznów")
+        click("Importuj / wznów")
+        waitFor("Import ukończony", contains = true)
+        SystemClock.sleep(600)
+        checkpoint("vault-imported")
+        scrollTo("Archive.md")
+        click("Archive.md", contains = true)
+        click("Zatwierdź tę wersję")
+        scrollTo("Szukaj w pamięci")
+        repeat(4) {
+            val candidate = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach"))
+            if(candidate != null && visible(candidate) && candidate.visibleBounds.height() >= 80) return@repeat
+            device.swipe(device.displayWidth / 2, device.displayHeight / 3, device.displayWidth / 2, device.displayHeight * 2 / 3, 30)
+            SystemClock.sleep(450)
+        }
+        val queryField = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach"))
+            ?: throw AssertionError("Brak pola wyszukiwania vaultu")
+        queryField.click()
+        SystemClock.sleep(600)
+        val focusedQuery = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach").focused(true))
+            ?: throw AssertionError("Pole wyszukiwania nie uzyskało fokusu")
+        focusedQuery.text = "archive"
+        SystemClock.sleep(600)
+        checkpoint("vault-query")
+        assertEquals("archive", device.findObject(By.clazz("android.widget.EditText").focused(true)).text)
+        hideKeyboard()
+        scrollTo("Szukaj w pamięci")
+        click("Szukaj w pamięci")
+        scrollTo("Podgląd wybranych źródeł")
+        click("Podgląd wybranych źródeł")
+        checkpoint("vault-source-preview")
+        assertNull("Sekret nie może trafić do pakietu", containing("VAULT_GM_SENTINEL_426"))
+        assertNull("Konfiguracja vaultu jest pomijana", containing("HIDDEN_PLUGIN_SENTINEL_426"))
+        click("Użyj w czacie")
+        val began = SystemClock.elapsedRealtime()
+        send("According to the provided source, reply with only the archive key.")
+        val completed = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val usage = completed.text ?: completed.contentDescription ?: ""
+        checkpoint("vault-real-answer")
+        assertNotNull("Model musi odczytać fakt ze źródła", find("LANTERN") ?: find("LANTERN."))
+        click("Źródła użyte w odpowiedzi")
+        waitFor("Zapisany pakiet źródeł")
+        assertNotNull(containing("Archive.md"))
+        checkpoint("vault-saved-receipt")
+        click("Zamknij")
+        saveReport("vault-saf-real-answer", JSONObject().put("offline", true).put("fixtureOutput", "LANTERN")
+            .put("elapsedMs", SystemClock.elapsedRealtime() - began).put("usageLabel", usage)
+            .put("source", "Archive.md").put("receiptRetained", true))
     }
 }

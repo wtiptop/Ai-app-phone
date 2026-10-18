@@ -1,0 +1,67 @@
+{
+  "version": "0.3.0+5",
+  "date": "2026-10-19 Europe/Warsaw",
+  "tests": 5,
+  "failures": 0,
+  "skipped": 0,
+  "seconds": 123.372,
+  "apkSha256": "b2a6beac93dfbbd097fa0d3debdf0b924454295dee7e634e6006ca2b37d513ee",
+  "emulator": "Scalajaca_API30",
+  "android": "11 / API 30",
+  "abi": "x86_64",
+  "ramConfiguredMiB": 4096,
+  "network": "Tryb samolotowy, WiFi/dane wyłączone, brak aktywnej sieci przed i po każdym scenariuszu",
+  "runner": "AndroidJUnitRunner 1.7.0 / UIAutomator 2.3.0",
+  "model": "MiniCPM5-1B Q4_K_M",
+  "modelBytes": 688065920,
+  "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "physicalPixel9Tested": false,
+  "longCampaignQualityVerified": false,
+  "largeRealVaultBenchmarked": false,
+  "cases": [
+    {
+      "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+      "bytes": 688065920,
+      "elapsedMs": 11057,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    },
+    {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 1157,
+      "stopLatencyMs": 47,
+      "fixtureOutput": "The",
+      "name": "jni-stream-stop"
+    },
+    {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    {
+      "offline": true,
+      "fixtureOutput": "LANTERN",
+      "elapsedMs": 17497,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 182, wyjście 2 tokenów",
+      "source": "Archive.md",
+      "receiptRetained": true,
+      "name": "vault-saf-real-answer"
+    }
+  ],
+  "limitations": [
+    "Syntetyczny mały vault; nie benchmark dużego zbioru.",
+    "Jeden prosty fakt po angielsku nie potwierdza narracji RPG po polsku.",
+    "Brak pomiaru szczytowego RAM, baterii i termiki fizycznego Pixel 9.",
+    "Pełny backup nowych projektów/RPG i synchronizacja są zaplanowane."
+  ]
+}

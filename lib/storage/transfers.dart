@@ -19,6 +19,14 @@ class Transfers {
   Transfers(this.store);
   final AppDatabase store;
   Future<String> markdown(Conversation c) async {
+    final scopes = await store.db.query('chat_scopes',
+        where: 'conversation_id=? AND confidential=1',
+        whereArgs: [c.id],
+        limit: 1);
+    if (scopes.isNotEmpty) {
+      throw StateError(
+          'Eksport rozmowy MG jest zablokowany. Przygotuj jawny kontekst gracza w module kampanii.');
+    }
     final messages = await store.messages(c.id);
     final buffer = StringBuffer(
       '# ${c.title}\n\nEksport Scalająca • ${DateTime.now().toIso8601String()}\n\n',
@@ -37,23 +45,29 @@ class Transfers {
         'v': 1,
         'conversations': [
           for (final c in await store.conversations())
-            {
-              'title': c.title,
-              'draft': c.draft,
-              'pinned': c.pinned,
-              'messages': [
-                for (final m in await store.messages(c.id))
-                  {
-                    'role': m.role,
-                    'text': m.text,
-                    'provider': m.provider,
-                    'model': m.model,
-                    'status': m.status,
-                    'input': m.inputTokens,
-                    'output': m.outputTokens,
-                  },
-              ],
-            },
+            if ((await store.db.query('chat_scopes',
+                    columns: ['conversation_id'],
+                    where: 'conversation_id=?',
+                    whereArgs: [c.id],
+                    limit: 1))
+                .isEmpty)
+              {
+                'title': c.title,
+                'draft': c.draft,
+                'pinned': c.pinned,
+                'messages': [
+                  for (final m in await store.messages(c.id))
+                    {
+                      'role': m.role,
+                      'text': m.text,
+                      'provider': m.provider,
+                      'model': m.model,
+                      'status': m.status,
+                      'input': m.inputTokens,
+                      'output': m.outputTokens,
+                    },
+                ],
+              },
         ],
         'notes': [
           for (final n in await store.notes())

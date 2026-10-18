@@ -1,5 +1,11 @@
 # Plan realizacji i dostępność rozszerzeń
 
+## Etap 0.3.0 — lokalny vault i fundament trwałej kampanii
+
+Wdrożono lokalny SAF, wznawialny import Markdown, szyfrowane wersje/chunki, zatwierdzanie, indeks słów HMAC, retrieval wybranych fragmentów, trwałe punkty analiz oraz SQLite/UI kampanii z audytem/cofaniem. Czat ma ograniczony snapshot i dowód źródeł, osobne zakresy projektu/kampanii/roli. Szczegóły i granice w OBSIDIAN_PAMIEC_RPG_PL.md.
+
+Najbliższe prace: odbiór na fizycznym Pixel 9 (RAM/bateria/termika), pełna przenośna kopia nowych projektów i RPG, retencja wersji, stronicowanie wszystkich starszych list, pomiary dużego prawdziwego vaultu, embeddingi/graf źródeł, kontroler sprzeczności i test wielosesyjnego lore. Następnie trwałe workflow agentów i harmonogram best-effort. Synchronizacja pozostaje dobrowolnym przyszłym rozszerzeniem, z rewizjami i rozwiązywaniem konfliktów przed uruchomieniem. Starsze plany poniżej zachowują zakres pierwotnej specyfikacji.
+
 Rozszerzenie 0.2.0 (18.10.2026): wdrożono lokalny silnik CPU/JNI, import GGUF i osobny adapter offline. 141 testów Flutter, 21 JUnit i generacja rzeczywistych wag na hoście przeszły; przygotowano nowy APK. Następny odbiór: fizyczny Android w trybie samolotowym, JNI/SAF/Keystore, Stop/tło/termika, pomiar RAM/baterii i jakości PL. Serwer pozostaje opcjonalny. Rzeczywisty 2B, GPU/NPU, downloader, MiniCPM-V/audio oraz narzędzia są zaplanowane. Pozostałe 129 wymagań specyfikacji nadal obowiązuje.
 
 Stan planu: **17.10.2026**. Pełny zakres 17 sekcji specyfikacji jest śledzony w `REQUIREMENTS_TRACEABILITY_PL.md`. Kolejność wynika z samodzielności telefonu, kontroli danych i kosztów. Ten dokument nie oznacza ukończenia etapów.

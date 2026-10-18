@@ -59,7 +59,7 @@ class _ScalajacaAppState extends State<ScalajacaApp> {
     miniCpmEndpoint: () => widget.store.setting('endpoint_minicpm', ''),
     localAdapter: LocalModelAdapter(
         engine: localEngine,
-        readContext: () => widget.store.setting('local_context', 2048)),
+        readContext: () => widget.store.setting('local_context', 4096)),
   );
   @override
   void dispose() {

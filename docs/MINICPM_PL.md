@@ -1,5 +1,9 @@
 # MiniCPM offline w Scalającej 0.2.1
 
+## Profil 0.3.0 i pamięć źródeł
+
+Domyślny kontekst nowej konfiguracji to 4096 tokenów dla docelowego Pixel 9; istniejące ustawienie jest zachowane. To nie benchmark telefonu. Przed uruchomieniem widzisz dokładny ograniczony pakiet, w tym zatwierdzone fragmenty lokalnego vaultu lub kampanii. Nadmiar starej historii pozostaje w archiwum. Odpowiedź zachowuje dowód źródeł. Offline SAF/GGUF/generacja/Stop i prosty fakt z syntetycznej notatki przeszły na emulatorze. Nie potwierdzono jakości polskiej długiej narracji RPG ani wydajności fizycznego Pixel 9. Zobacz OBSIDIAN_PAMIEC_RPG_PL.md i aktualny TESTS_PL.md. Starsze limity opisane poniżej odnoszą się do poprzednich wydań.
+
 Stan: **18.10.2026**. APK zawiera prawdziwy silnik llama.cpp CPU połączony przez JNI. Generacja odbywa się w procesie Androida, bez serwera, Termuxa, OPPO, konta, klucza API i automatycznego fallbacku do sieci. **Na Androidzie 11 / API 30 x86_64 w emulatorze wykonano rzeczywistą generację i import SAF bez sieci. Test fizycznego telefonu ARM64 pozostaje niewykonany.** Funkcja jest eksperymentalna.
 
 ## Pierwsze uruchomienie na telefonie

@@ -6,6 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import '../auth/secret_store.dart';
 import '../costs/cost_store.dart';
 import 'models.dart';
+import '../memory/memory_schema.dart';
+import '../rpg/campaign_schema.dart';
 
 class AppDatabase implements CostStore {
   AppDatabase(this.db, this.cipher);
@@ -24,7 +26,7 @@ class AppDatabase implements CostStore {
       location,
       options: OpenDatabaseOptions(
         singleInstance: location != inMemoryDatabasePath,
-        version: 2,
+        version: 3,
         onConfigure: (db) async {
           await db.execute('PRAGMA foreign_keys = ON');
           await db.rawQuery('PRAGMA journal_mode = WAL');
@@ -32,9 +34,11 @@ class AppDatabase implements CostStore {
         onCreate: (db, version) async {
           await createV1(db);
           await migrateV2(db);
+          await migrateV3(db);
         },
         onUpgrade: (db, old, version) async {
           if (old < 2) await migrateV2(db);
+          if (old < 3) await migrateV3(db);
         },
       ),
     );
@@ -84,6 +88,11 @@ class AppDatabase implements CostStore {
     );
   }
 
+  static Future<void> migrateV3(DatabaseExecutor db) async {
+    await MemorySchema.create(db);
+    await CampaignSchema.create(db);
+  }
+
   Future<Conversation> createConversation([
     String title = 'Nowa rozmowa',
   ]) async {
@@ -121,15 +130,18 @@ class AppDatabase implements CostStore {
     return values;
   }
 
-  Future<List<Message>> messages(String conversationId) async {
+  Future<List<Message>> messages(String conversationId,
+      {int? limit, int offset = 0, bool latest = false}) async {
     final rows = await db.query(
       'messages',
       where: 'conversation_id = ?',
       whereArgs: [conversationId],
-      orderBy: 'created, rowid',
+      orderBy: latest ? 'created DESC, rowid DESC' : 'created, rowid',
+      limit: limit,
+      offset: offset,
     );
     return Future.wait(
-      rows.map(
+      (latest ? rows.reversed : rows).map(
         (r) async => Message(
           id: r['id'] as String,
           conversationId: conversationId,
@@ -145,6 +157,12 @@ class AppDatabase implements CostStore {
     );
   }
 
+  Future<int> messageCount(String conversationId) async =>
+      Sqflite.firstIntValue(await db.rawQuery(
+          'SELECT COUNT(*) FROM messages WHERE conversation_id=?',
+          [conversationId])) ??
+      0;
+
   Future<void> saveMessage(Message m) async {
     final content = await cipher.seal(m.text);
     await db.transaction((tx) async {
@@ -154,23 +172,25 @@ class AppDatabase implements CostStore {
         where: 'id=?',
         whereArgs: [m.id],
       );
-      await tx.insert(
-          'messages',
-          {
-            'id': m.id,
-            'conversation_id': m.conversationId,
-            'role': m.role,
-            'content': content,
-            'provider': m.provider,
-            'model': m.model,
-            'status': m.status,
-            'created': old.isEmpty
-                ? DateTime.now().millisecondsSinceEpoch
-                : old.first['created'],
-            'input_tokens': m.inputTokens,
-            'output_tokens': m.outputTokens,
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      final values = <String, Object?>{
+        'id': m.id,
+        'conversation_id': m.conversationId,
+        'role': m.role,
+        'content': content,
+        'provider': m.provider,
+        'model': m.model,
+        'status': m.status,
+        'created': old.isEmpty
+            ? DateTime.now().millisecondsSinceEpoch
+            : old.first['created'],
+        'input_tokens': m.inputTokens,
+        'output_tokens': m.outputTokens,
+      };
+      if (old.isEmpty) {
+        await tx.insert('messages', values);
+      } else {
+        await tx.update('messages', values, where: 'id=?', whereArgs: [m.id]);
+      }
       await tx.update(
         'conversations',
         {'updated': DateTime.now().millisecondsSinceEpoch},

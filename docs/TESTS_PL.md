@@ -1,5 +1,28 @@
 # Rzeczywiste testy Scalającej
 
+## Odbiór 0.3.0 — 19.10.2026, Europe/Warsaw
+
+| Sprawdzenie | Wynik końcowy | Dowód / granica |
+|---|---|---|
+| Flutter analyze | PASS, bez uwag, exit 0 | analyze-0.3.0.log |
+| Pełny runner Flutter | 193/193 PASS, exit 0 | flutter-tests-0.3.0.log |
+| JUnit Android | 27/27 PASS, 0 pominiętych | android-junit-0.3.0.log, XML modeli i vaultu; pełny GGUF 688065920 B |
+| Standardowy AndroidJUnitRunner | 5/5 PASS, exit 0 | android-emulator-0.3.0.log/json; emulator API 30 x86_64, 4 GB, prawdziwy model |
+| GGUF / realna generacja / Stop | PASS | SAF pliku, odpowiedź OK, anulowanie JNI po tokenie, Stop UI i kolejna odpowiedź, Home/tło; osobne JSON i PNG |
+| Lokalny vault i źródło w czacie | PASS | Prawdziwy SAF drzewa → import syntetycznych notatek → zatwierdzenie → wyszukanie → preview → fakt LANTERN z MiniCPM → zapisany receipt |
+| Offline | PASS przed i po każdym scenariuszu | Tryb samolotowy, WiFi/dane wyłączone, brak aktywnej sieci; connectivity i offline-after w emulator-0.3.0/ |
+| Migracje i wznowienie | PASS na hoście | v1/v2→v3 z zachowaniem danych; RPG close/reopen i rollback; 205 małych plików, przerwanie przy 102, nowy importer, retry cofniętego uprawnienia, max jeden aktywny odczyt |
+| Granice kontekstu i sekretów | PASS na hoście | Scope MG/gracz/projekt/właściciel, szybkie dwa load, cofnięcie/zmiana źródła, podrobione cytaty i digest, brak dispatch bez właściwej zgody, UTF-8, archiwum 120 wiadomości, zachowanie receipt podczas UPDATE |
+| APK | PASS, build exit 0 | android-build-0.3.0.json/log; podpis debug, manifest, ARM64+x86_64, silnik bez symboli socket/connect, ZIP i ELF 16 KiB, brak wag |
+
+Wstępny pełny Flutter run miał 3 nieudane przypadki: test odczytu pierwszego rekordu zamiast konkretnego kanonu, kontrakt wyjątku przy ponownym użyciu permit i trafienie w przewinięty przycisk fixture. Skorygowano konkretny odczyt testu, zachowano odrzucenie użytej zgody przed dispatch i ustabilizowano przewijanie widget testu. Końcowy pełny run wszystkich 193 testów przeszedł. Zachowano `flutter-first-attempt-0.3.0.log`.
+
+Nowy scenariusz emulatora wymagał naprawy fixture: Download root nie jest dozwolonym drzewem na Androidzie 11, UiAutomation nie wykonuje shell pipes/redirection do przygotowania plików, a przewijanie wymaga oczekiwania na stabilne położenie elementów. Fixture jest teraz przygotowywany przez adb push; test używa prawdziwego selektora folderu. Wcześniejsze próby nie są liczone jako PASS. Nie zmieniano asercji na atrapę modelu. Dokładne końcowe wyjście/usage/czas znajdują się w JSON scenariusza.
+
+Odtworzenie: zbuduj APK, ustaw środowisko Android SDK/JDK/Flutter i uruchom `scripts/test_android_emulator.ps1 -Model <oficjalny GGUF>`. Skrypt sprawdza emulator/API 30 i hash modelu, przygotowuje własny syntetyczny folder, odłącza sieć, instaluje APK i uruchamia pięć testów. Nie uruchamiać go na telefonie z prywatnymi danymi. Nie wymaga adb root.
+
+Nie wykonano odbioru fizycznego Pixel 9, testu dużego rzeczywistego vaultu, pełnego eksportu/rotacji SAF, wielomiesięcznej kampanii, jakości polskiej narracji, baterii/termiki/Doze ani ręcznego TalkBack. Wyszukiwanie po słowach i prosty fakt po angielsku nie dowodzą rozumienia całego zbioru i ciągłości RPG. Nowe projekty/RPG nie mają jeszcze pełnej przenośnej kopii. Brak kont, płatnego API i publikacji.
+
 ## Odbiór 0.2.1 — 18.10.2026, Europe/Warsaw
 
 | Sprawdzenie | Rzeczywisty wynik | Dowód / granica |

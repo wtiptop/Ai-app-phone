@@ -47,7 +47,7 @@ void main() {
     if (await scratch.exists()) await scratch.delete(recursive: true);
   });
 
-  test('Migracja v1→v2 zachowuje dane i dodaje nowe tabele', () async {
+  test('Migracja v1→v3 zachowuje dane i dodaje nowe tabele', () async {
     final cipher = ContentCipher(secrets);
     await cipher.initialize();
     final legacy = await databaseFactoryFfi.openDatabase(
@@ -87,7 +87,7 @@ void main() {
       await legacy.close();
     }
     final store = await open();
-    expect(await store.db.getVersion(), 2);
+    expect(await store.db.getVersion(), 3);
     final conversation = (await store.conversations()).single;
     expect(conversation.title, 'Rozmowa v1');
     expect(conversation.draft, 'Niewysłany szkic');
@@ -98,9 +98,45 @@ void main() {
     );
     expect((await store.notes()).single.text, 'Dane nie mogą zniknąć.');
     expect(await store.setting('theme', 'system'), 'dark');
-    for (final table in ['operations', 'tasks', 'cost_reservations']) {
+    for (final table in [
+      'operations',
+      'tasks',
+      'cost_reservations',
+      'memory_collections',
+      'memory_versions',
+      'analysis_checkpoints',
+      'chat_context_receipts',
+      'chat_scopes',
+      'rpg_campaigns'
+    ]) {
       expect(await store.db.query(table), isEmpty);
     }
+  });
+
+  test('Migracja v2→v3 zachowuje istniejący czat i rezerwy', () async {
+    final cipher = ContentCipher(secrets);
+    await cipher.initialize();
+    final legacy = await databaseFactoryFfi.openDatabase(databasePath,
+        options: OpenDatabaseOptions(
+            version: 2,
+            onCreate: (db, _) async {
+              await AppDatabase.createV1(db);
+              await AppDatabase.migrateV2(db);
+            }));
+    await legacy.insert('conversations', {
+      'id': 'v2',
+      'title': await cipher.seal('Zachowane'),
+      'draft': await cipher.seal('Szkic'),
+      'updated': 1
+    });
+    await legacy.insert('cost_reservations',
+        {'id': 'reserve', 'amount': 0.1, 'created': 1, 'provider': 'fixture'});
+    await legacy.close();
+    final store = await open();
+    expect(await store.db.getVersion(), 3);
+    expect((await store.conversations()).single.draft, 'Szkic');
+    expect((await store.db.query('cost_reservations')).single['amount'], 0.1);
+    expect(await store.db.rawQuery('PRAGMA foreign_key_check'), isEmpty);
   });
 
   test(

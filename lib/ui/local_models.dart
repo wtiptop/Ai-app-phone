@@ -17,7 +17,7 @@ class _LocalModelsPageState extends State<LocalModelsPage> {
   final hash = TextEditingController();
   LocalEngineStatus? status;
   String selected = '', error = '';
-  int contextTokens = 2048;
+  int contextTokens = 4096;
   bool working = false;
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _LocalModelsPageState extends State<LocalModelsPage> {
     try {
       final current = await widget.engine.status();
       final chosen = await widget.store.setting('model_minicpm_local', '');
-      final context = await widget.store.setting('local_context', 2048);
+      final context = await widget.store.setting('local_context', 4096);
       if (mounted) {
         setState(() {
           status = current;
@@ -129,7 +129,7 @@ class _LocalModelsPageState extends State<LocalModelsPage> {
           DropdownButtonFormField<int>(
               initialValue: [1024, 2048, 4096].contains(contextTokens)
                   ? contextTokens
-                  : 2048,
+                  : 4096,
               decoration:
                   const InputDecoration(labelText: 'Kontekst lokalny (tokeny)'),
               items: [
@@ -144,7 +144,7 @@ class _LocalModelsPageState extends State<LocalModelsPage> {
                       if (mounted) setState(() => contextTokens = value);
                     }),
           const Text(
-              'Domyślnie 2048 tokenów kontekstu, maks. 512 nowych tokenów, do 4 wątków CPU i 3 min pracy. Dłuższa historia jest odrzucana, bez cichego usuwania wiadomości. Przejście aplikacji w tło lub przegrzanie zatrzymuje obliczenia.'),
+              'Domyślnie 4096 tokenów kontekstu (profil docelowy Pixel 9), maks. 512 nowych tokenów, do 4 wątków CPU i 3 min pracy. Starsza historia pozostaje na dysku. Podgląd wysyłki pokazuje pominięte wiadomości; dostępne jest stronicowane archiwum. Przejście aplikacji w tło lub przegrzanie zatrzymuje obliczenia.'),
           const SizedBox(height: 16),
           for (final model in status?.models ?? <LocalModel>[])
             Card(

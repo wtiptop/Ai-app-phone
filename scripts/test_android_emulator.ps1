@@ -33,6 +33,13 @@ DeviceAdb shell settings put system screen_off_timeout 2147483647
 DeviceAdb shell input keyevent KEYCODE_WAKEUP
 DeviceAdb shell wm dismiss-keyguard
 DeviceAdb push $taskModel '/sdcard/Download/MiniCPM5-1B-Q4_K_M.gguf'
+$taskFixture=Join-Path $Output 'ScalajacaTestVault'
+New-Item -ItemType Directory -Force -Path (Join-Path $taskFixture '.obsidian') | Out-Null
+[IO.File]::WriteAllText((Join-Path $taskFixture 'Archive.md'),"# Archive`nThe archive key is LANTERN.`n",[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $taskFixture 'GM_SECRET.md'),"GM_SECRET: VAULT_GM_SENTINEL_426`n",[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $taskFixture '.obsidian/hidden.md'),"HIDDEN_PLUGIN_SENTINEL_426`n",[Text.UTF8Encoding]::new($false))
+DeviceAdb shell mkdir -p '/sdcard/Documents'
+DeviceAdb push $taskFixture '/sdcard/Documents/'
 DeviceAdb install -r $taskApk
 DeviceAdb install -r (Join-Path $taskRepo 'build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
 DeviceAdb shell dumpsys package pl.scalajaca.scalajaca | Select-String 'versionCode|versionName|primaryCpuAbi' | Set-Content (Join-Path $Output 'installed-package.txt')
@@ -57,5 +64,5 @@ if($taskProcess.ExitCode -ne 0) { throw "Odczyt dowodów: $taskTarError" }
 & tar -xf $taskTar -C $Output
 if($LASTEXITCODE -ne 0) { throw 'Nie odczytano archiwum dowodów.' }
 $taskResult=Get-Content -LiteralPath $taskLog -Raw
-if($taskRunnerExit -ne 0 -or $taskResult -notmatch 'OK \(4 tests\)' -or $taskResult -match 'FAILURES!!!|INSTRUMENTATION_FAILED') { throw 'Testy emulatora nie przeszły. Raport zachowano.' }
-Write-Output "Cztery testy urządzenia PASS. Dowody: $Output. Emulator pozostaje offline."
+if($taskRunnerExit -ne 0 -or $taskResult -notmatch 'OK \(5 tests\)' -or $taskResult -match 'FAILURES!!!|INSTRUMENTATION_FAILED') { throw 'Testy emulatora nie przeszły. Raport zachowano.' }
+Write-Output "Pięć testów urządzenia PASS, w tym syntetyczny vault i generacja ze źródłem. Dowody: $Output. Emulator pozostaje offline."

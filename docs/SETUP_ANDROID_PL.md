@@ -1,5 +1,9 @@
 # Budowanie i instalacja na Androidzie
 
+## Wydanie 0.3.0
+
+Aktualny debug APK: `Scalajaca-0.3.0-debug-arm64-x64.apk`, Android 7+/minSdk 24, targetSdk 36, ARM64 dla Pixel 9 i x86_64 dla testowego emulatora. Wagi GGUF pozostają osobno. Build, podpis i wyrównanie 16 KiB potwierdzono; emulator API 30 przeszedł 5 scenariuszy offline, fizyczny Pixel 9 wymaga odbioru. Aktualizacja `adb install -r <APK>` zachowuje dane i migruje bazę do v3; nie odinstalowuj aplikacji, jeśli chcesz je zachować. Nowe projekty i RPG nie są objęte dotychczasową przenośną kopią. Vault i kampanie: OBSIDIAN_PAMIEC_RPG_PL.md; dokładne sumy: test-results/android-build-0.3.0.json.
+
 **Aktualizacja 0.2.1:** zbudowano APK z natywnym MiniCPM CPU/JNI, bez serwera i bez wag. Pełne testy Flutter: 141 PASS; JUnit lokalnego magazynu: 21 PASS, w tym pełny GGUF. Bieżący rozmiar/SHA i podpis potwierdza `test-results/android-build-0.2.1.json`. Instalacja oraz generacja na fizycznym Androidzie pozostają niewykonane. Instrukcja importu modelu: [MINICPM_PL.md](MINICPM_PL.md).
 
 Potrzebne: Flutter stable (środowisko prac: 3.47.7, Dart 3.13.5), Git, JDK 17, Android SDK Platform 36, Build Tools 36.0.0 i platform-tools. Projekt wymaga minSdk 24 (Android 7+) zgodnie z Flutter 3.47; bezpieczny magazyn wymaga co najmniej 23. Wiążące wersje zależności zapisuje pubspec.lock po rozwiązaniu.

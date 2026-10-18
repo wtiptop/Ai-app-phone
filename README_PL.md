@@ -1,6 +1,12 @@
 # Scalająca
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.2.1 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+## Aktualne wydanie 0.3.0: lokalny vault i trwała pamięć
+
+**193/193 Flutter, 27/27 JUnit i 5/5 testów emulatora PASS; analiza i nowy APK PASS.** W Pamięci znajdziesz lokalny vault Obsidiana z wersjami/indeksem/checkpointami oraz osobny moduł kampanii RPG z kanonem, stanem świata, wiedzą gracza i audytem. Model otrzymuje wybrane fragmenty po dokładnym podglądzie. Źródła są zachowane przy odpowiedzi, a historia MG nie przechodzi do gracza.
+
+Urządzenie docelowe: Pixel 9; fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi, pełna kopia nowych projektów/RPG i potwierdzona jakość długiej kampanii pozostają zaplanowane. Dotychczasowa kopia hasłem obejmuje zwykłe czaty/notatki/zadania, wykluczając czaty zakresowe. [Instrukcja vaultu, pamięci i RPG](docs/OBSIDIAN_PAMIEC_RPG_PL.md), [wyniki testów](docs/TESTS_PL.md). Raporty 0.2.x poniżej są historią.
+
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.3.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
 **0.2.1: 4/4 scenariusze emulatora, 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Na emulatorze Android 11 x86_64 zaimportowano prawdziwy GGUF przez SAF i czat wygenerował OK bez sieci. JNI zatrzymał streaming po pierwszym tokenie. Nowy APK zawiera ARM64 i x86_64; podpis, manifest oraz wyrównanie 16 KiB są poprawne. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 
@@ -34,6 +40,6 @@ Przeczytaj [SECURITY.md](SECURITY.md), [PRIVACY.md](PRIVACY.md), [ARCHITECTURE.m
 
 ## Zakres kolejnych etapów
 
-Porównanie 2–4 różnych dostawców ma jawne potwierdzenie i osobne odpowiedzi w RAM. Silniki polityk agentów, budżetów, dostępu i izolacji RPG istnieją jako testowalne moduły domenowe; ich obecność nie oznacza działającego autonomicznego zespołu w telefonie. Auto, konsensus, retrieval, przypomnienia, głos, GPW, WFRP, komunikatory, SSO, synchronizacja i JARVIS mają jawny plan w [roadmapie](docs/ROADMAP_PL.md) i [pełnej macierzy wymagań](docs/REQUIREMENTS_TRACEABILITY_PL.md).
+Porównanie 2–4 różnych dostawców ma jawne potwierdzenie i osobne odpowiedzi w RAM. Silniki polityk agentów, budżetów, dostępu i izolacji RPG istnieją jako testowalne moduły domenowe; ich obecność nie oznacza działającego autonomicznego zespołu w telefonie. Auto, konsensus, semantyczny retrieval, przypomnienia, głos, GPW, WFRP, komunikatory, SSO, synchronizacja i JARVIS mają jawny plan w [roadmapie](docs/ROADMAP_PL.md) i [pełnej macierzy wymagań](docs/REQUIREMENTS_TRACEABILITY_PL.md).
 
 Oryginalna specyfikacja jest zachowana w `SPECYFIKACJA.md`. Żaden wymóg nie jest odrzucany przez sam fakt, że nie należy do bieżącego etapu. Nie wykonano płatnych operacji, logowania kont, wysyłki do osób trzecich ani publikacji aplikacji.
