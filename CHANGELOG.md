@@ -1,5 +1,13 @@
 # Dziennik zmian
 
+## 0.2.1 — 2026-10-18
+
+- Jeden APK ARM64+x86_64; emulator używa natywnego x86_64 zamiast zawodnej translacji ARM. W ggml dla Androida x86_64 wyłączono instrukcje AVX/FMA/F16C/BMI2 niedostępne w testowym emulatorze.
+- Osobna semantyka i ogłaszanie zmian statusu odpowiedzi: status, koszt i tokeny nie łączą się już z podpowiedzią zaznaczalnego tekstu. Dodano asercję dostępności do testu czatu Flutter.
+- Standardowy AndroidJUnitRunner/UIAutomator i skrypt odtwarzający import GGUF przez SAF, prawdziwy czat offline, anulowanie po tokenie JNI, Stop w UI, następną odpowiedź i zatrzymanie w tle.
+- Usunięto nieużywane Flutter integration_test i konflikt starego runnera Androida. Notices zaktualizowano dla 100 pakietów; przypięte źródła silnika bez zmian.
+- Rzeczywiste wyniki oraz granice odbioru emulatora: docs/TESTS_PL.md. Fizyczny telefon ARM64, jakość polskiego, bateria, termika, 2B, multimodalność i pozostałe otwarte wymagania pozostają do realizacji/odbioru.
+
 ## 0.2.0 — 2026-10-18
 
 - Prawdziwy silnik llama.cpp/ggml CPU/JNI w APK ARM64; MiniCPM5-1B/2B jako osobny dostawca offline w czacie i porównaniu.

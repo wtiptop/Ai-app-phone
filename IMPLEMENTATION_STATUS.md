@@ -1,6 +1,14 @@
 # Stan rzeczywistej implementacji
 
-## Aktualizacja 0.2.0+3: prawdziwy MiniCPM offline — 18.10.2026
+## Aktualizacja 0.2.1+4: odbiór emulatora — 18.10.2026
+
+**Potwierdzone: 4/4 scenariusze AndroidJUnitRunner na Androidzie 11 / API 30 x86_64, 141/141 testów Flutter, 21/21 JUnit z prawdziwym GGUF, analiza bez uwag.** Emulator importuje GGUF przez prawdziwy SAF, czat MiniCPM zwraca `OK` bez internetu (21 tokenów wejścia, 1 wyjścia), JNI zatrzymuje rzeczywisty streaming po tokenie. Stop w UI pozwala następnie uruchomić kolejną rzeczywistą odpowiedź; przejście w tło zatrzymuje obliczenia. Każdy scenariusz sprawdza tryb samolotowy i brak aktywnej sieci przed oraz po wykonaniu. Raport: `docs/test-results/android-emulator-0.2.1.json`, log standardowego runnera i zrzuty obok.
+
+APK `Scalajaca-0.2.1-debug-arm64-x64.apk` ma ARM64 dla telefonu i natywny x86_64 dla emulatora. Poprzedni ARM64 0.2.0 zakończył się SIGILL w translatorze ARM obrazu x86_64; nie był to test fizycznego ARM64. Dodano wariant x86_64 bez AVX/FMA/F16C/BMI2 oraz usunięto nieużywaną zależność integration_test powodującą konflikt runnerów. Status odpowiedzi/koszt/tokeny mają osobną semantykę i ogłaszanie zmiany stanu, sprawdzone w Flutter i Androidzie. Build, podpis, manifest, obie biblioteki JNI oraz wyrównanie ZIP/ELF 16 KiB: PASS. Dokładny SHA-256 i rozmiar: `docs/test-results/android-build-0.2.1.json`.
+
+**Granice:** to emulator x86_64, nie fizyczny telefon ARM64. Nie potwierdzono baterii, termiki, szczytowego RAM, rotacji, ręcznego TalkBack, jakości polskiego, realnego 2B, GPU/NPU, multimodalności, porównania na urządzeniu ani pełnego odbioru pierwotnej specyfikacji. Sam zapis historii w tym scenariuszu nie jest pełnym audytem Keystore. Model pozostaje osobnym plikiem, bez serwera i fallbacku do chmury. Nie wykonano płatnego API, podłączenia kont ani publikacji. 129 wymagań z 17 sekcji i MX1–MX7 pozostają w macierzy wraz z ograniczeniami; starsze raporty poniżej są historią.
+
+## Historia 0.2.0+3: prawdziwy MiniCPM offline — 18.10.2026
 
 Dodano natywny silnik llama.cpp/ggml CPU/JNI w APK, osobny `LocalModelAdapter`, bezpośredni streaming do czatu i porównania oraz ekran lokalnych modeli. SAF importuje GGUF do prywatnego magazynu, oblicza SHA-256, sprawdza strukturę i pozwala anulować/usunąć kopię. Znane profile: tekstowe MiniCPM5-1B/2B; rzeczywiste wagi sprawdzono dla 1B Q4_K_M. Wbudowane przypięte szablony zastępują szablon z GGUF. Brak serwera, kont, klucza, pobierania w aplikacji i automatycznego fallbacku do chmury.
 

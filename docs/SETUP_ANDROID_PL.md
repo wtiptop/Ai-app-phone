@@ -1,21 +1,23 @@
 # Budowanie i instalacja na Androidzie
 
-**Aktualizacja 0.2.0:** zbudowano APK z natywnym MiniCPM CPU/JNI, bez serwera i bez wag. Pełne testy Flutter: 141 PASS; JUnit lokalnego magazynu: 21 PASS, w tym pełny GGUF. Bieżący rozmiar/SHA i podpis potwierdza `test-results/android-build-0.2.0.json`. Instalacja oraz generacja na fizycznym Androidzie pozostają niewykonane. Instrukcja importu modelu: [MINICPM_PL.md](MINICPM_PL.md).
+**Aktualizacja 0.2.1:** zbudowano APK z natywnym MiniCPM CPU/JNI, bez serwera i bez wag. Pełne testy Flutter: 141 PASS; JUnit lokalnego magazynu: 21 PASS, w tym pełny GGUF. Bieżący rozmiar/SHA i podpis potwierdza `test-results/android-build-0.2.1.json`. Instalacja oraz generacja na fizycznym Androidzie pozostają niewykonane. Instrukcja importu modelu: [MINICPM_PL.md](MINICPM_PL.md).
 
 Potrzebne: Flutter stable (środowisko prac: 3.47.7, Dart 3.13.5), Git, JDK 17, Android SDK Platform 36, Build Tools 36.0.0 i platform-tools. Projekt wymaga minSdk 24 (Android 7+) zgodnie z Flutter 3.47; bezpieczny magazyn wymaga co najmniej 23. Wiążące wersje zależności zapisuje pubspec.lock po rozwiązaniu.
 
-W zweryfikowanym buildzie użyto także NDK 28.2.13676358 i CMake 3.22.1. Pluginy pobrały SDK Platform 35. ABI celu określa parametr `--target-platform`; dostarczany debug APK jest przeznaczony dla ARM64. Rozwiąż licencje SDK zgodnie z oficjalną instrukcją przed samodzielnym budowaniem.
+W zweryfikowanym buildzie użyto także NDK 28.2.13676358 i CMake 3.22.1. Pluginy pobrały SDK Platform 35. ABI celu określa parametr `--target-platform`; dostarczany debug APK zawiera ARM64 dla telefonu oraz x86_64 sprawdzony na emulatorze. Rozwiąż licencje SDK zgodnie z oficjalną instrukcją przed samodzielnym budowaniem.
 
-**Dostarczony APK:** `Scalajaca-0.2.0-debug-arm64.apk`, podpis debug v2 zweryfikowany, Android 7+ ARM64. Rozmiar i SHA-256 są w bieżącym raporcie JSON obok logów podpisu/manifestu. Nie jest to wydanie produkcyjne/sklepowe. Wagi GGUF skopiuj na telefon osobno i zaimportuj przez Ustawienia → Dostawcy AI → MiniCPM offline. Po imporcie uruchom krótki czat w trybie samolotowym, przetestuj Stop oraz przejście w tło. Aplikacja nie wymaga płatnego API ani OPPO.
+**Dostarczony APK:** `Scalajaca-0.2.1-debug-arm64-x64.apk`, podpis debug v2 zweryfikowany, Android 7+, ARM64 lub x86_64. Rozmiar i SHA-256 są w bieżącym raporcie JSON obok logów podpisu/manifestu. Nie jest to wydanie produkcyjne/sklepowe. Wagi GGUF skopiuj na telefon osobno i zaimportuj przez Ustawienia → Dostawcy AI → MiniCPM offline. Po imporcie uruchom krótki czat w trybie samolotowym, przetestuj Stop oraz przejście w tło. Aplikacja nie wymaga płatnego API ani OPPO.
 
 Źródła: [instalacja Flutter](https://docs.flutter.dev/install), [oficjalna konfiguracja Android](https://docs.flutter.dev/platform-integration/android/setup), [Android command line tools](https://developer.android.com/tools).
+
+Test emulatora po zbudowaniu głównego APK (PowerShell 7, działający własny AVD Android 11 / API 30 Google APIs x86_64 po angielsku): `scripts/test_android_emulator.ps1 -Model <pełna-ścieżka-GGUF> -Serial emulator-5556`. Skrypt ogranicza się do emulatora, sprawdza hash publicznego modelu, buduje osobny testowy APK, ustawia tryb samolotowy, instaluje oba pakiety i wykonuje cztery scenariusze. Wymaga wolnego miejsca na model w Pobranych i prywatnej kopii. Nie pobiera wag ani nie instaluje sterowników Windows; pozostawia AVD offline. Raport domyślnie trafia do ignorowanego `work/emulator-tests`. Testy nie wymagają kont, roota ani płatnego API.
 
 ```powershell
 flutter doctor -v
 flutter pub get
 flutter analyze
 flutter test
-flutter build apk --debug --target-platform android-arm64
+flutter build apk --debug --target-platform android-arm64,android-x64
 ```
 
 Można użyć `scripts/build_android.ps1`. APK debug służy testom i jest podpisany kluczem debug, bez publikacji. Wynik oczekiwany: `build/app/outputs/flutter-apk/app-debug.apk`. **O istnieniu zweryfikowanego artefaktu rozstrzyga IMPLEMENTATION_STATUS.md i raport testów, a nie ta przykładowa ścieżka.**

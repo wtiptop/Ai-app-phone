@@ -10,9 +10,9 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 | MX2 | Adapter własnego serwera tekst/SSE/katalog/stop/błędy | Potwierdzone testami Dart; realny model wymaga konfiguracji i testu |
 | MX3 | HTTPS, opcjonalny klucz Keystore, jawny adres, brak przenoszenia sekretu | Transport i zmiana zatwierdzonego adresu testowane; widgety PASS; Keystore wymaga testu Android |
 | MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
-| MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat lokalny testowany atrapą kanału, rzeczywisty rdzeń osobno; Android nadal do odbioru |
-| MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; limity/tło/termika urządzenia do odbioru |
-| MX7 | APK i test telefonu z modelem | APK 0.2.0 build/podpis/manifest PASS; generacja prawdziwych wag na hoście PASS; telefon/JNI niewykonane |
+| MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat JNI offline i Stop/tło potwierdzone na emulatorze x86_64; porównanie na urządzeniu i fizyczny telefon do odbioru |
+| MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; import SAF i Stop/tło na emulatorze PASS; termika i fizyczny telefon do odbioru |
+| MX7 | APK i test telefonu z modelem | APK 0.2.1 ARM64+x86_64 build/podpis/manifest PASS; prawdziwa generacja JNI i import SAF offline na emulatorze Android 11 x86_64; fizyczny telefon nieprzetestowany |
 
 ## Pierwotna specyfikacja
 
@@ -24,8 +24,8 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
-| R00.1 | Instalowalny samodzielny Android APK; AAB docelowo | 2/6 | Ograniczone: APK ARM64 zbudowany, podpis/manifest PASS; instalacja urządzenia niewykonana |
-| R00.2 | Start, lokalne dane, czaty, chmura i podstawowe zadania bez OPPO, RPi, VPS, Termuxa i serwera | 2 | Ograniczone: kod lokalnego startu/UI/SQLite/BYOK obecny; uruchomienie Android A01 do odbioru |
+| R00.1 | Instalowalny samodzielny Android APK; AAB docelowo | 2/6 | Ograniczone: APK ARM64+x86_64 zbudowany, podpis/manifest PASS; instalacja i generacja offline emulatora potwierdzone; telefon/AAB do odbioru |
+| R00.2 | Start, lokalne dane, czaty, chmura i podstawowe zadania bez OPPO, RPi, VPS, Termuxa i serwera | 2 | Ograniczone: kod lokalnego startu/UI/SQLite/BYOK obecny; samodzielny start i czat offline emulatora potwierdzone; pełne A01 na telefonie do odbioru |
 | R00.3 | JARVIS/OPPO jako odłączalny moduł wyłączony domyślnie | 6 | Ograniczone: wyłączony JarvisBridge i test braku uprawnień; rzeczywiste parowanie zaplanowane |
 | R00.4 | Offline: dane, szkice, wyszukiwanie, trwała kolejka i eksport | 2/3 | Ograniczone: kod historii/szkiców/notatek/listy zadań/kolejki odnośników/transferów; model MiniCPM CPU/JNI wdrożony w 0.2.0, odbiór telefonu otwarty; pełny dispatcher zaplanowany; A02/A11 do odbioru |
 | R00.5 | Polski domyślny, i18n, responsywność i dostępność | 2 | Ograniczone: polski UI, motywy, semantyka i test 320×640 / 200% PASS; ARB i TalkBack urządzenia zaplanowane |
@@ -201,19 +201,19 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 |---|---|---:|---|
 | R14.0 | Oficjalna weryfikacja z datą/linkami; macierz konsument/API/OAuth/abonament/zgody/koszt/status | 0 | Potwierdzone dokumentacyjnie: datowana macierz czterech AI i źródła Android/komunikatorów/pakietów |
 | R14.1 | Repo, README PL, ADR, licencje, katalogi, typy/diagram, kompatybilne libs, UX/akceptacja | 1 | Potwierdzone plikami: README, ADR, architektura, UX, akceptacja, lockfile i notices; natywny odbiór pozostaje osobny |
-| R14.2 | Flutter Android, SQLite, historia, realny adapter BYOK + drugi, demo, stream/cancel/settings/errors | 2 | Ograniczone: kod core i 83 testy hosta PASS; APK build/podpis PASS, instalacja i live API niewykonane |
+| R14.2 | Flutter Android, SQLite, historia, realny adapter BYOK + drugi, demo, stream/cancel/settings/errors | 2 | Ograniczone: kod core i 141 testów Flutter PASS; APK i 4 scenariusze emulatora offline PASS; live API i telefon niewykonane |
 | R14.3 | 4 adaptery, magazyn sekretów, uczciwe SSO, share i MD, Obsidian opcjonalny | 3 | Ograniczone: cztery transporty + Keystore + SAF/share/MD/backup; SSO i vault katalogowy zaplanowane |
 | R14.4 | Auto/compare/review/arbiter/role/budżety/limity/decyzje i testy przecieków | 4 | Ograniczone: porównanie, gate budżetów, domena agentów/ACL i testy; Auto/konsensus/arbiter/wykonawca zaplanowane |
 | R14.5 | Asystent/notyfikacje/głos/search/monitoring/GPW/gry/nauka/RPG/kanały | 5 | Zaplanowane: A18–A25 |
 | R14.6 | Bezpieczny backend webhook/24h, OPPO, sync, AAB, bateria/a11y | 6 | Zaplanowane: A06/A12/A21/A24 |
-| R14.7 | Każda faza: kod→lint→unit/widget/integration→urządzenie jeśli dostępne→fakty→poprawki→docs | wszystkie | Ograniczone: analyze PASS, 83 testy PASS, naprawy i raport; testy Android/integracyjne urządzenia nadal niewykonane |
+| R14.7 | Każda faza: kod→lint→unit/widget/integration→urządzenie jeśli dostępne→fakty→poprawki→docs | wszystkie | Ograniczone: analyze PASS, 141 testów Flutter i 4 scenariusze emulatora PASS, naprawy i raport; rzeczywiste JNI i import GGUF na emulatorze wykonane; dalsze kryteria i telefon pozostają otwarte |
 | R14.8 | Zgoda przed destrukcją, płatnym kontem, publikacją i wiadomościami | wszystkie | Wymaganie obowiązuje; brak takich autoryzacji w bieżącym zakresie |
 
 ## 15. Odbiór końcowy
 
 | ID | Kryterium specyfikacji | Test | Status |
 |---|---|---|---|
-| R15.1 | Samodzielne uruchomienie Android | A01 | Ograniczone: źródła, host demo i APK build PASS; instalacja niewykonana |
+| R15.1 | Samodzielne uruchomienie Android | A01 | Ograniczone: źródła, host demo i APK build PASS; instalacja/start emulatora x86_64 PASS, telefon do odbioru |
 | R15.2 | Rozmowa→restart→search→eksport | A02/A07 | Ograniczone: plik SQLite close/reopen/search i transfery testowane; pełny lifecycle oraz SAF na Androidzie do odbioru |
 | R15.3 | Prawdziwe API stream/cancel i czytelne błędy | A03/A16 | Ograniczone: 37 mock testów API/SSE/cancel/błędów PASS; live wymaga zgody i konfiguracji |
 | R15.4 | Niezależne adaptery/compare/źródło/koszt | A04 | Ograniczone: niezależne transporty i eksperymentalne porównanie; realny rachunek/lifecyle niepotwierdzone |

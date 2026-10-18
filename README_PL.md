@@ -1,8 +1,8 @@
 # Scalająca
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.2.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.2.1 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
-**0.2.0: 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Wspólny rdzeń C++ wygenerował odpowiedź z prawdziwego MiniCPM5-1B Q4_K_M na hoście. Zbudowano nowy APK ARM64 i zweryfikowano podpis/manifest. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
+**0.2.1: 4/4 scenariusze emulatora, 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Na emulatorze Android 11 x86_64 zaimportowano prawdziwy GGUF przez SAF i czat wygenerował OK bez sieci. JNI zatrzymał streaming po pierwszym tokenie. Nowy APK zawiera ARM64 i x86_64; podpis, manifest oraz wyrównanie 16 KiB są poprawne. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 
 ## Uruchomienie
 
@@ -10,7 +10,7 @@ Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć 
 2. `flutter pub get`
 3. `flutter analyze`
 4. `flutter test`
-5. `flutter run` albo `flutter build apk --debug --target-platform android-arm64`.
+5. `flutter run` albo `flutter build apk --debug --target-platform android-arm64,android-x64`.
 
 Bez kluczy wybierz **Demo offline**: to jawna atrapa, nie lokalny LLM. Możesz tworzyć rozmowy, zapisywać szkice, wyszukiwać historię, dodawać notatki i zadania. Zaimportowany Markdown staje się notatką po ręcznym zatwierdzeniu. Eksport tekstu i zaszyfrowana kopia korzystają z systemowego wyboru pliku Androida. Demo i dane lokalne nie wykonują żadnych połączeń z dostawcami.
 
@@ -24,7 +24,7 @@ OpenAI, Anthropic, Gemini i xAI mają oddzielne adaptery oficjalnego API. **Kod 
 
 Ustawienia → Dostawcy AI → **MiniCPM • własny serwer**. Dodano adapter tekstowy HTTPS zgodny z API llama.cpp, katalog modeli, SSE, anulowanie, kontrolę kosztów i jawny adres odbiorcy w czacie oraz porównaniu. Klucz własnego serwera jest opcjonalny. Zadeklarowany własny serwer z obiema stawkami 0 nie wymaga włączania płatnych API; pozostali dostawcy pozostają zablokowani. Zmiana adresu wymaga nowej deklaracji i nie przenosi starego klucza.
 
-**MiniCPM offline** jest osobną opcją: APK zawiera silnik llama.cpp CPU/JNI. Zaimportuj dobrowolnie oficjalny plik MiniCPM5-1B/2B GGUF w Ustawienia → Dostawcy AI → MiniCPM offline, a następnie wybierz go w czacie. Bez serwera i klucza; brak fallbacku do chmury. Wagi pozostają osobnym plikiem (testowany 1B: około 657 MiB). Import, SHA-256, usuwanie, strumieniowanie i stop są wdrożone. Testy hosta przeszły; wydajność, język polski i pełny cykl Androida wymagają odbioru urządzenia. [Dokładna instrukcja i ograniczenia](docs/MINICPM_PL.md).
+**MiniCPM offline** jest osobną opcją: APK zawiera silnik llama.cpp CPU/JNI. Zaimportuj dobrowolnie oficjalny plik MiniCPM5-1B/2B GGUF w Ustawienia → Dostawcy AI → MiniCPM offline, a następnie wybierz go w czacie. Bez serwera i klucza; brak fallbacku do chmury. Wagi pozostają osobnym plikiem (testowany 1B: około 657 MiB). Import, SHA-256, usuwanie, strumieniowanie i stop są wdrożone. Generację i import uruchomiono na emulatorze; wydajność, język polski, bateria i termika fizycznego telefonu wymagają odbioru. [Dokładna instrukcja i ograniczenia](docs/MINICPM_PL.md).
 
 ## Dane i bezpieczeństwo
 

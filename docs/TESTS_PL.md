@@ -1,6 +1,34 @@
 # Rzeczywiste testy Scalającej
 
-## MiniCPM offline 0.2.0 — 18.10.2026
+## Odbiór 0.2.1 — 18.10.2026, Europe/Warsaw
+
+| Sprawdzenie | Rzeczywisty wynik | Dowód / granica |
+|---|---|---|
+| Flutter analyze | **PASS, No issues found, exit 0** | analyze-0.2.1.log |
+| Pełny Flutter runner | **141/141 PASS, exit 0** | flutter-tests-0.2.1.log; asercja etykiety i live region statusu w istniejącym teście czatu |
+| JUnit magazynu Androida | **21/21 PASS, 0 pominiętych, exit 0** | android-junit-0.2.1.xml i log; w tym pełny GGUF 688 065 920 bajtów |
+| AndroidJUnitRunner 1.7.0 / UIAutomator 2.3.0 | **4/4 PASS, 0 błędów** | android-emulator-0.2.1.log/json; prawdziwe JNI, bez atrap modelu |
+| Systemowy import GGUF | **PASS** | DocumentsUI → fizyczny Download → GGUF; hash 81b64d05…52deafa, prywatna kopia 688 065 920 bajtów i profil minicpm5_1b; imported.png |
+| Czat offline z prawdziwym modelem | **PASS: OK, 21 wejście / 1 wyjście** | saf-offline-chat w JSON, offline-chat.png/xml; brak aktywnej sieci |
+| Zatrzymanie po pierwszym tokenie JNI | **PASS, cancelled, 1 token wyjścia** | jni-stream-stop w JSON; rzeczywisty tekst przed Stop; opóźnienie 60 ms w tym przebiegu emulatora |
+| Stop UI → następna generacja | **PASS** | Anulowano → nowa rozmowa → OK i dodatnia liczba tokenów; ui-stop-recovery, stopped.png / recovered.png |
+| Przejście w tło | **PASS** | Home podczas generacji, powrót → Anulowano; background-stop i background-cancelled.png |
+| Brak internetu | **PASS** | airplane_mode_on=1, Wi-Fi/data wyłączone, Active default network: none; asercje przed i po każdym teście |
+| Build debug APK | **PASS, exit 0, 46,8 s** | android-build-0.2.1.log; testowano dokładnie hash z android-build-0.2.1.json |
+| Podpis / manifest / biblioteki | **PASS** | debug v2; minSdk 24, targetSdk 36, arm64-v8a+x86_64; allowBackup/cleartext wyłączone; ZIP i ELF 16 KiB, JNI version/prepare/cancel/generate, bez importów sieciowych silnika |
+| Licencje | **100 pakietów Dart, 0 braków** | zaktualizowane THIRD_PARTY_NOTICES.txt; źródła 1818 plików silnika i przypięte szablony bez zmian |
+| Fizyczny telefon ARM64 | **Niewykonane** | Brak benchmarku telefonu, termiki, baterii i ręcznego TalkBack. Instalacja i inferencja potwierdzone tylko na x86_64 emulatora |
+| Polski / 2B / porównanie na urządzeniu | **Niepotwierdzone** | Angielski prompt techniczny nie ocenia jakości PL. Wcześniejsza słaba próba PL pozostaje ograniczeniem |
+
+Dowody w `docs/test-results/`; zrzuty w `emulator-0.2.1/`. Emulowane środowisko: Android Emulator 37.2.12.0, obraz Android 11 Google APIs x86_64 API 30 rev16, 4096 MiB RAM i 4 vCPU. AEHD 2.2.0 zainstalowano po wyraźnej zgodzie właściciela. To narzędzie hosta, nie zależność aplikacji na telefonie. Pomiar Stop dotyczy tego przebiegu, nie gwarantuje czasu na telefonie.
+
+Wykryte problemy: ARM64 0.2.0 nie uruchomił się w translatorze ARM emulatora (SIGILL/libndk_translation); 0.2.1 dodaje pełny natywny x86_64. Usunięto nieużywane integration_test wnoszące konflikt starego runnera. Android scalał status z podpowiedzią zaznaczalnej odpowiedzi; dodano osobną granicę semantyki i ogłaszanie stanu. Wczesne przebiegi miały także błędy fixture: szukanie labelText jako tekstu, brak fokusu przed edycją, animacje/ukryte elementy selektora, zapamiętany katalog i zbyt późne zwalnianie SemanticsHandle. Nie zaliczono tych prób jako PASS. Końcowy pełny runner wykonał wszystkie cztery scenariusze oraz 141 testów Flutter po poprawkach.
+
+Odtworzenie: zbuduj APK dla `android-arm64,android-x64`, uruchom przygotowany własny AVD Google APIs API 30 x86_64 po angielsku, następnie `scripts/test_android_emulator.ps1 -Model <pełna-ścieżka-oficjalnego-GGUF> -Serial emulator-5556`. Skrypt sprawdza model, instaluje APK i osobny testowy APK, wyłącza sieć, uruchamia standardowy runner i odczytuje prywatne dowody przez debug run-as. Bez pobierania wag, roota, kont i opłat. Błędy runnera kończą skrypt błędem, nawet jeśli samo am instrument zwróci exit 0.
+
+Otwarte: fizyczny ARM64, cold start/force-stop i pełna trwałość, rotacja, usuwanie i anulowanie SAF na urządzeniu, TalkBack ręcznie, szczytowy RAM, bateria/Doze/termika, 2B, jakość PL i wszystkie pozostałe niewykonane kryteria A01–A34. Test importu GGUF nie odbiera eksportu innych plików przez SAF. Wszystkie live API/konta/publikacja pozostały niewykonane.
+
+## Historia MiniCPM offline 0.2.0 — 18.10.2026
 
 | Sprawdzenie | Wynik rzeczywisty | Dowód / granica |
 |---|---|---|

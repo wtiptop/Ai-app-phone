@@ -662,9 +662,15 @@ class _HomeState extends State<Home> {
                                   child: LinearProgressIndicator(),
                                 ),
                               if (m.role != 'user')
-                                Text(
-                                  '${_statusLabel(m.status)} • ${m.provider == 'demo' || m.provider == 'minicpm_local' ? '0 USD za API' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                Semantics(
+                                  container: true,
+                                  liveRegion: m.status != 'streaming' &&
+                                      m.status != 'pending',
+                                  child: Text(
+                                    '${_statusLabel(m.status)} • ${m.provider == 'demo' || m.provider == 'minicpm_local' ? '0 USD za API' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
                                 ),
                               Wrap(
                                 children: [

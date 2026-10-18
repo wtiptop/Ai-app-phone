@@ -115,24 +115,32 @@ void main() {
   testWidgets('Czat demo zapisuje treść lokalnie i jasno oznacza atrapę', (
     tester,
   ) async {
-    await _boot(tester, store, secrets);
-    await tester.enterText(find.byType(TextField), 'Zażółć gęślą jaźń 😀');
-    await _flush(tester);
-    await tester.tap(find.byTooltip('Wyślij wiadomość'));
-    await _flush(tester, rounds: 30);
-    final conversations = await tester.runAsync(() => store.conversations());
-    expect(conversations, hasLength(1));
-    final messages = await tester.runAsync(
-      () => store.messages(conversations!.single.id),
-    );
-    expect(messages, hasLength(2));
-    expect(messages!.first.text, 'Zażółć gęślą jaźń 😀');
-    expect(messages.last.status, 'complete');
-    expect(messages.last.provider, 'demo');
-    expect(messages.last.text, contains('demo'));
-    expect(find.textContaining('Ukończono'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-    await tester.pumpWidget(const SizedBox.shrink());
+    final semantics = tester.ensureSemantics();
+    try {
+      await _boot(tester, store, secrets);
+      await tester.enterText(find.byType(TextField), 'Zażółć gęślą jaźń 😀');
+      await _flush(tester);
+      await tester.tap(find.byTooltip('Wyślij wiadomość'));
+      await _flush(tester, rounds: 30);
+      final conversations = await tester.runAsync(() => store.conversations());
+      expect(conversations, hasLength(1));
+      final messages = await tester.runAsync(
+        () => store.messages(conversations!.single.id),
+      );
+      expect(messages, hasLength(2));
+      expect(messages!.first.text, 'Zażółć gęślą jaźń 😀');
+      expect(messages.last.status, 'complete');
+      expect(messages.last.provider, 'demo');
+      expect(messages.last.text, contains('demo'));
+      expect(find.textContaining('Ukończono'), findsOneWidget);
+      final status = tester.getSemantics(find.textContaining('Ukończono'));
+      expect(status.label, contains('Ukończono • 0 USD za API'));
+      expect(status.flagsCollection.isLiveRegion, isTrue);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets(

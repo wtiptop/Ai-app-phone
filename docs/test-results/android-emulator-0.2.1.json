@@ -1,0 +1,48 @@
+{
+  "version": "0.2.1+4",
+  "date": "2026-10-18 Europe/Warsaw",
+  "framework": "AndroidJUnitRunner 1.7.0 / UIAutomator 2.3.0",
+  "emulator": "Android 11 Google APIs API 30 rev16, x86_64, AVD Scalajaca_API30, emulator 37.2.12.0, AEHD 2.2.0, 4096 MiB RAM, 4 vCPU",
+  "apkSha256": "7a3b24fb5869caadbaa0cb4f34f7b7a4b2aa0c194d5542d3cd7bb7688d620c70",
+  "tests": 4,
+  "failures": 0,
+  "skipped": 0,
+  "airplaneMode": true,
+  "defaultNetwork": "none",
+  "wifi": false,
+  "mobileData": false,
+  "reports": {
+    "ui-stop-recovery": {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    "background-stop": {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    "jni-stream-stop": {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 1258,
+      "stopLatencyMs": 60,
+      "fixtureOutput": "El",
+      "name": "jni-stream-stop"
+    },
+    "saf-offline-chat": {
+      "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+      "bytes": 688065920,
+      "elapsedMs": 10683,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    }
+  },
+  "physicalArm64PhoneTested": false,
+  "polishQualityVerified": false,
+  "weightsInApk": false
+}

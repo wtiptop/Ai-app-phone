@@ -1,4 +1,4 @@
-param([string]$Flutter = 'flutter', [string]$Target = 'android-arm64')
+param([string]$Flutter = 'flutter', [string]$Target = 'android-arm64,android-x64')
 $ErrorActionPreference = 'Stop'
 $env:FLUTTER_SUPPRESS_ANALYTICS = 'true'
 $env:DART_SUPPRESS_ANALYTICS = 'true'

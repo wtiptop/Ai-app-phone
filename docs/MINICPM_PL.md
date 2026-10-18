@@ -1,15 +1,15 @@
-# MiniCPM offline w Scalającej 0.2.0
+# MiniCPM offline w Scalającej 0.2.1
 
-Stan: **18.10.2026**. APK zawiera prawdziwy silnik llama.cpp CPU połączony przez JNI. Generacja odbywa się w procesie Androida, bez serwera, Termuxa, OPPO, konta, klucza API i automatycznego fallbacku do sieci. **Na hoście wykonano rzeczywistą generację; test fizycznego Androida pozostaje niewykonany.** Funkcja jest eksperymentalna.
+Stan: **18.10.2026**. APK zawiera prawdziwy silnik llama.cpp CPU połączony przez JNI. Generacja odbywa się w procesie Androida, bez serwera, Termuxa, OPPO, konta, klucza API i automatycznego fallbacku do sieci. **Na Androidzie 11 / API 30 x86_64 w emulatorze wykonano rzeczywistą generację i import SAF bez sieci. Test fizycznego telefonu ARM64 pozostaje niewykonany.** Funkcja jest eksperymentalna.
 
 ## Pierwsze uruchomienie na telefonie
 
-1. Zainstaluj `Scalajaca-0.2.0-debug-arm64.apk` zgodnie z [instrukcją](SETUP_ANDROID_PL.md). Wymagany Android 7+ i procesor ARM64. Wagi nie są częścią APK.
+1. Zainstaluj `Scalajaca-0.2.1-debug-arm64-x64.apk` zgodnie z [instrukcją](SETUP_ANDROID_PL.md). Wymagany Android 7+ i procesor ARM64. Wagi nie są częścią APK.
 2. Skopiuj na telefon pobrany za zgodą właściciela `MiniCPM5-1B-Q4_K_M.gguf`. Oficjalny przypięty plik: [OpenBMB na Hugging Face](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF/resolve/3d55fac80935ae6456986ad2384b5cbcc4d6c948/MiniCPM5-1B-Q4_K_M.gguf). Nie wymaga logowania ani płatnego API. Aplikacja sama go nie pobiera.
 3. Ustawienia → Dostawcy AI → **MiniCPM offline** → zarządzanie modelami. Wklej zalecane SHA-256 podane poniżej, wybierz **Importuj plik GGUF** i wskaż lokalny plik w systemowym selektorze. Użyj lokalnej pamięci telefonu; dostawca plików chmurowych w SAF może potrzebować internetu do samego udostępnienia pliku.
 4. Poczekaj na skopiowanie, sprawdzenie struktury i hasha. Pozostań na ekranie podczas importu. Zaimportowany model jest wybierany do czatu. Można anulować import, skopiować hash lub usunąć prywatną kopię; oryginał pozostaje w swoim katalogu.
 5. W czacie wybierz **MiniCPM offline**, wpisz krótki prompt i zatwierdź **Uruchom offline**. Zgoda wskazuje telefon jako miejsce przetwarzania i koszt API 0. Nie włączaj płatnego API. Na pierwszy test nadaje się `Reply with only the single word: OK`.
-6. Sprawdź tę samą generację w trybie samolotowym. Stop przerywa obliczenia. Przejście aplikacji w tło też je zatrzymuje. Ten scenariusz odbioru na telefonie nie został jeszcze wykonany przez twórcę.
+6. Sprawdź tę samą generację w trybie samolotowym. Stop przerywa obliczenia. Przejście aplikacji w tło też je zatrzymuje. Szczegóły odbioru emulatora i jego granice opisuje TESTS_PL.md; fizyczny telefon nadal wymaga testu.
 
 Model testowy: **688 065 920 bajtów**, około **656,2 MiB** (wydawca podaje około 657 MB).
 
