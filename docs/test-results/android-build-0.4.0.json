@@ -1,0 +1,21 @@
+{
+  "version": "0.4.0+6",
+  "buildExitCode": 0,
+  "signatureExitCode": 0,
+  "manifestExitCode": 0,
+  "zipalign16KiBExitCode": 0,
+  "bytes": 143898771,
+  "sha256": "2171c5e7d4772f2a85c1cc03221bd7883b391fc4c127270a2bd2e2c540869f8a",
+  "abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "modelWeightsInApk": false,
+  "nativeLibrarySha256": {
+    "arm64-v8a": "2a1f529905d9542434f48977ad568494285c44ccc425e020648cc4f3404c53f9",
+    "x86_64": "1a5b5d1ae2415e3e153d116839391f249f2d92a76f597f69014676108ba0e2fb"
+  },
+  "deviceTest": "Osobny raport android-emulator-0.4.0",
+  "date": "2026-10-19 Europe/Warsaw"
+}

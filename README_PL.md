@@ -1,12 +1,14 @@
 # Scalająca
 
-## Aktualne wydanie 0.3.0: lokalny vault i trwała pamięć
+## Aktualne wydanie 0.4.0: pełna szyfrowana kopia
 
-**193/193 Flutter, 27/27 JUnit i 5/5 testów emulatora PASS; analiza i nowy APK PASS.** W Pamięci znajdziesz lokalny vault Obsidiana z wersjami/indeksem/checkpointami oraz osobny moduł kampanii RPG z kanonem, stanem świata, wiedzą gracza i audytem. Model otrzymuje wybrane fragmenty po dokładnym podglądzie. Źródła są zachowane przy odpowiedzi, a historia MG nie przechodzi do gracza.
+**241/241 Flutter, 36/36 JUnit, 7/7 Android PASS; analiza i APK PASS.**
 
-Urządzenie docelowe: Pixel 9; fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi, pełna kopia nowych projektów/RPG i potwierdzona jakość długiej kampanii pozostają zaplanowane. Dotychczasowa kopia hasłem obejmuje zwykłe czaty/notatki/zadania, wykluczając czaty zakresowe. [Instrukcja vaultu, pamięci i RPG](docs/OBSIDIAN_PAMIEC_RPG_PL.md), [wyniki testów](docs/TESTS_PL.md). Raporty 0.2.x poniżej są historią.
+Pełna kopia obejmuje projekty, źródła i wersje, checkpointy analiz, kampanie RPG z historią lore i sekretami MG, rozmowy zakresowe i dowody kontekstu oraz zwykłe czaty/notatki/zadania. Strumieniowy kontener AES-256-GCM pod osobnym hasłem jest przywracany atomowo, z nowym kluczem urządzenia i zachowaniem identyfikatorów. Kolizja odrzuca całą operację. [Instrukcja backupu](docs/BACKUP_PL.md), [rzeczywiste wyniki testów](docs/TESTS_PL.md).
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.3.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+Urządzenie docelowe: Pixel 9; fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi i potwierdzona jakość długiej kampanii pozostają zaplanowane. Backup nie przenosi niezaimportowanych plików vaultu, modeli GGUF, uprawnień folderów ani kluczy API. [Instrukcja vaultu, pamięci i RPG](docs/OBSIDIAN_PAMIEC_RPG_PL.md). Raporty 0.3.x i 0.2.x poniżej są historią.
+
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.4.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
 **0.2.1: 4/4 scenariusze emulatora, 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Na emulatorze Android 11 x86_64 zaimportowano prawdziwy GGUF przez SAF i czat wygenerował OK bez sieci. JNI zatrzymał streaming po pierwszym tokenie. Nowy APK zawiera ARM64 i x86_64; podpis, manifest oraz wyrównanie 16 KiB są poprawne. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 

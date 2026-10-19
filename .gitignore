@@ -3,6 +3,7 @@
 .packages
 build/
 android/.gradle/
+android/.kotlin/
 android/local.properties
 android/key.properties
 *.jks
@@ -16,7 +17,10 @@ work/
 *.sqlite*
 *.log
 !docs/test-results/*.log
+!docs/test-results/emulator-0.4.0/*.log
 # Duże dobrowolne zasoby użytkownika nie należą do kodu aplikacji.
 *.gguf
 *.safetensors
 *.partial
+# Prywatne kopie właściciela nie są kodem projektu.
+*.scalabackup

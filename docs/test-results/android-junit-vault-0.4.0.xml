@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pl.scalajaca.scalajaca.vault.VaultPolicyTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-19T13:26:14.425Z" hostname="LAPTOP-QT0T993B" time="0.011">
+  <properties/>
+  <testcase name="exportAcceptsOnlySimpleMarkdownNames" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.001"/>
+  <testcase name="acceptsLocalVaultAndMarkdown" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.001"/>
+  <testcase name="rejectsRootAndSiblingEscape" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.0"/>
+  <testcase name="excludesConfigurationHiddenDirectoriesAndSelfExports" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.0"/>
+  <testcase name="rejectsTraversalRatherThanNormalizing" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.0"/>
+  <testcase name="depthAndLengthAreBounded" classname="pl.scalajaca.scalajaca.vault.VaultPolicyTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

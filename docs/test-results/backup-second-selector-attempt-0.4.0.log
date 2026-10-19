@@ -1,0 +1,50 @@
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.backup.BackupDeviceTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stream=
+pl.scalajaca.scalajaca.backup.BackupDeviceTest:
+INSTRUMENTATION_STATUS: test=a_exportSafWrongPasswordAndCollision
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.backup.BackupDeviceTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=1
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Brak elementu testowego: Zatwierdź tę wersję
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor(BackupDeviceTest.kt:78)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor$default(BackupDeviceTest.kt:71)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click(BackupDeviceTest.kt:81)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click$default(BackupDeviceTest.kt:80)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.createFixtures(BackupDeviceTest.kt:231)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.a_exportSafWrongPasswordAndCollision(BackupDeviceTest.kt:261)
+
+INSTRUMENTATION_STATUS: stream=
+Error in a_exportSafWrongPasswordAndCollision(pl.scalajaca.scalajaca.backup.BackupDeviceTest):
+java.lang.AssertionError: Brak elementu testowego: Zatwierdź tę wersję
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor(BackupDeviceTest.kt:78)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor$default(BackupDeviceTest.kt:71)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click(BackupDeviceTest.kt:81)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click$default(BackupDeviceTest.kt:80)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.createFixtures(BackupDeviceTest.kt:231)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.a_exportSafWrongPasswordAndCollision(BackupDeviceTest.kt:261)
+
+INSTRUMENTATION_STATUS: test=a_exportSafWrongPasswordAndCollision
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 76.261
+There was 1 failure:
+1) a_exportSafWrongPasswordAndCollision(pl.scalajaca.scalajaca.backup.BackupDeviceTest)
+java.lang.AssertionError: Brak elementu testowego: Zatwierdź tę wersję
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor(BackupDeviceTest.kt:78)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.waitFor$default(BackupDeviceTest.kt:71)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click(BackupDeviceTest.kt:81)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.click$default(BackupDeviceTest.kt:80)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.createFixtures(BackupDeviceTest.kt:231)
+	at pl.scalajaca.scalajaca.backup.BackupDeviceTest.a_exportSafWrongPasswordAndCollision(BackupDeviceTest.kt:261)
+
+FAILURES!!!
+Tests run: 1,  Failures: 1
+
+
+INSTRUMENTATION_CODE: -1

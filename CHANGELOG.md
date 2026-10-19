@@ -1,5 +1,14 @@
 # Dziennik zmian
 
+## 0.4.0 — 2026-10-19
+
+- Pełna szyfrowana kopia projektów i kampanii RPG: źródła i wszystkie wersje, checkpointy analiz/sesji, historia lore/zdarzeń, sekrety MG, rozmowy zakresowe i dowody kontekstu oraz zwykłe dane właściciela.
+- Strumieniowy format v2 AES-256-GCM/PBKDF2-SHA256, uwierzytelniony łańcuch ramek i obowiązkowa stopka/EOF; prywatny staging wyłącznie szyfrogramu oraz systemowy SAF. Limit 2 GiB/2 mln rekordów/32 MiB rekordu, jawny błąd bez pomijania.
+- Atomowy restore 16 tabel z zachowaniem ID, walidacją relacji i ról, ponownym szyfrowaniem pod kluczem celu i odbudową HMAC. Każda kolizja wycofuje całość. Bez przywracania kluczy API, płatności, GGUF i uprawnień folderów.
+- Poprawione granice dostępności wierszy źródeł oraz przepełnienia formularza i stronicowania RPG na małym ekranie; osobny test zapisu sekretu MG.
+- Ponowne jawne połączenie folderu do istniejącego projektu po przywróceniu; import wstrzymany i reset kursora. Stary format v1 zachowany osobno.
+- Wyniki testów i nowego APK: aktualna sekcja docs/TESTS_PL.md. Instrukcja: docs/BACKUP_PL.md; decyzje: ADR 009. Synchronizacja i fizyczny Pixel 9 pozostają do osobnego odbioru.
+
 ## 0.3.0 — 2026-10-19
 
 - Lokalny vault Markdown przez SAF, odczyt domyślny, osobny świadomy eksport nowych plików, stronicowany import i wznawianie po każdym pliku.

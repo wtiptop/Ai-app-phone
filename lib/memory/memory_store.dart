@@ -66,6 +66,28 @@ class MemoryStore {
     return MemoryCollection(id, name.trim(), ownerId, vaultId);
   }
 
+  /// Ponowne jawne SAF po restore. Nie przenosimy uprawnień ani starego kursora.
+  Future<void> reconnectVault(String id, String vaultId,
+      {String ownerId = 'local-owner'}) async {
+    await collection(id, ownerId: ownerId);
+    if (vaultId.isEmpty) throw ArgumentError('Brak uchwytu folderu.');
+    await store.db.transaction((tx) async {
+      await tx.update('memory_collections', {'vault_id': vaultId},
+          where: 'id=? AND owner_id=?', whereArgs: [id, ownerId]);
+      await tx.update(
+          'memory_import_jobs',
+          {
+            'cursor': null,
+            'page_offset': 0,
+            'processed': 0,
+            'failed': 0,
+            'status': 'paused'
+          },
+          where: 'collection_id=?',
+          whereArgs: [id]);
+    });
+  }
+
   Future<MemoryCollection> collection(String id,
       {String ownerId = 'local-owner'}) async {
     final rows = await store.db.query('memory_collections',

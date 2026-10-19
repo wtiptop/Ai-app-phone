@@ -1,0 +1,9 @@
+{
+  "ciphertextChanged": true,
+  "collisionRollback": true,
+  "gmSecretHiddenFromPlayer": true,
+  "export": true,
+  "wrongPasswordRollback": true,
+  "restoreAfterAppReset": true,
+  "sameIdsAndCounts": true
+}

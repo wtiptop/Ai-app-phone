@@ -1,5 +1,32 @@
 # Rzeczywiste testy Scalającej
 
+## Odbiór 0.4.0 — 19.10.2026, Europe/Warsaw
+
+| Sprawdzenie | Rzeczywisty wynik | Dowód / granica |
+|---|---|---|
+| Flutter analyze | PASS, bez uwag, exit 0 | analyze-0.4.0.log |
+| Pełny runner Flutter | **241/241 PASS**, exit 0 | flutter-tests-0.4.0.log; źródła, historia/checkpointy/role, nowe szyfrowanie, rollback, uszkodzenia i mały ekran RPG |
+| JUnit Android | **36/36 PASS**, zero błędów i pominiętych | 21 GGUF, 6 vaultu, 9 backupu; XML i android-junit-0.4.0.log |
+| Eksport i próby błędów na Androidzie | **1/1 PASS**, 59.109 s | prawdziwy ACTION_CREATE_DOCUMENT/OPEN_DOCUMENT w Downloads, złe hasło odrzucone przed potwierdzeniem, kolizja wycofana bez zmiany żadnego z 16 zestawów ID/liczników/szyfrogramów; prywatny staging usunięty |
+| Przywrócenie po resecie testowej aplikacji | **1/1 PASS**, 86.917 s | pm clear wyłącznie własnej Scalającej na sprawdzonym AVD, nowy klucz treści, potwierdzony restore, czytelne projekty/notatki/checkpoint i RPG; sekret ukryty graczowi i dostępny MG |
+| Porównanie kopii i celu | **PASS**, 72 rekordy w 16 tabelach | wszystkie liczniki i skróty identyfikatorów identyczne; szyfrogramy chronionych tabel inne; summary.json, backup-export.json i backup-restore.json |
+| MiniCPM offline — regresja | **5/5 PASS**, 116.272 s | nowy import prawdziwego GGUF 688065920 B, odpowiedź OK, JNI Stop po tokenie, Stop UI i kolejna odpowiedź, Home/tło, SAF vaultu i fakt LANTERN z zachowanym dowodem źródeł |
+| Offline | PASS przed/po każdym scenariuszu | samolotowy, WiFi/dane wyłączone, brak aktywnej sieci; bez płatnego API, kont i serwera |
+| APK ARM64+x86_64 | **PASS**, build exit 0 | 0.4.0+6, podpis debug/manifest/ZIP i ELF 16 KiB, niezmieniony przypięty silnik, brak wag w APK; android-build-0.4.0.json/log |
+
+Dwa scenariusze backupu uruchomiono osobno, z kontrolowanym resetem testowej aplikacji pomiędzy nimi, a pięć regresji modeli jednym standardowym AndroidJUnitRunner. Łącznie **7/7**, nie siedem w jednym procesie. Emulator: Android 11/API 30 x86_64, 4096 MiB RAM, AVD Scalajaca_API30. SHA APK wiąże oba raporty z dokładnie tym samym plikiem. Wagi: oficjalny MiniCPM5-1B Q4_K_M, hash 81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa, bez dołączenia do APK/źródeł.
+
+Rzeczywisty zbiór Androida: 8 projektów, 9 dokumentów/wersji/fragmentów, 1 checkpoint analizy, 8 stanów importu, 2 kampanie, 1 wpis/wersja/zdarzenie RPG z sekretem MG, 5 rozmów, 10 wiadomości, 1 zakres i 1 dowód kontekstu oraz 6 notatek. Plik szyfrowany miał 18734 B. Zadania w tej fixture były puste; ich roundtrip i pełne wielowersyjne lore/rollback/checkpoint sesji zweryfikowano w testach hosta. Nie przeniesiono ustawień, kluczy, uprawnień folderów ani GGUF.
+
+Testy kryptografii obejmują Unicode i rekord >256 KiB dzielony na odczyty 64 KiB, złe hasło, nagłówek/parametry, zmiany tagu/ciphertextu/metadanych, przestawienie/usunięcie/powtórzenie/splicing ramek, ucięcie, brak footera, dodatkowe bajty, autentycznie zaszyfrowane lecz błędne liczniki/manifest/footer, limity i anulowanie. Test danych przenosi wszystkie 16 tabel pomiędzy różnymi kluczami, zachowuje ID i dokładne historyczne receipts także po usunięciu źródła, odbudowuje HMAC i sprawdza role/GM, relacje, checkpointy, historię/rollback, późną kolizję i błąd po ostatnim wierszu. Chronione dane docelowe oraz ustawienia pozostają nietknięte przy błędzie.
+
+Przegląd i testy ujawniły potrzebę sprawdzania anulowania przed każdym rekordem oraz końcowym zapisem SAF, poprawy kompatybilności historycznych cytowań i jawnego trybu wt w providerze. Poprawiono też rzeczywiste granice dostępności wiersza źródła oraz przepełnienia formularza i stronicowania RPG na małym ekranie. Test nowego ekranu sprawdza zapis sekretu przy 360×640 i brak wyjątków układu.
+
+Wstępne próby automatu nie są liczone jako PASS. Miały błędne trafienie w scalaną kartę, za szybkie przewijanie dialogu, problemy z fokusem/klawiaturą, powrotem do katalogu i klikaniem ikony podglądu zamiast tytułu dokumentu. Zachowano przykładowe logi prób. Ostateczny backup/restore wykonano na już przygotowanym przez UI syntetycznym zbiorze z flagą ReuseExistingFixture; jego liczniki i role sprawdzono przed testem. Pełnego automatycznego tworzenia fixture przez formularze w jednym przebiegu nie odebrano. Nie pominięto kontroli integralności ani odczytu i filtracji sekretu po przywróceniu.
+
+Odtworzenie: instrukcja BACKUP_PL.md oraz scripts/test_android_backup.ps1, a regresja modelu: scripts/test_android_emulator.ps1. Dowody i zrzuty: emulator-0.4.0/. Fizyczny Pixel 9, backup bliski 2 GiB, ogromny rzeczywisty vault, zewnętrzny chmurowy provider SAF, bateria/termika/szczyt RAM i jakość wielosesyjnej narracji RPG pozostają niezweryfikowane. Nie wykonano płatnych operacji, łączenia kont ani publikacji.
+
+
 ## Odbiór 0.3.0 — 19.10.2026, Europe/Warsaw
 
 | Sprawdzenie | Wynik końcowy | Dowód / granica |

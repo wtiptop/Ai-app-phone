@@ -10,17 +10,20 @@ import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import pl.scalajaca.scalajaca.local.LocalInferencePlugin
 import pl.scalajaca.scalajaca.vault.VaultPlugin
+import pl.scalajaca.scalajaca.backup.BackupFilePlugin
 
 /** Jednorazowe wybory SAF, bez szerokich uprawnień do plików. */
 class MainActivity : FlutterActivity() {
     private var localInference: LocalInferencePlugin? = null
     private var vault: VaultPlugin? = null
+    private var backupFiles: BackupFilePlugin? = null
     private var pending: MethodChannel.Result? = null
     private var saveContent: String? = null
     private val maxBytes = 16 * 1024 * 1024
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        backupFiles = BackupFilePlugin(this, flutterEngine.dartExecutor.binaryMessenger)
         try { vault = VaultPlugin(this, flutterEngine.dartExecutor.binaryMessenger) }
         catch (_: Exception) {
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pl.scalajaca/vault")
@@ -90,6 +93,7 @@ class MainActivity : FlutterActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (localInference?.activityResult(requestCode, resultCode, data) == true) return
         if (vault?.activityResult(requestCode, resultCode, data) == true) return
+        if (backupFiles?.activityResult(requestCode, resultCode, data) == true) return
         if (requestCode != 8101 && requestCode != 8102) return
         val result = pending ?: return
         val content = saveContent
@@ -136,6 +140,7 @@ class MainActivity : FlutterActivity() {
     override fun onDestroy() {
         localInference?.close()
         vault?.close()
+        backupFiles?.close()
         super.onDestroy()
     }
 }

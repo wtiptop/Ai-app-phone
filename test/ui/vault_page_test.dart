@@ -101,6 +101,7 @@ void main() {
 
   testWidgets('import wymaga podglądu i zatwierdzenia przed doborem źródeł',
       (tester) async {
+    final semantics = tester.ensureSemantics();
     final collection = (await tester.runAsync(() =>
         memory.createCollection(name: 'Archiwum', vaultId: 'local-test')))!;
     await boot(tester);
@@ -118,6 +119,11 @@ void main() {
     await _flush(tester);
     final docTile = find.text('Lore/Król.md', skipOffstage: false);
     await _reveal(tester, docTile);
+    final sourceNode = tester.getSemantics(docTile);
+    expect(sourceNode.getSemanticsData().label,
+        isNot(contains('Import i przegląd')));
+    expect(sourceNode.rect.height, lessThan(150));
+    semantics.dispose();
     await tester.tap(docTile);
     await _flush(tester);
     expect(find.textContaining('Król Arven strzeże'), findsOneWidget);

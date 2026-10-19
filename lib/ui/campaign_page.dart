@@ -315,24 +315,28 @@ class _CampaignPageState extends State<CampaignPage> {
                       });
                       await _load();
                     }),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          TextButton(
-              onPressed: busy || campaignOffset == 0
-                  ? null
-                  : () {
-                      setState(() => campaignOffset -= 30);
-                      _load();
-                    },
-              child: const Text('Poprzednie kampanie')),
-          TextButton(
-              onPressed: busy || campaigns.length < 30
-                  ? null
-                  : () {
-                      setState(() => campaignOffset += 30);
-                      _load();
-                    },
-              child: const Text('Następne'))
-        ]),
+        Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              TextButton(
+                  onPressed: busy || campaignOffset == 0
+                      ? null
+                      : () {
+                          setState(() => campaignOffset -= 30);
+                          _load();
+                        },
+                  child: const Text('Poprzednie kampanie')),
+              TextButton(
+                  onPressed: busy || campaigns.length < 30
+                      ? null
+                      : () {
+                          setState(() => campaignOffset += 30);
+                          _load();
+                        },
+                  child: const Text('Następne'))
+            ]),
         if (selected != null) ...[
           const Divider(),
           Text(selected!.name, style: Theme.of(context).textTheme.titleLarge),
@@ -440,24 +444,28 @@ class _CampaignPageState extends State<CampaignPage> {
                                 child: const Text(
                                     'Zatwierdź zmianę · nowa rewizja')),
                         ]))),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TextButton(
-                onPressed: busy || recordOffset == 0
-                    ? null
-                    : () {
-                        setState(() => recordOffset -= 30);
-                        _load();
-                      },
-                child: const Text('Poprzednie wpisy')),
-            TextButton(
-                onPressed: busy || records.length < 30
-                    ? null
-                    : () {
-                        setState(() => recordOffset += 30);
-                        _load();
-                      },
-                child: const Text('Następne wpisy'))
-          ]),
+          Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                TextButton(
+                    onPressed: busy || recordOffset == 0
+                        ? null
+                        : () {
+                            setState(() => recordOffset -= 30);
+                            _load();
+                          },
+                    child: const Text('Poprzednie wpisy')),
+                TextButton(
+                    onPressed: busy || records.length < 30
+                        ? null
+                        : () {
+                            setState(() => recordOffset += 30);
+                            _load();
+                          },
+                    child: const Text('Następne wpisy'))
+              ]),
         ],
       ]));
 }
@@ -541,6 +549,7 @@ class _RecordDialogState extends State<_RecordDialog> {
                     decoration: const InputDecoration(
                         labelText: 'Treść lub fragment Markdown')),
                 DropdownButtonFormField<CampaignRecordKind>(
+                    isExpanded: true,
                     initialValue: kind,
                     decoration: const InputDecoration(labelText: 'Rodzaj'),
                     items: const [
@@ -567,6 +576,7 @@ class _RecordDialogState extends State<_RecordDialog> {
                         ? null
                         : (value) => setState(() => secret = value)),
                 DropdownButtonFormField<LoreAuthority>(
+                    isExpanded: true,
                     initialValue: authority,
                     decoration:
                         const InputDecoration(labelText: 'Hierarchia źródła'),

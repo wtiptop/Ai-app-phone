@@ -1,5 +1,7 @@
 # Lokalny vault, długie analizy i kampanie RPG — 0.3.0
 
+Aktualizacja 0.4.0: w Ustawieniach działa osobna **Pełna szyfrowana kopia** z przywracaniem projektów, wszystkich wersji źródeł, checkpointów, kampanii i sekretów MG. Zachowuje ID i granice ról, a każda kolizja wycofuje całość. Po odtworzeniu folder projektu łączy się ponownie jawnie przez SAF. Instrukcja i wyłączenia: [BACKUP_PL.md](BACKUP_PL.md); dowody: [TESTS_PL.md](TESTS_PL.md). Wzmianki o zaplanowanym pełnym backupie w historycznych sekcjach 0.3.0 opisują poprzednie wydanie. Synchronizacja nadal pozostaje zaplanowana.
+
 Urządzenie docelowe: **Google Pixel 9**. Ta wersja działa samodzielnie, z lokalnym modelem i lokalnym folderem Markdown. Obsidian jest opcjonalnym edytorem tych samych plików. Nie podłączono konta ani Obsidian Sync. Przyszła synchronizacja pozostaje osobnym, niewdrożonym etapem.
 
 ## Pamięć robocza a pamięć trwała

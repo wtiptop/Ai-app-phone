@@ -1,5 +1,7 @@
 # Budowanie i instalacja na Androidzie
 
+Aktualizacja 0.4.0: w Ustawieniach działa osobna **Pełna szyfrowana kopia** z przywracaniem projektów, wszystkich wersji źródeł, checkpointów, kampanii i sekretów MG. Zachowuje ID i granice ról, a każda kolizja wycofuje całość. Po odtworzeniu folder projektu łączy się ponownie jawnie przez SAF. Instrukcja i wyłączenia: [BACKUP_PL.md](BACKUP_PL.md); dowody: [TESTS_PL.md](TESTS_PL.md). Wzmianki o zaplanowanym pełnym backupie w historycznych sekcjach 0.3.0 opisują poprzednie wydanie. Synchronizacja nadal pozostaje zaplanowana.
+
 ## Wydanie 0.3.0
 
 Aktualny debug APK: `Scalajaca-0.3.0-debug-arm64-x64.apk`, Android 7+/minSdk 24, targetSdk 36, ARM64 dla Pixel 9 i x86_64 dla testowego emulatora. Wagi GGUF pozostają osobno. Build, podpis i wyrównanie 16 KiB potwierdzono; emulator API 30 przeszedł 5 scenariuszy offline, fizyczny Pixel 9 wymaga odbioru. Aktualizacja `adb install -r <APK>` zachowuje dane i migruje bazę do v3; nie odinstalowuj aplikacji, jeśli chcesz je zachować. Nowe projekty i RPG nie są objęte dotychczasową przenośną kopią. Vault i kampanie: OBSIDIAN_PAMIEC_RPG_PL.md; dokładne sumy: test-results/android-build-0.3.0.json.

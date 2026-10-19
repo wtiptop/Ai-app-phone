@@ -1,8 +1,12 @@
 # Macierz wymagań Scalającej
 
+## Uzupełnienie 0.4.0: pełna kopia i przywracanie
+
+Zachowano wszystkie 129 ID i MX1–MX7. Wdrożono pełną kopię pod hasłem, obejmującą projekty/kampanie/źródła/wersje/checkpointy/sekrety MG i czaty zakresowe, atomowe odtwarzanie z zachowaniem ID i odbudową indeksów pod nowym kluczem. Każda kolizja odrzuca całość. Zakres, wyłączenia i limity: BACKUP_PL.md; dowody: TESTS_PL.md. Nie oznacza to realizacji synchronizacji, niezależnych kont graczy, całej mechaniki RPG ani pełnego odbioru fizycznego Pixela.
+
 ## Uzupełnienie 0.3.0: lokalny vault, duża pamięć, RPG i Pixel 9
 
-Wybór właściciela: lokalny folder Androida teraz, możliwa synchronizacja później, urządzenie docelowe Pixel 9. Aktualny zakres i ograniczenia: [OBSIDIAN_PAMIEC_RPG_PL.md](OBSIDIAN_PAMIEC_RPG_PL.md), ADR 008 i bieżący raport testów. Zachowano wszystkie 129 identyfikatorów pierwotnych wymagań oraz MX1–MX7. Wdrożony leksykalny retrieval i trwały stan kampanii nie oznaczają pełnej autonomii, mechaniki WFRP ani potwierdzonej jakości długiej kampanii. Pełny backup nowej pamięci i sync pozostają zaplanowane.
+Wybór właściciela: lokalny folder Androida teraz, możliwa synchronizacja później, urządzenie docelowe Pixel 9. Aktualny zakres i ograniczenia: [OBSIDIAN_PAMIEC_RPG_PL.md](OBSIDIAN_PAMIEC_RPG_PL.md), ADR 008 i bieżący raport testów. Zachowano wszystkie 129 identyfikatorów pierwotnych wymagań oraz MX1–MX7. Wdrożony leksykalny retrieval i trwały stan kampanii nie oznaczają pełnej autonomii, mechaniki WFRP ani potwierdzonej jakości długiej kampanii. Pełny backup nowej pamięci jest wdrożony w 0.4.0; synchronizacja pozostaje zaplanowana.
 
 ## Uzupełnienie użytkownika: MiniCPM — 18.10.2026
 
@@ -16,7 +20,7 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 | MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
 | MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat JNI offline i Stop/tło potwierdzone na emulatorze x86_64; porównanie na urządzeniu i fizyczny telefon do odbioru |
 | MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; import SAF i Stop/tło na emulatorze PASS; termika i fizyczny telefon do odbioru |
-| MX7 | APK i test telefonu z modelem | APK 0.3.0 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; 5 scenariuszy emulatora, w tym lokalny vault i realna odpowiedź ze źródła offline; fizyczny Pixel 9 nieprzetestowany |
+| MX7 | APK i test telefonu z modelem | APK 0.4.0 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; aktualne wyniki regresji offline i kopii/przywracania w TESTS_PL.md; fizyczny Pixel 9 nieprzetestowany |
 
 ## Pierwotna specyfikacja
 
@@ -114,9 +118,9 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | R06.3 | SYSTEM, INBOX, PERSONAL, RESEARCH, TECH, FINANCE, GAMING, RPG/CAMPAIGNS/id, COMMUNICATIONS, REVIEWS, ARCHIVE | 3 | Ograniczone: podstawowe katalogi notatek istnieją; kampanie w odrębnym agregacie, pełny vault RPG/CAMPAIGNS/id zaplanowany |
 | R06.4 | Rekord: ID, właściciel, projekt/kampania, autor/czas/źródło/pewność/zakres/zgoda/wersja/powiązania | 3 | Ograniczone: prywatne wersje źródła/sha256/linie/właściciel/kolekcja/zgoda, manualne checkpointy i osobny audyt kampanii; pełne pola autor/pewność/graf relacji i retencja zaplanowane |
 | R06.5 | Kontekst krótki / zatwierdzone fakty długie / dokumenty / stan transakcyjny | 3/4 | Ograniczone: ograniczone okno czatu, zatwierdzone wersje dokumentów, checkpointy analiz i transakcyjny stan kampanii są podłączone; automatyczne streszczanie i semantyczny retrieval zaplanowane |
-| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: reimport tworzy wersję, cofnięcie zgody usuwa indeks, usunięcie kopii kasuje prywatne wersje; audyt i rollback kampanii działają; pełna przenośna kopia nowych danych i retencja zaplanowane |
+| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: reimport tworzy wersję, cofnięcie zgody usuwa indeks, usunięcie kopii kasuje prywatne wersje; audyt i rollback kampanii działają; pełna kopia projektów i RPG z historią/sekretami/źródłami potwierdzona w 0.4.0; retencja zaplanowana |
 | R06.7 | Uprawnione fragmenty i preview, poufność; bez wysyłki całego vaultu i indeksowania GM_SECRET | 3/5 | Ograniczone: wybrane fragmenty/preview/digest/receipt, walidacja przed dispatch, brak indeksu GM_SECRET, izolacja kampanii i historii MG/gracz; testy negatywne 0.3.0 PASS; narzędzia agentów i fizyczny Pixel 9 do odbioru |
-| R06.8 | Szyfrowane kopie/eksporty; sync tylko dobrowolny | 3/6 | Ograniczone: klasyczny backup AES-GCM obejmuje zwykłe czaty/notatki/zadania, wyklucza czaty zakresowe i nowe projekty/RPG; pełny backup nowej pamięci oraz dobrowolny sync zaplanowane |
+| R06.8 | Szyfrowane kopie/eksporty; sync tylko dobrowolny | 3/6 | Ograniczone: pełna kopia v2 AES-GCM/PBKDF2 przenosi projekty, wersje, checkpointy, kampanie i sekrety MG, czaty zakresowe/dowody; atomowy restore i nowy klucz potwierdzone w 0.4.0. Sync zaplanowany; limity i wyłączenia w BACKUP_PL.md |
 
 ## 7. Asystent i narzędzia
 
@@ -181,7 +185,7 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 |---|---|---:|---|
 | R12.1 | Kontrola odbiorców, blokada danych osobistych dla recenzentów, potwierdzenie wielu AI | 2/4 | Ograniczone: jawni odbiorcy/prompt i zawsze zgoda wielu AI; polityka recenzentów zapisana, recenzent niewdrożony |
 | R12.2 | Tryb prywatny i zapisuj/nie zapisuj; minimalne uprawnienia i ochrona sekretów | 2/3 | Ograniczone: nowe prywatne rozmowy ChatSession w RAM, przełącznik UI i bezpieczne klucze; lifecycle/Android A05/A20 do odbioru |
-| R12.3 | Separacja profili/projektów/kampanii, szyfrowanie danych wrażliwych/backupów | 2/3/5 | Ograniczone: szyfrowane projekty/kampanie i scope czatów są podłączone oraz testowane; pełne profile osób, backup nowej pamięci i natywny audyt Keystore pozostają do odbioru |
+| R12.3 | Separacja profili/projektów/kampanii, szyfrowanie danych wrażliwych/backupów | 2/3/5 | Ograniczone: szyfrowane projekty/kampanie i scope czatów są podłączone oraz testowane; pełny backup i odtworzenie nowym kluczem potwierdzone w 0.4.0; pełne profile osób i niezależny audyt fizycznego Keystore pozostają do odbioru |
 | R12.4 | Bez promptów/kluczy w logach bez zgody; prompt injection źródła ≠ instrukcje | 2/4 | Potwierdzone dla aktywnego kodu: brak logowania treści/kluczy, import odrzuca rolę systemową, obrazy Markdown nie pobierają zasobów; przyszłe tools wymagają odrębnej ochrony |
 | R12.5 | Użycie model/dostawca/zadanie; estymata przed multi; usage rzeczywiste gdy API zwraca | 4 | Ograniczone: etykiety modelu/dostawcy, rezerwa i usage tokenów gdy API je zwróci; brak pełnej analityki zadań i rachunku USD |
 | R12.6 | Budżet dzień/miesiąc, kroki, historia, alerty, lokalna blokada nowych płatnych zadań | 4 | Ograniczone: trwałe konserwatywne rezerwy LocalCostGate i domenowy BudgetGuard; pełna analityka/alerty i rozliczenie rzeczywistych cen zaplanowane; A26 |

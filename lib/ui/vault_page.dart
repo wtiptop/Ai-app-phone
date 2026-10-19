@@ -431,6 +431,20 @@ class _VaultPageState extends State<VaultPage> {
                               _packet = null;
                               await _loadDocuments();
                             })),
+              if (collection != null && !connected)
+                OutlinedButton.icon(
+                    onPressed: _busy
+                        ? null
+                        : () => _guard(() async {
+                              final handle = await _gateway.pick();
+                              if (handle == null || !mounted) return;
+                              await widget.store
+                                  .reconnectVault(collection.id, handle.id);
+                              await _reload();
+                            }),
+                    icon: const Icon(Icons.folder_open),
+                    label: const Text(
+                        'Połącz ponownie folder wybranego projektu')),
               for (final handle in _handles)
                 ListTile(
                     dense: true,
@@ -483,13 +497,17 @@ class _VaultPageState extends State<VaultPage> {
                 const Text(
                     'Nowe i zmienione notatki oczekują na zatwierdzenie. Sekrety MG i treści kampanii nie trafiają do ogólnego wyszukiwania.'),
                 for (final doc in _documents)
-                  ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(doc.path),
-                      subtitle: Text(
-                          'Wersja ${doc.revision} • ${doc.bytes} B • ${doc.restricted ? "wyłączone: RPG / sekret MG" : doc.approval == "approved" ? "zatwierdzony" : "oczekuje"}'),
-                      trailing: const Icon(Icons.visibility),
-                      onTap: _busy ? null : () => _guard(() => _document(doc))),
+                  Semantics(
+                      container: true,
+                      child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(doc.path),
+                          subtitle: Text(
+                              'Wersja ${doc.revision} • ${doc.bytes} B • ${doc.restricted ? "wyłączone: RPG / sekret MG" : doc.approval == "approved" ? "zatwierdzony" : "oczekuje"}'),
+                          trailing: const Icon(Icons.visibility),
+                          onTap: _busy
+                              ? null
+                              : () => _guard(() => _document(doc)))),
                 if (_documents.isEmpty)
                   const Text('Brak zaimportowanych dokumentów na tej stronie.'),
                 Wrap(spacing: 8, children: [

@@ -21,6 +21,7 @@ import 'campaign_page.dart';
 import 'vault_page.dart';
 import 'chat_archive.dart';
 import 'provider_settings.dart';
+import 'backup_page.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -1399,15 +1400,22 @@ class _HomeState extends State<Home> {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.backup_outlined),
+            title: const Text('Pełna szyfrowana kopia'),
+            subtitle: const Text(
+                'Projekty, źródła, kampanie RPG i sekrety MG • przywracanie'),
+            onTap: session.busy || _sending ? null : _fullBackup,
+          ),
+          ListTile(
             leading: const Icon(Icons.enhanced_encryption_outlined),
-            title: const Text('Kopia zwykłych czatów, notatek i zadań'),
+            title: const Text('Stara kopia v1: czaty, notatki i zadania'),
             subtitle:
                 const Text('AES-GCM • hasło właściciela • bez kluczy API'),
             onTap: () => _backup(false),
           ),
           ListTile(
             leading: const Icon(Icons.restore),
-            title: const Text('Przywróć zaszyfrowaną kopię'),
+            title: const Text('Przywróć starą kopię v1'),
             subtitle: const Text('Dopisuje dane bez usuwania istniejących'),
             onTap: () => _backup(true),
           ),
@@ -1425,7 +1433,7 @@ class _HomeState extends State<Home> {
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Scalająca',
-              applicationVersion: '0.1.0',
+              applicationVersion: '0.4.0',
             ),
           ),
           const ListTile(
@@ -1444,7 +1452,7 @@ class _HomeState extends State<Home> {
           const ListTile(
             title: Text('Diagnostyka lokalna'),
             subtitle: Text(
-              'Wersja 0.1.0 • baza v2 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
+              'Wersja 0.4.0 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
             ),
           ),
         ],
@@ -1523,6 +1531,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> _fullBackup() async {
+    if (session.busy || _sending) return;
+    await _draftWrites;
+    if (!mounted) return;
+    await Navigator.push<bool>(context,
+        MaterialPageRoute(builder: (_) => BackupPage(store: widget.store)));
+    await _load();
+  }
+
   Future<void> _backup(bool restore) async {
     final pass = TextEditingController();
     final yes = await showDialog<bool>(
@@ -1533,7 +1550,7 @@ class _HomeState extends State<Home> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Hasło minimum 12 znaków. Kopia obejmuje zwykłe czaty, ręczne notatki i zadania. Nie obejmuje rozmów projektowych i RPG, vaultu, indeksu, kampanii ani punktów wznowienia. Ich pełna kopia i synchronizacja są zaplanowane. Zachowaj oryginalny vault. Hasła nie możemy odzyskać.',
+              'Starszy format v1. Hasło minimum 12 znaków. Obejmuje zwykłe czaty, ręczne notatki i zadania. Projekty i kampanie zapisuj przez „Pełna szyfrowana kopia”. Hasła nie możemy odzyskać.',
             ),
             TextField(
               controller: pass,

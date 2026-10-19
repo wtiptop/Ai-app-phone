@@ -1,5 +1,13 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.4.0+6 — pełna kopia projektów i RPG — 19.10.2026
+
+**241/241 Flutter, 36/36 JUnit, 7/7 scenariuszy Androida PASS; analiza bez uwag, nowy APK ARM64+x86_64 z podpisem/manifestem/16 KiB PASS.** Dwa testy backupu obejmują prawdziwy SAF, złe hasło/kolizję oraz restore po resecie wyłącznie testowej instalacji z nowym kluczem. Zachowano wszystkie ID i liczniki 16 tabel oraz filtr sekretów MG. Pięć regresji potwierdza rzeczywisty MiniCPM offline. Dowody: docs/TESTS_PL.md i docs/test-results/android-emulator-0.4.0.json.
+
+Wdrożono pełną logiczną kopię 16 tabel w strumieniowym kontenerze v2: projekty, dokumenty/wersje/fragmenty, zgody źródeł, checkpointy, kampanie i pełną historię RPG z sekretami MG, rozmowy wszystkich zakresów z dowodami kontekstu, notatki i zadania. Kopia ma osobne hasło, PBKDF2-SHA256 600000 i AES-256-GCM; łańcuch ramek, stopka oraz EOF chronią kompletność i kolejność. Import odtwarza dane w jednej transakcji, ponownie szyfruje pola kluczem celu i odbudowuje HMAC, zachowując wszystkie ID. Każda kolizja lub błąd wycofuje całość. Nowy kanał SAF przekazuje wyłącznie ograniczone bloki szyfrogramu; nie tworzy plików z jawną treścią.
+
+Nie przenosimy konfiguracji, kluczy API/Keystore, płatności, uprawnień folderów i GGUF ani niezaimportowanych oryginalnych plików vaultu/załączników. Po odtworzeniu projekt można jawnie połączyć ponownie z folderem; import jest wstrzymany i rozpoczyna nowy skan. Stary format v1 pozostaje oddzielną opcją. Limit 2 GiB/2 mln rekordów/32 MiB JSON rekordu jest egzekwowany bez cichego pomijania. Brak selektywnej kopii jednej kampanii, scalania kolidujących ID, synchronizacji i gwarancji działania w tle. Fizyczny Pixel 9 i duże kopie bliskie limitowi wymagają odbioru. Instrukcja: docs/BACKUP_PL.md, decyzja: ADR 009, końcowe dowody: docs/TESTS_PL.md. Starsze sekcje opisują stan historycznych wydań, nie aktualne ograniczenie pełnego backupu.
+
 ## Aktualizacja 0.3.0+5 — lokalny vault, trwała pamięć i RPG — 19.10.2026
 
 **193/193 Flutter, 27/27 JUnit (21 modeli + 6 reguł vaultu), 5/5 AndroidJUnitRunner PASS. Analiza bez uwag.** Nowy debug APK ARM64+x86_64 ma poprawny podpis/manifest i wyrównanie ZIP/ELF 16 KiB. Dokładny rozmiar/hash: `docs/test-results/android-build-0.3.0.json`. Pełny standardowy runner emulatora: `android-emulator-0.3.0.log/json`; zrzuty w `emulator-0.3.0/`. Raporty 0.2.x poniżej są historią.

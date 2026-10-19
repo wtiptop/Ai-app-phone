@@ -1,5 +1,7 @@
 # Testy akceptacyjne
 
+Aktualizacja 0.4.0: w Ustawieniach działa osobna **Pełna szyfrowana kopia** z przywracaniem projektów, wszystkich wersji źródeł, checkpointów, kampanii i sekretów MG. Zachowuje ID i granice ról, a każda kolizja wycofuje całość. Po odtworzeniu folder projektu łączy się ponownie jawnie przez SAF. Instrukcja i wyłączenia: [BACKUP_PL.md](BACKUP_PL.md); dowody: [TESTS_PL.md](TESTS_PL.md). Wzmianki o zaplanowanym pełnym backupie w historycznych sekcjach 0.3.0 opisują poprzednie wydanie. Synchronizacja nadal pozostaje zaplanowana.
+
 Odbiór 0.3.0: 193 Flutter, 27 JUnit i 5 AndroidJUnitRunner PASS. A07/A15: rzeczywisty SAF drzewa lokalnego, import syntetycznych Markdown, wybór źródła i MiniCPM offline na emulatorze. A09/A14/A25: trwały RPG, role/scope/źródła, rewizje/cofanie i checkpointy oraz wznowienie 205 plików sprawdzone na hoście; nie jest to odbiór pełnej gry i uwierzytelniania graczy. Fizyczny Pixel 9, duży rzeczywisty vault, pełny eksport/rotacja SAF, pełny backup nowej pamięci i jakość wielosesyjnej narracji pozostają otwarte. Dowody: TESTS_PL.md oraz test-results/android-emulator-0.3.0.json.
 
 Każdy scenariusz ma wynik **nieuruchomiony**, dopóki rzeczywisty raport `TESTS_PL.md` nie wskaże inaczej. Test jednostkowy atrapy HTTP potwierdza logikę klienta, a nie połączenie z prawdziwym dostawcą. Live API, prywatne konta, publikacja i wiadomości zewnętrzne są wyłączone bez osobnej zgody właściciela.

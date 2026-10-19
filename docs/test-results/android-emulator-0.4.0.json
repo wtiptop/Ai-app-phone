@@ -1,0 +1,77 @@
+{
+  "version": "0.4.0+6",
+  "date": "2026-10-19 Europe/Warsaw",
+  "tests": 7,
+  "failures": 0,
+  "skipped": 0,
+  "regressionTests": 5,
+  "backupTests": 2,
+  "separateRunsWithAppReset": true,
+  "apkSha256": "2171c5e7d4772f2a85c1cc03221bd7883b391fc4c127270a2bd2e2c540869f8a",
+  "emulator": "Scalajaca_API30",
+  "android": "11 / API 30",
+  "abi": "x86_64",
+  "ramConfiguredMiB": 4096,
+  "network": "Tryb samolotowy, WiFi/dane wyłączone, brak aktywnej sieci przed i po każdym scenariuszu",
+  "runner": "AndroidJUnitRunner / UIAutomator 2.3.0",
+  "model": "MiniCPM5-1B Q4_K_M",
+  "modelBytes": 688065920,
+  "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "physicalPixel9Tested": false,
+  "largeBackupNear2GiBTested": false,
+  "longCampaignQualityVerified": false,
+  "cases": [
+    {
+      "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+      "bytes": 688065920,
+      "elapsedMs": 10261,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    },
+    {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 1127,
+      "stopLatencyMs": 51,
+      "fixtureOutput": "The",
+      "name": "jni-stream-stop"
+    },
+    {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    {
+      "offline": true,
+      "fixtureOutput": "LANTERN",
+      "elapsedMs": 15899,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 182, wyjście 2 tokenów",
+      "source": "Archive.md",
+      "receiptRetained": true,
+      "name": "vault-saf-real-answer"
+    }
+  ],
+  "backup": {
+    "ciphertextChanged": true,
+    "collisionRollback": true,
+    "gmSecretHiddenFromPlayer": true,
+    "export": true,
+    "wrongPasswordRollback": true,
+    "restoreAfterAppReset": true,
+    "sameIdsAndCounts": true
+  },
+  "limitations": [
+    "Dane i vault syntetyczne; brak testu kopii bliskiej 2 GiB.",
+    "Nie testowano fizycznego Pixel 9 ani zewnętrznego chmurowego providera SAF.",
+    "Backup nie potwierdza jakości długiej kampanii RPG ani pamięci RAM/baterii/termiki telefonu."
+  ]
+}
