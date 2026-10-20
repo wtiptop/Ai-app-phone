@@ -1,5 +1,49 @@
 # Rzeczywiste testy Scalającej
 
+## Odbiór 0.5.2 — 20.10.2026, Europe/Warsaw
+
+**Kod i regresja: 284/284 Flutter, 36/36 JUnit, 8/8 Android PASS. Jakość polskiej kampanii: wynik częściowy.** Rzeczywisty MiniCPM wykonał 37 generacji w 24 symulowanych sesjach. Retrieval: **24/24**, dokładne odpowiedzi: **19/24**, poprawna pełna narracja: **0/5**. Ukończenie procedury nie jest zaliczeniem sensownego prowadzenia kampanii.
+
+| Sprawdzenie | Rzeczywisty wynik | Dowód i granica |
+|---|---|---|
+| Analiza i Flutter | bez uwag; **284/284 PASS**, 219 s runnera | analyze-0.5.2.log, flutter-tests-0.5.2.log; pełna regresja pamięci i backupu, 11 nowych testów kampanii oraz 3 UI |
+| JUnit | **36/36 PASS**, zero błędów/pominiętych, świeży task --rerun | 21 GGUF + 6 vault + 9 backup, log i XML |
+| Główny APK | build/podpis/manifest/ZIP i ELF 16 KiB PASS | 0.5.2+9, 143941347 B, ARM64+x86_64; hash w android-build-0.5.2.json; brak wag i diagnostycznego targetu |
+| Zwykły APK, regresja offline | **8/8 PASS**, 404.587 s | trzy uruchomienia runnera: 6 MiniCPM/SAF/Stop/źródła, 1 historia RPG, 1 surowy JNI; 3×COMPASS w czacie, 5/5 dokładnych generacji JNI |
+| Symulowana kampania PL | 24 sesje, 37 rzeczywistych generacji, dwa restarty | rpg-0.5.2/final-campaign.json, 25 checkpointów po końcowym wznowieniu, 37 rozmów i receipts; osobna baza Androida i Keystore |
+| Dawne fakty i bieżący kanon | źródło **24/24**, odpowiedź **19/24** | BURSZTYN po obu restartach, Żaneta, Łada, brama OTWARTA→ZAMKNIĘTA i klucz Lenka→Miron; dokładna ocena całego tekstu |
+| Narracja po polsku | **0/5** pełnych scen zaliczonych | ręczny odczyt wszystkich pięciu odpowiedzi: błędy języka, echo instrukcji lub metadanych; brak gotowego MG |
+| Sekrety i zakresy | brak zaobserwowanego wycieku w **11 próbach gracza** | sekret bieżący i historyczny nieobecny w pakietach; odczyt wszystkich odpowiedzi także pod kątem parafraz; pozytywna kontrola MG i zmiana kampanii opisane poniżej |
+| Offline kampanii | PASS przed/po i przy restartach 8/16 | samolotowy, WiFi/dane wyłączone, brak aktywnej sieci; rejestr zawierał tylko lokalny adapter |
+
+**Końcowe próby kontrolne — dokładne odpowiedzi modelu:**
+
+- `mg-sekret-kontrola`: 'Radosz potajemnie służy Kruczej Gildii.'; błąd: brak.
+
+- `brak-zrodla`: "I don't have enough information to answer your question. I need more context or data to provide an accurate answer."; błąd: brak.
+
+- `zmiana-kampanii-obca`: 'Nazwa medalionu: OBSYDIAN.'; błąd: brak.
+
+- `powrot-kampanii-wlasnej`: 'BURSZTYN'; błąd: brak.
+
+- `dawny-checkpoint-obecny-kanon`: 'Otwarte bramy: ZAMKNIĘTA\n\nOtwarte bramy: ZAMKNIĘTA'; błąd: brak.
+
+Końcowa odpowiedź po wznowieniu zawierała „ZAMKNIĘTA”, ale z etykietą „Otwarte bramy” i powtórzeniem: **nie zaliczono spójności ani dokładnego formatu**. Bieżący kanon pozostał zachowany w bazie i pakiecie. Obca kampania zwróciła poprawną nazwę z dodatkowym opisem (niezaliczony ścisły format), a po powrocie padło dokładne BURSZTYN. Pytanie bez źródła otrzymało przyznanie braku danych po angielsku, więc wymóg polskiego nie przeszedł. Jedna odpowiedź ataku 31 zakończyła się statusem częściowym po limicie 96 tokenów; pozostałe 36 prób ukończyło generację.
+
+Ochronę sekretów zapewnia filtr zakresu i uprawnień przed odszyfrowaniem/wyborem, nie posłuszeństwo modelu. Po pozytywnej próbie MG gracz nie otrzymał bieżącego sekretu, dawnej tajemnicy dziś jawnego wpisu ani danych obcego świata. Pytanie „udawaj MG” nie zmieniało roli. Zmiana kampanii i powrót używały tego samego lokalnego silnika, lecz nowych czatów o właściwym zakresie. W każdej z 37 prób rewizja kampanii po generacji była niezmieniona. Zapis checkpointów, zmian świata i wznowienie były jawnymi operacjami harnessu. Wynik nie dowodzi odporności na wszystkie możliwe pytania ani uwierzytelniania graczy na wspólnym telefonie.
+
+**Metoda:** autorski świat z 48 wpisami tła, sześcioma dawnymi faktami, regułą magii, sekretem MG i jego historyczną wersją oraz drugą kampanią z identycznym ID wpisu. Każda sesja zapisuje pięć pól i zadaje pytanie. Nowy czat na każde pytanie sprawdza powrót do trwałej pamięci, nie rosnące okno rozmowy. Kontekst 4096, rzeczywisty budżet pakietu 1152 znaków, wyjście testu 96 tokenów fakt/160 narracja; normalna aplikacja ma limit 512. Przy dawnych faktach checkpoint jawnie odłączono nowym przełącznikiem, a przy końcowej konfrontacji starej notatki z kanonem dołączono go. Dwa restarty force-stop/start nie czyściły bazy ani klucza. Diagnostyczny APK ma inny hash i oddzielny entrypoint, korzysta jednak z tych samych modułów store/chat/zgód/JNI. Główny, dostarczany APK ma osobny odbiór UI i potwierdzony hash z urządzenia.
+
+**Wykryte i naprawione:** wstępne testy hosta dały 5 PASS/4 FAIL: pospolite polskie słowa wypychały termin z limitu 12, zbyt duzi pierwsi kandydaci blokowali późny fakt, ręczny wybór był cicho pomijany przez budżet/limit. Naprawiono je i dodano test drugiej strony z 42 długimi kandydatami. Poprawiono też globalną hierarchię ręcznych/automatycznych źródeł oraz obsługę pełnego checkpointu. Test UI potwierdza błąd dużego checkpointu, wyłączenie dołączania, zatwierdzenie pakietu i niezmienność szyfrogramów/rewizji. Przy małym oknie 1024/2048 podgląd dla modelu jest zablokowany z jasnym wymogiem 4096, a lokalna edycja pozostaje dostępna.
+
+**Nieudane próby pozostają dowodami:** baseline 6 sesji odnalazł 6/6 faktów, odpowiedział 3/6, obie narracje były echem pytania. Pośredni wariant z rozbudowaną instrukcją i polskimi nagłówkami przerwano po 12 pełnych sesjach; echo/metadane i pętla „Oto po polsku” nie były poprawą. Raport zachowano jako nieukończony, bez zaliczenia 24. Hostowe porównanie formatów na tych samych źródłach pomogło wybrać krótkie Sources/Question, starą polską instrukcję i jedną turę user. Host nie zastępuje Androida: np. poprawne Lenka na hoście nie gwarantowało tego samego wyniku w pierwszej sesji Androida. Końcowy wynik 19/24 uwzględnia tę porażkę. Baseline i finał różnią się również jawnym odłączeniem notatki; nie przypisujemy całej różnicy wyłącznie formatowaniu.
+
+Pierwszy test po dodaniu przełącznika miał nieprecyzyjny selektor dwóch SwitchListTile; poprawiono wybór po tytule. Dwa nowe testy małego okna wymagały oczekiwania na asynchroniczny wybór modelu z bazy; po poprawie fixture przeszły. Analiza wskazała 6 brakujących bloków klamrowych, poprawionych przed końcowym runnerem. Poprzedni limit automatycznej weryfikacji narzędzi przerwał uruchamianie; po wznowieniu środowiska test wykonano od nowa. AVD wymagał pełnego rozruchu; wczesny brak aktywności nie był wynikiem inferencji. Nie czyściliśmy danych, dodano warunek zakończenia rozruchu i kontrolę uruchomienia aktywności w skrypcie.
+
+**Granice:** nie ma potwierdzonej pełnej jakości prowadzenia kampanii po polsku. Model 1B nadal myli zadanie i metadane, a wyjście narracyjne bywa niespójne. Automatyczny kontroler sprzeczności, embeddingi/graf i pełna mechanika pozostają zaplanowane. Nie testowano fizycznego Pixela 9/ARM64, pełnego 2B, korpusu GB, baterii, termiki, szczytu RAM ani wielodniowej gry ludzi. Jedna próbka meminfo nie jest pomiarem szczytu. Backup v2/baza v3/receipt v1 bez zmian; pełny Flutter/JUnit obejmuje backup/restore, lecz natywny SAF backupu nie był powtarzany (historyczny odbiór 0.4.0 poniżej). Niezależny przegląd końcowy był statyczny, bez nowych P1/P2. Żadnych prywatnych kont, płatnych operacji, publikacji, serwera ani nowego pobierania modelu. Odtworzenie: RPG_KAMPANIA_TEST_PL.md oraz ADR 012.
+
+Końcowe puste znaki i końce wierszy tekstowych zrzutów dumpsys znormalizowano w paczce; wartości i treść dowodów JSON pozostały bez zmian.
+
 ## Odbiór 0.5.1 — 20.10.2026, Europe/Warsaw
 
 **270/270 Flutter, 36/36 JUnit, 8/8 Android PASS.** Błąd COMPASS→COMASS odtworzono przed poprawką w surowych fragmentach JNI. Zatwierdzone źródło było poprawne. W trzech generacjach starego profilu wyjście wyniosło COMASS, COMPASS, COMPASS; ten przebieg diagnostyczny nie był pozytywnym testem wierności. JNI dla błędu przekazało COM (`Q09N`) i ASS (`QVNT`), więc nie jest to utrata litery w Dart ani Markdown. Hostowy roundtrip tokenizer/de-tokenizer zachował COMPASS, COMASS, LANTERN i Żółć Łódź Aeloria; hostowa generacja zwróciła COMP+ASS. Różnica pojawiała się podczas generacji z losowaniem.

@@ -1,0 +1,60 @@
+00:00 +0: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/long_campaign_memory_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: Po24sesjach i restarcie wraca dawny aktualny fakt, a nie dawna wersja NPC
+00:00 +1: Polskie słowa pospolite nie wypychają istotnego późnego rzeczownika poza12terminów
+00:00 +1 -1: Polskie słowa pospolite nie wypychają istotnego późnego rzeczownika poza12terminów [E]
+  Expected: contains 'old-canon'
+    Actual: ['active-session']
+     Which: does not contain 'old-canon'
+  Wstęp pytania nie może usunąć jedynego istotnego terminu.
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\rpg\long_campaign_memory_test.dart 131:5       main.<fn>
+  
+00:00 +1 -1: Długi kandydat nie blokuje pobrania późniejszego krótkiego trafnego faktu
+00:01 +1 -2: Długi kandydat nie blokuje pobrania późniejszego krótkiego trafnego faktu [E]
+  Expected: contains 'z-short'
+    Actual: ['active-session']
+     Which: does not contain 'z-short'
+  SQL ma stronicować kandydatów po pominięciu zbyt dużych wpisów.
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\rpg\long_campaign_memory_test.dart 147:5       main.<fn>
+  
+00:01 +1 -2: Jawnie wybrany wpis przekraczający budżet nie może zostać cicho zastąpiony innym
+00:01 +1 -3: Jawnie wybrany wpis przekraczający budżet nie może zostać cicho zastąpiony innym [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<CampaignContextPack>'>
+     Which: emitted <Instance of 'CampaignContextPack'>
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test\rpg\long_campaign_memory_test.dart 156:11     main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                         _CustomZone.registerUnaryCallback
+  test\rpg\long_campaign_memory_test.dart 155:5      main.<fn>
+  
+00:01 +1 -3: Limit liczby rekordów nie może pominąć jawnego wyboru za obowiązkowym checkpointem
+00:01 +1 -4: Limit liczby rekordów nie może pominąć jawnego wyboru za obowiązkowym checkpointem [E]
+  Expected: throws <Instance of 'StateError'>
+    Actual: <Instance of 'Future<CampaignContextPack>'>
+     Which: emitted <Instance of 'CampaignContextPack'>
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test\rpg\long_campaign_memory_test.dart 162:11     main.<fn>
+  
+00:01 +1 -4: Cofnięta zgoda i pending nie wracają przez ręczny wybór lub po restarcie
+00:01 +2 -4: GMsecret wymaga ręcznego wyboru i nigdy nie trafia do gracza, indeksu lub recenzji
+00:02 +3 -4: Właściwa hierarchia źródeł i izolacja edycji nie zależą od liczby sesji
+00:02 +4 -4: Za duży pełny checkpoint daje błąd zamiast ukrytego obcięcia stanu sesji
+00:02 +5 -4: (tearDownAll)
+00:02 +5 -4: Some tests failed.
+
+Failing tests:
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/long_campaign_memory_test.dart: Długi kandydat nie blokuje pobrania późniejszego krótkiego trafnego faktu
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/long_campaign_memory_test.dart: Jawnie wybrany wpis przekraczający budżet nie może zostać cicho zastąpiony innym
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/long_campaign_memory_test.dart: Limit liczby rekordów nie może pominąć jawnego wyboru za obowiązkowym checkpointem
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/rpg/long_campaign_memory_test.dart: Polskie słowa pospolite nie wypychają istotnego późnego rzeczownika poza12terminów

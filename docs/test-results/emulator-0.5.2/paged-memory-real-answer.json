@@ -1,0 +1,17 @@
+{
+  "offline": true,
+  "source": "Archive.md",
+  "initialResults": "Znalezione fragmenty: 22. Strona 1. Wybrane: 2. Wybór dotyczy tej strony.",
+  "pageThreeReached": true,
+  "fixtureOutput": "COMPASS",
+  "actualOutput": "COMPASS",
+  "repeatedOutputs": [
+    "COMPASS",
+    "COMPASS",
+    "COMPASS"
+  ],
+  "receiptRetained": true,
+  "usageLabel": "Ukończono • 0 USD za API • wejście 493, wyjście 2 tokenów",
+  "elapsedMs": 48673,
+  "name": "paged-memory-real-answer"
+}

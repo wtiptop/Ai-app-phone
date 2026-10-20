@@ -1,5 +1,17 @@
 # Pamięć dużych projektów i ciągłość RPG — 0.5.0
 
+## Obsługa pamięci kampanii w 0.5.2
+
+Wyszukiwanie RPG pomija pospolite słowa pytania PL/EN przed wyborem maksymalnie 12 terminów. Nadal wymaga dokładnych form słów: odmiany i synonimy wpisuje się oddzielnie. Kandydaci są czytani stronami po 40 (do 2000). Długi automatyczny wpis nie zatrzymuje poszukiwania późniejszego krótkiego faktu. Ograniczony pakiet oznacza wycinek, nie całą pamięć.
+
+Jawnie zaznaczone wpisy trafiają do pakietu w całości. Gdy wybrany wpis, limit liczby rekordów lub dołączony stan sesji przekracza budżet, aplikacja wyświetla błąd zamiast cicho zastąpić wybór innym źródłem. Zmniejsz wybór, skróć wpis lub wyłącz automatyczne dołączenie stanu sesji MG. Przełącznik **Dołącz stan sesji MG** działa tylko dla przygotowywanego pakietu: nie kasuje checkpointu ani historii. Po zmianie roli/kampanii wraca do domyślnego ustawienia. W API `includeCheckpoint:false` wyłącza automatyczny wybór; ręczne dołączenie notatki nadal wymaga MG i jawnej zgody na sekrety.
+
+Pakiet nazywa rodzaj materiału: kanon, stan świata, wiedza postaci i notatka sesji MG. Notatka jest kontekstem pracy, a nie nową prawdą świata. Bieżący kanon ma pierwszeństwo przed dawną notatką. Wznowienie punktu nadal nie cofa świata.
+
+Dla przygotowywania kampanii do MiniCPM ustaw kontekst **4096** w konfiguracji modeli offline. Przy 1024/2048 pozostają dostępne lokalne przeglądanie i edycja, a przycisk pakietu wskazuje wymagane ustawienie. Nie włączamy większego kontekstu ani płatnego modelu automatycznie.
+
+MiniCPM otrzymuje jeden komunikat użytkownika zawierający źródła i pytanie, z technicznymi nagłówkami `Sources`/`Question`. Tekst źródeł pozostaje danymi. Podgląd całego żądania, zgoda i dowód kontekstu obejmują dokładnie przekazaną treść. Takie formatowanie nie gwarantuje poprawnej polskiej narracji. Wyniki prób wielosesyjnych, także porażki, opisuje bieżący `TESTS_PL.md`.
+
 ## Aktualizacja 0.5.1
 
 Po wskazaniu zatwierdzonego pakietu MiniCPM stosuje zachowawcze odpowiedzi i osobną instrukcję zachowania nazw/liczb. Zgoda i podgląd obejmują tę instrukcję; źródła nadal są danymi. Przypadek COMPASS przechodzi po zmianie dekodowania w powtarzanych próbach JNI i czatu, ale ogólna kontrola poprawności lore nadal należy do MG. Historyczna obserwacja COMASS poniżej dotyczy wcześniejszego profilu 0.5.0. Format kopii, role, checkpointy i sposób zatwierdzania kanonu pozostają zgodne.

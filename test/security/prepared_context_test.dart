@@ -76,7 +76,8 @@ void main() {
     expect(recorder.requests.single.sourceGrounded, isTrue);
     expect(p.turns.first.role, ChatRole.system);
     expect(p.turns.first.text, sourceGuidance);
-    expect(p.turns[1].text, 'GM_FIXTURE_ONLY');
+    expect(p.turns.map((t) => t.role), [ChatRole.system, ChatRole.user]);
+    expect(p.turns.last.text, 'Sources:\nGM_FIXTURE_ONLY\nQuestion:\nPytanie');
     final evidence = await db.db.query('chat_context_receipts');
     expect(evidence, hasLength(1));
     expect(await db.cipher.open(evidence.single['evidence'] as String),

@@ -14,10 +14,12 @@ class CampaignPage extends StatefulWidget {
       required this.store,
       required this.ownerId,
       this.onContextReady,
+      this.contextUnavailableReason,
       this.maxContextCharacters = 6000});
   final CampaignStore store;
   final String ownerId;
   final ValueChanged<CampaignContextPack>? onContextReady;
+  final String? contextUnavailableReason;
   final int maxContextCharacters;
   @override
   State<CampaignPage> createState() => _CampaignPageState();
@@ -27,7 +29,7 @@ class _CampaignPageState extends State<CampaignPage> {
   List<StoredCampaign> campaigns = [];
   List<CampaignRecord> records = [];
   StoredCampaign? selected;
-  bool gm = false, busy = false;
+  bool gm = false, busy = false, includeCheckpoint = true;
   int campaignOffset = 0, recordOffset = 0;
   int _loadSerial = 0;
   String? error;
@@ -132,6 +134,7 @@ class _CampaignPageState extends State<CampaignPage> {
         setState(() {
           selected = created;
           gm = true;
+          includeCheckpoint = true;
           recordOffset = 0;
           selectedRecordIds.clear();
           contextQuery.clear();
@@ -286,6 +289,7 @@ class _CampaignPageState extends State<CampaignPage> {
   Future<void> _prepareContext() => _run(() async {
         final pack = await widget.store.contextPack(access,
             query: contextQuery.text,
+            includeCheckpoint: includeCheckpoint,
             selectedRecordIds: selectedRecordIds.toList(),
             maxCharacters: widget.maxContextCharacters);
         if (!mounted) return;
@@ -351,6 +355,7 @@ class _CampaignPageState extends State<CampaignPage> {
                       setState(() {
                         selected = campaign;
                         gm = false;
+                        includeCheckpoint = true;
                         recordOffset = 0;
                         records = [];
                         selectedRecordIds.clear();
@@ -395,6 +400,7 @@ class _CampaignPageState extends State<CampaignPage> {
                   : (value) async {
                       setState(() {
                         gm = value;
+                        includeCheckpoint = true;
                         records = [];
                         recordOffset = 0;
                         selectedRecordIds.clear();
@@ -434,11 +440,29 @@ class _CampaignPageState extends State<CampaignPage> {
                   labelText: 'Pytanie do pamięci kampanii',
                   helperText:
                       'Dokładne słowa, bez embeddingów. Brak dopasowania oznacza brak źródła.')),
+          if (gm)
+            SwitchListTile(
+                value: includeCheckpoint,
+                title: const Text('Dołącz stan sesji MG'),
+                subtitle: const Text(
+                    'Wyłącz przy szukaniu dawnych faktów, jeśli pełna notatka zajmuje budżet. Zapis pozostaje w historii.'),
+                onChanged: busy
+                    ? null
+                    : (value) => setState(() {
+                          includeCheckpoint = value;
+                          if (!value) {
+                            selectedRecordIds.remove('active-session');
+                          }
+                        })),
           Text(
-              'Wybrane ręcznie: ${selectedRecordIds.length}/20. Sekret MG trafia do pakietu tylko po ręcznym wyborze. Stan sesji MG jest zawsze pierwszy.'),
+              'Wybrane ręcznie: ${selectedRecordIds.length}/20. Sekret MG trafia do pakietu tylko po ręcznym wyborze. Dołączony stan sesji MG jest pierwszy; to notatka, nie nowy kanon.'),
           FilledButton(
-              onPressed: busy ? null : _prepareContext,
+              onPressed: busy || widget.contextUnavailableReason != null
+                  ? null
+                  : _prepareContext,
               child: const Text('Podgląd pakietu dla czatu')),
+          if (widget.contextUnavailableReason != null)
+            Text(widget.contextUnavailableReason!),
           if (records.isEmpty)
             const Padding(
                 padding: EdgeInsets.all(16),

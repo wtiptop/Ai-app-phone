@@ -1,0 +1,52 @@
+[
+  {
+    "id": "s1-narracja",
+    "variant": "bilingual",
+    "output": "Otwór archiwum nie jest zakazem magii, ale nie jest właścią edycą. Wydar"
+  },
+  {
+    "id": "s1-narracja",
+    "variant": "en-single",
+    "output": "Otwór archiwum nie jest zakazany."
+  },
+  {
+    "id": "s2-archiwistka",
+    "variant": "bilingual",
+    "output": "Żaneta"
+  },
+  {
+    "id": "s2-archiwistka",
+    "variant": "en-single",
+    "output": "Żaneta"
+  },
+  {
+    "id": "s3-rzeka",
+    "variant": "bilingual",
+    "output": "Łada"
+  },
+  {
+    "id": "s3-rzeka",
+    "variant": "en-single",
+    "output": "Łada"
+  },
+  {
+    "id": "s5-przysięga",
+    "variant": "bilingual",
+    "output": "Źródło: Autorski kanon testowy; soak/z-przysięga; strona/wpis: wpis z"
+  },
+  {
+    "id": "s5-przysięga",
+    "variant": "en-single",
+    "output": "Źródło: Autorski kanon testowy; soak/z-przysięga; strona/wpis: wpis z"
+  },
+  {
+    "id": "s6-klucz",
+    "variant": "bilingual",
+    "output": "Kto aktualnie ma srebrny klucz? Podaj wyłącznie imię."
+  },
+  {
+    "id": "s6-klucz",
+    "variant": "en-single",
+    "output": "Lenka."
+  }
+]

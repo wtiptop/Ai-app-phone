@@ -1,5 +1,7 @@
 # Plan realizacji i dostępność rozszerzeń
 
+Stan 0.5.2: wykonano próbę 24 symulowanych sesji PL na emulatorze, ale pełna jakość narracji nie przeszła. Kolejne prace wymagają poprawy jakości odpowiedzi/porównania odpowiedniego lokalnego modelu, merytorycznego kontrolera lore i odbioru fizycznego Pixela 9. Synchronizacja, graf/embeddingi, pełna mechanika i wielodniowe analizy pozostają zaplanowane. Dostęp do źródeł i sekretów nie zależy od posłuszeństwa LLM; wyniki i ograniczenia są w TESTS_PL.md.
+
 ## Etap 0.5.0 — wyszukiwanie i ciągłość sesji
 
 Wdrożono stronicowane wyszukiwanie aktualnych źródeł, ranking rozdzielający dokumenty, powrót do starszych analiz i prywatną historię sesji/lore dla MG. Jawne wznowienie tworzy nową rewizję notatki, zachowuje dzisiejszy kanon i audyt. Testy i granice: TESTS_PL.md, instrukcja: PAMIEC_CIAGLOSC_PL.md. Następne etapy: pomiary dużego rzeczywistego vaultu i fizycznego Pixela 9, semantyczny retrieval/graf encji, kontroler sprzeczności, trwałe workflow analiz i długa próba jakości narracji PL. Sama lista różnic wersji nie realizuje automatycznego agenta ciągłości. Synchronizacja nadal jest dobrowolnym przyszłym rozszerzeniem.

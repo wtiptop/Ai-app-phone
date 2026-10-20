@@ -1,6 +1,14 @@
 # Scalająca
 
-## Aktualne wydanie 0.5.1: wierniejsze odpowiedzi ze źródeł
+## Aktualne wydanie 0.5.2: próba polskiej kampanii offline
+
+**284/284 Flutter, 36/36 JUnit i 8/8 regresji Androida PASS; analiza i główny APK ARM64+x86_64 PASS.** Osobna próba MiniCPM: 24 symulowane sesje, 37 prawdziwych generacji, dwa restarty procesu. Źródła zawierały 24/24 potrzebnych faktów, a model odpowiedział dokładnie na **19/24**. Zmiany bramy i właściciela klucza były odtwarzane po zapisach/restartach. Nie zaobserwowano ujawnienia sekretów w 11 próbach gracza. **0/5 narracji spełniło pełne kryterium spójnej, dwuzdaniowej polskiej sceny.** Mały model nadal bywa niespójny lub zwraca metadane. Nie deklarujemy gotowego, niezawodnego MG.
+
+Poprawiono wybór dawnych faktów, pomijanie ręcznie wskazanego wpisu i hierarchię pakietu. MG może odłączyć notatkę sesji od pytania bez kasowania jej z pamięci. MiniCPM dostaje źródła i pytanie w jednej turze; pełna kopia v2 i baza v3 zachowują zgodność. Dla pakietów kampanii wymagane jest ustawienie kontekstu 4096; lokalna edycja działa także przy mniejszym oknie.
+
+[Rzeczywiste wyniki i porażki](docs/TESTS_PL.md), [instrukcja pamięci](docs/PAMIEC_CIAGLOSC_PL.md), [odtworzenie testu](docs/RPG_KAMPANIA_TEST_PL.md), [instalacja](docs/SETUP_ANDROID_PL.md). Fizyczny Pixel 9, pełne 2B, bateria/termika, szczyt RAM i GB vaultu nadal wymagają odbioru. Starsze sekcje poniżej opisują historię.
+
+## Poprzednie wydanie 0.5.1: wierniejsze odpowiedzi ze źródeł
 
 **270/270 Flutter, 36/36 JUnit i 8/8 scenariuszy Androida PASS; analiza i APK PASS.** Surowa diagnostyka JNI potwierdziła wybór COM+ASS przed UI. MiniCPM z zatwierdzonymi źródłami używa teraz zachowawczego wyboru tokenów oraz osobnej instrukcji kopiowania nazw i liczb. Zwykły czat zachowuje dotychczasowy profil. Nie ma podmiany pojedynczych słów ani atrapy odpowiedzi.
 
@@ -20,7 +28,7 @@ MG ma prywatną historię stanów sesji i wersji lore oraz porównanie z dzisiej
 
 Urządzenie docelowe: Pixel 9, APK z ARM64 i x86_64. Fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi/graf, automatyczny kontroler sprzeczności i potwierdzona jakość długiej polskiej kampanii pozostają zaplanowane. Ranking dokładnych słów i podgląd różnic wersji nie zapewniają samodzielnie bezbłędnej narracji. Backup nie przenosi niezaimportowanych oryginalnych plików vaultu, wag GGUF, uprawnień folderów ani kluczy API. Starsze raporty poniżej są historią.
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.5.1 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.5.2 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
 **0.2.1: 4/4 scenariusze emulatora, 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Na emulatorze Android 11 x86_64 zaimportowano prawdziwy GGUF przez SAF i czat wygenerował OK bez sieci. JNI zatrzymał streaming po pierwszym tokenie. Nowy APK zawiera ARM64 i x86_64; podpis, manifest oraz wyrównanie 16 KiB są poprawne. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 

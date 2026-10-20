@@ -1,5 +1,7 @@
 # Architektura Scalającej
 
+Aktualizacja 0.5.2: `CampaignStore.contextPack` filtruje słowa pospolite pytań, stronicuje kandydatów po 40 z limitem 2000 i wymaga pełnego zmieszczenia ręcznego wyboru/checkpointu. Wynik zachowuje hierarchię i oznaczenie rodzaju wpisu. MG może wyłączyć automatyczny checkpoint bez zmiany trwałego świata. Lokalne pakiety kampanii wymagają kontekstu 4096; mniejsze okna pozwalają nadal przeglądać i edytować dane. `ChatSession` dla MiniCPM ze źródłami składa dane i pytanie w jedną turę user, zachowując osobny stały system i digest dokładnego tekstu. Baza v3, backup v2 i receipt v1 bez zmian. Próba 24 symulowanych sesji działa przez oddzielny target Androida; nie stanowi odbioru jakości pełnej gry. ADR 012, docs/RPG_KAMPANIA_TEST_PL.md i bieżący raport opisują granice.
+
 ## Zmiana 0.5.1
 
 PreparedChat wylicza sourceGrounded dla lokalnego MiniCPM z załącznikiem, ujmuje bool i pełny prompt w digest i przekazuje go przez ProviderRequest → LocalModelAdapter → MethodChannel → Kotlin/JNI → greedy C++. Własny system prefix jest stały, źródła pozostają user-data; zgoda i walidacja scope/rewizji poprzedzają dispatch. False zachowuje poprzedni profil. Budżet obejmuje prefix; baza v3/backup v2/receipt v1 bez zmian. ADR 011 i rzeczywiste testy opisują granice jakości.

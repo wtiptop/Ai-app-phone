@@ -1,0 +1,21 @@
+{
+  "version": "0.5.2+9",
+  "buildExitCode": 0,
+  "signatureExitCode": 0,
+  "manifestExitCode": 0,
+  "zipalign16KiBExitCode": 0,
+  "bytes": 143941347,
+  "sha256": "715613099541b03d2871ba3a067cfd0bfbbee59a851384c544247f9e49e363cc",
+  "abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "modelWeightsInApk": false,
+  "nativeLibrarySha256": {
+    "x86_64": "5caaf5ecb23c9050d8f85e89a2a71e67067eb6854d7e50660c6295ee70b407d7",
+    "arm64-v8a": "eca4ea3d2c275101356d2b9929f50c70f5a04fe9819f855f7d1c9b1dabe1c446"
+  },
+  "deviceTest": "Osobny raport android-emulator-0.5.2",
+  "date": "2026-10-20 Europe/Warsaw"
+}

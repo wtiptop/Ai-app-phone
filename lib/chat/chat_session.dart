@@ -69,13 +69,20 @@ class ChatSession extends ChangeNotifier {
         ? await store.setting('local_context', 4096)
         : 0;
     final budget = provider == 'minicpm_local' ? context - output - 256 : 24000;
+    final localSources = provider == 'minicpm_local' && attachment != null;
     final prefix = <ChatTurn>[
-      if (provider == 'minicpm_local' && attachment != null)
+      if (localSources)
         const ChatTurn(role: ChatRole.system, text: sourceGuidance),
-      if (attachment != null)
+      if (attachment != null && !localSources)
         ChatTurn(role: ChatRole.user, text: attachment.text),
     ];
-    final latest = ChatTurn(role: ChatRole.user, text: text.trim());
+    // MiniCPM otrzymuje źródła i pytanie w jednej turze użytkownika.
+    // Dwie sąsiednie tury user pogarszały odpowiedzi w polskiej kampanii.
+    final latest = ChatTurn(
+        role: ChatRole.user,
+        text: localSources
+            ? 'Sources:\n${attachment.text}\nQuestion:\n${text.trim()}'
+            : text.trim());
     int size(List<ChatTurn> turns) => utf8
         .encode(jsonEncode([
           for (final t in turns) {'role': t.role.name, 'content': t.text}

@@ -55,8 +55,10 @@ void main() {
     await flush(tester);
     await tester.tap(find.text(campaign.name));
     await flush(tester);
-    await reveal(tester, find.byType(SwitchListTile));
-    await tester.tap(find.byType(SwitchListTile));
+    await reveal(
+        tester, find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
+    await tester
+        .tap(find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
     await flush(tester);
     await reveal(tester, find.text('Zatwierdź własny wpis'));
     await tester.tap(find.text('Zatwierdź własny wpis'));
@@ -152,8 +154,10 @@ void main() {
     await tester.tap(find.text(campaign.name));
     await flush(tester);
     expect(find.text('Historia sesji MG'), findsNothing);
-    await reveal(tester, find.byType(SwitchListTile));
-    await tester.tap(find.byType(SwitchListTile));
+    await reveal(
+        tester, find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
+    await tester
+        .tap(find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
     await flush(tester);
     await reveal(tester, find.text('Historia sesji MG'));
     await tester.tap(find.text('Historia sesji MG'));
@@ -240,8 +244,10 @@ void main() {
     await tester.tap(find.text(campaign.name));
     await flush(tester);
     expect(find.text('Historia wersji tego wpisu'), findsNothing);
-    await reveal(tester, find.byType(SwitchListTile));
-    await tester.tap(find.byType(SwitchListTile));
+    await reveal(
+        tester, find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
+    await tester
+        .tap(find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
     await flush(tester);
     await reveal(tester, find.text('Historia wersji tego wpisu'));
     await tester.tap(find.text('Historia wersji tego wpisu'));
@@ -264,13 +270,151 @@ void main() {
     await flush(tester);
     await tester.tap(find.text('Zamknij historię'));
     await flush(tester);
-    await reveal(tester, find.byType(SwitchListTile));
-    await tester.tap(find.byType(SwitchListTile));
+    await reveal(
+        tester, find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
+    await tester
+        .tap(find.widgetWithText(SwitchListTile, 'Widok MG z sekretami'));
     await flush(tester);
     expect(find.text('DAWNY_SEKRET_MG'), findsNothing);
     expect(find.text('Historia wersji tego wpisu'), findsNothing);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.runAsync(db.close);
+  });
+
+  testWidgets(
+      'Wyłączenie stanu sesji MG pozwala zatwierdzić dawny fakt bez zmiany checkpointu',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 640));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final db = (await tester.runAsync(() => AppDatabase.open(
+        ContentCipher(MemorySecrets()),
+        factory: databaseFactoryFfi,
+        path: inMemoryDatabasePath)))!;
+    addTearDown(() async {
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.runAsync(db.close);
+    });
+    final store = CampaignStore(db);
+    final campaign = (await tester.runAsync(() => store.create(
+        ownerId: 'local-owner',
+        name: 'Syntetyczny dawny fakt',
+        edition: 'Własna edycja')))!;
+    final access = AccessContext(
+        principalId: 'local-owner',
+        role: AccessRole.gameMaster,
+        campaignId: campaign.id,
+        allowGmSecretContext: true);
+    const factText = 'Bursztynowiec stoi przy fikcyjnej LATARNI.';
+    final checkpoint = CampaignCheckpoint(
+        goal: List.filled(300, 'SYNTETYCZNY_STAN_MG').join(' '),
+        scene: 'Scena testowa',
+        openThreads: 'Wątek testowy',
+        party: 'Drużyna testowa',
+        worldClock: 'Dzień testowy');
+    await tester.runAsync(() async {
+      await store.putRecord(
+          CampaignRecord(
+              id: 'old-fact',
+              campaignId: campaign.id,
+              title: 'Dawny krótki fakt',
+              content: factText,
+              kind: CampaignRecordKind.canon,
+              citation: const LoreCitation(
+                  sourceId: 'synthetic-own',
+                  title: 'Własny wpis testowy',
+                  page: '1',
+                  authority: LoreAuthority.approvedCampaignCanon,
+                  edition: 'Własna edycja',
+                  userVerified: true)),
+          access,
+          expectedRevision: 0,
+          userApproved: true);
+      await store.saveCheckpoint(checkpoint, access, expectedRevision: 1);
+    });
+    final before =
+        (await tester.runAsync(() => store.readCampaign(campaign.id, access)))!;
+    final beforeRows = (await tester.runAsync(() => db.db.query('rpg_records',
+        where: 'campaign_id=?',
+        whereArgs: [campaign.id],
+        orderBy: 'record_id')))!;
+    final prepared = <CampaignContextPack>[];
+    await tester.pumpWidget(MaterialApp(
+        home: CampaignPage(
+            store: store,
+            ownerId: 'local-owner',
+            maxContextCharacters: 1200,
+            onContextReady: prepared.add)));
+    await flush(tester);
+    await tester.tap(find.text(campaign.name));
+    await flush(tester);
+    final gmView = find.widgetWithText(SwitchListTile, 'Widok MG z sekretami');
+    await reveal(tester, gmView);
+    await tester.tap(gmView);
+    await flush(tester);
+    final query = find.byWidgetPredicate((w) =>
+        w is TextField &&
+        w.decoration?.labelText == 'Pytanie do pamięci kampanii');
+    await reveal(tester, query);
+    await tester.enterText(query, 'bursztynowiec');
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpAndSettle();
+    final include = find.widgetWithText(SwitchListTile, 'Dołącz stan sesji MG');
+    await reveal(tester, include);
+    expect(tester.widget<SwitchListTile>(include).value, isTrue);
+    final preview = find.text('Podgląd pakietu dla czatu');
+    await reveal(tester, preview);
+    await tester.tap(preview);
+    await flush(tester);
+    final oversized =
+        find.textContaining('Checkpoint nie mieści się w budżecie kontekstu.');
+    await reveal(tester, oversized);
+    expect(oversized, findsOneWidget);
+    expect(find.textContaining('wyłącz jego dołączenie'), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(prepared, isEmpty);
+
+    await reveal(tester, include);
+    await tester.tap(include);
+    await flush(tester);
+    expect(tester.widget<SwitchListTile>(include).value, isFalse);
+    await reveal(tester, preview);
+    await tester.tap(preview);
+    await flush(tester);
+    expect(find.textContaining('Podgląd danych · MG'), findsOneWidget);
+    final previewText = tester
+        .widget<SelectableText>(find.descendant(
+            of: find.byType(AlertDialog),
+            matching: find.byType(SelectableText)))
+        .data!;
+    expect(previewText, contains(factText));
+    expect(previewText, isNot(contains('SYNTETYCZNY_STAN_MG')));
+    expect(prepared, isEmpty,
+        reason: 'Sam podgląd nie zatwierdza przekazania pakietu do czatu.');
+    final approve = find.text('Przygotuj dla czatu');
+    await reveal(tester, approve);
+    await tester.tap(approve);
+    await flush(tester);
+    expect(prepared, hasLength(1));
+    expect(prepared.single.recordIds, ['old-fact']);
+    expect(prepared.single.campaignId, campaign.id);
+    expect(prepared.single.revision, before.revision);
+    expect(prepared.single.text, previewText);
+    expect(prepared.single.text.length, lessThanOrEqualTo(1200));
+
+    final after =
+        (await tester.runAsync(() => store.readCampaign(campaign.id, access)))!;
+    final savedCheckpoint =
+        (await tester.runAsync(() => store.readCheckpoint(access)))!;
+    final afterRows = (await tester.runAsync(() => db.db.query('rpg_records',
+        where: 'campaign_id=?',
+        whereArgs: [campaign.id],
+        orderBy: 'record_id')))!;
+    expect(after.revision, before.revision);
+    expect(savedCheckpoint.toJson(), checkpoint.toJson());
+    expect(afterRows, beforeRows,
+        reason:
+            'Wyłączenie dołączania nie usuwa ani nie zmienia rekordów SQLite.');
+    expect(tester.takeException(), isNull);
   });
 }

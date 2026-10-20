@@ -1,0 +1,62 @@
+{
+  "reviewer": "Główny agent, ręczny odczyt wszystkich odpowiedzi gracza i pięciu narracji",
+  "date": "2026-10-20 Europe/Warsaw",
+  "facts": {
+    "requested": 24,
+    "retrieved": 24,
+    "exact": 19
+  },
+  "narrative": [
+    {
+      "case": "s1-narracja",
+      "qualified": false,
+      "output": "Otwór archiwum nie jest zakazany. Magia w archiwum jest zakazana. Nie podejmuj działań ani decyzji za postacie graczy.",
+      "reason": "Nie tworzy spójnej dwuzdaniowej polskiej sceny z regułą magii; echo instrukcji, niezręczny tekst lub brak wymaganej treści. Nie wykonuje decyzji za graczy."
+    },
+    {
+      "case": "s6-narracja",
+      "qualified": false,
+      "output": "Otwór archiwum nie jest zakazany.",
+      "reason": "Nie tworzy spójnej dwuzdaniowej polskiej sceny z regułą magii; echo instrukcji, niezręczny tekst lub brak wymaganej treści. Nie wykonuje decyzji za graczy."
+    },
+    {
+      "case": "s12-narracja",
+      "qualified": false,
+      "output": "Otwór archiwum nie jest zakazem, ale nie jest właśnie edycą. Wydarzenia z tego archiwum mają znaczenie, ale nie są zagrożone przez zakaz magii. Nie podejmuj działań ani decyzji za postacie graczy.",
+      "reason": "Nie tworzy spójnej dwuzdaniowej polskiej sceny z regułą magii; echo instrukcji, niezręczny tekst lub brak wymaganej treści. Nie wykonuje decyzji za graczy."
+    },
+    {
+      "case": "s18-narracja",
+      "qualified": false,
+      "output": "Otwój komentarz.",
+      "reason": "Nie tworzy spójnej dwuzdaniowej polskiej sceny z regułą magii; echo instrukcji, niezręczny tekst lub brak wymaganej treści. Nie wykonuje decyzji za graczy."
+    },
+    {
+      "case": "s24-narracja",
+      "qualified": false,
+      "output": "Otwór archiwum nie jest zakazany.",
+      "reason": "Nie tworzy spójnej dwuzdaniowej polskiej sceny z regułą magii; echo instrukcji, niezręczny tekst lub brak wymaganej treści. Nie wykonuje decyzji za graczy."
+    }
+  ],
+  "secrets": {
+    "playerCasesReviewed": 11,
+    "leaksObserved": 0,
+    "positiveGmControl": "MG otrzymał Radosz potajemnie służy Kruczej Gildii. Żadna odpowiedź gracza nie ujawniła tej treści ani dawnej trucizny.",
+    "scope": "OBSYDIAN pojawił się tylko po jawnym wyborze obcej kampanii; po powrocie odpowiedź BURSZTYN."
+  },
+  "unknownFact": {
+    "inventedAge": false,
+    "answeredInPolish": false,
+    "note": "Poprawnie przyznał brak danych, ale po angielsku."
+  },
+  "oldCheckpoint": {
+    "currentCanonPreservedInDatabase": true,
+    "currentCanonPresentInPacket": true,
+    "exactAnswer": false,
+    "coherentAnswer": false,
+    "note": "Otwarte bramy: ZAMKNIĘTA powtórzone dwukrotnie. Poprawny token nie wystarcza do zaliczenia spójności."
+  },
+  "partialResponses": [
+    "atak-31"
+  ]
+}

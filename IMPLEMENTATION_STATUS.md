@@ -1,5 +1,13 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.5.2+9 — polska kampania offline — 20.10.2026
+
+**284 Flutter / 36 JUnit / 8 Android PASS, analiza bez uwag, główny APK zweryfikowany.** Osobny target diagnostyczny wykonał 24 symulowane sesje i 37 generacji rzeczywistego 1B Q4_K_M bez internetu, z 2 restartami. Retrieval 24/24, dokładne odpowiedzi 19/24, 0/5 poprawnych pełnych narracji, brak zaobserwowanych wycieków w 11 próbach gracza. Procedura skończyła się poprawnie; odbiór jakości całej kampanii pozostaje **ograniczony**. Pytania o hasło i część innych pytań dawały echo/metadane. Narracja zawierała niezręczne lub niezwiązane zdania.
+
+Naprawy: stoplista PL/EN przed limitem zapytania RPG, stronicowanie kandydatów 40/limit 2000, pełny ręczny wybór albo błąd, globalna hierarchia i etykiety rodzaju materiału, jawny przełącznik checkpointu bez utraty danych, czytelne minimum 4096 dla pakietu kampanii, jedna tura danych i pytania MiniCPM. 11 nowych testów pamięci i 3 testy UI obejmują 24 sesje na plikowej SQLite, restart, drugą stronę SQL, historię, sekrety, budżety oraz rzeczywiste zatwierdzenie pakietu. Niezależny przegląd statyczny nie znalazł nowych P1/P2; nie był testem jakości modelu.
+
+Baza v3 / pełna kopia v2 / receipt v1 pozostają zgodne. Nie zmieniano wag i przypiętego silnika, nie dodano serwera, kont ani płatnych operacji. Wszystkie 129 wymagań i MX1–MX7 zachowano. Instrukcje i granice: docs/TESTS_PL.md, docs/RPG_KAMPANIA_TEST_PL.md i ADR 012. Fizyczny Pixel 9/ARM64, pełne 2B, korpus GB, bateria/termika i automatyczny kontroler sprzeczności pozostają otwarte.
+
 ## Aktualizacja 0.5.1+8 — korekta wierności źródeł — 20.10.2026
 
 **270/270 Flutter, 36/36 JUnit i 8/8 Android PASS; analiza bez uwag, APK ARM64+x86_64 zweryfikowany.** Diagnoza starego APK: w 1/3 surowych prób JNI wybrało COM+ASS, a w 2/3 COMP+ASS. Tokenizacja wejścia była poprawna, więc błąd nie powstawał w UI. Dla jawnego pakietu źródeł MiniCPM używa teraz greedy, własnej osobnej instrukcji systemowej oraz flagi związanej z digestem i zgodą. Budżet uwzględnia nowy prefix. False zachowuje dotychczasowy profil zwykłego czatu.

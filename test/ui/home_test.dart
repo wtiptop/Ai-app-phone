@@ -9,6 +9,8 @@ import 'package:scalajaca/provider_registry/provider_registry.dart';
 import 'package:scalajaca/storage/app_database.dart';
 import 'package:scalajaca/storage/models.dart';
 import 'package:scalajaca/ui/home.dart';
+import 'package:scalajaca/rpg/campaign_store.dart';
+import 'package:scalajaca/ui/campaign_page.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../local/local_adapter_test.dart' show FakeLocalEngine, modelId;
 
@@ -94,6 +96,59 @@ void main() {
     await store.setSetting('onboarded', true);
   });
   tearDown(() async => store.close());
+
+  for (final contextSize in [1024, 2048]) {
+    testWidgets(
+        'Mały kontekst $contextSize pozwala czytać kampanię, ale wymaga 4096 dla modelu',
+        (tester) async {
+      final engine = FakeLocalEngine();
+      await tester.runAsync(() async {
+        await store.setSetting('local_context', contextSize);
+        await store.setSetting('model_minicpm_local', modelId);
+        await CampaignStore(store).create(
+            name: 'Własna kampania testowa',
+            edition: 'Testowa',
+            ownerId: 'local-owner');
+      });
+      await _boot(tester, store, secrets,
+          registry: ProviderRegistry([
+            DemoAdapter(chunkDelay: Duration.zero),
+            LocalModelAdapter(engine: engine)
+          ]));
+      await tester.tap(find.textContaining('Demo lokalne').first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('MiniCPM • offline w telefonie').last);
+      await tester.pumpAndSettle();
+      await _flush(tester);
+      await tester.tap(find.text('Pamięć'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kampanie RPG i lore'));
+      await _flush(tester);
+      expect(find.byType(CampaignPage), findsOneWidget);
+      await tester.tap(find.text('Własna kampania testowa'));
+      await _flush(tester);
+      await tester.scrollUntilVisible(
+          find.text('Podgląd pakietu dla czatu'), 200,
+          scrollable: find.byType(Scrollable).first);
+      expect(
+          tester
+              .widget<FilledButton>(find.widgetWithText(
+                  FilledButton, 'Podgląd pakietu dla czatu'))
+              .onPressed,
+          isNull);
+      await tester.scrollUntilVisible(
+          find.textContaining(
+              'Dla pakietów kampanii MiniCPM ustaw kontekst 4096'),
+          150,
+          scrollable: find.byType(Scrollable).first);
+      expect(
+          find.textContaining('Przeglądanie i zapis kampanii nadal działają.'),
+          findsOneWidget);
+      expect(engine.calls, 0);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+  }
 
   testWidgets('Start bez konta pokazuje demo i pięć miejsc nawigacji', (
     tester,

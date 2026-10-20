@@ -1,8 +1,8 @@
 # Budowanie i instalacja na Androidzie
 
-## Wydanie 0.5.1
+## Wydanie 0.5.2
 
-Aktualny debug APK: `Scalajaca-0.5.1-debug-arm64-x64.apk`, versionCode 8, Android 7+/minSdk 24, targetSdk 36. Zawiera ARM64 dla Pixela 9 i natywny x86_64 dla emulatora. Wagi MiniCPM GGUF pozostają osobnym plikiem. Rozmiar i SHA-256: `test-results/android-build-0.5.1.json`. To lokalne wydanie testowe, bez publikacji sklepowej.
+Aktualny debug APK: `Scalajaca-0.5.2-debug-arm64-x64.apk`, versionCode 9, Android 7+/minSdk 24, targetSdk 36. Zawiera ARM64 dla Pixela 9 i natywny x86_64 dla emulatora. Wagi MiniCPM GGUF pozostają osobnym plikiem. Rozmiar i SHA-256: `test-results/android-build-0.5.2.json`. To lokalne wydanie testowe, bez publikacji sklepowej.
 
 Przed aktualizacją wykonaj pełną szyfrowaną kopię w Ustawieniach, zgodnie z [BACKUP_PL.md](BACKUP_PL.md). Zainstaluj APK jako aktualizację podpisanej poprzedniej wersji (`adb install -r <APK>` lub systemowy instalator). Nie odinstalowuj aplikacji i nie używaj `pm clear` na swoim telefonie: usunęłoby to bazę i klucz urządzenia. Wydanie nadal używa bazy v3 i formatu pełnej kopii v2. Zachowuje zaimportowane źródła, ich wersje, checkpointy analiz i historię kampanii; nie wymaga ponownego konta ani serwera. Kolizje ID podczas przywracania kopii odrzucają całość, bez scalania.
 

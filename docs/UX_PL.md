@@ -1,5 +1,7 @@
 # UX mobilnej Scalającej
 
+Aktualizacja 0.5.2: MG ma przełącznik „Dołącz stan sesji MG”, domyślnie włączony i resetowany po zmianie kampanii/roli. Wyłączenie usuwa tylko dołączenie do pakietu, nie zapis. Zbyt duży ręczny wybór daje czytelny błąd. Dla małego okna MiniCPM edycja kampanii pozostaje dostępna, ale podgląd modelu wskazuje wymagane 4096. Trzy nowe testy UI potwierdzają oba małe okna oraz odzyskanie krótkiego faktu przy za dużym checkpoincie, z niezmienioną bazą.
+
 ## Aktualizacja 0.5.0
 
 Wyszukiwanie ma licznik, strony po 10 i osobny wybór na każdej stronie; edycja pytania usuwa stary wynik. Karty zachowują pozycję po rozwinięciu wyników, a liczba rekordów w drzewie UI jest ograniczona stronami. Punkty analiz wczytują formularz, z którego kolejny zapis tworzy osobny punkt. Historia sesji MG pokazuje starsze strony i porównanie z bieżącym wpisem. Przywrócenie notatki sesji wymaga osobnego potwierdzenia i tworzy nową rewizję; pełny rollback świata pozostaje oddzielny. Historia lore jest tylko dla MG i nie ma systemowego zaznaczania tekstu sekretów. Instrukcja: PAMIEC_CIAGLOSC_PL.md. Automatyczna kontrola sprzeczności oraz odbiór długiej gry na telefonie pozostają zaplanowane.

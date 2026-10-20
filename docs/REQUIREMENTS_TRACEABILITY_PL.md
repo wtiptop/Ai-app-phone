@@ -1,5 +1,9 @@
 # Macierz wymagań Scalającej
 
+## Uzupełnienie 0.5.2: 24 symulowane sesje RPG po polsku
+
+Wszystkie 129 ID oraz MX1–MX7 zachowano. R06/R10 rozwija pełny wybór źródeł, paginacja RPG, stoplista i jawne odłączenie notatki sesji. 284 Flutter / 36 JUnit / 8 regresji Androida PASS. Osobny test 24 sesji/37 generacji/dwóch restartów: retrieval 24/24, dokładne odpowiedzi 19/24, narracja 0/5, brak obserwowanego wycieku w 11 próbach gracza. R10.1/R10.7/R10.8 nadal są ograniczone: nie ma gotowego niezawodnego MG ani automatycznej kontroli merytorycznej. Fizyczny Pixel 9 pozostaje do odbioru. Wyniki: TESTS_PL.md; instrukcja: RPG_KAMPANIA_TEST_PL.md, ADR 012.
+
 ## Uzupełnienie 0.5.1: wierność nazw w źródłach
 
 Zachowano 129 ID i MX1–MX7. Dla R06.7/R10.8 dodano zachowawczy tryb MiniCPM związany z zatwierdzonym pakietem oraz instrukcję kopiowania nazw/liczb. Powtórzona regresja COMPASS, LANTERN/RAVEN i przepływ UI przechodzą; 270 Flutter / 36 JUnit / 8 Android PASS. Nie zastępuje to kontroli merytorycznej R10.7 ani testu długiej kampanii. Stary wynik 6/7 poniżej opisuje historię 0.5.0.
@@ -30,7 +34,7 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 | MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
 | MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat JNI offline i Stop/tło potwierdzone na emulatorze x86_64; porównanie na urządzeniu i fizyczny telefon do odbioru |
 | MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; import SAF i Stop/tło na emulatorze PASS; termika i fizyczny telefon do odbioru |
-| MX7 | APK i test telefonu z modelem | APK 0.5.1 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; aktualne wyniki regresji offline, przywołania źródeł i historii sesji w TESTS_PL.md; fizyczny Pixel 9 nieprzetestowany |
+| MX7 | APK i test telefonu z modelem | APK 0.5.2 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; aktualne wyniki regresji offline, przywołania źródeł i historii sesji w TESTS_PL.md; fizyczny Pixel 9 nieprzetestowany |
 
 ## Pierwotna specyfikacja
 

@@ -1,5 +1,9 @@
 # MiniCPM offline w Scalającej
 
+## Aktualizacja 0.5.2 — polska kampania
+
+Jedna tura danych i pytania, zachowana osobna instrukcja systemowa i zgoda na dokładny prompt. Dla pakietów kampanii wybierz kontekst 4096. MG może świadomie nie dołączać całej notatki sesji do pytania o dawny fakt, bez utraty zapisu. Test24 symulowanych sesji offline: źródła 24/24, odpowiedzi 19/24, narracja 0/5. **MiniCPM 1B nadal nie jest odebrany jako niezawodny prowadzący polską kampanię.** Instrukcja i błędy: TESTS_PL.md oraz RPG_KAMPANIA_TEST_PL.md. Nie zmieniono wag i nie trzeba ponawiać importu po aktualizacji. Fizyczny Pixel 9 pozostaje nieprzetestowany.
+
 ## Aktualizacja 0.5.1 — źródła i lore
 
 Po zatwierdzeniu fragmentów projektu lub kampanii MiniCPM automatycznie używa zachowawczego trybu odpowiedzi. W podglądzie zobaczysz własną instrukcję systemową aplikacji oraz oddzielne dane źródłowe. Zgoda wskazuje tryb, a budżet uwzględnia instrukcję. Nie musisz zmieniać GGUF ani importować go ponownie po aktualizacji APK. Zwykły czat bez załącznika zachowuje dotychczasowy profil.
@@ -14,7 +18,7 @@ Stan: **18.10.2026**. APK zawiera prawdziwy silnik llama.cpp CPU połączony prz
 
 ## Pierwsze uruchomienie na telefonie
 
-1. Zainstaluj `Scalajaca-0.5.1-debug-arm64-x64.apk` zgodnie z [instrukcją](SETUP_ANDROID_PL.md). Wymagany Android 7+ i procesor ARM64. Wagi nie są częścią APK.
+1. Zainstaluj `Scalajaca-0.5.2-debug-arm64-x64.apk` zgodnie z [instrukcją](SETUP_ANDROID_PL.md). Wymagany Android 7+ i procesor ARM64. Wagi nie są częścią APK.
 2. Skopiuj na telefon pobrany za zgodą właściciela `MiniCPM5-1B-Q4_K_M.gguf`. Oficjalny przypięty plik: [OpenBMB na Hugging Face](https://huggingface.co/openbmb/MiniCPM5-1B-GGUF/resolve/3d55fac80935ae6456986ad2384b5cbcc4d6c948/MiniCPM5-1B-Q4_K_M.gguf). Nie wymaga logowania ani płatnego API. Aplikacja sama go nie pobiera.
 3. Ustawienia → Dostawcy AI → **MiniCPM offline** → zarządzanie modelami. Wklej zalecane SHA-256 podane poniżej, wybierz **Importuj plik GGUF** i wskaż lokalny plik w systemowym selektorze. Użyj lokalnej pamięci telefonu; dostawca plików chmurowych w SAF może potrzebować internetu do samego udostępnienia pliku.
 4. Poczekaj na skopiowanie, sprawdzenie struktury i hasha. Pozostań na ekranie podczas importu. Zaimportowany model jest wybierany do czatu. Można anulować import, skopiować hash lub usunąć prywatną kopię; oryginał pozostaje w swoim katalogu.

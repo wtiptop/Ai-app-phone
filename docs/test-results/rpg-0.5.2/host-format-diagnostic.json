@@ -1,0 +1,32 @@
+[
+  {
+    "id": "s2-archiwistka",
+    "variant": "old-split",
+    "output": "Źródło: Autorski kanon testowy; soak/z-archiwistka; strona/wpis: wpis z-"
+  },
+  {
+    "id": "s2-archiwistka",
+    "variant": "en-single",
+    "output": "Żaneta"
+  },
+  {
+    "id": "s2-archiwistka",
+    "variant": "old-single",
+    "output": "Żaneta"
+  },
+  {
+    "id": "s3-rzeka",
+    "variant": "old-split",
+    "output": "Łada"
+  },
+  {
+    "id": "s3-rzeka",
+    "variant": "en-single",
+    "output": "Łada"
+  },
+  {
+    "id": "s3-rzeka",
+    "variant": "old-single",
+    "output": "Łada"
+  }
+]

@@ -1,5 +1,7 @@
 # Bezpieczeństwo Scalającej
 
+Aktualizacja 0.5.2: jawny wybór RPG nie może zostać cicho pominięty przez budżet. Wyłączenie automatycznego checkpointu nie znosi ACL/opt-in. Próba 24 sesji sprawdzała rzeczywisty Keystore/SQLite/JNI na osobnym syntetycznym magazynie i 11 odpowiedzi gracza, bez zaobserwowanych sekretów w pakietach lub odpowiedziach. Tekst „udawaj MG” nie zmienia roli. Wynik jest kontrolowaną próbą, nie dowodem pełnej odporności. Target diagnostyczny nie jest importowany przez główny APK. Snapshot, digest i walidacja rewizji nadal obejmują dokładny prompt.
+
 ## Zmiana 0.5.1
 
 Tryb źródeł i cały prompt są objęte digestem zatwierdzanym przed inferencją. Instrukcja systemowa jest własną stałą; pliki nie awansują do roli systemowej. Zachowano walidację świeżości, scope, MG/opt-in i taint. Greedy nie jest kontrolą prawdziwości ani nową zgodą. Surowe dane diagnostyczne zapisuje tylko androidTest po sprawdzeniu własnego AVD i konkretnej syntetycznej fixture; produkcja nadal nie loguje promptów. Niezależny przegląd statyczny bez nowych P1/P2 nie zastępuje pełnego audytu.

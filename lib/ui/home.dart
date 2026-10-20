@@ -198,6 +198,8 @@ class _HomeState extends State<Home> {
   Future<void> _openCampaign() async {
     try {
       final budget = await _sourceBudget();
+      final smallContext = provider == 'minicpm_local' &&
+          await widget.store.setting('local_context', 4096) < 4096;
       if (!mounted) return;
       final store = CampaignStore(widget.store);
       final pack = await Navigator.push<CampaignContextPack>(
@@ -206,6 +208,9 @@ class _HomeState extends State<Home> {
               builder: (_) => CampaignPage(
                   store: store,
                   ownerId: 'local-owner',
+                  contextUnavailableReason: smallContext
+                      ? 'Dla pakietów kampanii MiniCPM ustaw kontekst 4096 w ustawieniach modeli offline. Przeglądanie i zapis kampanii nadal działają.'
+                      : null,
                   maxContextCharacters: budget ~/ 2)));
       if (pack == null || !mounted) return;
       final gm = pack.context.role == AccessRole.gameMaster;
@@ -1438,7 +1443,7 @@ class _HomeState extends State<Home> {
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Scalająca',
-              applicationVersion: '0.5.1',
+              applicationVersion: '0.5.2',
             ),
           ),
           const ListTile(
@@ -1457,7 +1462,7 @@ class _HomeState extends State<Home> {
           const ListTile(
             title: Text('Diagnostyka lokalna'),
             subtitle: Text(
-              'Wersja 0.5.1 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
+              'Wersja 0.5.2 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
             ),
           ),
         ],
