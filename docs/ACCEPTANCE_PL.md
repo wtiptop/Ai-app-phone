@@ -51,3 +51,12 @@ Uzupełnienie MiniCPM 0.1.1:
 | A34 | Android w trybie samolotowym po imporcie GGUF: start, krótka generacja, Stop, tło/powrót, rotacja, usuwanie; brak sieci/fallbacku, pomiar RAM/baterii i jakość PL | Częściowy odbiór: import, rzeczywisty czat offline, Stop/JNI po tokenie, następna generacja i tło/powrót emulatora x86_64 PASS. Rotacja/usuwanie, bateria/termika, PL i fizyczny telefon niewykonane |
 
 Faza 0: datowane źródła pierwotne i jawne ograniczenia. Faza 1: repo, ADR, macierz, UX, akceptacja i zależności. Faza 2: sam kod nie wystarcza — wymagane wyniki analizy, testów oraz w miarę środowiska build i instalacja. Brak urządzenia lub klucza jest wynikiem „nieuruchomiony/ograniczony”, nigdy pozytywnym testem. Fazy 3–6 mają osobne kryteria wymienione wyżej i pozostają otwarte, dopóki nie ma dowodów.
+
+## Dodatkowy odbiór pamięci 0.5.0
+
+| ID | Scenariusz | Dowód i granica |
+|---|---|---|
+| A35 | 1202 dokumenty/2201 fragmentów, w tym 1000 jednego pliku: późny fakt, strony, zgodność fallbacku, tylko strona odszyfrowana, brak cudzych/cofniętych/starych fragmentów | Syntetyczny indeks hosta, nie benchmark importu SAF ani korpusu GB; TESTS_PL.md |
+| A36 | Starsza strona analiz → formularz → nowy zapis; powrót po restarcie/restore, źródła wymagają aktualnej zgody | SQLite i widgety; brak autozapisu ustaleń modelu |
+| A37 | CP1→CP2→wznowienie CP1 tworzy nową rewizję, stare szyfrogramy i dzisiejszy kanon pozostają; konflikt CAS odrzucany; backup i nowy klucz | Testy store/backup/UI oraz osobny AndroidJUnitRunner; wyniki TESTS_PL.md |
+| A38 | Dawny sekret dziś jawnego lore w archiwum tylko localView MG+opt-in przed decrypt, brak indeksu i gracza; porównanie wersji bez automatycznego promowania kanonu | Negatywne testy roli/purpose + mały ekran; merytoryczny kontroler sprzeczności zaplanowany |

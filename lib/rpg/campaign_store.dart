@@ -96,6 +96,39 @@ class CampaignAuditEvent {
   final int? targetRevision;
 }
 
+/// Archiwalny zapis, a nie dodatkowa prawda świata ani automatyczny kontekst.
+class CampaignHistoryEntry {
+  const CampaignHistoryEntry(
+      {required this.record,
+      required this.savedAt,
+      required this.eventKind,
+      required this.isCurrent});
+  final CampaignRecord record;
+  final DateTime savedAt;
+  final String eventKind;
+  final bool isCurrent;
+  CampaignCheckpoint get checkpoint {
+    if (record.kind != CampaignRecordKind.sessionCheckpoint) {
+      throw StateError('Ten wpis nie jest punktem sesji.');
+    }
+    return CampaignCheckpoint.fromJson(
+        jsonDecode(record.content) as Map<String, dynamic>);
+  }
+}
+
+class CampaignRecordComparison {
+  CampaignRecordComparison(
+      {required this.historical,
+      required this.current,
+      required Iterable<String> changedFields,
+      required this.campaignRevision})
+      : changedFields = List.unmodifiable(changedFields);
+  final CampaignRecord historical;
+  final CampaignRecord? current;
+  final List<String> changedFields;
+  final int campaignRevision;
+}
+
 /// Jedynym autorem zmian jest jawna akcja MG. Wynik LLM nie jest komendą.
 /// Scope i rola są sprawdzane PRZED odczytem i odszyfrowaniem treści.
 class CampaignStore {
@@ -302,32 +335,56 @@ class CampaignStore {
           String edition,
           String payload,
           String event) =>
-      database.db.transaction((tx) async {
-        final campaign = await _authorize(tx, context, write: true);
-        _revision(campaign, expectedRevision);
-        if (authority == LoreAuthority.officialEdition &&
-            edition != campaign['edition']) {
-          throw StateError('Źródło oficjalne pochodzi z innej edycji.');
-        }
-        final next = expectedRevision + 1;
-        final row = <String, Object?>{
-          'campaign_id': context.campaignId,
-          'record_id': id,
-          'revision': next,
-          'kind': kind.name,
-          'visibility': visibility.name,
-          'approved': approved ? 1 : 0,
-          'authority': authority.index,
-          'edition': edition,
-          'payload': payload
-        };
-        await tx.insert('rpg_versions', row);
-        await tx.insert('rpg_records', row,
-            conflictAlgorithm: ConflictAlgorithm.replace);
-        await _refreshIndex(tx, row);
-        await _event(tx, context.campaignId!, next, event, {'recordId': id});
-        return next;
-      });
+      database.db.transaction((tx) => _commitRecord(
+          tx,
+          context,
+          expectedRevision,
+          id,
+          kind,
+          visibility,
+          approved,
+          authority,
+          edition,
+          payload,
+          event));
+
+  Future<int> _commitRecord(
+      Transaction tx,
+      AccessContext context,
+      int expectedRevision,
+      String id,
+      CampaignRecordKind kind,
+      MemoryVisibility visibility,
+      bool approved,
+      LoreAuthority authority,
+      String edition,
+      String payload,
+      String event) async {
+    final campaign = await _authorize(tx, context, write: true);
+    _revision(campaign, expectedRevision);
+    if (authority == LoreAuthority.officialEdition &&
+        edition != campaign['edition']) {
+      throw StateError('Źródło oficjalne pochodzi z innej edycji.');
+    }
+    final next = expectedRevision + 1;
+    final row = <String, Object?>{
+      'campaign_id': context.campaignId,
+      'record_id': id,
+      'revision': next,
+      'kind': kind.name,
+      'visibility': visibility.name,
+      'approved': approved ? 1 : 0,
+      'authority': authority.index,
+      'edition': edition,
+      'payload': payload
+    };
+    await tx.insert('rpg_versions', row);
+    await tx.insert('rpg_records', row,
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    await _refreshIndex(tx, row);
+    await _event(tx, context.campaignId!, next, event, {'recordId': id});
+    return next;
+  }
 
   static void _revision(Map<String, Object?> campaign, int expected) {
     if (expected < 0 || campaign['revision'] != expected) {
@@ -425,6 +482,202 @@ class CampaignStore {
         final record = await _record(rows.single);
         return CampaignCheckpoint.fromJson(
             jsonDecode(record.content) as Map<String, dynamic>);
+      });
+
+  Future<Map<String, Object?>> _historyAccess(
+      DatabaseExecutor tx, AccessContext context, MemoryPurpose purpose) async {
+    // Archiwum może zawierać dawne sekrety również po upublicznieniu wpisu.
+    // Nie jest źródłem indeksu, eksportu, recenzji ani automatycznego promptu.
+    if (purpose != MemoryPurpose.localView) {
+      throw StateError(
+          'Archiwum kampanii jest dostępne tylko w lokalnym widoku MG.');
+    }
+    final campaign = await _authorize(tx, context, write: true);
+    if (!context.allowGmSecretContext) {
+      throw StateError('Włącz jawnie widok MG.');
+    }
+    return campaign;
+  }
+
+  /// Keyset pagination: dopisanie nowej sesji nie przesuwa kolejnych stron.
+  Future<List<CampaignHistoryEntry>> checkpointHistory(AccessContext context,
+          {int limit = 20,
+          int? beforeRevision,
+          MemoryPurpose purpose = MemoryPurpose.localView}) =>
+      _history(_checkpointId, context,
+          limit: limit,
+          beforeRevision: beforeRevision,
+          purpose: purpose,
+          checkpointOnly: true);
+
+  Future<List<CampaignHistoryEntry>> recordHistory(
+          String recordId, AccessContext context,
+          {int limit = 20,
+          int? beforeRevision,
+          MemoryPurpose purpose = MemoryPurpose.localView}) =>
+      _history(recordId, context,
+          limit: limit, beforeRevision: beforeRevision, purpose: purpose);
+
+  Future<List<CampaignHistoryEntry>> _history(
+          String recordId, AccessContext context,
+          {required int limit,
+          required int? beforeRevision,
+          required MemoryPurpose purpose,
+          bool checkpointOnly = false}) =>
+      database.db.transaction((tx) async {
+        final campaign = await _historyAccess(tx, context, purpose);
+        _page(limit, 0);
+        if (recordId.isEmpty ||
+            recordId.length > 200 ||
+            (beforeRevision != null && beforeRevision < 1)) {
+          throw ArgumentError(
+              'Nieprawidłowy identyfikator lub kursor historii.');
+        }
+        final rows = await tx.rawQuery('''SELECT v.*, e.created AS saved_at,
+        e.kind AS event_kind, CASE WHEN r.revision=v.revision THEN 1 ELSE 0 END AS is_current
+        FROM rpg_versions v JOIN rpg_events e
+          ON e.campaign_id=v.campaign_id AND e.revision=v.revision
+        LEFT JOIN rpg_records r ON r.campaign_id=v.campaign_id AND r.record_id=v.record_id
+        WHERE v.campaign_id=? AND v.record_id=?
+          AND v.visibility IN ('campaign','gmSecret')
+          AND (v.authority!=? OR v.edition=?)
+          ${checkpointOnly ? "AND v.kind='sessionCheckpoint' AND v.visibility='gmSecret' AND v.approved=1" : ''}
+          ${beforeRevision == null ? '' : 'AND v.revision<?'}
+        ORDER BY v.revision DESC LIMIT ?''', [
+          context.campaignId,
+          recordId,
+          LoreAuthority.officialEdition.index,
+          campaign['edition'],
+          if (beforeRevision != null) beforeRevision,
+          limit
+        ]);
+        final result = <CampaignHistoryEntry>[];
+        for (final row in rows) {
+          result.add(CampaignHistoryEntry(
+              record: await _record(row),
+              savedAt:
+                  DateTime.fromMillisecondsSinceEpoch(row['saved_at'] as int),
+              eventKind: row['event_kind'] as String,
+              isCurrent: row['is_current'] == 1));
+        }
+        return List.unmodifiable(result);
+      });
+
+  Future<CampaignRecordComparison> compareRecordVersion(
+          String recordId, int historicalRevision, AccessContext context,
+          {MemoryPurpose purpose = MemoryPurpose.localView}) =>
+      database.db.transaction((tx) async {
+        final campaign = await _historyAccess(tx, context, purpose);
+        if (recordId.isEmpty ||
+            recordId.length > 200 ||
+            historicalRevision < 1) {
+          throw ArgumentError('Nieprawidłowy wpis lub rewizja.');
+        }
+        final old = await tx.query('rpg_versions',
+            where: 'campaign_id=? AND record_id=? AND revision=?'
+                " AND visibility IN ('campaign','gmSecret') AND (authority!=? OR edition=?)",
+            whereArgs: [
+              context.campaignId,
+              recordId,
+              historicalRevision,
+              LoreAuthority.officialEdition.index,
+              campaign['edition']
+            ],
+            limit: 1);
+        if (old.isEmpty) {
+          throw StateError(
+              'Wersja historyczna nie jest dostępna w tej kampanii.');
+        }
+        final currentRows = await tx.query('rpg_records',
+            where: 'campaign_id=? AND record_id=?'
+                " AND visibility IN ('campaign','gmSecret') AND (authority!=? OR edition=?)",
+            whereArgs: [
+              context.campaignId,
+              recordId,
+              LoreAuthority.officialEdition.index,
+              campaign['edition']
+            ],
+            limit: 1);
+        final historical = await _record(old.single);
+        final current =
+            currentRows.isEmpty ? null : await _record(currentRows.single);
+        final fields = <String>[];
+        if (current == null) {
+          fields.add('Wpis nie występuje w bieżącym stanie świata');
+        } else {
+          if (historical.title != current.title) fields.add('Tytuł');
+          if (historical.content != current.content) fields.add('Treść');
+          if (historical.kind != current.kind) fields.add('Rodzaj wpisu');
+          if (historical.visibility != current.visibility) {
+            fields.add('Widoczność');
+          }
+          if (historical.approved != current.approved) {
+            fields.add('Zatwierdzenie');
+          }
+          final a = historical.citation, b = current.citation;
+          if (a.sourceId != b.sourceId ||
+              a.title != b.title ||
+              a.page != b.page ||
+              a.edition != b.edition ||
+              a.authority != b.authority ||
+              a.userVerified != b.userVerified) {
+            fields.add('Źródło i weryfikacja');
+          }
+        }
+        return CampaignRecordComparison(
+            historical: historical,
+            current: current,
+            changedFields: fields,
+            campaignRevision: campaign['revision'] as int);
+      });
+
+  /// Kopiuje wyłącznie notatkę o stanie pracy MG do nowej rewizji. Nie cofa
+  /// świata, kanonu, postaci, ekwipunku ani decyzji gracza do dawnego stanu.
+  Future<int> resumeCheckpoint(int sourceRevision, AccessContext context,
+          {required int expectedRevision,
+          MemoryPurpose purpose = MemoryPurpose.localView}) =>
+      database.db.transaction((tx) async {
+        final campaign = await _historyAccess(tx, context, purpose);
+        _revision(campaign, expectedRevision);
+        if (sourceRevision < 1 || sourceRevision > expectedRevision) {
+          throw RangeError('Nieprawidłowa rewizja historycznej sesji.');
+        }
+        final rows = await tx.query('rpg_versions',
+            where:
+                "campaign_id=? AND record_id=? AND revision=? AND kind='sessionCheckpoint' AND visibility='gmSecret' AND approved=1",
+            whereArgs: [context.campaignId, _checkpointId, sourceRevision],
+            limit: 1);
+        if (rows.isEmpty) {
+          throw StateError(
+              'Wybrana rewizja nie zawiera zapisanego stanu sesji.');
+        }
+        final record = await _record(rows.single);
+        CampaignCheckpoint.fromJson(
+            jsonDecode(record.content) as Map<String, dynamic>);
+        final payload = await database.cipher.seal(jsonEncode({
+          'title':
+              'Punkt MG z r$sourceRevision · notatka sesji, bez zmiany kanonu świata',
+          'content': record.content,
+          'citation': {
+            'sourceId': 'history-checkpoint:$sourceRevision',
+            'title': 'Stan sesji jawnie wznowiony przez MG',
+            'page':
+                'z rewizji $sourceRevision; zapis jako rewizja ${expectedRevision + 1}',
+            'userVerified': true
+          }
+        }));
+        return _commitRecord(
+            tx,
+            context,
+            expectedRevision,
+            _checkpointId,
+            CampaignRecordKind.sessionCheckpoint,
+            MemoryVisibility.gmSecret,
+            true,
+            LoreAuthority.approvedCampaignCanon,
+            '',
+            payload,
+            'checkpointSaved');
       });
 
   /// Cofnięcie tworzy nową rewizję. Stare wersje i dziennik pozostają nietknięte.

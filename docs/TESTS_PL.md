@@ -1,5 +1,36 @@
 # Rzeczywiste testy Scalającej
 
+## Odbiór 0.5.0 — 20.10.2026, Europe/Warsaw
+
+**Wynik częściowy: 266/266 Flutter i 36/36 JUnit PASS, Android 6/7 PASS i 1 FAIL.** APK jest zbudowany, instalowalny i sprawdzony na emulatorze. Nie zaliczamy jakości odtwarzania późnego faktu przez MiniCPM jako ukończonej.
+
+| Sprawdzenie | Rzeczywisty wynik | Dowód / granica |
+|---|---|---|
+| Flutter analyze | PASS, bez uwag, exit 0 | analyze-0.5.0.log |
+| Pełny runner Flutter | **266/266 PASS**, exit 0 | flutter-tests-0.5.0.log; 25 nowych przypadków recall, historii RPG, backupu i UI |
+| Duży syntetyczny indeks hosta | PASS: 1202 dokumenty / 2201 fragmentów | 1000 fragmentów jednego pliku; seed 556 ms, query 21 ms, 10 wyników / 21 odszyfrowań, zgodny fallback 114 ms |
+| JUnit Android | **36/36 PASS**, świeże wykonanie, bez pominiętych | 21 GGUF + 6 vault + 9 backup; android-junit-0.5.0.log i 3 XML; test task --rerun, bez UP-TO-DATE |
+| MiniCPM i pamięć offline | **5/6 PASS, 1 FAIL**, 231.909 s | import rzeczywistego GGUF/OK, JNI Stop, Stop UI i kolejna odpowiedź, Home/tło, SAF i LANTERN PASS; późny fakt poniżej FAIL |
+| Historia sesji Android | **1/1 PASS**, 89.229 s | nowa kampania UUID, 2 checkpointy, porównanie i potwierdzone wznowienie jako r3, stare szyfrogramy bez zmian, 5 pól UI, sekret/historia niedostępne graczowi, brak indeksu GM |
+| Offline | PASS przed/po każdym z 7 scenariuszy | samolotowy, WiFi/dane wyłączone, brak aktywnej sieci; bez kont/API/serwera |
+| APK ARM64+x86_64 | PASS: build, podpis, manifest, ZIP/ELF 16 KiB | versionCode7, minSdk24/targetSdk36, 143929535 B; SHA w android-build-0.5.0.json; bez wag, JNI bez transportu sieciowego |
+
+**Niezaliczony scenariusz:** f_pagedRecallFindsLateFactOffline przechodzi wyszukanie 22 fragmentów, trzecią stronę, nowe pytanie, zatwierdzony podgląd zawierający COMPASS i rzeczywistą inferencję offline. Kończy się błędem asercji dokładnej odpowiedzi: widoczny tekst to **COMASS**. Krótsze polecenie i końcowe polecenie „Copy the recovery key from the provided source verbatim. Keep its exact spelling. Reply only with the key.” dały ten sam błąd. Oczekiwanie 15 s po statusie ukończenia nie poprawiło tekstu. Nie traktujemy tego jako naprawionego błędu selektora ani jako PASS. Model/sampler nie zostały zmienione. Nie ustalono eksperymentem dokładnej przyczyny wewnątrz inferencji; poprawny pakiet źródłowy jest zachowany i nie ma dowodu utraty tej litery w strumieniu transportu.
+
+Dowody porażki: test-results/emulator-0.5.0/memory-late-fact-preview.png/xml (COMPASS), memory-late-fact-answer.png/xml (COMASS), paged-memory-attempt.json oraz android-emulator-0.5.0.log. Historyczny JSON sukcesu z wcześniejszej próby nie został użyty do końcowego wyniku. Test został przerwany przed otwarciem receipt; potwierdzenie receipt dla tego przebiegu jest **niezweryfikowane**, a starszy zrzut receipt nie należy do dowodów 0.5.0. Receipt LANTERN w scenariuszu e pozostaje PASS.
+
+Końcowy runner LocalInferenceDeviceTest: 6 scenariuszy, 5 PASS i 1 FAIL, exit błędny. Następnie niezależnie uruchomiono ContinuityDeviceTest: 1 PASS, exit 0. Łącznie 7 wykonanych, 6 PASS, 1 FAIL, 321.138 s runnerów. Skrypt zbiorczy kończy się błędem przy niezaliczonym scenariuszu; jego obsługę uzupełniono, by po pełnym runnerze z błędem asercji wykonywał również niezależny test RPG. Końcowy odbiór RPG pochodzi z jawnego osobnego uruchomienia tej samej klasy. APK zainstalowano jako aktualizację bez czyszczenia istniejącej syntetycznej bazy. Hash odczytany przez sha256sum z rzeczywistego /data/app/.../base.apk jest zgodny z buildem i artefaktem wydania.
+
+**Metoda i granice skali:** duży indeks jest kontrolowaną fixture SQLite/HMAC/AES-GCM, budowaną małymi partiami ze sztucznych rekordów; nie importem 1202 rzeczywistych plików SAF. Czasy pochodzą z Windows, nie Pixela. SQL liczy/sortuje pasujące metadane, więc odszyfrowanie jednej strony nie oznacza kosztu O(1). Na Androidzie rzeczywisty SAF importuje Archive.md (18587 B), dający 22 trafienia i trzecią stronę. Poprawne LANTERN i błędne COMASS pokazują ograniczenia modelu 1B; nie dowodzą jakości długiej polskiej kampanii.
+
+Nowe testy historii obejmują fizyczne zamknięcie/otwarcie bazy, 27 sesji, stabilny kursor po dopisaniu checkpointu, rollback, konflikty CAS, sekret zmieniony w jawny wpis i odmowę innych purpose przed odszyfrowaniem. Trzy testy integracyjne backupu sprawdzają nowe workflow, stare/cofnięte źródła, 35 punktów analiz i restore pod innym kluczem. Native SAF backup nie był powtarzany w 0.5.0; wynik 0.4.0 poniżej pozostaje historycznym odbiorem niezmienionego formatu i kanału.
+
+**Wykryte i poprawione usterki:** duplikaty w const stopliście; skok viewportu po wyszukaniu; przewijanie do niezbudowanych wierszy/dialogów i oczekiwanie na nieskończony wskaźnik za modalem; asercja dostępności skierowana na przodka TextField zamiast EditableText; nieprecyzyjna kotwica pola w UiAutomator i aktywacja przycisku importu na przyciętej krawędzi ekranu. Poprawiono stałe drzewo kart o ograniczonych stronach, semanticContainer kart, fokus/wpisanie pola i aktywację widocznej klikalnej kontrolki akcją dostępności. Native selektory plików nadal są rzeczywiste. Pierwsze odbiory Androida: 4/6; kolejny 5/6 błędnie odrzucał poprawne Lantern z powodu wielkości liter. Matcher wymaga całego właściwego słowa, dopuszcza różny zapis liter i opcjonalną kropkę. Nie dopuszcza dowolnego fragmentu zdania ani trafienia tylko w źródle. Błąd COMASS nadal FAIL. Zachowano logi wcześniejszych prób; nie są liczone jako końcowe PASS.
+
+Odtworzenie: flutter analyze --no-pub; flutter test --no-pub --concurrency=1 --reporter expanded; gradlew :app:testDebugUnitTest --rerun -Ptarget-platform=android-arm64,android-x64; flutter build apk --debug --no-pub --target-platform android-arm64,android-x64; scripts/test_android_continuity.ps1 -Model <przypięty oficjalny GGUF>. Wymagany własny AVD Scalajaca_API30 z angielskim obrazem Google APIs x86_64, SDK/JDK/Flutter. Skrypt sprawdza AVD/API/hash, odłącza sieć, kopiuje wyłącznie syntetyczne dane i instaluje APK. Nie uruchamiać go na telefonie z prywatnymi danymi. UiAutomator/akcje dostępności nie zastępują ręcznego audytu TalkBack.
+
+Nie wykonano odbioru fizycznego Pixela 9/ARM64, szczytu RAM, baterii/termiki/Doze, długiej kampanii PL, korpusu GB ani starego Androida 7. Stary SQL porównano na hoście z wymuszonym fallbackiem. Embeddingi/graf, automatyczny kontroler sprzeczności, niezawodne kopiowanie faktów, synchronizacja i niezależne konta graczy pozostają zaplanowane/ograniczone. Nie wykonano płatnych operacji, podłączenia prywatnych kont ani publikacji. Ostrzeżenia SDK XML i przestarzałych funkcji Gradle nie zablokowały builda.
+
 ## Odbiór 0.4.0 — 19.10.2026, Europe/Warsaw
 
 | Sprawdzenie | Rzeczywisty wynik | Dowód / granica |

@@ -1,0 +1,15 @@
+{
+  "name": "paged-memory-attempt",
+  "result": "FAIL",
+  "expected": "COMPASS",
+  "actualOutput": "COMASS",
+  "source": "Archive.md",
+  "approvedSourceContainsExpected": true,
+  "pageThreeReached": true,
+  "offline": true,
+  "receiptRetained": null,
+  "receiptNote": "Test przerwany na asercji odpowiedzi, receipt tego przebiegu niezweryfikowany.",
+  "prompt": "Copy the recovery key from the provided source verbatim. Keep its exact spelling. Reply only with the key.",
+  "evidence": "memory-late-fact-answer.xml / instrumentation.log",
+  "reportMethod": "Host odczytał rzeczywisty widoczny tekst z XML nieudanego testu; bez używania historycznego JSON sukcesu."
+}

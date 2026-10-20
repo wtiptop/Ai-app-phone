@@ -1,5 +1,15 @@
 # Dziennik zmian
 
+## 0.5.0 — 2026-10-20
+
+- Stronicowane wyszukiwanie z dokładnym licznikiem, filtrowaniem zakresu i rundami różnych dokumentów; stoplista PL/EN pytań. SQLite >=3.25 używa funkcji okienkowych, starsze wersje zachowują zgodny fallback.
+- Oddzielna selekcja źródeł sprawdza wszystkie ID przed przycięciem, zachowuje dokładny budżet JSON/UTF-8 i cytowania linii. Zmiana pytania unieważnia poprzedni wynik i wybór. Poprawiono skok przewijania oraz semantykę kart z polami i przyciskami.
+- Starsze strony projektów i punktów analiz, dokładny odczyt checkpointu, powrót do formularza i nowe wyszukiwanie źródeł do kolejnego kroku. Nowy zapis w UI zachowuje poprzedni punkt jako osobny rekord.
+- Prywatne archiwum sesji i wersji lore MG z kursorem rewizji i porównaniem pól z bieżącym wpisem. Wznowienie checkpointu tworzy nową rewizję samej notatki; nie cofa dzisiejszego świata i nie usuwa historii.
+- Kontrola roli/opt-in/purpose przed odszyfrowaniem historii, brak historycznych sekretów w indeksie i kontekście gracza, walidacja pustych cytacji po trim. Baza v3 i pełny backup v2 pozostają zgodne.
+- Nowe testy dużego syntetycznego indeksu, wielosesyjnej trwałości, izolacji, restore i UI; test Androida dla późnego faktu oraz jawnego wznowienia kampanii. Wyniki końcowe i ograniczenia: docs/TESTS_PL.md.
+- Brak deklaracji odbioru fizycznego Pixela 9, rzeczywistego wielogigabajtowego vaultu, długiej narracji PL, embeddingów/grafu, automatycznego kontrolera sprzeczności i synchronizacji.
+
 ## 0.4.0 — 2026-10-19
 
 - Pełna szyfrowana kopia projektów i kampanii RPG: źródła i wszystkie wersje, checkpointy analiz/sesji, historia lore/zdarzeń, sekrety MG, rozmowy zakresowe i dowody kontekstu oraz zwykłe dane właściciela.

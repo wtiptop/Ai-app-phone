@@ -3,6 +3,8 @@ import 'package:sqflite/sqflite.dart';
 import '../storage/app_database.dart';
 import '../storage/models.dart';
 import 'context_packet.dart';
+import 'memory_search.dart';
+export 'memory_search.dart' show MemorySearchPage;
 
 class MemoryCollection {
   const MemoryCollection(this.id, this.name, this.ownerId, this.vaultId);
@@ -39,14 +41,28 @@ class AnalysisCheckpoint {
 }
 
 class MemoryStore {
-  MemoryStore(this.store);
+  MemoryStore(this.store, {this.forceLegacySearch = false});
   final AppDatabase store;
+
+  /// Pozwala przetestować zgodność ze starszym SQLite bez zmiany schematu.
+  final bool forceLegacySearch;
+  Future<bool>? _windowSupport;
   static const maxFileBytes = 1024 * 1024;
   static const maxChunkCharacters = 900;
   static Iterable<String> words(String text) =>
       RegExp(r'[a-z0-9ąćęłńóśźżäöüß]{2,48}')
           .allMatches(text.toLowerCase())
           .map((m) => m.group(0)!);
+
+  Future<bool> _modernSearchSql() => _windowSupport ??= () async {
+        if (forceLegacySearch) return false;
+        final rows =
+            await store.db.rawQuery('SELECT sqlite_version() AS version');
+        final parts = (rows.single['version'] as String).split('.');
+        final major = int.tryParse(parts.first) ?? 0;
+        final minor = parts.length > 1 ? int.tryParse(parts[1]) ?? 0 : 0;
+        return major > 3 || (major == 3 && minor >= 25);
+      }();
 
   Future<MemoryCollection> createCollection(
       {required String name,
@@ -105,7 +121,7 @@ class MemoryStore {
         whereArgs: [ownerId],
         limit: 50,
         offset: offset,
-        orderBy: 'created DESC');
+        orderBy: 'created DESC,id');
     return [
       for (final r in rows)
         MemoryCollection(
@@ -369,73 +385,178 @@ class MemoryStore {
       {String ownerId = 'local-owner',
       int maxBytes = 2200,
       int maxChunks = 6}) async {
+    _budget(maxBytes, maxChunks);
+    final page = await search(collectionId, query, ownerId: ownerId, limit: 30);
+    return _pack(collectionId, ownerId, page.excerpts, maxBytes, maxChunks,
+        limited: page.hasMore || page.queryLimited);
+  }
+
+  /// Aktualne zatwierdzone trafienia; odszyfrowujemy tylko zwracaną stronę.
+  /// Najpierw najlepszy fragment każdego dokumentu, potem drugi itd. W każdej
+  /// rundzie wygrywa liczba trafionych różnych słów zapytania (coverage).
+  /// Kolejność po ID jest stabilna przy niezmienionym korpusie, bez zależności od
+  /// daty importu. OFFSET nie obiecuje snapshotu podczas równoległych zmian.
+  Future<MemorySearchPage> search(String collectionId, String query,
+      {String ownerId = 'local-owner', int limit = 10, int offset = 0}) async {
     await collection(collectionId, ownerId: ownerId);
-    if (maxBytes < 256 || maxBytes > 24000 || maxChunks < 1 || maxChunks > 20) {
-      throw ArgumentError('Nieprawidłowy budżet kontekstu.');
+    if (limit < 1 || limit > 30 || offset < 0 || offset > 2000000) {
+      throw ArgumentError('Nieprawidłowa strona wyników.');
     }
+    final parsed = RecallQuery.parse(query, words);
     final terms = [
-      for (final word in words(query).toSet().take(12))
-        await store.cipher.indexToken(word)
+      for (final word in parsed.terms) await store.cipher.indexToken(word)
     ];
     if (terms.isEmpty) {
+      return MemorySearchPage(
+          excerpts: const [],
+          total: 0,
+          hasMore: false,
+          offset: offset,
+          queryLimited: parsed.limited);
+    }
+    final marks = List.filled(terms.length, '?').join(',');
+    final scored = '''WITH scored AS (
+      SELECT k.id AS chunk_id,k.document_id,k.ordinal,COUNT(t.term) AS coverage
+      FROM memory_terms t JOIN memory_chunks k ON k.id=t.chunk_id
+      JOIN memory_documents d ON d.id=k.document_id
+      JOIN memory_collections c ON c.id=d.collection_id
+      WHERE d.collection_id=? AND c.owner_id=? AND k.revision=d.revision
+        AND d.approval='approved' AND d.restricted=0 AND t.term IN ($marks)
+      GROUP BY k.id,k.document_id,k.ordinal
+    )''';
+    final arguments = <Object?>[collectionId, ownerId, ...terms];
+    final modern = await _modernSearchSql();
+    return store.db.transaction((tx) async {
+      final total = Sqflite.firstIntValue(await tx.rawQuery(
+              '$scored SELECT COUNT(*) FROM scored', arguments)) ??
+          0;
+      final querySql = modern
+          ? '''$scored, ranked AS (
+          SELECT scored.*,ROW_NUMBER() OVER(PARTITION BY document_id
+            ORDER BY coverage DESC,ordinal,chunk_id)-1 AS document_round FROM scored
+        )
+        SELECT k.*,d.path,d.hash FROM ranked s
+        JOIN memory_chunks k ON k.id=s.chunk_id JOIN memory_documents d ON d.id=s.document_id
+        ORDER BY s.document_round,s.coverage DESC,s.document_id,s.ordinal,s.chunk_id
+        LIMIT ? OFFSET ?'''
+          : '''$scored
+        SELECT k.*,d.path,d.hash,
+          (SELECT COUNT(*) FROM scored b WHERE b.document_id=s.document_id AND
+            (b.coverage>s.coverage OR (b.coverage=s.coverage AND
+              (b.ordinal<s.ordinal OR (b.ordinal=s.ordinal AND b.chunk_id<s.chunk_id))))) AS document_round
+        FROM scored s JOIN memory_chunks k ON k.id=s.chunk_id
+        JOIN memory_documents d ON d.id=s.document_id
+        ORDER BY document_round,s.coverage DESC,s.document_id,s.ordinal,s.chunk_id
+        LIMIT ? OFFSET ?''';
+      final rows = await tx.rawQuery(querySql, [...arguments, limit, offset]);
+      final excerpts = [for (final row in rows) await _excerpt(row)];
+      return MemorySearchPage(
+          excerpts: excerpts,
+          total: total,
+          hasMore: offset + excerpts.length < total,
+          offset: offset,
+          queryLimited: parsed.limited);
+    });
+  }
+
+  /// Wszystkie zaznaczone ID muszą nadal wskazywać aktualne, zatwierdzone źródła
+  /// tego właściciela/projektu. Sprawdzamy cały wybór PRZED obcinaniem budżetu.
+  Future<ContextPacket> retrieveSelected(
+      String collectionId, List<String> chunkIds,
+      {String ownerId = 'local-owner',
+      int maxBytes = 2200,
+      int maxChunks = 6}) async {
+    await collection(collectionId, ownerId: ownerId);
+    _budget(maxBytes, maxChunks);
+    if (chunkIds.length > 20 ||
+        chunkIds.toSet().length != chunkIds.length ||
+        chunkIds.any((id) => id.isEmpty || id.length > 1024)) {
+      throw ArgumentError('Wybierz do 20 różnych fragmentów.');
+    }
+    if (chunkIds.isEmpty) {
       return ContextPacket(
           collectionId: collectionId, ownerId: ownerId, excerpts: const []);
     }
-    final marks = List.filled(terms.length, '?').join(',');
-    final rows = await store.db.rawQuery(
-        'SELECT k.*,d.path,d.hash,d.revision,COUNT(t.term) AS score FROM memory_terms t JOIN memory_chunks k ON k.id=t.chunk_id JOIN memory_documents d ON d.id=k.document_id JOIN memory_collections c ON c.id=d.collection_id WHERE d.collection_id=? AND c.owner_id=? AND k.revision=d.revision AND d.approval=\'approved\' AND d.restricted=0 AND t.term IN ($marks) GROUP BY k.id ORDER BY score DESC,d.updated DESC,k.ordinal LIMIT 64',
-        [collectionId, ownerId, ...terms]);
+    final marks = List.filled(chunkIds.length, '?').join(',');
+    return store.db.transaction((tx) async {
+      final rows = await tx.rawQuery('''SELECT k.*,d.path,d.hash
+        FROM memory_chunks k JOIN memory_documents d ON d.id=k.document_id
+        JOIN memory_collections c ON c.id=d.collection_id
+        WHERE d.collection_id=? AND c.owner_id=? AND k.revision=d.revision
+          AND d.approval='approved' AND d.restricted=0 AND k.id IN ($marks)''',
+          [collectionId, ownerId, ...chunkIds]);
+      if (rows.length != chunkIds.length) {
+        throw StateError(
+            'Wybrane źródła zmieniły się lub cofnięto zgodę. Wyszukaj je ponownie.');
+      }
+      final byId = {for (final row in rows) row['id'] as String: row};
+      final sources = [for (final id in chunkIds) await _excerpt(byId[id]!)];
+      return _pack(collectionId, ownerId, sources, maxBytes, maxChunks);
+    });
+  }
+
+  Future<SourceExcerpt> _excerpt(Map<String, Object?> row) async =>
+      SourceExcerpt(
+          documentId: row['document_id'] as String,
+          chunkId: row['id'] as String,
+          revision: row['revision'] as int,
+          hash: row['hash'] as String,
+          path: await store.cipher.open(row['path'] as String),
+          startLine: row['start_line'] as int,
+          endLine: row['end_line'] as int,
+          text: await store.cipher.open(row['body'] as String));
+
+  void _budget(int maxBytes, int maxChunks) {
+    if (maxBytes < 256 || maxBytes > 24000 || maxChunks < 1 || maxChunks > 20) {
+      throw ArgumentError('Nieprawidłowy budżet kontekstu.');
+    }
+  }
+
+  ContextPacket _pack(String collectionId, String ownerId,
+      Iterable<SourceExcerpt> rows, int maxBytes, int maxChunks,
+      {bool limited = false}) {
     final excerpts = <SourceExcerpt>[];
-    var limited = false;
-    for (final r in rows) {
+    ContextPacket packet(Iterable<SourceExcerpt> values) => ContextPacket(
+        collectionId: collectionId, ownerId: ownerId, excerpts: values);
+    for (final original in rows) {
       if (excerpts.length >= maxChunks) {
         limited = true;
         break;
       }
-      final body = await store.cipher.open(r['body'] as String);
-      final path = await store.cipher.open(r['path'] as String);
-      final base = ContextPacket(
-              collectionId: collectionId, ownerId: ownerId, excerpts: excerpts)
-          .bytes;
-      var candidate = SourceExcerpt(
-          documentId: r['document_id'] as String,
-          chunkId: r['id'] as String,
-          revision: r['revision'] as int,
-          hash: r['hash'] as String,
-          path: path,
-          startLine: r['start_line'] as int,
-          endLine: r['end_line'] as int,
-          text: body);
-      var next = ContextPacket(
-          collectionId: collectionId,
-          ownerId: ownerId,
-          excerpts: [...excerpts, candidate]);
-      if (next.bytes > maxBytes) {
-        final cut =
-            utf8Prefix(body, maxBytes - base - 320 - utf8.encode(path).length);
-        if (cut.isEmpty) {
-          limited = true;
-          continue;
-        }
-        final last = candidate.startLine +
-            '\n'.allMatches(cut).length -
-            (cut.endsWith('\n') ? 1 : 0);
-        candidate = SourceExcerpt(
-            documentId: candidate.documentId,
-            chunkId: candidate.chunkId,
-            revision: candidate.revision,
-            hash: candidate.hash,
-            path: path,
-            startLine: candidate.startLine,
-            endLine: last > candidate.endLine ? candidate.endLine : last,
-            text: cut);
-        next = ContextPacket(
-            collectionId: collectionId,
-            ownerId: ownerId,
-            excerpts: [...excerpts, candidate]);
-        limited = true;
+      if (packet([...excerpts, original]).bytes <= maxBytes) {
+        excerpts.add(original);
+        continue;
       }
-      if (next.bytes <= maxBytes) excerpts.add(candidate);
+      limited = true;
+      // Dokładna wielkość JSON/UTF-8, także przy escapowaniu i Unicode. Zawsze
+      // pozostaje prefix oryginalnego fragmentu, zgodny z istniejącym validate.
+      final runes = original.text.runes.toList(growable: false);
+      SourceExcerpt prefix(int length) {
+        final text = String.fromCharCodes(runes.take(length));
+        final end = original.startLine +
+            '\n'.allMatches(text).length -
+            (text.endsWith('\n') ? 1 : 0);
+        return SourceExcerpt(
+            documentId: original.documentId,
+            chunkId: original.chunkId,
+            revision: original.revision,
+            hash: original.hash,
+            path: original.path,
+            startLine: original.startLine,
+            endLine: end,
+            text: text);
+      }
+
+      var low = 0, high = runes.length;
+      while (low < high) {
+        final middle = (low + high + 1) ~/ 2;
+        if (packet([...excerpts, prefix(middle)]).bytes <= maxBytes) {
+          low = middle;
+        } else {
+          high = middle - 1;
+        }
+      }
+      if (low > 0) excerpts.add(prefix(low));
     }
     return ContextPacket(
         collectionId: collectionId,
@@ -551,23 +672,44 @@ class MemoryStore {
         sources: sources);
   }
 
-  Future<List<AnalysisCheckpoint>> checkpoints(String collectionId,
+  Future<AnalysisCheckpoint> _checkpoint(Map<String, Object?> r) async =>
+      AnalysisCheckpoint(
+          id: r['id'] as String,
+          collectionId: r['collection_id'] as String,
+          revision: r['revision'] as int,
+          goal: await store.cipher.open(r['goal'] as String),
+          findings: await store.cipher.open(r['findings'] as String),
+          nextStep: await store.cipher.open(r['next_step'] as String),
+          sources: await store.cipher.open(r['sources'] as String));
+
+  Future<AnalysisCheckpoint> checkpoint(String collectionId, String id,
       {String ownerId = 'local-owner'}) async {
     await collection(collectionId, ownerId: ownerId);
+    final rows = await store.db.rawQuery(
+        '''SELECT p.* FROM analysis_checkpoints p
+      JOIN memory_collections c ON c.id=p.collection_id
+      WHERE p.id=? AND p.collection_id=? AND c.owner_id=? LIMIT 1''',
+        [id, collectionId, ownerId]);
+    if (rows.isEmpty) {
+      throw StateError('Punkt wznowienia jest niedostępny dla tego projektu.');
+    }
+    return _checkpoint(rows.single);
+  }
+
+  Future<List<AnalysisCheckpoint>> checkpoints(String collectionId,
+      {String ownerId = 'local-owner', int limit = 30, int offset = 0}) async {
+    await collection(collectionId, ownerId: ownerId);
+    if (limit < 1 || limit > 100 || offset < 0 || offset > 2000000) {
+      throw ArgumentError('Nieprawidłowa strona punktów wznowienia.');
+    }
     return [
       for (final r in await store.db.query('analysis_checkpoints',
           where: 'collection_id=?',
           whereArgs: [collectionId],
-          orderBy: 'updated DESC',
-          limit: 30))
-        AnalysisCheckpoint(
-            id: r['id'] as String,
-            collectionId: collectionId,
-            revision: r['revision'] as int,
-            goal: await store.cipher.open(r['goal'] as String),
-            findings: await store.cipher.open(r['findings'] as String),
-            nextStep: await store.cipher.open(r['next_step'] as String),
-            sources: await store.cipher.open(r['sources'] as String))
+          orderBy: 'updated DESC,id',
+          limit: limit,
+          offset: offset))
+        await _checkpoint(r)
     ];
   }
 }

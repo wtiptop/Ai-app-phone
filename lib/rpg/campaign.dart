@@ -21,8 +21,8 @@ class LoreCitation {
   final bool userVerified;
 
   LoreVerification get verification => userVerified &&
-          sourceId.isNotEmpty &&
-          title.isNotEmpty &&
+          sourceId.trim().isNotEmpty &&
+          title.trim().isNotEmpty &&
           page != null &&
           page!.trim().isNotEmpty
       ? LoreVerification.verified

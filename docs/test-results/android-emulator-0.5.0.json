@@ -1,0 +1,125 @@
+{
+  "version": "0.5.0+7",
+  "date": "2026-10-20 Europe/Warsaw",
+  "tests": 7,
+  "passed": 6,
+  "failures": 1,
+  "skipped": 0,
+  "result": "OGRANICZONE: błąd dosłownego odtworzenia faktu przez MiniCPM",
+  "seconds": 321.138,
+  "inferenceMemoryTests": 6,
+  "inferenceMemoryPassed": 5,
+  "inferenceMemoryFailures": 1,
+  "inferenceMemorySeconds": 231.909,
+  "campaignTests": 1,
+  "campaignPassed": 1,
+  "campaignSeconds": 89.229,
+  "apkSha256": "d49f7740a81699a5b12b7633e5ff2c32120172d988f6f2b70934b971e05cae2e",
+  "emulator": "Scalajaca_API30",
+  "android": "11 / API 30",
+  "abi": "x86_64",
+  "ramConfiguredMiB": 4096,
+  "network": "Tryb samolotowy, WiFi/dane wyłączone, brak aktywnej sieci przed i po każdym scenariuszu",
+  "runner": "AndroidJUnitRunner 1.7.0 / UIAutomator 2.3.0",
+  "model": "MiniCPM5-1B Q4_K_M",
+  "modelBytes": 688065920,
+  "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "flutterPassed": 266,
+  "junitPassed": 36,
+  "junitFreshExecution": true,
+  "hostSyntheticIndex": {
+    "chunks": 2201,
+    "queryMs": 21,
+    "documents": 1202,
+    "decrypts": 21,
+    "returned": 10,
+    "seedMs": 556,
+    "legacyQueryMs": 114,
+    "method": "Syntetyczny indeks SQLite/AES-GCM, bez importu 1202 plików przez SAF; 1000 fragmentów jednego dokumentu."
+  },
+  "androidSyntheticMarkdownBytes": 18587,
+  "physicalPixel9Tested": false,
+  "longCampaignQualityVerified": false,
+  "largeRealVaultBenchmarked": false,
+  "cases": [
+    {
+      "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+      "bytes": 688065920,
+      "elapsedMs": 11367,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    },
+    {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 1126,
+      "stopLatencyMs": 49,
+      "fixtureOutput": "The",
+      "name": "jni-stream-stop"
+    },
+    {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    {
+      "offline": true,
+      "fixtureOutput": "LANTERN",
+      "actualOutput": "LANTERN",
+      "elapsedMs": 29483,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 678, wyjście 2 tokenów",
+      "source": "Archive.md",
+      "receiptRetained": true,
+      "name": "vault-saf-real-answer"
+    },
+    {
+      "name": "paged-memory-attempt",
+      "result": "FAIL",
+      "expected": "COMPASS",
+      "actualOutput": "COMASS",
+      "source": "Archive.md",
+      "approvedSourceContainsExpected": true,
+      "pageThreeReached": true,
+      "offline": true,
+      "receiptRetained": null,
+      "receiptNote": "Test przerwany na asercji odpowiedzi, receipt tego przebiegu niezweryfikowany.",
+      "prompt": "Copy the recovery key from the provided source verbatim. Keep its exact spelling. Reply only with the key.",
+      "evidence": "memory-late-fact-answer.xml / instrumentation.log",
+      "reportMethod": "Host odczytał rzeczywisty widoczny tekst z XML nieudanego testu; bez używania historycznego JSON sukcesu."
+    },
+    {
+      "fixture": "0e278e70-f0d5-4334-bcb1-ea2a681c1361",
+      "campaignId": "1792480402475176-0",
+      "initialHistoryRevisions": [
+        1,
+        2
+      ],
+      "resumedRevision": 3,
+      "oldCiphertextPreserved": true,
+      "resumedFieldsVerifiedViaUi": true,
+      "gmCheckpointIndexed": false,
+      "playerNoHistoryOrCheckpoint": true,
+      "offlineBefore": true,
+      "offlineAfter": true,
+      "api": "30",
+      "abi": "x86_64"
+    }
+  ],
+  "limitations": [
+    "Syntetyczny indeks 1202 dokumentów i niewielki wielofragmentowy plik SAF, bez benchmarku GB.",
+    "Generacja z krótszym poleceniem i końcowa próba kopiowania verbatim zwróciły COMASS zamiast COMPASS pomimo poprawnego źródła. To niezaliczony test, bez deklaracji niezawodności modelu.",
+    "Dwa proste fakty po angielsku i sesja formularzowa nie potwierdzają długiej narracji RPG.",
+    "Brak pomiaru szczytowego RAM, baterii i termiki fizycznego Pixela 9.",
+    "Native SAF backup nie był powtarzany w 0.5; nowy workflow odtworzenia kopii testowany w pełnym zestawie Flutter.",
+    "Synchronizacja, embeddingi, graf encji i automatyczny kontroler sprzeczności pozostają zaplanowane."
+  ]
+}

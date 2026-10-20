@@ -1,0 +1,10 @@
+{
+  "offline": true,
+  "fixtureOutput": "LANTERN",
+  "actualOutput": "LANTERN",
+  "elapsedMs": 29483,
+  "usageLabel": "Ukończono • 0 USD za API • wejście 678, wyjście 2 tokenów",
+  "source": "Archive.md",
+  "receiptRetained": true,
+  "name": "vault-saf-real-answer"
+}

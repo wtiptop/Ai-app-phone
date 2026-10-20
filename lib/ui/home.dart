@@ -1433,7 +1433,7 @@ class _HomeState extends State<Home> {
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Scalająca',
-              applicationVersion: '0.4.0',
+              applicationVersion: '0.5.0',
             ),
           ),
           const ListTile(
@@ -1452,7 +1452,7 @@ class _HomeState extends State<Home> {
           const ListTile(
             title: Text('Diagnostyka lokalna'),
             subtitle: Text(
-              'Wersja 0.4.0 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
+              'Wersja 0.5.0 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
             ),
           ),
         ],

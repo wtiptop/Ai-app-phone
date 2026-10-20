@@ -1,5 +1,17 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.5.0+7 — pamięć i ciągłość sesji — 20.10.2026
+
+**266/266 Flutter i 36/36 JUnit PASS, analiza bez uwag; Android 6/7 PASS, 1 FAIL.** APK ARM64+x86_64 zbudowany i zweryfikowany. Niezaliczony test jest jawny: źródło i podgląd zawierają COMPASS, a rzeczywista odpowiedź MiniCPM5-1B to COMASS. Powtórzyło się to także przy żądaniu kopiowania verbatim. Wyszukanie późnego faktu działa, ale wierność generacji pozostaje **ograniczona**. Nie deklarujemy bezbłędnego prowadzenia długiej kampanii ani naprawienia tego przekręcenia.
+
+Wyszukiwanie ma strony/licznik, rundy różnych dokumentów, stoplistę pytań PL/EN i odszyfrowanie tylko strony. Ręczna selekcja waliduje cały wybór przed dokładnym ograniczeniem JSON/UTF-8. Starsze projekty i punkty analiz są stronicowane; formularz wznowienia zapisuje osobny checkpoint. Syntetyczny indeks: 1202 dokumenty / 2201 fragmentów, wyszukanie 21 ms, 10 wyników / 21 odszyfrowań. To nie benchmark GB ani pomiar Pixela.
+
+MG przegląda historię sesji i wersji lore, porównuje archiwalny oraz bieżący wpis i jawnie wznawia notatkę jako nową rewizję. Dzisiejszy świat i historyczne szyfrogramy pozostają zachowane. Archiwum jest dostępne wyłącznie w localView MG+opt-in przed decrypt, także dla dziś jawnego wpisu z dawnymi sekretami. Baza v3, HMAC i pełna kopia v2 zachowują zgodność; nowe workflow przechodzą backup/restore pod innym kluczem w testach Flutter.
+
+Na emulatorze PASS: rzeczywisty import GGUF, odpowiedź OK, JNI Stop, Stop UI i kolejna generacja, anulowanie w tle, SAF i LANTERN z zachowanym dowodem źródeł. Osobny test RPG PASS: CP1→CP2→wznowienie CP1 jako r3, stare szyfrogramy bez zmian, 5 pól odczytanych z UI, historia/sekrety niedostępne graczowi.
+
+**Zaplanowane/niezweryfikowane:** fizyczny Pixel 9, szczyt RAM/bateria/termika, korpus GB, długa narracja PL, niezawodne kopiowanie faktów, embeddingi/graf, automatyczny merytoryczny kontroler sprzeczności, trwałe autonomiczne analizy, retencja i synchronizacja. Porównanie wersji jest narzędziem MG, nie gwarancją poprawnego lore. Instrukcja: docs/PAMIEC_CIAGLOSC_PL.md; wyniki i granice: docs/TESTS_PL.md. Zachowano wszystkie 129 wymagań i MX1–MX7. Starsze sekcje poniżej opisują historię.
+
 ## Aktualizacja 0.4.0+6 — pełna kopia projektów i RPG — 19.10.2026
 
 **241/241 Flutter, 36/36 JUnit, 7/7 scenariuszy Androida PASS; analiza bez uwag, nowy APK ARM64+x86_64 z podpisem/manifestem/16 KiB PASS.** Dwa testy backupu obejmują prawdziwy SAF, złe hasło/kolizję oraz restore po resecie wyłącznie testowej instalacji z nowym kluczem. Zachowano wszystkie ID i liczniki 16 tabel oraz filtr sekretów MG. Pięć regresji potwierdza rzeczywisty MiniCPM offline. Dowody: docs/TESTS_PL.md i docs/test-results/android-emulator-0.4.0.json.

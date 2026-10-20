@@ -1,0 +1,26 @@
+00:00 +0: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart
+lib/memory/memory_search.dart:20:36: Error: Constant evaluation error:
+  static const stopWords = <String>{
+                                   ^
+lib/memory/memory_search.dart:31:76: Context: The element '"by"' conflicts with another existing element in the set.
+    'about', 'an', 'and', 'are', 'as', 'at', 'be', 'been', 'being', 'but', 'by',
+                                                                           ^
+lib/memory/memory_search.dart:20:16: Context: While analyzing:
+  static const stopWords = <String>{
+               ^
+00:00 +0 -1: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart [E]
+  Failed to load "C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart":
+  Compilation failed for testPath=C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: lib/memory/memory_search.dart:20:36: Error: Constant evaluation error:
+    static const stopWords = <String>{
+                                     ^
+  lib/memory/memory_search.dart:31:76: Context: The element '"by"' conflicts with another existing element in the set.
+      'about', 'an', 'and', 'are', 'as', 'at', 'be', 'been', 'being', 'but', 'by',
+                                                                             ^
+  lib/memory/memory_search.dart:20:16: Context: While analyzing:
+    static const stopWords = <String>{
+                 ^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/ui/vault_page_test.dart

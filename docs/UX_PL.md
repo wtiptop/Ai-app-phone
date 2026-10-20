@@ -1,5 +1,9 @@
 # UX mobilnej Scalającej
 
+## Aktualizacja 0.5.0
+
+Wyszukiwanie ma licznik, strony po 10 i osobny wybór na każdej stronie; edycja pytania usuwa stary wynik. Karty zachowują pozycję po rozwinięciu wyników, a liczba rekordów w drzewie UI jest ograniczona stronami. Punkty analiz wczytują formularz, z którego kolejny zapis tworzy osobny punkt. Historia sesji MG pokazuje starsze strony i porównanie z bieżącym wpisem. Przywrócenie notatki sesji wymaga osobnego potwierdzenia i tworzy nową rewizję; pełny rollback świata pozostaje oddzielny. Historia lore jest tylko dla MG i nie ma systemowego zaznaczania tekstu sekretów. Instrukcja: PAMIEC_CIAGLOSC_PL.md. Automatyczna kontrola sprzeczności oraz odbiór długiej gry na telefonie pozostają zaplanowane.
+
 Aktualizacja 0.4.0: w Ustawieniach działa osobna **Pełna szyfrowana kopia** z przywracaniem projektów, wszystkich wersji źródeł, checkpointów, kampanii i sekretów MG. Zachowuje ID i granice ról, a każda kolizja wycofuje całość. Po odtworzeniu folder projektu łączy się ponownie jawnie przez SAF. Instrukcja i wyłączenia: [BACKUP_PL.md](BACKUP_PL.md); dowody: [TESTS_PL.md](TESTS_PL.md). Wzmianki o zaplanowanym pełnym backupie w historycznych sekcjach 0.3.0 opisują poprzednie wydanie. Synchronizacja nadal pozostaje zaplanowana.
 
 0.3.0: Pamięć ma wejścia do lokalnego vaultu i kampanii RPG. Najpierw odczyt i import, następnie podgląd/zatwierdzenie wersji, wyszukanie i wybór fragmentów, podgląd pakietu oraz nowy zakres czatu. Przed modelem dokładny payload i odbiorca, po odpowiedzi dowód źródeł. MG/gracz to lokalny filtr właściciela, bez osobnych kont. Archiwum czatu jest stronicowane. Pełna kopia nowych danych i synchronizacja są wyraźnie oznaczone jako zaplanowane. Dalszy UX: czytelniejsza prezentacja dowodu źródeł i długich identyfikatorów modeli; pełny odbiór RPG/a11y na fizycznym Pixel 9.

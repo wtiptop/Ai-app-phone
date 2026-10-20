@@ -1,14 +1,18 @@
 # Scalająca
 
-## Aktualne wydanie 0.4.0: pełna szyfrowana kopia
+## Aktualne wydanie 0.5.0: powrót do danych i ciągłość sesji
 
-**241/241 Flutter, 36/36 JUnit, 7/7 Android PASS; analiza i APK PASS.**
+**266/266 Flutter, 36/36 JUnit PASS; Android 6/7 PASS, 1 FAIL. Analiza i budowanie APK PASS.** Test późnego faktu odnalazł poprawne COMPASS, lecz MiniCPM zwrócił COMASS również przy poleceniu kopiowania verbatim. Wierność generacji pozostaje ograniczona; szczegóły i dowody w docs/TESTS_PL.md.
 
-Pełna kopia obejmuje projekty, źródła i wersje, checkpointy analiz, kampanie RPG z historią lore i sekretami MG, rozmowy zakresowe i dowody kontekstu oraz zwykłe czaty/notatki/zadania. Strumieniowy kontener AES-256-GCM pod osobnym hasłem jest przywracany atomowo, z nowym kluczem urządzenia i zachowaniem identyfikatorów. Kolizja odrzuca całą operację. [Instrukcja backupu](docs/BACKUP_PL.md), [rzeczywiste wyniki testów](docs/TESTS_PL.md).
+Stronicowane wyszukiwanie przegląda zatwierdzone bieżące źródła w projekcie, rozdziela trafienia między dokumenty i odszyfrowuje tylko stronę. Model dostaje dokładnie widoczny, ograniczony pakiet wybranych fragmentów. Starsze punkty analiz wczytują formularz; nowy zapis zachowuje poprzedni punkt.
 
-Urządzenie docelowe: Pixel 9; fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi i potwierdzona jakość długiej kampanii pozostają zaplanowane. Backup nie przenosi niezaimportowanych plików vaultu, modeli GGUF, uprawnień folderów ani kluczy API. [Instrukcja vaultu, pamięci i RPG](docs/OBSIDIAN_PAMIEC_RPG_PL.md). Raporty 0.3.x i 0.2.x poniżej są historią.
+MG ma prywatną historię stanów sesji i wersji lore oraz porównanie z dzisiejszym wpisem. Wznowienie starej notatki tworzy nową rewizję z zachowaniem historii i bieżącego kanonu świata. Archiwum nie trafia do gracza, indeksu ani automatycznie do modeli. Pełna szyfrowana kopia źródeł, wersji, checkpointów i sekretów nadal działa w zgodnym formacie v2.
 
-Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.4.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
+[Instrukcja pamięci i ciągłości](docs/PAMIEC_CIAGLOSC_PL.md), [backup i przywracanie](docs/BACKUP_PL.md), [rzeczywiste wyniki testów](docs/TESTS_PL.md), [instalacja na Androidzie](docs/SETUP_ANDROID_PL.md).
+
+Urządzenie docelowe: Pixel 9, APK z ARM64 i x86_64. Fizycznego telefonu nie przetestowano. Synchronizacja, embeddingi/graf, automatyczny kontroler sprzeczności i potwierdzona jakość długiej polskiej kampanii pozostają zaplanowane. Ranking dokładnych słów i podgląd różnic wersji nie zapewniają samodzielnie bezbłędnej narracji. Backup nie przenosi niezaimportowanych oryginalnych plików vaultu, wag GGUF, uprawnień folderów ani kluczy API. Starsze raporty poniżej są historią.
+
+Samodzielna aplikacja Flutter dla Androida: czat wielu modeli, lokalna pamięć i zadania. **Rdzeń nie potrzebuje OPPO, JARVIS, Termuxa, serwera ani Obsidiana.** Połączenie sieciowe jest potrzebne wybranym zewnętrznym modelom. Stan prac: wczesna wersja 0.5.0 z natywnym MiniCPM offline; szczegóły i rzeczywiste wyniki w [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) oraz [docs/TESTS_PL.md](docs/TESTS_PL.md).
 
 **0.2.1: 4/4 scenariusze emulatora, 141/141 testów Flutter i 21/21 testów JUnit modułu lokalnych modeli PASS; analiza bez uwag.** Na emulatorze Android 11 x86_64 zaimportowano prawdziwy GGUF przez SAF i czat wygenerował OK bez sieci. JNI zatrzymał streaming po pierwszym tokenie. Nowy APK zawiera ARM64 i x86_64; podpis, manifest oraz wyrównanie 16 KiB są poprawne. Nie przeprowadzono instalacji ani generacji JNI na fizycznym telefonie. Zaczynasz w wyraźnie oznaczonym demo bez konta.
 

@@ -2,6 +2,8 @@ package pl.scalajaca.scalajaca.local
 
 import android.content.Intent
 import android.os.SystemClock
+import android.os.Bundle
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Configurator
@@ -17,6 +19,7 @@ import org.junit.Rule
 import org.junit.rules.TestName
 import org.junit.runners.MethodSorters
 import java.io.File
+import java.util.regex.Pattern
 
 /** Standardowy AndroidJUnitRunner; rzeczywisty APK i plik modelu, bez atrap JNI. */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,10 +42,10 @@ class LocalInferenceDeviceTest {
     }
 
     private fun visible(node: UiObject2): Boolean = try {
-        node.visibleBounds.let { it.width() > 1 && it.height() > 1 }
+        node.visibleBounds.let { it.width() > 8 && it.height() > 24 }
     } catch (_: androidx.test.uiautomator.StaleObjectException) { false }
-    private fun find(label: String): UiObject2? = (device.findObjects(By.text(label)) + device.findObjects(By.desc(label))).firstOrNull(::visible)
-    private fun containing(label: String): UiObject2? = (device.findObjects(By.textContains(label)) + device.findObjects(By.descContains(label))).firstOrNull(::visible)
+    private fun find(label: String): UiObject2? = (device.findObjects(By.text(label)) + device.findObjects(By.desc(label))).filter(::visible).minByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }
+    private fun containing(label: String): UiObject2? = (device.findObjects(By.textContains(label)) + device.findObjects(By.descContains(label))).filter(::visible).minByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }
     private fun waitFor(label: String, timeout: Long = 30000, contains: Boolean = false): UiObject2 {
         val end = SystemClock.elapsedRealtime() + timeout
         do {
@@ -54,6 +57,30 @@ class LocalInferenceDeviceTest {
         throw AssertionError("Nie znaleziono elementu: $label")
     }
     private fun click(label: String, contains: Boolean = false) {
+        // Flutter i UiObject2 inaczej przycinają dolną krawędź viewportu.
+        // Aktywujemy dokładną widoczną, klikalną kontrolkę aplikacji jej akcją
+        // dostępności; potwierdzenia i asercje następnego stanu pozostają pełne.
+        if ((if (contains) containing(label) else find(label)) == null) scrollTo(label)
+        SystemClock.sleep(350)
+        val appActions = mutableListOf<AccessibilityNodeInfo>()
+        fun collect(node: AccessibilityNodeInfo?) {
+            if (node == null) return
+            val matches = if (contains) node.text?.toString().orEmpty().contains(label) ||
+                node.contentDescription?.toString().orEmpty().contains(label)
+                else node.text?.toString() == label || node.contentDescription?.toString() == label
+            if (node.packageName?.toString() == target.packageName && node.isVisibleToUser &&
+                node.isClickable && node.isEnabled && matches) appActions.add(node)
+            for (index in 0 until node.childCount) collect(node.getChild(index))
+        }
+        collect(instrumentation.uiAutomation.rootInActiveWindow)
+        val appAction = appActions.minByOrNull {
+            val rect = android.graphics.Rect(); it.getBoundsInScreen(rect); rect.width().toLong() * rect.height()
+        }
+        if (appAction != null && appAction.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+            SystemClock.sleep(400)
+            return
+        }
+
         waitFor(label, contains = contains)
         // Węzeł jest widoczny już podczas animacji wysuwanego menu.
         SystemClock.sleep(350)
@@ -161,7 +188,7 @@ class LocalInferenceDeviceTest {
                 find("Open from") != null -> {
                     SystemClock.sleep(400)
                     device.findObjects(By.res("android:id/title").text("sdk_gphone_x86_64"))
-                        .firstOrNull(::visible)?.click()
+                        .filter(::visible).minByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }?.click()
                 }
                 find("Download") != null -> click("Download")
                 else -> click("Show roots", contains = true)
@@ -254,6 +281,67 @@ class LocalInferenceDeviceTest {
         saveReport("background-stop", JSONObject().put("cancelledAfterHome", true))
     }
 
+    /** Kotwiczymy na polu, nie na etykiecie scalonego przodka karty. */
+    private fun vaultSearch(query: String) {
+        val hint = "Szukaj po słowach w zatwierdzonych źródłach"
+        fun edit(label: String) = device.findObjects(By.clazz("android.widget.EditText").hintContains(label))
+            .filter { visible(it) && it.visibleBounds.height() >= 80 }.minByOrNull { it.visibleBounds.height() }
+        repeat(30) {
+            if (edit("Nazwa nowego projektu") != null) return@repeat
+            device.swipe(device.displayWidth / 2, device.displayHeight * 35 / 100,
+                device.displayWidth / 2, device.displayHeight * 65 / 100, 55)
+            SystemClock.sleep(350)
+        }
+        assertNotNull("Brak górnej kotwicy projektu", edit("Nazwa nowego projektu"))
+        repeat(30) {
+            if (edit(hint) != null) return@repeat
+            device.swipe(device.displayWidth / 2, device.displayHeight * 65 / 100,
+                device.displayWidth / 2, device.displayHeight * 35 / 100, 55)
+            SystemClock.sleep(350)
+        }
+        if (edit(hint) == null) {
+            checkpoint("vault-query-missing-${testName.methodName}")
+            throw AssertionError("Brak właściwego pola wyszukiwania")
+        }
+        fun locate(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
+            if (node == null) return null
+            if (node.className?.toString() == "android.widget.EditText" &&
+                node.hintText?.toString() == hint && node.isVisibleToUser) return node
+            for (index in 0 until node.childCount) locate(node.getChild(index))?.let { return it }
+            return null
+        }
+        var node = locate(instrumentation.uiAutomation.rootInActiveWindow)!!
+        assertTrue(node.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+        SystemClock.sleep(600)
+        hideKeyboard()
+        node = locate(instrumentation.uiAutomation.rootInActiveWindow)!!
+        assertTrue("Pole musi rzeczywiście otrzymać fokus", node.isFocused)
+        val arguments = Bundle().apply { putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, query) }
+        assertTrue(node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments))
+        SystemClock.sleep(600)
+        hideKeyboard()
+        assertEquals(query, edit(hint)!!.text)
+        checkpoint("vault-query-${testName.methodName}")
+        scrollTo("Szukaj w pamięci")
+        click("Szukaj w pamięci")
+        checkpoint("vault-search-dispatched-${testName.methodName}")
+    }
+
+    private fun actualFact(expected: String): String {
+        // Całe słowo (ewentualnie kropka), nigdy częściowe trafienie w źródle.
+        val literal = Pattern.compile("^\\s*" + Pattern.quote(expected) + "[.]?\\s*$", Pattern.CASE_INSENSITIVE)
+        val end = SystemClock.elapsedRealtime() + 15000
+        do {
+            val node = (device.findObjects(By.text(literal)) + device.findObjects(By.desc(literal)))
+                .filter(::visible).minByOrNull { it.visibleBounds.width() * it.visibleBounds.height() }
+            if (node != null) return node.text?.takeIf { it.isNotEmpty() } ?: node.contentDescription.orEmpty()
+            // Status complete i Markdown mogą dostać osobne klatki semantyki.
+            SystemClock.sleep(200)
+        } while (SystemClock.elapsedRealtime() < end)
+        checkpoint("literal-failure-${testName.methodName}")
+        throw AssertionError("Model musi odczytać dokładny fakt $expected (bez wymogu zapisu liter)")
+    }
+
     @Test fun e_localVaultSafSourceAndRealAnswer() {
         // Własne syntetyczne dane. Test nie otwiera prywatnego vaultu.
         val folder = "/sdcard/Documents/ScalajacaTestVault"
@@ -281,26 +369,7 @@ class LocalInferenceDeviceTest {
         scrollTo("Archive.md")
         click("Archive.md", contains = true)
         click("Zatwierdź tę wersję")
-        scrollTo("Szukaj w pamięci")
-        repeat(4) {
-            val candidate = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach"))
-            if(candidate != null && visible(candidate) && candidate.visibleBounds.height() >= 80) return@repeat
-            device.swipe(device.displayWidth / 2, device.displayHeight / 3, device.displayWidth / 2, device.displayHeight * 2 / 3, 30)
-            SystemClock.sleep(450)
-        }
-        val queryField = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach"))
-            ?: throw AssertionError("Brak pola wyszukiwania vaultu")
-        queryField.click()
-        SystemClock.sleep(600)
-        val focusedQuery = device.findObject(By.clazz("android.widget.EditText").hintContains("Szukaj po słowach").focused(true))
-            ?: throw AssertionError("Pole wyszukiwania nie uzyskało fokusu")
-        focusedQuery.text = "archive"
-        SystemClock.sleep(600)
-        checkpoint("vault-query")
-        assertEquals("archive", device.findObject(By.clazz("android.widget.EditText").focused(true)).text)
-        hideKeyboard()
-        scrollTo("Szukaj w pamięci")
-        click("Szukaj w pamięci")
+        vaultSearch("archive")
         scrollTo("Podgląd wybranych źródeł")
         click("Podgląd wybranych źródeł")
         checkpoint("vault-source-preview")
@@ -308,18 +377,65 @@ class LocalInferenceDeviceTest {
         assertNull("Konfiguracja vaultu jest pomijana", containing("HIDDEN_PLUGIN_SENTINEL_426"))
         click("Użyj w czacie")
         val began = SystemClock.elapsedRealtime()
-        send("According to the provided source, reply with only the archive key.")
+        send("Copy the archive key from the provided source verbatim. Keep its exact spelling. Reply only with the key.")
         val completed = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
         val usage = completed.text ?: completed.contentDescription ?: ""
         checkpoint("vault-real-answer")
-        assertNotNull("Model musi odczytać fakt ze źródła", find("LANTERN") ?: find("LANTERN."))
+        val actualOutput = actualFact("LANTERN")
         click("Źródła użyte w odpowiedzi")
         waitFor("Zapisany pakiet źródeł")
         assertNotNull(containing("Archive.md"))
         checkpoint("vault-saved-receipt")
         click("Zamknij")
-        saveReport("vault-saf-real-answer", JSONObject().put("offline", true).put("fixtureOutput", "LANTERN")
+        saveReport("vault-saf-real-answer", JSONObject().put("offline", true).put("fixtureOutput", "LANTERN").put("actualOutput", actualOutput)
             .put("elapsedMs", SystemClock.elapsedRealtime() - began).put("usageLabel", usage)
             .put("source", "Archive.md").put("receiptRetained", true))
     }
+
+    @Test fun f_pagedRecallFindsLateFactOffline() {
+        startApp(resetTask = true)
+        selectLocalProvider()
+        click("Pamięć", contains = true)
+        click("Obsidian i pamięć projektów", contains = true)
+        vaultSearch("what is the archive")
+        scrollTo("Znalezione fragmenty:")
+        val first = waitFor("Znalezione fragmenty:", contains = true)
+        val summary = first.text ?: first.contentDescription ?: ""
+        assertTrue("Fixture musi mieć co najmniej 21 trafień: $summary", Regex("Znalezione fragmenty: (2[1-9]|[3-9][0-9])\\.").containsMatchIn(summary))
+        repeat(2) {
+            scrollTo("Następne wyniki")
+            click("Następne wyniki")
+        }
+        // Powrót ku początkowi karty, bez odpytywania drugiej UiAutomation.
+        repeat(10) {
+            if (containing("Strona 3.") != null) return@repeat
+            device.swipe(device.displayWidth / 2, device.displayHeight / 3, device.displayWidth / 2, device.displayHeight * 2 / 3, 35)
+            SystemClock.sleep(450)
+        }
+        waitFor("Strona 3.", contains = true)
+        checkpoint("memory-page-three")
+        vaultSearch("what is the recovery")
+        scrollTo("Podgląd wybranych źródeł")
+        click("Podgląd wybranych źródeł")
+        assertNotNull("Późny fakt musi być w zatwierdzonym pakiecie", containing("COMPASS"))
+        assertNull(containing("VAULT_GM_SENTINEL_426"))
+        checkpoint("memory-late-fact-preview")
+        click("Użyj w czacie")
+        val began = SystemClock.elapsedRealtime()
+        send("Copy the recovery key from the provided source verbatim. Keep its exact spelling. Reply only with the key.")
+        val done = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val usage = done.text ?: done.contentDescription ?: ""
+        checkpoint("memory-late-fact-answer")
+        val actualOutput = actualFact("COMPASS")
+        click("Źródła użyte w odpowiedzi")
+        waitFor("Zapisany pakiet źródeł")
+        assertNotNull(containing("COMPASS"))
+        assertNotNull(containing("Archive.md"))
+        checkpoint("memory-late-fact-receipt")
+        click("Zamknij")
+        saveReport("paged-memory-real-answer", JSONObject().put("offline", true).put("source", "Archive.md")
+            .put("initialResults", summary).put("pageThreeReached", true).put("fixtureOutput", "COMPASS").put("actualOutput", actualOutput)
+            .put("receiptRetained", true).put("usageLabel", usage).put("elapsedMs", SystemClock.elapsedRealtime() - began))
+    }
+
 }

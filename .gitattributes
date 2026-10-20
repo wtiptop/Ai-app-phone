@@ -12,3 +12,5 @@ docs/test-results/emulator-0.4.0/*.log -whitespace
 third_party/** -whitespace
 android/app/src/main/cpp/templates/** -whitespace
 assets/native_notices.txt -whitespace
+docs/test-results/emulator-0.5.0/*.txt -whitespace
+docs/test-results/emulator-0.5.0/*.log -whitespace

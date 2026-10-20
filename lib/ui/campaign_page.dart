@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../rpg/campaign.dart';
@@ -180,6 +182,47 @@ class _CampaignPageState extends State<CampaignPage> {
         await widget.store.saveCheckpoint(result, access,
             expectedRevision: selected!.revision);
         await _load();
+      });
+
+  Future<void> _sessionHistory() => _run(() async {
+        final frozenAccess = access, expectedRevision = selected!.revision;
+        final revision = await showDialog<int>(
+            context: context,
+            builder: (_) => _CampaignHistoryDialog(
+                store: widget.store,
+                access: frozenAccess,
+                recordId: 'active-session',
+                checkpointOnly: true));
+        if (revision == null || !mounted) return;
+        final confirmed = await showDialog<bool>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                    title: Text('Wznowić punkt sesji z r$revision?'),
+                    content: const Text(
+                        'Zapiszę tylko notatkę sesji jako nową rewizję. Nie cofnę kanonu ani stanu świata. Sprawdź zgodność dawnego celu i sceny z obecnym światem przed dalszą grą.'),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: const Text('Anuluj')),
+                      FilledButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Wznów jako nową rewizję'))
+                    ]));
+        if (confirmed != true || !mounted) return;
+        await widget.store.resumeCheckpoint(revision, frozenAccess,
+            expectedRevision: expectedRevision);
+        selectedRecordIds.clear();
+        await _load();
+      });
+
+  Future<void> _recordHistory(CampaignRecord record) => _run(() async {
+        await showDialog<void>(
+            context: context,
+            builder: (_) => _CampaignHistoryDialog(
+                store: widget.store,
+                access: access,
+                recordId: record.id,
+                checkpointOnly: false));
       });
 
   Future<void> _audit() async {
@@ -377,6 +420,9 @@ class _CampaignPageState extends State<CampaignPage> {
                       },
                 child: const Text('Stan sesji · zapisz lub wróć')),
             OutlinedButton(
+                onPressed: busy ? null : _sessionHistory,
+                child: const Text('Historia sesji MG')),
+            OutlinedButton(
                 onPressed: busy ? null : _audit,
                 child: const Text('Audyt i powrót do rewizji')),
           ],
@@ -414,7 +460,10 @@ class _CampaignPageState extends State<CampaignPage> {
                               : 'NIEZWERYFIKOWANE'),
                           Text(
                               '${record.citation.title} · ${record.citation.sourceId} · strona/wpis: ${record.citation.page ?? 'BRAK'}'),
-                          SelectableText(record.content),
+                          if (record.visibility == MemoryVisibility.gmSecret)
+                            Text(record.content)
+                          else
+                            SelectableText(record.content),
                           if (record.kind !=
                               CampaignRecordKind.sessionCheckpoint)
                             CheckboxListTile(
@@ -435,6 +484,14 @@ class _CampaignPageState extends State<CampaignPage> {
                                             selectedRecordIds.remove(record.id);
                                           }
                                         })),
+                          if (gm &&
+                              record.kind !=
+                                  CampaignRecordKind.sessionCheckpoint)
+                            TextButton(
+                                onPressed:
+                                    busy ? null : () => _recordHistory(record),
+                                child:
+                                    const Text('Historia wersji tego wpisu')),
                           if (gm &&
                               record.kind !=
                                   CampaignRecordKind.sessionCheckpoint)
@@ -468,6 +525,190 @@ class _CampaignPageState extends State<CampaignPage> {
               ]),
         ],
       ]));
+}
+
+class _CampaignHistoryDialog extends StatefulWidget {
+  const _CampaignHistoryDialog(
+      {required this.store,
+      required this.access,
+      required this.recordId,
+      required this.checkpointOnly});
+  final CampaignStore store;
+  final AccessContext access;
+  final String recordId;
+  final bool checkpointOnly;
+  @override
+  State<_CampaignHistoryDialog> createState() => _CampaignHistoryDialogState();
+}
+
+class _CampaignHistoryDialogState extends State<_CampaignHistoryDialog> {
+  final cursors = <int?>[null];
+  List<CampaignHistoryEntry> entries = [];
+  bool busy = false;
+  String? error;
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    setState(() {
+      busy = true;
+      error = null;
+    });
+    try {
+      final result = widget.checkpointOnly
+          ? await widget.store
+              .checkpointHistory(widget.access, beforeRevision: cursors.last)
+          : await widget.store.recordHistory(widget.recordId, widget.access,
+              beforeRevision: cursors.last);
+      if (mounted) setState(() => entries = result);
+    } catch (e) {
+      if (mounted) setState(() => error = '$e');
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
+  Future<void> _showVersion(CampaignHistoryEntry entry) async {
+    setState(() => busy = true);
+    try {
+      final comparison = await widget.store.compareRecordVersion(
+          widget.recordId, entry.record.revision, widget.access);
+      if (!mounted) return;
+      final resume = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Archiwum · rewizja ${entry.record.revision}'),
+                  content: SizedBox(
+                      width: 600,
+                      height: 420,
+                      child: SingleChildScrollView(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            const Text(
+                                'Archiwalna notatka nie jest aktualnym kanonem. Sam podgląd nie zmienia świata ani kontekstu modelu.'),
+                            Text(
+                                'Porównano z bieżącym stanem kampanii r${comparison.campaignRevision}.'),
+                            Text(comparison.changedFields.isEmpty
+                                ? 'Treść i metadane są zgodne z bieżącym wpisem.'
+                                : 'Różnice względem bieżącego wpisu: ${comparison.changedFields.join(', ')}.'),
+                            const Divider(),
+                            const Text('Wybrana wersja historyczna'),
+                            _HistoryRecordView(record: comparison.historical),
+                            const Divider(),
+                            const Text('Bieżący wpis'),
+                            if (comparison.current == null)
+                              const Text(
+                                  'Brak tego wpisu w aktualnym stanie świata.')
+                            else
+                              _HistoryRecordView(record: comparison.current!),
+                          ]))),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('Zamknij podgląd')),
+                    if (widget.checkpointOnly && !entry.isCurrent)
+                      FilledButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('Wybierz punkt do wznowienia'))
+                  ]));
+      if (resume == true && mounted) {
+        Navigator.pop(context, entry.record.revision);
+      }
+    } catch (e) {
+      if (mounted) setState(() => error = '$e');
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+          title: Text(widget.checkpointOnly
+              ? 'Historia sesji MG'
+              : 'Historia wersji wpisu'),
+          content: SizedBox(
+              width: 600,
+              height: 420,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                        'Prywatne archiwum MG. Wersje mogą zawierać dawne sekrety. Nie są automatycznie dodawane do promptu ani bieżącego lore.'),
+                    if (busy) const LinearProgressIndicator(),
+                    if (error != null)
+                      Text(error!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.error)),
+                    Expanded(
+                        child: ListView(children: [
+                      if (!busy && entries.isEmpty)
+                        const Text('Brak zapisów na tej stronie.'),
+                      for (final entry in entries)
+                        ListTile(
+                            title: Text(
+                                'Rewizja ${entry.record.revision}${entry.isCurrent ? (widget.checkpointOnly ? ' · bieżący punkt' : ' · bieżąca wersja') : ''}'),
+                            subtitle: Text(
+                                '${entry.savedAt.toLocal()} · ${entry.eventKind}\n${widget.checkpointOnly ? entry.checkpoint.goal : entry.record.title}',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis),
+                            trailing: const Icon(Icons.history),
+                            onTap: busy ? null : () => _showVersion(entry)),
+                    ])),
+                    Wrap(spacing: 8, children: [
+                      TextButton(
+                          onPressed: busy || cursors.length == 1
+                              ? null
+                              : () {
+                                  cursors.removeLast();
+                                  _load();
+                                },
+                          child: const Text('Nowsze zapisy')),
+                      TextButton(
+                          onPressed: busy || entries.length < 20
+                              ? null
+                              : () {
+                                  cursors.add(entries.last.record.revision);
+                                  _load();
+                                },
+                          child: const Text('Starsze zapisy'))
+                    ]),
+                  ])),
+          actions: [
+            TextButton(
+                onPressed: busy ? null : () => Navigator.pop(context),
+                child: const Text('Zamknij historię'))
+          ]);
+}
+
+class _HistoryRecordView extends StatelessWidget {
+  const _HistoryRecordView({required this.record});
+  final CampaignRecord record;
+  @override
+  Widget build(BuildContext context) {
+    final checkpoint = record.kind == CampaignRecordKind.sessionCheckpoint
+        ? CampaignCheckpoint.fromJson(
+            jsonDecode(record.content) as Map<String, dynamic>)
+        : null;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('${record.title} · r${record.revision}'),
+      Text(
+          '${record.visibility == MemoryVisibility.gmSecret ? 'SEKRET MG' : 'Wpis jawny'} · ${record.approved ? 'zatwierdzony' : 'szkic'}'),
+      if (checkpoint != null) ...[
+        Text(
+            'Cel: ${checkpoint.goal}\nScena: ${checkpoint.scene}\nOtwarte wątki: ${checkpoint.openThreads}\nDrużyna: ${checkpoint.party}\nZegar świata: ${checkpoint.worldClock}'),
+      ] else
+        Text(record.content),
+      Text(record.citation.verification == LoreVerification.verified
+          ? 'Źródło potwierdzone przez użytkownika'
+          : 'NIEZWERYFIKOWANE'),
+      Text(
+          'Źródło: ${record.citation.title}; ${record.citation.sourceId}; strona/wpis: ${record.citation.page ?? 'BRAK'}'),
+    ]);
+  }
 }
 
 class _RecordDialog extends StatefulWidget {

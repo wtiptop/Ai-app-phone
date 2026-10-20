@@ -1,0 +1,10 @@
+{
+  "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "bytes": 688065920,
+  "elapsedMs": 11367,
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+  "fixtureOutput": "OK",
+  "offline": true,
+  "name": "saf-offline-chat"
+}

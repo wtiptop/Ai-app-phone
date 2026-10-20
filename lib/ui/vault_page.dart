@@ -36,8 +36,13 @@ class _VaultPageState extends State<VaultPage> {
   List<AnalysisCheckpoint> _checkpoints = [];
   MemoryCollection? _selected;
   ContextPacket? _packet;
+  MemorySearchPage? _searchPage;
+  AnalysisCheckpoint? _resumedCheckpoint;
   final _chosen = <String>{};
-  int _offset = 0;
+  int _offset = 0,
+      _searchOffset = 0,
+      _checkpointOffset = 0,
+      _collectionOffset = 0;
   bool _busy = false, _importing = false;
   String? _error;
   String _progress = '';
@@ -88,7 +93,8 @@ class _VaultPageState extends State<VaultPage> {
   }
 
   Future<void> _reload() async {
-    final collections = await widget.store.collections();
+    final collections =
+        await widget.store.collections(offset: _collectionOffset);
     List<VaultHandle> handles;
     try {
       handles = await _gateway.status();
@@ -99,8 +105,10 @@ class _VaultPageState extends State<VaultPage> {
     final selectedId = _selected?.id;
     _collections = collections;
     _handles = handles;
-    _selected = collections.where((c) => c.id == selectedId).firstOrNull ??
+    final selected = collections.where((c) => c.id == selectedId).firstOrNull ??
         collections.firstOrNull;
+    if (_selected?.id != selected?.id) _clearProjectState();
+    _selected = selected;
     await _loadDocuments();
     if (mounted) setState(() {});
   }
@@ -114,7 +122,8 @@ class _VaultPageState extends State<VaultPage> {
     }
     final documents =
         await widget.store.documents(selected.id, offset: _offset);
-    final checkpoints = await widget.store.checkpoints(selected.id);
+    final checkpoints =
+        await widget.store.checkpoints(selected.id, offset: _checkpointOffset);
     final progress = await _importer.progress(selected);
     if (!mounted) return;
     setState(() {
@@ -134,6 +143,20 @@ class _VaultPageState extends State<VaultPage> {
     return '$status • przetworzone: ${progress.processed} • pominięte/błędy: ${progress.failed}';
   }
 
+  void _clearProjectState() {
+    _offset = 0;
+    _checkpointOffset = 0;
+    _searchOffset = 0;
+    _packet = null;
+    _searchPage = null;
+    _chosen.clear();
+    _resumedCheckpoint = null;
+    _progress = '';
+    for (final c in [_query, _goal, _findings, _next, _sources]) {
+      c.clear();
+    }
+  }
+
   Future<void> _connect() async {
     if (_name.text.trim().isEmpty) {
       setState(() => _error = 'Podaj nazwę projektu pamięci.');
@@ -141,6 +164,8 @@ class _VaultPageState extends State<VaultPage> {
     }
     final handle = await _gateway.pick();
     if (handle == null || !mounted) return;
+    _clearProjectState();
+    _collectionOffset = 0;
     _selected = await widget.store
         .createCollection(name: _name.text.trim(), vaultId: handle.id);
     _offset = 0;
@@ -256,21 +281,37 @@ class _VaultPageState extends State<VaultPage> {
         limited: packet.limited);
   }
 
-  Future<void> _search() async {
+  Future<void> _search({int offset = 0}) async {
     final collection = _selected;
     if (collection == null) return;
-    final packet = await widget.store
-        .retrieve(collection.id, _query.text, maxBytes: widget.maxPacketBytes);
+    final page =
+        await widget.store.search(collection.id, _query.text, offset: offset);
+    final initial = await widget.store.retrieveSelected(
+        collection.id, page.excerpts.take(6).map((e) => e.chunkId).toList(),
+        maxBytes: widget.maxPacketBytes);
+    final packet = ContextPacket(
+        collectionId: collection.id,
+        ownerId: collection.ownerId,
+        excerpts: page.excerpts);
     if (!mounted) return;
     setState(() {
       _packet = packet;
+      _searchPage = page;
+      _searchOffset = offset;
       _chosen.clear();
-      _chosen.addAll(packet.excerpts.map((e) => e.chunkId));
+      _chosen.addAll(initial.excerpts.map((e) => e.chunkId));
     });
   }
 
+  Future<ContextPacket?> _boundedSelection() async {
+    final collection = _selected;
+    if (collection == null || _chosen.isEmpty) return null;
+    return widget.store.retrieveSelected(collection.id, _chosen.toList(),
+        maxBytes: widget.maxPacketBytes, maxChunks: 20);
+  }
+
   Future<void> _previewContext() async {
-    final packet = _chosenPacket;
+    final packet = await _boundedSelection();
     if (packet == null || packet.excerpts.isEmpty) return;
     await widget.store.validate(packet);
     if (!mounted) return;
@@ -286,6 +327,9 @@ class _VaultPageState extends State<VaultPage> {
                     children: [
                       Text(
                           '${packet.bytes} bajtów • ${packet.excerpts.length} fragmentów. Te źródła zostaną dołączone do następnej wiadomości. Wybór dostawcy i wysłanie następują w czacie.'),
+                      if (packet.limited)
+                        const Text(
+                            'Wybrane fragmenty skrócono do budżetu. Poniżej widać dokładnie dane dla modelu. Zmniejsz wybór, aby zachować więcej tekstu.'),
                       const SizedBox(height: 12),
                       SelectableText(packet.text),
                     ],
@@ -324,7 +368,23 @@ class _VaultPageState extends State<VaultPage> {
         findings: _findings.text,
         nextStep: _next.text,
         sources: _sources.text);
+    _checkpointOffset = 0;
+    _resumedCheckpoint = null;
     await _loadDocuments();
+  }
+
+  Future<void> _resumeAnalysis(AnalysisCheckpoint item) async {
+    final collection = _selected;
+    if (collection == null) return;
+    final fresh = await widget.store.checkpoint(collection.id, item.id);
+    if (!mounted) return;
+    setState(() {
+      _goal.text = fresh.goal;
+      _findings.text = fresh.findings;
+      _next.text = fresh.nextStep;
+      _sources.text = fresh.sources;
+      _resumedCheckpoint = fresh;
+    });
   }
 
   Future<void> _export(String content, String filename) async {
@@ -369,6 +429,7 @@ class _VaultPageState extends State<VaultPage> {
   }
 
   Widget _section(String title, List<Widget> children) => Card(
+      semanticContainer: false,
       child: Padding(
           padding: const EdgeInsets.all(16),
           child:
@@ -386,10 +447,13 @@ class _VaultPageState extends State<VaultPage> {
         _handles.any((h) => h.id == collection.vaultId && h.available);
     return Scaffold(
       appBar: AppBar(title: const Text('Obsidian i duża pamięć')),
-      body: ListView(
+      // Każda lista danych jest stronicowana. Stałe drzewo kart zachowuje
+      // pozycję czytania, gdy karta wyszukiwania rozrasta się po odpowiedzi.
+      body: SingleChildScrollView(
           key: const ValueKey('vault-scroll'),
           padding: const EdgeInsets.all(16),
-          children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const Text(
                 'Lokalny vault Markdown w pamięci telefonu lub na karcie SD. Scalająca nie uruchamia pluginów Obsidiana ani nie korzysta z Obsidian Sync. Po imporcie treść jest lokalną zaszyfrowaną kopią, a model dostaje wyłącznie wybrane fragmenty po podglądzie.'),
             if (_busy) const LinearProgressIndicator(),
@@ -412,6 +476,8 @@ class _VaultPageState extends State<VaultPage> {
                   label: const Text('Połącz lokalny vault — tylko odczyt')),
               if (_collections.isNotEmpty)
                 DropdownButtonFormField<String>(
+                    key: ValueKey(collection?.id),
+                    isExpanded: true,
                     initialValue: collection?.id,
                     decoration:
                         const InputDecoration(labelText: 'Projekt pamięci'),
@@ -425,12 +491,29 @@ class _VaultPageState extends State<VaultPage> {
                     onChanged: _busy
                         ? null
                         : (id) => _guard(() async {
+                              _clearProjectState();
                               _selected =
                                   _collections.firstWhere((c) => c.id == id);
-                              _offset = 0;
-                              _packet = null;
                               await _loadDocuments();
                             })),
+              Wrap(spacing: 8, children: [
+                TextButton(
+                    onPressed: _busy || _collectionOffset == 0
+                        ? null
+                        : () => _guard(() async {
+                              _collectionOffset -= 50;
+                              await _reload();
+                            }),
+                    child: const Text('Poprzednie projekty')),
+                TextButton(
+                    onPressed: _busy || _collections.length < 50
+                        ? null
+                        : () => _guard(() async {
+                              _collectionOffset += 50;
+                              await _reload();
+                            }),
+                    child: const Text('Następne projekty')),
+              ]),
               if (collection != null && !connected)
                 OutlinedButton.icon(
                     onPressed: _busy
@@ -532,6 +615,12 @@ class _VaultPageState extends State<VaultPage> {
               _section('Odnajdź wcześniejsze dane', [
                 TextField(
                     controller: _query,
+                    onChanged: (_) => setState(() {
+                          _packet = null;
+                          _searchPage = null;
+                          _searchOffset = 0;
+                          _chosen.clear();
+                        }),
                     maxLength: 512,
                     decoration: const InputDecoration(
                         labelText:
@@ -540,15 +629,22 @@ class _VaultPageState extends State<VaultPage> {
                 FilledButton(
                     onPressed: _busy ? null : () => _guard(_search),
                     child: const Text('Szukaj w pamięci')),
+                if (_searchPage != null) ...[
+                  Text(
+                      'Znalezione fragmenty: ${_searchPage!.total}. Strona ${_searchOffset ~/ 10 + 1}. Wybrane: ${_chosen.length}. Wybór dotyczy tej strony.'),
+                  const Text(
+                      'Dokładne słowa, z pominięciem słów pospolitych. Najpierw różne dokumenty; brak wyszukiwania semantycznego. Do modelu trafi tylko podgląd w ustalonym budżecie.'),
+                  if (_searchPage!.queryLimited)
+                    const Text(
+                        'Do rankingu użyto pierwszych 12 różnych istotnych słów.'),
+                ],
                 if (_packet != null && _packet!.excerpts.isEmpty)
                   const Text(
                       'Brak zatwierdzonych źródeł pasujących do zapytania.'),
                 if (_packet != null) ...[
-                  if (_packet!.limited)
-                    const Text(
-                        'Wyniki ograniczono budżetem kontekstu. Doprecyzuj zapytanie.'),
                   for (final excerpt in _packet!.excerpts)
                     CheckboxListTile(
+                        key: ValueKey('recall:${excerpt.chunkId}'),
                         contentPadding: EdgeInsets.zero,
                         value: _chosen.contains(excerpt.chunkId),
                         title: Text(
@@ -564,6 +660,20 @@ class _VaultPageState extends State<VaultPage> {
                                     _chosen.remove(excerpt.chunkId);
                                   }
                                 })),
+                  Wrap(spacing: 8, children: [
+                    TextButton(
+                        onPressed: _busy || _searchOffset == 0
+                            ? null
+                            : () => _guard(
+                                () => _search(offset: _searchOffset - 10)),
+                        child: const Text('Poprzednie wyniki')),
+                    TextButton(
+                        onPressed: _busy || _searchPage?.hasMore != true
+                            ? null
+                            : () => _guard(
+                                () => _search(offset: _searchOffset + 10)),
+                        child: const Text('Następne wyniki')),
+                  ]),
                   FilledButton(
                       onPressed:
                           _busy || packet == null || packet.excerpts.isEmpty
@@ -571,20 +681,28 @@ class _VaultPageState extends State<VaultPage> {
                               : () => _guard(_previewContext),
                       child: const Text('Podgląd wybranych źródeł')),
                   TextButton(
-                      onPressed: _busy ||
-                              packet == null ||
-                              packet.excerpts.isEmpty
-                          ? null
-                          : () => _guard(() async {
-                                await widget.store.validate(packet);
-                                await _export(packet.text, 'Wybrane-zrodla.md');
-                              }),
+                      onPressed:
+                          _busy || packet == null || packet.excerpts.isEmpty
+                              ? null
+                              : () => _guard(() async {
+                                    final selected = await _boundedSelection();
+                                    if (selected == null ||
+                                        selected.excerpts.isEmpty) {
+                                      return;
+                                    }
+                                    await widget.store.validate(selected);
+                                    await _export(
+                                        selected.text, 'Wybrane-zrodla.md');
+                                  }),
                       child: const Text('Eksportuj wybrane źródła')),
                 ],
               ]),
               _section('Punkt wznowienia długiej analizy', [
                 const Text(
-                    'Zapisujesz własne ustalenia i następny krok. Punkt pozostaje po restarcie; nie jest automatycznie wykonywany ani wysyłany do modelu.'),
+                    'Zapisujesz własne ustalenia i następny krok. Każdy zapis z tego formularza tworzy osobny punkt; starsze pozostają. Notatki analizy nie nadają źródłom zatwierdzenia i nie są automatycznie wysyłane do modelu.'),
+                if (_resumedCheckpoint != null)
+                  Text(
+                      'Wczytano: ${_resumedCheckpoint!.goal} (w${_resumedCheckpoint!.revision}). Sprawdź aktualne źródła przed dalszą analizą.'),
                 TextField(
                     controller: _goal,
                     maxLength: 1000,
@@ -626,13 +744,24 @@ class _VaultPageState extends State<VaultPage> {
                           TextButton(
                               onPressed: _busy
                                   ? null
-                                  : () => setState(() {
-                                        _goal.text = item.goal;
-                                        _findings.text = item.findings;
-                                        _next.text = item.nextStep;
-                                        _sources.text = item.sources;
-                                      }),
+                                  : () => _guard(() => _resumeAnalysis(item)),
                               child: const Text('Wróć do tej analizy')),
+                          TextButton(
+                              onPressed: _busy
+                                  ? null
+                                  : () => _guard(() async {
+                                        await _resumeAnalysis(item);
+                                        final query = _next.text.trim().isEmpty
+                                            ? _goal.text
+                                            : _next.text;
+                                        _query.text = query.runes
+                                            .take(512)
+                                            .map(String.fromCharCode)
+                                            .join();
+                                        await _search();
+                                      }),
+                              child: const Text(
+                                  'Odszukaj źródła do kolejnego kroku')),
                           TextButton(
                               onPressed: _busy
                                   ? null
@@ -642,9 +771,27 @@ class _VaultPageState extends State<VaultPage> {
                               child: const Text('Eksportuj punkt analizy'))
                         ]),
                       ]),
+                Wrap(spacing: 8, children: [
+                  TextButton(
+                      onPressed: _busy || _checkpointOffset == 0
+                          ? null
+                          : () => _guard(() async {
+                                _checkpointOffset -= 30;
+                                await _loadDocuments();
+                              }),
+                      child: const Text('Nowsze punkty analizy')),
+                  TextButton(
+                      onPressed: _busy || _checkpoints.length < 30
+                          ? null
+                          : () => _guard(() async {
+                                _checkpointOffset += 30;
+                                await _loadDocuments();
+                              }),
+                      child: const Text('Starsze punkty analizy')),
+                ]),
               ]),
             ],
-          ]),
+          ])),
     );
   }
 }

@@ -35,7 +35,13 @@ DeviceAdb shell wm dismiss-keyguard
 DeviceAdb push $taskModel '/sdcard/Download/MiniCPM5-1B-Q4_K_M.gguf'
 $taskFixture=Join-Path $Output 'ScalajacaTestVault'
 New-Item -ItemType Directory -Force -Path (Join-Path $taskFixture '.obsidian') | Out-Null
-[IO.File]::WriteAllText((Join-Path $taskFixture 'Archive.md'),"# Archive`nThe archive key is LANTERN.`n",[Text.UTF8Encoding]::new($false))
+$taskArchiveText="# Archive`nThe archive key is LANTERN.`n"
+for($taskSection=1;$taskSection -le 22;$taskSection++) {
+  $taskLine="Archive section $taskSection. This passage describes ordinary background details. "
+  $taskArchiveText += $taskLine.PadRight(840,'x')+"`n"
+}
+$taskArchiveText += "Archive recovery. The recovery key is COMPASS.`n"
+[IO.File]::WriteAllText((Join-Path $taskFixture 'Archive.md'),$taskArchiveText,[Text.UTF8Encoding]::new($false))
 [IO.File]::WriteAllText((Join-Path $taskFixture 'GM_SECRET.md'),"GM_SECRET: VAULT_GM_SENTINEL_426`n",[Text.UTF8Encoding]::new($false))
 [IO.File]::WriteAllText((Join-Path $taskFixture '.obsidian/hidden.md'),"HIDDEN_PLUGIN_SENTINEL_426`n",[Text.UTF8Encoding]::new($false))
 DeviceAdb shell mkdir -p '/sdcard/Documents'
@@ -44,6 +50,10 @@ DeviceAdb install -r $taskApk
 DeviceAdb install -r (Join-Path $taskRepo 'build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
 DeviceAdb shell dumpsys package pl.scalajaca.scalajaca | Select-String 'versionCode|versionName|primaryCpuAbi' | Set-Content (Join-Path $Output 'installed-package.txt')
 Get-FileHash -LiteralPath $taskApk -Algorithm SHA256 | Format-List | Out-String | Set-Content (Join-Path $Output 'installed-apk-sha256.txt')
+$taskInstalledPath=(DeviceAdb shell pm path pl.scalajaca.scalajaca | Where-Object { $_ -match '^package:.*/base[.]apk$' } | Select-Object -First 1) -replace '^package:',''
+$taskInstalledPath=$taskInstalledPath.Trim()
+if($taskInstalledPath -notmatch '^/data/app/[a-zA-Z0-9_/+=.~\-]+/base[.]apk$') { throw 'Nieprawidłowa ścieżka zainstalowanego APK.' }
+DeviceAdb shell sha256sum $taskInstalledPath | Set-Content (Join-Path $Output 'installed-device-apk-sha256.txt')
 $taskLog=Join-Path $Output 'instrumentation.log'
 & $Adb -s $Serial shell am instrument -w -r -e scalajacaEmulator true -e class pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest 'pl.scalajaca.scalajaca.test/androidx.test.runner.AndroidJUnitRunner' *> $taskLog
 $taskRunnerExit=$LASTEXITCODE
@@ -64,5 +74,5 @@ if($taskProcess.ExitCode -ne 0) { throw "Odczyt dowodów: $taskTarError" }
 & tar -xf $taskTar -C $Output
 if($LASTEXITCODE -ne 0) { throw 'Nie odczytano archiwum dowodów.' }
 $taskResult=Get-Content -LiteralPath $taskLog -Raw
-if($taskRunnerExit -ne 0 -or $taskResult -notmatch 'OK \(5 tests\)' -or $taskResult -match 'FAILURES!!!|INSTRUMENTATION_FAILED') { throw 'Testy emulatora nie przeszły. Raport zachowano.' }
-Write-Output "Pięć testów urządzenia PASS, w tym syntetyczny vault i generacja ze źródłem. Dowody: $Output. Emulator pozostaje offline."
+if($taskRunnerExit -ne 0 -or $taskResult -notmatch 'OK \(6 tests\)' -or $taskResult -match 'FAILURES!!!|INSTRUMENTATION_FAILED') { throw 'Testy emulatora nie przeszły. Raport zachowano.' }
+Write-Output "Sześć testów urządzenia PASS, w tym syntetyczny vault i generacja ze źródłem. Dowody: $Output. Emulator pozostaje offline."

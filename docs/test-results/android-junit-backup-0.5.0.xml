@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-19T22:34:45.190Z" hostname="LAPTOP-QT0T993B" time="0.065">
+  <properties/>
+  <testcase name="concurrentCancelAndFinalBlockHaveOneWinner" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.022"/>
+  <testcase name="archiveLimitUsesLongAndAcceptsExactlyTwoGiB" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.003"/>
+  <testcase name="cancelBeforeFinalBlockCannotReportSuccess" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <testcase name="exportRequiresSimpleScalabackupFilename" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.037"/>
+  <testcase name="readsAreBoundedAndZeroIsReservedForEof" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <testcase name="stageCleanupMatchesOnlyGeneratedCiphertextFiles" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <testcase name="rejectsArithmeticOverflowAndNegativeCounts" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <testcase name="closeAfterCompletedCopyDoesNotRewriteItsOutcome" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <testcase name="writeBackpressureHasHardChunkLimit" classname="pl.scalajaca.scalajaca.backup.BackupFilePolicyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

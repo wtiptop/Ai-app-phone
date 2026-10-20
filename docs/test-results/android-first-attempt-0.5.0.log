@@ -1,0 +1,124 @@
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest:
+INSTRUMENTATION_STATUS: test=a_importSafAndRealChatOffline
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=1
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=a_importSafAndRealChatOffline
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=b_realJniStopsAfterFirstToken
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=2
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=b_realJniStopsAfterFirstToken
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=c_uiStopThenNextResponse
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=3
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=c_uiStopThenNextResponse
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=d_backgroundStopsGeneration
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=4
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=.
+INSTRUMENTATION_STATUS: test=d_backgroundStopsGeneration
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=e_localVaultSafSourceAndRealAnswer
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=5
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Brak pola wyszukiwania vaultu
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.e_localVaultSafSourceAndRealAnswer(LocalInferenceDeviceTest.kt:292)
+
+INSTRUMENTATION_STATUS: stream=
+Error in e_localVaultSafSourceAndRealAnswer(pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest):
+java.lang.AssertionError: Brak pola wyszukiwania vaultu
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.e_localVaultSafSourceAndRealAnswer(LocalInferenceDeviceTest.kt:292)
+
+INSTRUMENTATION_STATUS: test=e_localVaultSafSourceAndRealAnswer
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=6
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stream=
+INSTRUMENTATION_STATUS: test=f_pagedRecallFindsLateFactOffline
+INSTRUMENTATION_STATUS_CODE: 1
+INSTRUMENTATION_STATUS: class=pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest
+INSTRUMENTATION_STATUS: current=6
+INSTRUMENTATION_STATUS: id=AndroidJUnitRunner
+INSTRUMENTATION_STATUS: numtests=6
+INSTRUMENTATION_STATUS: stack=java.lang.AssertionError: Nie znaleziono elementu: Znalezione fragmenty:
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor(LocalInferenceDeviceTest.kt:54)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor$default(LocalInferenceDeviceTest.kt:46)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.scrollTo(LocalInferenceDeviceTest.kt:74)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.f_pagedRecallFindsLateFactOffline(LocalInferenceDeviceTest.kt:356)
+
+INSTRUMENTATION_STATUS: stream=
+Error in f_pagedRecallFindsLateFactOffline(pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest):
+java.lang.AssertionError: Nie znaleziono elementu: Znalezione fragmenty:
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor(LocalInferenceDeviceTest.kt:54)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor$default(LocalInferenceDeviceTest.kt:46)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.scrollTo(LocalInferenceDeviceTest.kt:74)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.f_pagedRecallFindsLateFactOffline(LocalInferenceDeviceTest.kt:356)
+
+INSTRUMENTATION_STATUS: test=f_pagedRecallFindsLateFactOffline
+INSTRUMENTATION_STATUS_CODE: -2
+INSTRUMENTATION_RESULT: stream=
+
+Time: 171.465
+There were 2 failures:
+1) e_localVaultSafSourceAndRealAnswer(pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest)
+java.lang.AssertionError: Brak pola wyszukiwania vaultu
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.e_localVaultSafSourceAndRealAnswer(LocalInferenceDeviceTest.kt:292)
+2) f_pagedRecallFindsLateFactOffline(pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest)
+java.lang.AssertionError: Nie znaleziono elementu: Znalezione fragmenty:
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor(LocalInferenceDeviceTest.kt:54)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.waitFor$default(LocalInferenceDeviceTest.kt:46)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.scrollTo(LocalInferenceDeviceTest.kt:74)
+	at pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest.f_pagedRecallFindsLateFactOffline(LocalInferenceDeviceTest.kt:356)
+
+FAILURES!!!
+Tests run: 6,  Failures: 2
+
+
+INSTRUMENTATION_CODE: -1

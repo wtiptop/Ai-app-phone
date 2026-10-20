@@ -1,5 +1,11 @@
 # Macierz wymagań Scalającej
 
+## Uzupełnienie 0.5.0: wcześniejsze dane i historia sesji
+
+Zachowano wszystkie 129 ID oraz MX1–MX7. Nowe stronicowanie, ograniczony dobór źródeł, prywatne archiwum MG i jawne wznowienie notatki sesji rozwijają R06 i R10. Nie zastępują pełnego agenta ciągłości, merytorycznej kontroli sprzeczności ani testu długiej kampanii na fizycznym Pixelu 9. Instrukcja: PAMIEC_CIAGLOSC_PL.md, decyzja ADR 010, wyniki TESTS_PL.md.
+
+Odbiór 0.5.0: 266/266 Flutter i 36/36 JUnit PASS; Android 6/7 PASS, 1 FAIL. W próbie późnego faktu źródło zawierało COMPASS, lecz MiniCPM odpowiedział COMASS także przy żądaniu verbatim. Wierność generacji pozostaje ograniczona; przechowanie i wskazanie źródła nie stanowi automatycznej weryfikacji odpowiedzi.
+
 ## Uzupełnienie 0.4.0: pełna kopia i przywracanie
 
 Zachowano wszystkie 129 ID i MX1–MX7. Wdrożono pełną kopię pod hasłem, obejmującą projekty/kampanie/źródła/wersje/checkpointy/sekrety MG i czaty zakresowe, atomowe odtwarzanie z zachowaniem ID i odbudową indeksów pod nowym kluczem. Każda kolizja odrzuca całość. Zakres, wyłączenia i limity: BACKUP_PL.md; dowody: TESTS_PL.md. Nie oznacza to realizacji synchronizacji, niezależnych kont graczy, całej mechaniki RPG ani pełnego odbioru fizycznego Pixela.
@@ -20,7 +26,7 @@ Nie zmienia ani nie usuwa 129 wymagań pierwotnej specyfikacji.
 | MX4 | Kontrola kosztów i jednorazowa zgoda, darmowy własny serwer bez odblokowania innych API | 8 testów polityki na SQLite FFI PASS, w tym lokalny permit związany z hashem modelu |
 | MX5 | Czat i porównanie z MiniCPM, zachowana samodzielność rdzenia | Kod, UI i pełny Flutter runner PASS; czat JNI offline i Stop/tło potwierdzone na emulatorze x86_64; porównanie na urządzeniu i fizyczny telefon do odbioru |
 | MX6 | Lokalny silnik Android, dobrowolne GGUF, zasoby i usuwanie | Wdrożone CPU/JNI, prywatny import/stop/usuwanie, przypięte źródła i szablony, 21 JUnit PASS z prawdziwym GGUF; import SAF i Stop/tło na emulatorze PASS; termika i fizyczny telefon do odbioru |
-| MX7 | APK i test telefonu z modelem | APK 0.4.0 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; aktualne wyniki regresji offline i kopii/przywracania w TESTS_PL.md; fizyczny Pixel 9 nieprzetestowany |
+| MX7 | APK i test telefonu z modelem | APK 0.5.0 ARM64+x86_64 build/podpis/manifest/16 KiB PASS; aktualne wyniki regresji offline, przywołania źródeł i historii sesji w TESTS_PL.md; fizyczny Pixel 9 nieprzetestowany |
 
 ## Pierwotna specyfikacja
 
@@ -113,13 +119,13 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
-| R06.1 | Własne SQLite + pliki, indeks/retrieval ograniczony zakresem | 2/3 | Ograniczone: szyfrowane wersje i fragmenty, indeks HMAC oraz SQL filtrujące właściciela/kolekcję/zgodę/rewizję przed rankingiem; retrieval leksykalny, bez embeddingów; testy 0.3.0 |
+| R06.1 | Własne SQLite + pliki, indeks/retrieval ograniczony zakresem | 2/3 | Ograniczone: szyfrowane wersje/chunki i indeks HMAC; SQL filtruje właściciela/projekt/zgodę/bieżącą rewizję przed rankingiem. 0.5.0 dodaje strony/licznik, rundy dokumentów, stoplistę pytań i bounded decrypt; bez embeddingów. Testy dużego syntetycznego indeksu w TESTS_PL.md, korpus GB do odbioru |
 | R06.2 | Obsidian opcjonalny; import/eksport vault przez SAF z jawnym katalogiem | 3 | Ograniczone: lokalny vault .md/.markdown przez ACTION_OPEN_DOCUMENT_TREE, odczyt domyślny, osobna zgoda na nowy eksport do Scalajaca-Exports; tylko lokalny provider, bez Sync; OBSIDIAN_PAMIEC_RPG_PL.md |
 | R06.3 | SYSTEM, INBOX, PERSONAL, RESEARCH, TECH, FINANCE, GAMING, RPG/CAMPAIGNS/id, COMMUNICATIONS, REVIEWS, ARCHIVE | 3 | Ograniczone: podstawowe katalogi notatek istnieją; kampanie w odrębnym agregacie, pełny vault RPG/CAMPAIGNS/id zaplanowany |
-| R06.4 | Rekord: ID, właściciel, projekt/kampania, autor/czas/źródło/pewność/zakres/zgoda/wersja/powiązania | 3 | Ograniczone: prywatne wersje źródła/sha256/linie/właściciel/kolekcja/zgoda, manualne checkpointy i osobny audyt kampanii; pełne pola autor/pewność/graf relacji i retencja zaplanowane |
-| R06.5 | Kontekst krótki / zatwierdzone fakty długie / dokumenty / stan transakcyjny | 3/4 | Ograniczone: ograniczone okno czatu, zatwierdzone wersje dokumentów, checkpointy analiz i transakcyjny stan kampanii są podłączone; automatyczne streszczanie i semantyczny retrieval zaplanowane |
-| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: reimport tworzy wersję, cofnięcie zgody usuwa indeks, usunięcie kopii kasuje prywatne wersje; audyt i rollback kampanii działają; pełna kopia projektów i RPG z historią/sekretami/źródłami potwierdzona w 0.4.0; retencja zaplanowana |
-| R06.7 | Uprawnione fragmenty i preview, poufność; bez wysyłki całego vaultu i indeksowania GM_SECRET | 3/5 | Ograniczone: wybrane fragmenty/preview/digest/receipt, walidacja przed dispatch, brak indeksu GM_SECRET, izolacja kampanii i historii MG/gracz; testy negatywne 0.3.0 PASS; narzędzia agentów i fizyczny Pixel 9 do odbioru |
+| R06.4 | Rekord: ID, właściciel, projekt/kampania, autor/czas/źródło/pewność/zakres/zgoda/wersja/powiązania | 3 | Ograniczone: ID, właściciel/projekt, wersje/sha256/linie/zgoda, checkpointy i osobny audyt kampanii; 0.5.0 dodaje historię/porównanie lore i pochodzenie wznowienia. Pełne pola autor/pewność/graf i retencja zaplanowane |
+| R06.5 | Kontekst krótki / zatwierdzone fakty długie / dokumenty / stan transakcyjny | 3/4 | Ograniczone: krótkie okno modelu, aktualne zatwierdzone dokumenty, stronicowane punkty analiz i atomowy stan kampanii; 0.5.0 udostępnia historię i jawne wznowienie notatki sesji. Automatyczne streszczanie i semantyczny retrieval zaplanowane |
+| R06.6 | Ślad zapisu faktu, korekta, zapomnienie, usuń, eksport, restore | 3 | Ograniczone: reimport tworzy wersję, revoke usuwa indeks, usunięcie kopii kasuje wersje; pełna kopia źródeł/wersji/sekretów oraz audit/rollback działają. 0.5.0 dodaje historyczne porównanie lore i wznowienie notatki jako nową rewizję; retencja zaplanowana |
+| R06.7 | Uprawnione fragmenty i preview, poufność; bez wysyłki całego vaultu i indeksowania GM_SECRET | 3/5 | Ograniczone: wybrane fragmenty/preview/digest/receipt i walidacja przed dispatch; 0.5.0 sprawdza wszystkie wybrane ID przed przycięciem i nie udostępnia archiwum MG modelom/graczom. Brak indeksu GM_SECRET; narzędzia agentów i fizyczny Pixel 9 do odbioru |
 | R06.8 | Szyfrowane kopie/eksporty; sync tylko dobrowolny | 3/6 | Ograniczone: pełna kopia v2 AES-GCM/PBKDF2 przenosi projekty, wersje, checkpointy, kampanie i sekrety MG, czaty zakresowe/dowody; atomowy restore i nowy klucz potwierdzone w 0.4.0. Sync zaplanowany; limity i wyłączenia w BACKUP_PL.md |
 
 ## 7. Asystent i narzędzia
@@ -159,14 +165,14 @@ Statusy realizacji: **zaplanowane** = brak odebranej implementacji; **ograniczon
 | ID | Pełny zakres do sprawdzenia | Faza | Status / dowód odbioru |
 |---|---|---:|---|
 | R10.1 | Moduł osobny; izolowane kampanie: czas/świat/postaci/drużyna/lokacje/przedmioty/frakcje/zadania/kanon/źródła/sekrety | 5 | Ograniczone: CampaignStore SQLite/UI własnych kampanii z kanonem, encjami świata, wiedzą gracza i stanem sesji, ręcznie zatwierdzany kontekst LLM; pełna mechanika/narracja wielosesyjna zaplanowane |
-| R10.2 | Audytowalne zdarzenia i rewizje; replay/rollback ze spójnością | 5 | Ograniczone: trwałe zaszyfrowane rewizje, dopisywany audyt i rollback jako nowa rewizja z CAS; test close/reopen i spójność transakcji PASS; wielomiesięczna próba na telefonie niewykonana |
+| R10.2 | Audytowalne zdarzenia i rewizje; replay/rollback ze spójnością | 5 | Ograniczone: trwałe zaszyfrowane rewizje/audyt, rollback i CAS; 0.5.0 dodaje stronicowane archiwum rpg_versions, porównanie pól oraz jawne wznowienie checkpointu jako nową rewizję bez cofnięcia świata. Wielomiesięczna próba na telefonie niewykonana |
 | R10.3 | MG narracja bez podejmowania decyzji za gracza | 5 | Zaplanowane: A25 |
 | R10.4 | Agenci czasu/mechaniki/drużyny/NPC/frakcji/wątków/ekwipunku/walki/lokacji/ciągłości/ilustracji | 5 | Zaplanowane: A25 |
 | R10.5 | Cele/wiedza/plany/zasoby NPC/frakcji, działania poza sceną, trwałe konsekwencje | 5 | Zaplanowane: A25 |
 | R10.6 | Oddzielny stan świata i wiedza bohatera; asynchroniczna ilustracja nie blokuje sesji | 5 | Ograniczone: odrębne encje świata, kanon i wiedza gracza oraz tajny checkpoint MG; widok gracza filtruje przed odczytem; asynchroniczne ilustracje zaplanowane |
-| R10.7 | Lore: koordynator, oficjalny kanon/podręczniki, chronologia/geografia, frakcje/kultury, bestiariusz/magia, lokalny kanon, niezależny kontroler stron/źródeł | 5 | Ograniczone: wszystkie role lore zadeklarowane; kontrolerzy LLM i źródła podręczników niepodłączone |
+| R10.7 | Lore: koordynator, oficjalny kanon/podręczniki, chronologia/geografia, frakcje/kultury, bestiariusz/magia, lokalny kanon, niezależny kontroler stron/źródeł | 5 | Ograniczone: role lore zadeklarowane; 0.5.0 daje MG porównanie historycznego i bieżącego wpisu, bez merytorycznego rozstrzygania sprzeczności. Kontrolerzy LLM i materiały podręczników niepodłączone |
 | R10.8 | Hierarchia kanonu: kampania→właściwa edycja oficjalna→oznaczone pomocnicze; brak źródła = niezweryfikowane | 5 | Ograniczone: podłączony ręcznie zatwierdzany retrieval kampanii przestrzega hierarchii i edycji; źródło bez osobistej weryfikacji jest NIEZWERYFIKOWANE; niezależny recenzent LLM zaplanowany |
-| R10.9 | GM_SECRET nigdy w widoku gracza, logach, promptach recenzenta, indeksie ani eksporcie | 5 | Ograniczone: SQL i testy gracz/recenzent/indeks/eksport fail-closed, sekrety tylko po wyborze MG, odrębne scope historii; eksport i clipboard/share czatu MG zablokowane; lokalny filtr roli nie jest logowaniem gracza |
+| R10.9 | GM_SECRET nigdy w widoku gracza, logach, promptach recenzenta, indeksie ani eksporcie | 5 | Ograniczone: SQL i testy gracz/recenzent/indeks/eksport fail-closed, odrębne scope; 0.5.0 historia także dziś jawnego wpisu jest tylko localView MG+opt-in przed decrypt. Eksport/clipboard/share czatu MG zablokowane; lokalny filtr nie jest logowaniem gracza |
 | R10.10 | WFRP 4e k100/PS, tylko reguły z materiałów właściciela; bez wymyślonych talentów | 5 | Zaplanowane; zależne od zweryfikowanych źródeł |
 | R10.11 | Fio tylko import z potwierdzonych plików; brak zgadywania/resetu/startu; osobne wfrp 3 | 5 | Zaplanowane: A25; plików kanonu nie dostarczono |
 | R10.12 | Wersjonowany katalog/manifest kampanii, np. zoo.json po akceptacji formatu | 5 | Ograniczone: wersjonowany CampaignManifest w kodzie; tworzenie plikowego katalogu kampanii i akceptacja formatu zaplanowane |

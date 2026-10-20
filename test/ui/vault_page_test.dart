@@ -187,4 +187,114 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });
+
+  testWidgets('wyszukiwanie stronami zachowuje budżet i nie miesza wyborów',
+      (tester) async {
+    final collection = (await tester
+        .runAsync(() => memory.createCollection(name: 'Duży projekt')))!;
+    await tester.runAsync(() async {
+      for (var i = 0; i < 21; i++) {
+        final doc = await memory.ingest(collection.id, 'Notatka-$i.md',
+            'Latarnia przechowuje zapis numer $i.');
+        await memory.approve(doc.id, doc.revision);
+      }
+    });
+    await boot(tester);
+    final search = find.widgetWithText(
+        TextField, 'Szukaj po słowach w zatwierdzonych źródłach');
+    await _reveal(tester, search);
+    await tester.enterText(search, 'latarnia');
+    final semantics = tester.ensureSemantics();
+    await tester.pump();
+    final queryNode = tester.getSemantics(
+        find.descendant(of: search, matching: find.byType(EditableText)));
+    expect(queryNode.getSemanticsData().label,
+        isNot(contains('Odnajdź wcześniejsze dane')));
+    expect(queryNode.rect.height, lessThan(180));
+    semantics.dispose();
+    await _reveal(tester, find.text('Szukaj w pamięci'));
+    await tester.tap(find.text('Szukaj w pamięci'));
+    await _flush(tester);
+    expect(find.textContaining('Znalezione fragmenty: 21. Strona 1.'),
+        findsOneWidget,
+        reason: tester
+            .widgetList<Text>(find.byType(Text))
+            .map((t) => t.data)
+            .join(' | '));
+    await _reveal(tester, search);
+    await tester.enterText(search, 'inne zapytanie');
+    await tester.pumpAndSettle();
+    expect(find.text('Następne wyniki'), findsNothing);
+    expect(find.text('Podgląd wybranych źródeł'), findsNothing);
+    await tester.enterText(search, 'latarnia');
+    await _reveal(tester, find.text('Szukaj w pamięci'));
+    await tester.tap(find.text('Szukaj w pamięci'));
+    await _flush(tester);
+    for (var page = 2; page <= 3; page++) {
+      await _reveal(tester, find.text('Następne wyniki'));
+      await tester.tap(find.text('Następne wyniki'));
+      await _flush(tester);
+      expect(find.textContaining('Znalezione fragmenty: 21. Strona $page.'),
+          findsOneWidget);
+    }
+    final lastTile =
+        tester.widget<CheckboxListTile>(find.byType(CheckboxListTile).last);
+    final sourceLabel = (lastTile.title! as Text).data!.split(' • ').first;
+    await _reveal(tester, find.text('Podgląd wybranych źródeł'));
+    await tester.tap(find.text('Podgląd wybranych źródeł'));
+    await _flush(tester);
+    final snapshot =
+        tester.widget<SelectableText>(find.byType(SelectableText).last).data!;
+    expect(snapshot, contains(sourceLabel));
+    expect(snapshot.split('"document":').length - 1, 1);
+    expect(snapshot.length, lessThanOrEqualTo(1600));
+    expect(gateway.reads, 0);
+    expect(gateway.exports, 0);
+    await tester.tap(find.text('Wróć'));
+    await _flush(tester);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('starszy punkt analizy wznawia formularz jako nowy zapis',
+      (tester) async {
+    final collection = (await tester
+        .runAsync(() => memory.createCollection(name: 'Długie badanie')))!;
+    await tester.runAsync(() async {
+      for (var i = 0; i < 31; i++) {
+        await memory.saveCheckpoint(collection.id,
+            goal: 'Etap analizy $i',
+            findings: 'Ustalenie $i',
+            nextStep: 'Odszukaj latarnię $i',
+            sources: 'Źródło-$i.md w1');
+      }
+      final rows = await database.db
+          .query('analysis_checkpoints', columns: ['id'], orderBy: 'rowid');
+      for (var i = 0; i < rows.length; i++) {
+        await database.db.update('analysis_checkpoints', {'updated': i},
+            where: 'id=?', whereArgs: [rows[i]['id']]);
+      }
+    });
+    await boot(tester);
+    await _reveal(tester, find.text('Starsze punkty analizy'));
+    await tester.tap(find.text('Starsze punkty analizy'));
+    await _flush(tester);
+    await _reveal(tester, find.text('Etap analizy 0'));
+    await tester.tap(find.text('Etap analizy 0'));
+    await _flush(tester);
+    await _reveal(tester, find.text('Wróć do tej analizy'));
+    await tester.tap(find.text('Wróć do tej analizy'));
+    await _flush(tester);
+    final goal = find.widgetWithText(TextField, 'Cel analizy');
+    expect(tester.widget<TextField>(goal).controller!.text, 'Etap analizy 0');
+    await _reveal(tester, find.text('Zatwierdź i zapisz punkt wznowienia'));
+    await tester.tap(find.text('Zatwierdź i zapisz punkt wznowienia'));
+    await _flush(tester);
+    final count = (await tester.runAsync(() => database.db
+            .rawQuery('SELECT COUNT(*) AS n FROM analysis_checkpoints')))!
+        .single['n'];
+    expect(count, 32);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
 }

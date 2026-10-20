@@ -1,5 +1,9 @@
 # Plan realizacji i dostępność rozszerzeń
 
+## Etap 0.5.0 — wyszukiwanie i ciągłość sesji
+
+Wdrożono stronicowane wyszukiwanie aktualnych źródeł, ranking rozdzielający dokumenty, powrót do starszych analiz i prywatną historię sesji/lore dla MG. Jawne wznowienie tworzy nową rewizję notatki, zachowuje dzisiejszy kanon i audyt. Testy i granice: TESTS_PL.md, instrukcja: PAMIEC_CIAGLOSC_PL.md. Następne etapy: pomiary dużego rzeczywistego vaultu i fizycznego Pixela 9, semantyczny retrieval/graf encji, kontroler sprzeczności, trwałe workflow analiz i długa próba jakości narracji PL. Sama lista różnic wersji nie realizuje automatycznego agenta ciągłości. Synchronizacja nadal jest dobrowolnym przyszłym rozszerzeniem.
+
 ## Etap 0.4.0 — pełna szyfrowana kopia
 
 Wdrożono logiczną kopię projektów i kampanii wraz z wersjami, checkpointami i sekretami MG. Odtwarzanie zachowuje ID, role i dowody; błędy/kolizje wycofują całość. Instrukcja: BACKUP_PL.md, dowody: TESTS_PL.md. Pozostają: selektywny backup, scalanie konfliktów, rotacja/retencja/harmonogram, odbiór blisko 2 GiB, fizyczny Pixel 9 i ewentualna synchronizacja. Starsze plany poniżej stanowią historię etapów.
