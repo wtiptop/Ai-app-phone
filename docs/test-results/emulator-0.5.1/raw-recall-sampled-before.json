@@ -1,0 +1,58 @@
+{
+  "diagnosticOnly": true,
+  "expected": "COMPASS",
+  "beforeDartAndUi": true,
+  "trials": [
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMASS",
+      "chunks": [
+        {
+          "utf8": "COM",
+          "base64": "Q09N"
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 12907
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMPASS",
+      "chunks": [
+        {
+          "utf8": "COMP",
+          "base64": "Q09NUA=="
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 10464
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMPASS",
+      "chunks": [
+        {
+          "utf8": "COMP",
+          "base64": "Q09NUA=="
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 10399
+    }
+  ]
+}

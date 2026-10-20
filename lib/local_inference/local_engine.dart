@@ -25,7 +25,8 @@ abstract class LocalInferenceEngine {
       {required String model,
       required List<ChatTurn> turns,
       required int context,
-      required int maxTokens});
+      required int maxTokens,
+      bool sourceGrounded = false});
   void cancel();
 }
 

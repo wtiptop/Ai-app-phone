@@ -1,5 +1,13 @@
 # Stan rzeczywistej implementacji
 
+## Aktualizacja 0.5.1+8 — korekta wierności źródeł — 20.10.2026
+
+**270/270 Flutter, 36/36 JUnit i 8/8 Android PASS; analiza bez uwag, APK ARM64+x86_64 zweryfikowany.** Diagnoza starego APK: w 1/3 surowych prób JNI wybrało COM+ASS, a w 2/3 COMP+ASS. Tokenizacja wejścia była poprawna, więc błąd nie powstawał w UI. Dla jawnego pakietu źródeł MiniCPM używa teraz greedy, własnej osobnej instrukcji systemowej oraz flagi związanej z digestem i zgodą. Budżet uwzględnia nowy prefix. False zachowuje dotychczasowy profil zwykłego czatu.
+
+Nowy JNI bez nowego prefixu (kontrolowane porównanie tego samego wejścia): 3×COMPASS, LANTERN, RAVEN, 5/5 dokładnie. UI z rzeczywistym pakietem i instrukcją: 3×COMPASS oraz receipt PASS. Pozostałe scenariusze potwierdzają import GGUF, OK, Stop JNI/UI, kolejną generację, tło, LANTERN ze źródła i wznowienie historii RPG bez naruszenia kanonu/sekretów. Niezależny przegląd statyczny nie znalazł nowych P1/P2; nie zastępuje testów jakości modelu.
+
+Baza v3, pełna kopia v2 i receipt v1 pozostają zgodne, bez nowych tabel, wag, kont lub serwera. Zmiana algorytmu digestu dotyczy nowych zgód; stare dowody pozostają archiwalnymi snapshotami. Model nigdy automatycznie nie zatwierdza faktów w kanonie. Greedy może deterministycznie wybrać błędny token. Długa narracja PL, profil 2B, rzeczywisty korpus GB, fizyczny Pixel 9/RAM/bateria/termika i automatyczna merytoryczna kontrola lore pozostają ograniczone lub zaplanowane. Wszystkie 129 ID i MX1–MX7 zachowano. Szczegóły: ADR 011 i docs/TESTS_PL.md. Starszy wynik 6/7 poniżej jest zachowaną historią 0.5.0.
+
 ## Aktualizacja 0.5.0+7 — pamięć i ciągłość sesji — 20.10.2026
 
 **266/266 Flutter i 36/36 JUnit PASS, analiza bez uwag; Android 6/7 PASS, 1 FAIL.** APK ARM64+x86_64 zbudowany i zweryfikowany. Niezaliczony test jest jawny: źródło i podgląd zawierają COMPASS, a rzeczywista odpowiedź MiniCPM5-1B to COMASS. Powtórzyło się to także przy żądaniu kopiowania verbatim. Wyszukanie późnego faktu działa, ale wierność generacji pozostaje **ograniczona**. Nie deklarujemy bezbłędnego prowadzenia długiej kampanii ani naprawienia tego przekręcenia.

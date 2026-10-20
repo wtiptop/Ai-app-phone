@@ -27,18 +27,53 @@ class Channel extends MethodChannel {
   }
 }
 
-Stream<ProviderEvent> run(AndroidLocalEngine engine) => engine.generate(
-    model: 'a' * 64,
-    turns: const [ChatTurn(role: ChatRole.user, text: 'Cześć')],
-    context: 2048,
-    maxTokens: 32);
+Stream<ProviderEvent> run(AndroidLocalEngine engine,
+        {bool sourceGrounded = false}) =>
+    engine.generate(
+        model: 'a' * 64,
+        turns: const [ChatTurn(role: ChatRole.user, text: 'Cześć')],
+        context: 2048,
+        sourceGrounded: sourceGrounded,
+        maxTokens: 32);
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test('COMP i ASS przechodzą przez kanał bez utraty litery, z trybem źródeł',
+      () async {
+    final channel = Channel();
+    final engine = AndroidLocalEngine(channel: channel);
+    channel.invoke = (method, args) async {
+      if (method == 'generate') {
+        expect(args['sourceGrounded'], isTrue);
+        scheduleMicrotask(() async {
+          for (final part in ['COMP', 'ASS']) {
+            await channel.event({
+              'requestId': args['requestId'],
+              'type': 'bytes',
+              'bytes': Uint8List.fromList(utf8.encode(part))
+            });
+          }
+          await channel.event({
+            'requestId': args['requestId'],
+            'type': 'done',
+            'reason': 'stop',
+            'inputTokens': 401,
+            'outputTokens': 2
+          });
+        });
+      }
+      return null;
+    };
+    final events = await run(engine, sourceGrounded: true).toList();
+    expect(events.map((e) => e.delta).join(), 'COMPASS');
+    expect(events.last.done, isTrue);
+    engine.dispose();
+  });
   test('Kanał składa UTF-8 rozcięte między tokenami i kończy usage', () async {
     final channel = Channel();
     final engine = AndroidLocalEngine(channel: channel);
     channel.invoke = (method, args) async {
       if (method == 'generate') {
+        expect(args['sourceGrounded'], isFalse);
         scheduleMicrotask(() async {
           for (final byte in utf8.encode('Zażółć 🌍')) {
             await channel.event({

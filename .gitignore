@@ -25,3 +25,4 @@ work/
 # Prywatne kopie właściciela nie są kodem projektu.
 *.scalabackup
 !docs/test-results/emulator-0.5.0/*.log
+!docs/test-results/emulator-0.5.1/*.log

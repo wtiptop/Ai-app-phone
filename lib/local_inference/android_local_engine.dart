@@ -105,7 +105,8 @@ class AndroidLocalEngine implements LocalInferenceEngine {
       {required String model,
       required List<ChatTurn> turns,
       required int context,
-      required int maxTokens}) async* {
+      required int maxTokens,
+      bool sourceGrounded = false}) async* {
     if (_disposed) throw localError('native_error');
     if (_active != null) throw localError('busy');
     final run = _active =
@@ -123,7 +124,8 @@ class AndroidLocalEngine implements LocalInferenceEngine {
             for (final t in turns) {'role': t.role.name, 'text': t.text}
           ],
           'context': context,
-          'maxTokens': maxTokens
+          'maxTokens': maxTokens,
+          'sourceGrounded': sourceGrounded
         });
       } on ProviderException catch (e) {
         run.finish(_Terminal(error: e));

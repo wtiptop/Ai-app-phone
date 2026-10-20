@@ -1,0 +1,210 @@
+{
+  "version": "0.5.1+8",
+  "date": "2026-10-20 Europe/Warsaw",
+  "tests": 8,
+  "passed": 8,
+  "failures": 0,
+  "skipped": 0,
+  "flutterPassed": 270,
+  "junitPassed": 36,
+  "seconds": 421.561,
+  "inferenceMemorySeconds": 272.904,
+  "campaignSeconds": 94.914,
+  "rawRecallSeconds": 53.743,
+  "apkSha256": "9f21e14bc19c9783e85e5b2645196eb54f5391caba6612b2fa585dc528c657d0",
+  "emulator": "Scalajaca_API30 / Android 11 API30 / x86_64 / 4096 MiB",
+  "network": "Tryb samolotowy, WiFi/dane wyłączone. Standardowe 7 scenariuszy: brak aktywnej sieci przed/po; dodatkowy JNI: tryb samolotowy przed i brak aktywnej sieci na końcu.",
+  "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+  "baselineApkVersion": "0.5.0+7",
+  "baselineRawOutputs": [
+    "COMASS",
+    "COMPASS",
+    "COMPASS"
+  ],
+  "rawGroundedExactTrials": 5,
+  "uiCompassResponses": [
+    "COMPASS",
+    "COMPASS",
+    "COMPASS"
+  ],
+  "cases": [
+    {
+      "modelSha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+      "bytes": 688065920,
+      "elapsedMs": 12892,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    },
+    {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 1165,
+      "stopLatencyMs": 45,
+      "fixtureOutput": "The",
+      "name": "jni-stream-stop"
+    },
+    {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    {
+      "offline": true,
+      "fixtureOutput": "LANTERN",
+      "actualOutput": "LANTERN",
+      "elapsedMs": 31058,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 771, wyjście 2 tokenów",
+      "source": "Archive.md",
+      "receiptRetained": true,
+      "name": "vault-saf-real-answer"
+    },
+    {
+      "offline": true,
+      "source": "Archive.md",
+      "initialResults": "Znalezione fragmenty: 22. Strona 1. Wybrane: 2. Wybór dotyczy tej strony.",
+      "pageThreeReached": true,
+      "fixtureOutput": "COMPASS",
+      "actualOutput": "COMPASS",
+      "repeatedOutputs": [
+        "COMPASS",
+        "COMPASS",
+        "COMPASS"
+      ],
+      "receiptRetained": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 494, wyjście 2 tokenów",
+      "elapsedMs": 77672,
+      "name": "paged-memory-real-answer"
+    },
+    {
+      "fixture": "366dfba7-c484-4ed5-8660-464e096cf5dc",
+      "campaignId": "1792482014527496-0",
+      "initialHistoryRevisions": [
+        1,
+        2
+      ],
+      "resumedRevision": 3,
+      "oldCiphertextPreserved": true,
+      "resumedFieldsVerifiedViaUi": true,
+      "gmCheckpointIndexed": false,
+      "playerNoHistoryOrCheckpoint": true,
+      "offlineBefore": true,
+      "offlineAfter": true,
+      "api": "30",
+      "abi": "x86_64"
+    },
+    {
+      "diagnosticOnly": false,
+      "sourceGrounded": true,
+      "beforeDartAndUi": true,
+      "trials": [
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 11501
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 10588
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 10697
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "LANTERN",
+          "expected": "LANTERN",
+          "chunks": [
+            {
+              "utf8": "LAN",
+              "base64": "TEFO"
+            },
+            {
+              "utf8": "TERN",
+              "base64": "VEVSTg=="
+            }
+          ],
+          "elapsedMs": 10485
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "RAVEN",
+          "expected": "RAVEN",
+          "chunks": [
+            {
+              "utf8": "R",
+              "base64": "Ug=="
+            },
+            {
+              "utf8": "AVEN",
+              "base64": "QVZFTg=="
+            }
+          ],
+          "elapsedMs": 10364
+        }
+      ]
+    }
+  ],
+  "physicalPixel9Tested": false,
+  "longCampaignQualityVerified": false,
+  "limitations": [
+    "Greedy może wybrać błędny token; brak gwarancji prawdziwości lub automatycznej kontroli lore.",
+    "Próby są małe, syntetyczne i anglojęzyczne; długa polska kampania oraz GB vaultu nieprzetestowane.",
+    "Nie testowano fizycznego Pixela 9/ARM64, RAM/baterii/termiki ani pełnych wag 2B.",
+    "Native SAF backup nie był powtarzany w tej poprawce; jego niezmieniony format ma regresję Flutter i JUnit."
+  ]
+}

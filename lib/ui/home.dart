@@ -7,6 +7,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import '../auth/secret_store.dart';
 import '../chat/chat_session.dart';
 import '../memory/context_packet.dart';
+import '../local_inference/source_guidance.dart';
 import '../memory/memory_store.dart';
 import '../rpg/campaign_store.dart';
 import '../security/memory_access.dart';
@@ -159,7 +160,10 @@ class _HomeState extends State<Home> {
   }
 
   Future<int> _sourceBudget() async => provider == 'minicpm_local'
-      ? ((await widget.store.setting('local_context', 4096)) - 1168)
+      ? ((await widget.store.setting('local_context', 4096)) -
+              1168 -
+              utf8.encode(sourceGuidance).length -
+              80)
           .clamp(400, 2304)
       : 6000;
 
@@ -342,6 +346,7 @@ class _HomeState extends State<Home> {
         if (target is MiniCpmAdapter) expectedEndpoint = recipient;
         final costInfo = provider == 'minicpm_local'
             ? '0 USD za API. Obliczenia korzystają z CPU, RAM i baterii telefonu. Limit wyjścia: 512 tokenów.'
+                '${prepared.sourceGrounded ? '\nTryb źródeł: zachowawcze odpowiedzi na podstawie zatwierdzonego pakietu. Weryfikuj nazwy i fakty ze źródłami.' : ''}'
             : provider == 'minicpm' && estimate == 0
                 ? 'Własny serwer bez opłat za API według Twojej deklaracji. '
                     'Aplikacja nie weryfikuje jego rozliczeń. Limit wyjścia: 1024 tokeny.'
@@ -1433,7 +1438,7 @@ class _HomeState extends State<Home> {
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Scalająca',
-              applicationVersion: '0.5.0',
+              applicationVersion: '0.5.1',
             ),
           ),
           const ListTile(
@@ -1452,7 +1457,7 @@ class _HomeState extends State<Home> {
           const ListTile(
             title: Text('Diagnostyka lokalna'),
             subtitle: Text(
-              'Wersja 0.5.0 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
+              'Wersja 0.5.1 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
             ),
           ),
         ],

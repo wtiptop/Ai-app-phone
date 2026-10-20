@@ -10,6 +10,7 @@ import androidx.test.uiautomator.Configurator
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import org.json.JSONObject
+import org.json.JSONArray
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.After
@@ -230,7 +231,7 @@ class LocalInferenceDeviceTest {
         NativeLlama.prepare(token)
         val began = SystemClock.elapsedRealtime()
         val result = JSONObject(NativeLlama.generate(token, store.modelFile(model.id).absolutePath, model.profile,
-            "[{\"role\":\"user\",\"content\":\"Write a long story about a forest, at least 300 words.\"}]".toByteArray(Charsets.UTF_8), 1024, 128, object : TokenSink {
+            "[{\"role\":\"user\",\"content\":\"Write a long story about a forest, at least 300 words.\"}]".toByteArray(Charsets.UTF_8), 1024, 128, false, object : TokenSink {
                 override fun onBytes(bytes: ByteArray) {
                     text.append(String(bytes, Charsets.UTF_8))
                     if (firstAt == 0L && text.isNotBlank()) { firstAt = SystemClock.elapsedRealtime(); NativeLlama.cancel(token) }
@@ -433,8 +434,19 @@ class LocalInferenceDeviceTest {
         assertNotNull(containing("Archive.md"))
         checkpoint("memory-late-fact-receipt")
         click("Zamknij")
+        val repeatedOutputs = JSONArray().put(actualOutput)
+        repeat(2) {
+            click("Ponów ostatnią odpowiedź")
+            click("Uruchom offline")
+            // Ta sama zatwierdzona wiadomość, bez starej odpowiedzi w kontekście.
+            waitFor("Anuluj generowanie")
+            waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+            repeatedOutputs.put(actualFact("COMPASS"))
+        }
+        checkpoint("memory-late-fact-repeated")
         saveReport("paged-memory-real-answer", JSONObject().put("offline", true).put("source", "Archive.md")
             .put("initialResults", summary).put("pageThreeReached", true).put("fixtureOutput", "COMPASS").put("actualOutput", actualOutput)
+            .put("repeatedOutputs", repeatedOutputs)
             .put("receiptRetained", true).put("usageLabel", usage).put("elapsedMs", SystemClock.elapsedRealtime() - began))
     }
 

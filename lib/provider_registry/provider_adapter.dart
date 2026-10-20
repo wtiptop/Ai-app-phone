@@ -14,12 +14,16 @@ class ProviderRequest {
     this.apiKey = '',
     this.maxOutputTokens = 1024,
     this.expectedEndpoint,
+    this.sourceGrounded = false,
   }) : turns = List.unmodifiable(turns);
 
   final String model;
   final List<ChatTurn> turns;
   final String apiKey;
   final int maxOutputTokens;
+
+  /// Jawny pakiet źródeł: lokalny model używa zachowawczego dekodowania.
+  final bool sourceGrounded;
 
   /// Adres własnego serwera pokazany w zgodzie; chroni przed zmianą konfiguracji.
   final String? expectedEndpoint;

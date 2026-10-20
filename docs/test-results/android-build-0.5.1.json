@@ -1,0 +1,21 @@
+{
+  "version": "0.5.1+8",
+  "buildExitCode": 0,
+  "signatureExitCode": 0,
+  "manifestExitCode": 0,
+  "zipalign16KiBExitCode": 0,
+  "bytes": 143932967,
+  "sha256": "9f21e14bc19c9783e85e5b2645196eb54f5391caba6612b2fa585dc528c657d0",
+  "abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "modelWeightsInApk": false,
+  "nativeLibrarySha256": {
+    "arm64-v8a": "eca4ea3d2c275101356d2b9929f50c70f5a04fe9819f855f7d1c9b1dabe1c446",
+    "x86_64": "5caaf5ecb23c9050d8f85e89a2a71e67067eb6854d7e50660c6295ee70b407d7"
+  },
+  "deviceTest": "Osobny raport android-emulator-0.5.1",
+  "date": "2026-10-20 Europe/Warsaw"
+}

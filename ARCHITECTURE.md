@@ -1,5 +1,9 @@
 # Architektura Scalającej
 
+## Zmiana 0.5.1
+
+PreparedChat wylicza sourceGrounded dla lokalnego MiniCPM z załącznikiem, ujmuje bool i pełny prompt w digest i przekazuje go przez ProviderRequest → LocalModelAdapter → MethodChannel → Kotlin/JNI → greedy C++. Własny system prefix jest stały, źródła pozostają user-data; zgoda i walidacja scope/rewizji poprzedzają dispatch. False zachowuje poprzedni profil. Budżet obejmuje prefix; baza v3/backup v2/receipt v1 bez zmian. ADR 011 i rzeczywiste testy opisują granice jakości.
+
 ## Rozszerzenie 0.5.0 — przywołanie danych i historia sesji
 
 MemoryStore.search stronicuje aktualne zatwierdzone źródła, rankinguje pokrycie pytania w rundach dokumentów i odszyfrowuje tylko stronę. retrieveSelected osobno sprawdza cały wybór i dokładny budżet JSON/UTF-8. Punkty analiz mają starsze strony i odczyt po ID. CampaignStore czyta historię rpg_versions kursorem rewizji; compareRecordVersion pokazuje różnice, a resumeCheckpoint atomowo tworzy nową rewizję samej notatki sesji. Archiwum jest tylko lokalnym widokiem MG z opt-in, bez dostępu gracza/modelu/recenzenta. Nie zmieniono schematu v3, indeksu HMAC ani kopii v2. Decyzje i granice: ADR/010-pamiec-i-ciaglosc-sesji.md; instrukcja: docs/PAMIEC_CIAGLOSC_PL.md.

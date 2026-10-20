@@ -1,8 +1,8 @@
 # Budowanie i instalacja na Androidzie
 
-## Wydanie 0.5.0
+## Wydanie 0.5.1
 
-Aktualny debug APK: `Scalajaca-0.5.0-debug-arm64-x64.apk`, versionCode 7, Android 7+/minSdk 24, targetSdk 36. Zawiera ARM64 dla Pixela 9 i natywny x86_64 dla emulatora. Wagi MiniCPM GGUF pozostają osobnym plikiem. Rozmiar i SHA-256: `test-results/android-build-0.5.0.json`. To lokalne wydanie testowe, bez publikacji sklepowej.
+Aktualny debug APK: `Scalajaca-0.5.1-debug-arm64-x64.apk`, versionCode 8, Android 7+/minSdk 24, targetSdk 36. Zawiera ARM64 dla Pixela 9 i natywny x86_64 dla emulatora. Wagi MiniCPM GGUF pozostają osobnym plikiem. Rozmiar i SHA-256: `test-results/android-build-0.5.1.json`. To lokalne wydanie testowe, bez publikacji sklepowej.
 
 Przed aktualizacją wykonaj pełną szyfrowaną kopię w Ustawieniach, zgodnie z [BACKUP_PL.md](BACKUP_PL.md). Zainstaluj APK jako aktualizację podpisanej poprzedniej wersji (`adb install -r <APK>` lub systemowy instalator). Nie odinstalowuj aplikacji i nie używaj `pm clear` na swoim telefonie: usunęłoby to bazę i klucz urządzenia. Wydanie nadal używa bazy v3 i formatu pełnej kopii v2. Zachowuje zaimportowane źródła, ich wersje, checkpointy analiz i historię kampanii; nie wymaga ponownego konta ani serwera. Kolizje ID podczas przywracania kopii odrzucają całość, bez scalania.
 
@@ -12,7 +12,7 @@ Narzędzia użyte w środowisku: Flutter 3.47.7, Dart 3.13.5, JDK 17, Android SD
 
 Źródła: [instalacja Flutter](https://docs.flutter.dev/install), [oficjalna konfiguracja Android](https://docs.flutter.dev/platform-integration/android/setup), [Android command line tools](https://developer.android.com/tools).
 
-Test emulatora po zbudowaniu głównego APK (PowerShell 7, działający własny AVD Android 11 / API 30 Google APIs x86_64 po angielsku): `scripts/test_android_emulator.ps1 -Model <pełna-ścieżka-GGUF> -Serial emulator-5556`. Skrypt ogranicza się do emulatora, sprawdza hash publicznego modelu, buduje osobny testowy APK, ustawia tryb samolotowy, instaluje oba pakiety i wykonuje cztery scenariusze. Wymaga wolnego miejsca na model w Pobranych i prywatnej kopii. Nie pobiera wag ani nie instaluje sterowników Windows; pozostawia AVD offline. Raport domyślnie trafia do ignorowanego `work/emulator-tests`. Testy nie wymagają kont, roota ani płatnego API.
+Test emulatora po zbudowaniu głównego APK (PowerShell 7, działający własny AVD Android 11 / API 30 Google APIs x86_64 po angielsku): `scripts/test_android_emulator.ps1 -Model <pełna-ścieżka-GGUF> -Serial emulator-5556`. Skrypt ogranicza się do emulatora, sprawdza hash publicznego modelu, buduje osobny testowy APK, ustawia tryb samolotowy, instaluje oba pakiety i wykonuje sześć scenariuszy. Wymaga wolnego miejsca na model w Pobranych i prywatnej kopii. Nie pobiera wag ani nie instaluje sterowników Windows; pozostawia AVD offline. Raport domyślnie trafia do ignorowanego `work/emulator-tests`. Testy nie wymagają kont, roota ani płatnego API.
 
 ```powershell
 flutter doctor -v

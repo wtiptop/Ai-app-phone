@@ -9,6 +9,7 @@ import '../storage/models.dart';
 import '../costs/local_cost_gate.dart';
 import '../memory/context_packet.dart';
 import 'prepared_chat.dart';
+import '../local_inference/source_guidance.dart';
 
 class ChatSession extends ChangeNotifier {
   ChatSession(this.store, this.registry);
@@ -69,6 +70,8 @@ class ChatSession extends ChangeNotifier {
         : 0;
     final budget = provider == 'minicpm_local' ? context - output - 256 : 24000;
     final prefix = <ChatTurn>[
+      if (provider == 'minicpm_local' && attachment != null)
+        const ChatTurn(role: ChatRole.system, text: sourceGuidance),
       if (attachment != null)
         ChatTurn(role: ChatRole.user, text: attachment.text),
     ];
@@ -107,6 +110,7 @@ class ChatSession extends ChangeNotifier {
       'model': model,
       'scope': scopeKey,
       'output': output,
+      'sourceGrounded': provider == 'minicpm_local' && attachment != null,
       'turns': [
         for (final t in turns) {'role': t.role.name, 'text': t.text}
       ]
@@ -306,6 +310,7 @@ class ChatSession extends ChangeNotifier {
             apiKey: key,
             expectedEndpoint: expectedEndpoint,
             maxOutputTokens: prepared?.maxOutputTokens ?? 1024,
+            sourceGrounded: prepared?.sourceGrounded ?? false,
           ),
         )) {
           if (_cancelled) break;

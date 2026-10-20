@@ -11,6 +11,7 @@ class FakeLocalEngine implements LocalInferenceEngine {
   int calls = 0, stops = 0;
   int? context, limit;
   String? selected;
+  bool? grounded;
   Stream<ProviderEvent> response = Stream.fromIterable(const [
     ProviderEvent(delta: 'Odpowiedź'),
     ProviderEvent(
@@ -21,11 +22,13 @@ class FakeLocalEngine implements LocalInferenceEngine {
       {required String model,
       required List<ChatTurn> turns,
       required int context,
-      required int maxTokens}) {
+      required int maxTokens,
+      bool sourceGrounded = false}) {
     calls++;
     selected = model;
     this.context = context;
     limit = maxTokens;
+    grounded = sourceGrounded;
     return response;
   }
 
@@ -74,6 +77,23 @@ void main() {
     expect(engine.context, 4096);
     expect(engine.limit, 512);
     expect(engine.selected, modelId);
+    expect(engine.grounded, isFalse);
+  });
+  test('Jawny tryb źródeł trafia do silnika, zwykły czat pozostaje osobny',
+      () async {
+    final engine = FakeLocalEngine();
+    final adapter = LocalModelAdapter(engine: engine);
+    await adapter
+        .stream(ProviderRequest(
+            model: modelId,
+            turns: const [
+              ChatTurn(role: ChatRole.user, text: 'Nazwa ze źródła')
+            ],
+            sourceGrounded: true))
+        .toList();
+    expect(engine.grounded, isTrue);
+    await adapter.stream(input()).toList();
+    expect(engine.grounded, isFalse);
   });
   test('Mniejszy limit żądania pozostaje zachowany', () async {
     final engine = FakeLocalEngine();

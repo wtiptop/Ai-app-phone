@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pl.scalajaca.scalajaca.local.GgufInspectorTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2026-10-20T07:33:38.279Z" hostname="LAPTOP-QT0T993B" time="21.964">
+  <properties/>
+  <testcase name="acceptsTwoBProfile" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.027"/>
+  <testcase name="rejectsUnknownQuantization" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.016"/>
+  <testcase name="supportsInspectionCancellation" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.012"/>
+  <testcase name="rejectsHashMismatchAndCleansTemporaryFile" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.036"/>
+  <testcase name="rejectsMagic" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.009"/>
+  <testcase name="boundsTensorCount" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.01"/>
+  <testcase name="rejectsDuplicateKeys" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.013"/>
+  <testcase name="readsStructuralMetadata" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.004"/>
+  <testcase name="importsHashAndDeduplicates" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.128"/>
+  <testcase name="cleansOnlyManagedPartialAndOrphanFiles" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.006"/>
+  <testcase name="idCannotEscapePrivateDirectory" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.002"/>
+  <testcase name="rejectsTruncatedData" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.011"/>
+  <testcase name="rejectsOtherFamily" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.012"/>
+  <testcase name="rejectsOffsetPastFile" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.013"/>
+  <testcase name="boundsMetadataCount" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.008"/>
+  <testcase name="rejectsOverlappingTensors" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.017"/>
+  <testcase name="cancelledImportKeepsExistingModel" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.132"/>
+  <testcase name="rejectsBadQuantizationRow" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.013"/>
+  <testcase name="rejectsVersion" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.022"/>
+  <testcase name="rejectsOtherArchitecture" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="0.012"/>
+  <testcase name="importsRealOfficialModelWhenProvided" classname="pl.scalajaca.scalajaca.local.GgufInspectorTest" time="21.461"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

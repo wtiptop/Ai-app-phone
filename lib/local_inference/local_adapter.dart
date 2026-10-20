@@ -58,6 +58,7 @@ class LocalModelAdapter implements ProviderAdapter {
           model: request.model,
           turns: request.turns,
           context: context,
+          sourceGrounded: request.sourceGrounded,
           maxTokens: min(512, request.maxOutputTokens))) {
         if (_cancelled) throw localError('cancelled');
         yield event;

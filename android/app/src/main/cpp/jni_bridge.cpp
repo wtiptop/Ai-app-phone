@@ -29,7 +29,7 @@ extern "C" JNIEXPORT void JNICALL Java_pl_scalajaca_scalajaca_local_NativeLlama_
     if (active && active_token == token) active->cancelled = true;
 }
 extern "C" JNIEXPORT jstring JNICALL Java_pl_scalajaca_scalajaca_local_NativeLlama_generate(
-    JNIEnv * env, jobject, jlong token, jstring path, jstring profile, jbyteArray messages, jint context, jint limit, jobject sink) {
+    JNIEnv * env, jobject, jlong token, jstring path, jstring profile, jbyteArray messages, jint context, jint limit, jboolean source_grounded, jobject sink) {
     std::unique_lock<std::mutex> lock(generation_mutex, std::try_to_lock);
     if (!lock.owns_lock()) return env->NewStringUTF("{\"error\":\"busy\"}");
     std::shared_ptr<scalajaca::Control> control;
@@ -50,7 +50,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_pl_scalajaca_scalajaca_local_NativeLla
                 env->SetByteArrayRegion(buffer, 0, (jsize)bytes.size(), reinterpret_cast<const jbyte *>(bytes.data()));
                 env->CallVoidMethod(sink, callback, buffer); env->DeleteLocalRef(buffer);
                 if (env->ExceptionCheck()) throw scalajaca::Failure("callback");
-            });
+            }, source_grounded == JNI_TRUE);
         std::string output = "{\"finish_reason\":\"" + result.reason + "\",\"input_tokens\":" + std::to_string(result.input) + ",\"output_tokens\":" + std::to_string(result.output) + "}";
         return env->NewStringUTF(output.c_str());
     } catch (const scalajaca::Failure & ex) {

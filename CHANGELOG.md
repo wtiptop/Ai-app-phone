@@ -1,5 +1,11 @@
 # Dziennik zmian
 
+## 0.5.1 — 2026-10-20
+
+- Diagnoza surowego JNI potwierdziła losowy wybór COM+ASS zamiast COMP+ASS; poprawne źródło i tokenizer nie usuwały litery.
+- MiniCPM z zatwierdzonym pakietem wybiera greedy; osobna instrukcja systemowa zachowania nazw/liczb, tryb w digest/zgodzie/adapterze/JNI i uwzględniony budżet. Bez podmiany słów; zwykły czat zachowuje profil.
+- 270 Flutter, 36 JUnit i 8 Android PASS; JNI 3×COMPASS i LANTERN/RAVEN, UI 3×COMPASS oraz receipt. Fizyczny Pixel 9 i długa kampania PL nadal nieprzetestowane. Baza v3 / backup v2 bez zmian.
+
 ## 0.5.0 — 2026-10-20
 
 - Stronicowane wyszukiwanie z dokładnym licznikiem, filtrowaniem zakresu i rundami różnych dokumentów; stoplista PL/EN pytań. SQLite >=3.25 używa funkcji okienkowych, starsze wersje zachowują zgodny fallback.

@@ -15,5 +15,6 @@ struct Control {
 };
 struct Result { int input = 0, output = 0; std::string reason; };
 Result generate(const std::string & path, const std::string & profile, const std::string & messages,
-                int context, int limit, Control & control, const std::function<void(const std::string &)> & emit);
+                int context, int limit, Control & control, const std::function<void(const std::string &)> & emit,
+                bool source_grounded = false);
 }

@@ -1,0 +1,59 @@
+{
+  "method": "Host Windows, bezpośrednie API vocab GGUF i generate; przed poprawką; brak JNI/Dart/UI.",
+  "roundtrips": [
+    {
+      "input": "COMPASS",
+      "output": "COMPASS",
+      "equal": true,
+      "tokenIds": [
+        67026,
+        12229
+      ]
+    },
+    {
+      "input": "COMASS",
+      "output": "COMASS",
+      "equal": true,
+      "tokenIds": [
+        19855,
+        12229
+      ]
+    },
+    {
+      "input": "LANTERN",
+      "output": "LANTERN",
+      "equal": true,
+      "tokenIds": [
+        34970,
+        117061
+      ]
+    },
+    {
+      "input": "Żółć Łódź Aeloria",
+      "output": "Żółć Łódź Aeloria",
+      "equal": true,
+      "tokenIds": [
+        151,
+        141,
+        2159,
+        49721,
+        45829,
+        30265,
+        245,
+        63587,
+        151,
+        140,
+        359,
+        334,
+        18389
+      ]
+    }
+  ],
+  "rawNativeOutput": "COMPASS",
+  "chunks": [
+    "COMP",
+    "ASS"
+  ],
+  "inputTokens": 401,
+  "outputTokens": 2
+}

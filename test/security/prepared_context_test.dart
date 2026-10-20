@@ -9,6 +9,7 @@ import 'package:scalajaca/provider_registry/provider_registry.dart';
 import 'package:scalajaca/storage/app_database.dart';
 import 'package:scalajaca/storage/models.dart';
 import 'package:scalajaca/storage/transfers.dart';
+import 'package:scalajaca/local_inference/source_guidance.dart';
 
 class _Recorder extends ProviderAdapter {
   @override
@@ -72,10 +73,39 @@ void main() {
     await send(p);
     expect(recorder.requests.single.turns.map((t) => t.text),
         p.turns.map((t) => t.text));
+    expect(recorder.requests.single.sourceGrounded, isTrue);
+    expect(p.turns.first.role, ChatRole.system);
+    expect(p.turns.first.text, sourceGuidance);
+    expect(p.turns[1].text, 'GM_FIXTURE_ONLY');
     final evidence = await db.db.query('chat_context_receipts');
     expect(evidence, hasLength(1));
     expect(await db.cipher.open(evidence.single['evidence'] as String),
         contains('GM_FIXTURE_ONLY'));
+  });
+  test('Zwykły czat nie dostaje instrukcji źródeł ani trybu zachowawczego',
+      () async {
+    final p = await session.prepare('Cześć', 'minicpm_local', 'fixture');
+    await send(p);
+    expect(p.sourceGrounded, isFalse);
+    expect(recorder.requests.single.sourceGrounded, isFalse);
+    expect(p.turns, hasLength(1));
+  });
+  test('Usunięcie załącznika zmienia digest nawet przy identycznych rolach',
+      () async {
+    final a = attachment();
+    await session.bindScope(a);
+    final p = await session.prepare('Pytanie', 'minicpm_local', 'fixture',
+        attachment: a);
+    final changed = PreparedChat(
+        provider: p.provider,
+        model: p.model,
+        userText: p.userText,
+        turns: p.turns,
+        digest: p.digest,
+        sessionVersion: p.sessionVersion,
+        omitted: p.omitted,
+        maxOutputTokens: p.maxOutputTokens);
+    expect(await changed.calculateDigest(session.scopeKey), isNot(p.digest));
   });
   test('Cofnięcie źródła po podglądzie blokuje dispatch', () async {
     final a = attachment(invalid: true);

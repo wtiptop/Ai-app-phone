@@ -11,5 +11,5 @@ object NativeLlama {
     external fun version(): String
     external fun prepare(token: Long)
     external fun cancel(token: Long)
-    external fun generate(token: Long, path: String, profile: String, messages: ByteArray, context: Int, limit: Int, sink: TokenSink): String
+    external fun generate(token: Long, path: String, profile: String, messages: ByteArray, context: Int, limit: Int, sourceGrounded: Boolean, sink: TokenSink): String
 }

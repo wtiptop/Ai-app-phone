@@ -16,6 +16,7 @@ if(!$taskAvd) { $taskAvd=(& $Adb -s $Serial shell getprop ro.kernel.qemu.avd_nam
 if($taskAvd -ne 'Scalajaca_API30') { throw 'Wymagany własny AVD Scalajaca_API30.' }
 # Pierwsze sześć: prawdziwy GGUF, Stop/tło, SAF, źródła i późny fakt po trzech stronach.
 $taskInferencePassed=$true
+$taskInferenceStarted=[DateTime]::UtcNow
 try {
   & (Join-Path $PSScriptRoot 'test_android_emulator.ps1') -Model $Model -Serial $Serial -Adb $Adb -Output $Output
 } catch {
@@ -23,6 +24,7 @@ try {
   # Po pełnym odbiorze z błędem asercji nadal sprawdzamy niezależną kampanię.
   # Błędy budowania/instalacji/niepełny runner kończą pracę od razu.
   if(!(Test-Path -LiteralPath $taskInferenceLog) -or
+      (Get-Item -LiteralPath $taskInferenceLog).LastWriteTimeUtc -lt $taskInferenceStarted -or
       (Get-Content -LiteralPath $taskInferenceLog -Raw) -notmatch 'Tests run: 6,\s+Failures: [1-6]') { throw }
   $taskInferencePassed=$false
   Write-Output 'MiniCPM/pamięć: FAIL, log zachowano. Kontynuuję niezależny test historii RPG; końcowy status pozostanie FAIL.'

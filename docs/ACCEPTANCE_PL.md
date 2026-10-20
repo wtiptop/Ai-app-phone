@@ -60,3 +60,7 @@ Faza 0: datowane źródła pierwotne i jawne ograniczenia. Faza 1: repo, ADR, ma
 | A36 | Starsza strona analiz → formularz → nowy zapis; powrót po restarcie/restore, źródła wymagają aktualnej zgody | SQLite i widgety; brak autozapisu ustaleń modelu |
 | A37 | CP1→CP2→wznowienie CP1 tworzy nową rewizję, stare szyfrogramy i dzisiejszy kanon pozostają; konflikt CAS odrzucany; backup i nowy klucz | Testy store/backup/UI oraz osobny AndroidJUnitRunner; wyniki TESTS_PL.md |
 | A38 | Dawny sekret dziś jawnego lore w archiwum tylko localView MG+opt-in przed decrypt, brak indeksu i gracza; porównanie wersji bez automatycznego promowania kanonu | Negatywne testy roli/purpose + mały ekran; merytoryczny kontroler sprzeczności zaplanowany |
+
+## Dodatkowy odbiór 0.5.1
+
+A39: z zatwierdzonym syntetycznym źródłem MiniCPM zachowuje nazwę COMPASS w trzech odpowiedziach UI, w tym ponowieniach, a receipt wskazuje właściwy pakiet. Osobny JNI sprawdza 3×COMPASS i LANTERN/RAVEN bez UI. Wyniki: TESTS_PL.md; nie jest to odbiór całej kampanii ani fizycznego Pixela 9.

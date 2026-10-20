@@ -1,5 +1,31 @@
 # Rzeczywiste testy Scalającej
 
+## Odbiór 0.5.1 — 20.10.2026, Europe/Warsaw
+
+**270/270 Flutter, 36/36 JUnit, 8/8 Android PASS.** Błąd COMPASS→COMASS odtworzono przed poprawką w surowych fragmentach JNI. Zatwierdzone źródło było poprawne. W trzech generacjach starego profilu wyjście wyniosło COMASS, COMPASS, COMPASS; ten przebieg diagnostyczny nie był pozytywnym testem wierności. JNI dla błędu przekazało COM (`Q09N`) i ASS (`QVNT`), więc nie jest to utrata litery w Dart ani Markdown. Hostowy roundtrip tokenizer/de-tokenizer zachował COMPASS, COMASS, LANTERN i Żółć Łódź Aeloria; hostowa generacja zwróciła COMP+ASS. Różnica pojawiała się podczas generacji z losowaniem.
+
+| Sprawdzenie | Rzeczywisty wynik | Dowody i zakres |
+|---|---|---|
+| Flutter analyze | PASS, bez uwag | analyze-0.5.1.log |
+| Pełny runner Flutter | **270/270 PASS** | flutter-tests-0.5.1.log; w tym cztery nowe testy flagi, digestu, zwykłego czatu i złożenia COMP+ASS; nadal pełna regresja pamięci/backupów/RPG |
+| JUnit Android | **36/36 PASS**, świeże wykonanie | 21 GGUF + 6 vault + 9 backup, bez pominiętych/błędów; --rerun, trzy XML i android-junit-0.5.1.log |
+| Surowy JNI po poprawce | **1/1 test PASS, 5/5 generacji**, 53.743 s | to samo wejście bez nowej instrukcji systemowej: 3×COMPASS, LANTERN, RAVEN; dokładna pisownia, surowe bajty/Base64, brak Dart/UI |
+| MiniCPM/pamięć/UI | **6/6 PASS**, 272.904 s | GGUF przez SAF, prawdziwe OK, JNI Stop, Stop UI/kolejna generacja, Home/tło, SAF/LANTERN/receipt, 22 fragmenty/strona 3/3×COMPASS/receipt |
+| Historia RPG | **1/1 PASS**, 94.914 s | dwa checkpointy, jawne wznowienie jako r3, stare szyfrogramy zachowane, odczyt pięciu pól, kanon/sekrety izolowane od gracza |
+| APK 0.5.1+8 | PASS, 143932967 B | ARM64+x86_64, min24/target36, podpis/manifest/ZIP i ELF 16 KiB; android-build-0.5.1.json i logi |
+
+Osiem scenariuszy to trzy osobne uruchomienia AndroidJUnitRunner: 6+1+1, łącznie 421.561 s, nie osiem w jednym procesie. Pięć generacji w nowym teście JNI i trzy odpowiedzi w scenariuszu UI są próbami wewnątrz tych testów, nie dodatkowymi pozycjami licznika. Standardowe siedem scenariuszy potwierdza brak aktywnej sieci przed/po; diagnostyka JNI sprawdza tryb samolotowy i brak aktywnej sieci na końcu. WiFi/dane były wyłączone w naszym AVD. Nie było API, kont, serwera ani płatnych operacji. Testy dotyczą syntetycznych danych i zatwierdzonego oficjalnego modelu 1B Q4_K_M o dotychczasowym SHA-256.
+
+**Zmiana i uczciwe granice:** dla MiniCPM+attachment stosujemy wybór tokenu z najwyższym logittem. Własna instrukcja systemowa dotyczy kopiowania nazw/liczb, niedopisywania kanonu i sygnalizowania braków; źródła zachowują rolę user. Tryb, role i treść są objęte digestem, zgodą i ponowną walidacją aktualności. Nie dopisano wyjątków dla COMPASS, automatycznej korekty tekstu ani predefiniowanej odpowiedzi. Kontrolowany test JNI nie dodaje nowej instrukcji, więc pokazuje wpływ samego dekodowania. UI sprawdza cały przepływ z instrukcją i pakietem. Test kanału dodatkowo odtwarza dokładne COMP+ASS i rozcięte UTF-8. Przegląd niezależnego agenta był statyczny, bez nowych P1/P2, nie audytem jakości RPG.
+
+Greedy może zawsze wybrać ten sam błędny token; te małe próby nie gwarantują wierności każdej nazwy, prawdziwości odpowiedzi, całej polskiej kampanii, oficjalnej mechaniki ani wykrywania sprzeczności. Nie testowano fizycznego Pixela 9/ARM64, pełnych wag 2B, GB vaultu, szczytu RAM, baterii, temperatury czy pracy przez wiele dni. Narracja ze źródłami może być mniej różnorodna. Native SAF backup nie był powtarzany w tej poprawce; format i kanał są niezmienione, a regresja Flutter/JUnit obejmuje pełny restore, zakresy i historię. Wynik 0.4.0 pozostaje historycznym testem SAF backupu.
+
+**Dowody:** android-emulator-0.5.1.log/json, android-campaign-0.5.1.log, android-jni-grounded-0.5.1.log, minicpm-tokenizer-0.5.1.json, emulator-0.5.1/raw-recall-sampled-before.json i raw-recall-grounded.json oraz PNG/XML źródła, odpowiedzi, receipt i powtórzeń. Hash rzeczywistego /data/app/.../base.apk na emulatorze zgadza się z buildem i wydawanym APK. Instalacja jako aktualizacja zachowała istniejącą syntetyczną bazę, bez pm clear. Podpis/wersja/ABI/manifest i wyrównanie sprawdzono narzędziami SDK/NDK. SDK XML i ostrzeżenia Gradle nie zablokowały budowania.
+
+Pierwsza próba nowych testów Flutter miała 26 PASS i jeden błąd samej fixture: załącznik z innym zakresem niż sesja. Po prawidłowym bindScope test digestu i wszystkie 27 ukierunkowanych przypadków przeszły, a pełny runner zakończył 270/270. Próba uruchomienia runnera bez dostępu do lokalnego procesu testowego zakończyła się błędem środowiska; ponowienie w dozwolonym kontekście przeszło. Wczesny hostowy program diagnostyczny wymagał poprawy linkowania advapi32 i bezpiecznej serializacji fragmentów UTF-8; jego wynik nie jest liczony jako test Androida. Log wcześniejszej porażki COMPASS z 0.5.0 pozostaje poniżej i nie został nadpisany.
+
+Odtworzenie: flutter analyze --no-pub; flutter test --no-pub --concurrency=1 --reporter expanded; gradlew :app:testDebugUnitTest --rerun -Ptarget-platform=android-arm64,android-x64; flutter build apk --debug --no-pub --target-platform android-arm64,android-x64. Następnie scripts/test_android_continuity.ps1 -Model <oficjalny przypięty GGUF> uruchamia 6+1 na własnym AVD Scalajaca_API30. Dodatkowa regresja po nim: adb -s emulator-5556 shell am instrument -w -r -e scalajacaEmulator true -e grounded true -e class pl.scalajaca.scalajaca.local.RecallDiagnosticsDeviceTest pl.scalajaca.scalajaca.test/androidx.test.runner.AndroidJUnitRunner. Test JNI wymaga syntetycznego podglądu utworzonego przez scenariusz f; nie używać na prywatnym telefonie. Szczegóły decyzji: ADR 011.
+
 ## Odbiór 0.5.0 — 20.10.2026, Europe/Warsaw
 
 **Wynik częściowy: 266/266 Flutter i 36/36 JUnit PASS, Android 6/7 PASS i 1 FAIL.** APK jest zbudowany, instalowalny i sprawdzony na emulatorze. Nie zaliczamy jakości odtwarzania późnego faktu przez MiniCPM jako ukończonej.

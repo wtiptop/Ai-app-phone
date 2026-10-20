@@ -1,5 +1,9 @@
 # Bezpieczeństwo Scalającej
 
+## Zmiana 0.5.1
+
+Tryb źródeł i cały prompt są objęte digestem zatwierdzanym przed inferencją. Instrukcja systemowa jest własną stałą; pliki nie awansują do roli systemowej. Zachowano walidację świeżości, scope, MG/opt-in i taint. Greedy nie jest kontrolą prawdziwości ani nową zgodą. Surowe dane diagnostyczne zapisuje tylko androidTest po sprawdzeniu własnego AVD i konkretnej syntetycznej fixture; produkcja nadal nie loguje promptów. Niezależny przegląd statyczny bez nowych P1/P2 nie zastępuje pełnego audytu.
+
 ## Aktualizacja 0.5.0 — stare źródła i dawne sekrety
 
 retrieveSelected sprawdza wszystkie wybrane ID w jednej transakcji przed ograniczeniem budżetu: właściciel, projekt, aktualna rewizja, zatwierdzenie i restricted. Stary fragment nie może zniknąć z kontroli dlatego, że nie zmieścił się w promptcie. Historia lore może zawierać dawny sekret obecnie jawnego wpisu: dostęp wymaga localView, MG i jawnego opt-in przed odszyfrowaniem. Nie zasila indeksu ani automatycznych kontekstów. Wznowienie checkpointu wymaga expectedRevision i zapisuje nową rewizję, bez niszczenia historii i cofania świata. UI pokazuje historyczne sekrety zwykłym Text bez menu zaznaczania; nie zapobiega to fotografii/zrzutowi ekranu przez właściciela telefonu. Backup pozostaje zgodny i obejmuje nowe workflow. Automatyczny merytoryczny kontroler sprzeczności i rzeczywiste logowanie graczy pozostają zaplanowane.

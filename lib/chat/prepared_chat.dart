@@ -18,11 +18,13 @@ class PreparedChat {
   final List<ChatTurn> turns;
   final int sessionVersion, omitted, maxOutputTokens;
   final ContextAttachment? attachment;
+  bool get sourceGrounded => provider == 'minicpm_local' && attachment != null;
   Future<String> calculateDigest(String? scope) => contentDigest(jsonEncode({
         'provider': provider,
         'model': model,
         'scope': scope,
         'output': maxOutputTokens,
+        'sourceGrounded': sourceGrounded,
         'turns': [
           for (final t in turns) {'role': t.role.name, 'text': t.text}
         ]

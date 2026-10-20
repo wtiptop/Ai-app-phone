@@ -1,0 +1,17 @@
+{
+  "fixture": "366dfba7-c484-4ed5-8660-464e096cf5dc",
+  "campaignId": "1792482014527496-0",
+  "initialHistoryRevisions": [
+    1,
+    2
+  ],
+  "resumedRevision": 3,
+  "oldCiphertextPreserved": true,
+  "resumedFieldsVerifiedViaUi": true,
+  "gmCheckpointIndexed": false,
+  "playerNoHistoryOrCheckpoint": true,
+  "offlineBefore": true,
+  "offlineAfter": true,
+  "api": "30",
+  "abi": "x86_64"
+}

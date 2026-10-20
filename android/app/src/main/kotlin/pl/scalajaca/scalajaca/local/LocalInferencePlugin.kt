@@ -95,6 +95,7 @@ class LocalInferencePlugin(private val activity: Activity, messenger: BinaryMess
         val modelId = call.argument<String>("model") ?: throw IllegalArgumentException()
         val context = call.argument<Int>("context") ?: 2048
         val limit = call.argument<Int>("maxTokens") ?: 512
+        val sourceGrounded = call.argument<Boolean>("sourceGrounded") ?: false
         val turns = call.argument<List<Map<String,String>>>("turns") ?: throw IllegalArgumentException()
         require(id.matches(Regex("[a-zA-Z0-9_-]{1,80}")) && context in 512..4096 && limit in 1..512 && limit < context && turns.size in 1..128)
         val messages = JSONArray()
@@ -119,7 +120,7 @@ class LocalInferencePlugin(private val activity: Activity, messenger: BinaryMess
                 try {
                     GgufInspector.inspect(store.modelFile(modelId)) { disposed || requestId != id }
                     val output = JSONObject(NativeLlama.generate(runToken, store.modelFile(modelId).absolutePath,
-                        model.profile, json, context, limit, object : TokenSink {
+                        model.profile, json, context, limit, sourceGrounded, object : TokenSink {
                             override fun onBytes(bytes: ByteArray) {
                                 if (hot()) { thermalStopped = true; NativeLlama.cancel(runToken) }
                                 event(id, mapOf("type" to "bytes", "bytes" to bytes))

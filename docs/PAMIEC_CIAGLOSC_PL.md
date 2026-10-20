@@ -1,5 +1,9 @@
 # Pamięć dużych projektów i ciągłość RPG — 0.5.0
 
+## Aktualizacja 0.5.1
+
+Po wskazaniu zatwierdzonego pakietu MiniCPM stosuje zachowawcze odpowiedzi i osobną instrukcję zachowania nazw/liczb. Zgoda i podgląd obejmują tę instrukcję; źródła nadal są danymi. Przypadek COMPASS przechodzi po zmianie dekodowania w powtarzanych próbach JNI i czatu, ale ogólna kontrola poprawności lore nadal należy do MG. Historyczna obserwacja COMASS poniżej dotyczy wcześniejszego profilu 0.5.0. Format kopii, role, checkpointy i sposób zatwierdzania kanonu pozostają zgodne.
+
 Aplikacja działa lokalnie bez serwera, OPPO i Obsidiana. Pliki vaultu są źródłami, baza jest trwałą pamięcią, a kontekst MiniCPM pozostaje małym pakietem wybranych danych. Większa baza nie oznacza wczytania jej całej do RAM ani do modelu.
 
 ## Powrót do projektu

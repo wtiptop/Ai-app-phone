@@ -25,7 +25,8 @@ static std::string piece(const llama_vocab * vocab, llama_token token) {
     return std::string(bytes.data(), count);
 }
 Result generate(const std::string & path, const std::string & profile, const std::string & messages,
-                int context, int limit, Control & control, const std::function<void(const std::string &)> & emit) {
+                int context, int limit, Control & control, const std::function<void(const std::string &)> & emit,
+                bool source_grounded) {
     if (context < 512 || context > 4096 || limit < 1 || limit > 512 || limit >= context || messages.size() > 65536) throw Failure("invalid_request");
     const char * source = profile == "minicpm5_1b" ? TEMPLATE_MINICPM_1B : profile == "minicpm5_2b" ? TEMPLATE_MINICPM_2B : nullptr;
     if (!source) throw Failure("unsupported_model");
@@ -92,9 +93,14 @@ Result generate(const std::string & path, const std::string & profile, const std
     llama_set_abort_callback(ctx.get(), abort_decode, &control);
     std::unique_ptr<llama_sampler, decltype(&llama_sampler_free)> sampler(llama_sampler_chain_init(llama_sampler_chain_default_params()), llama_sampler_free);
     if (!sampler) throw Failure("memory");
-    llama_sampler_chain_add(sampler.get(), llama_sampler_init_top_p(0.95f, 1));
-    llama_sampler_chain_add(sampler.get(), llama_sampler_init_temp(profile == "minicpm5_1b" ? 0.7f : 1.0f));
-    llama_sampler_chain_add(sampler.get(), llama_sampler_init_dist(LLAMA_DEFAULT_SEED));
+    if (source_grounded) {
+        // Źródła/lore: bez losowania alternatywnej pisowni nazw. Nie jest to dowód prawdziwości.
+        llama_sampler_chain_add(sampler.get(), llama_sampler_init_greedy());
+    } else {
+        llama_sampler_chain_add(sampler.get(), llama_sampler_init_top_p(0.95f, 1));
+        llama_sampler_chain_add(sampler.get(), llama_sampler_init_temp(profile == "minicpm5_1b" ? 0.7f : 1.0f));
+        llama_sampler_chain_add(sampler.get(), llama_sampler_init_dist(LLAMA_DEFAULT_SEED));
+    }
     for (size_t pos = 0; pos < tokens.size(); pos += 128) {
         if (control.stopped()) { result.reason = stop_reason(control); return result; }
         const int count = (int)std::min<size_t>(128, tokens.size() - pos);
