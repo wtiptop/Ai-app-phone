@@ -1,0 +1,9 @@
+{
+  "skipped": 0,
+  "tests": 42,
+  "failures": 0,
+  "models": [
+    "MiniCPM5-1B-Q4_K_M.gguf",
+    "MiniCPM5-2B-Q4_K_M.gguf"
+  ]
+}

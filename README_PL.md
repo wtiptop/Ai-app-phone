@@ -1,5 +1,16 @@
 # Scalająca
 
+<!-- release-0.5.5:start -->
+## Wydanie 0.5.5+12 — pełne OLMoE offline
+
+Pobrano i zainstalowano przez SAF pełny OLMoE Colibri offline: 13,84 GB źródeł BF16, 7,42 GB osobnej paczki int8. Wagi nie są częścią APK ani backupu. Naprawiono bufor długich tokenów oraz odporność narzędzi konwersji na brak wag i przerwanie. Silnik używa czterech wątków CPU, zachowując próg 4 GiB dostępnego RAM. SQLite v3 i pełny backup v2 bez migracji.
+
+Rzeczywisty odbiór: **291 Flutter / 42 JUnit (0 pominiętych) / 15 Python PASS**, analiza bez uwag. Sześć testów portu syntetycznego PASS; osobno pełne wytrenowane wagi: generacja, Stop i ponowny start PASS, zmierzona reakcja na Stop 66 ms. Kampania: **24 symulowane sesje, 37 prób, 36/37 ukończonych generacji**, dwa restarty; retrieval 24/24, ścisły format 7/24, poprawne znaczenie faktów 24/24, narracja 0/5. Ręczny odczyt 11 prób gracza: 0 zaobserwowanych ujawnień sekretów, bez gwarancji globalnej odporności. Przy braku źródła model zmyślał wiek królowej i nazwę obcej kampanii, a publiczny fakt nazywał sekretem. Jakość MG pozostaje ograniczona; pełne wykonanie testu nie oznacza zaliczenia lore i polszczyzny.
+
+APK jest przeznaczony dla Pixela 9/ARM64; runtime sprawdzono na emulatorze x86_64 API30 z 6 GiB RAM. Nie testowano fizycznego telefonu, termiki ani baterii. Zachowano wszystkie 129 ID i MX1–MX8; pozostałe ograniczenia nie znikają.  [Wyniki i surowe dowody](docs/test-results/colibri-0.5.5/result.json), [ocena ręczna](docs/test-results/colibri-0.5.5/rpg/manual-review.json), [instalacja modelu i sumy](docs/COLIBRI_PL.md). Starsze sekcje są historią poprzednich etapów.
+
+<!-- release-0.5.5:end -->
+
 <!-- release-0.5.4:start -->
 ## Wydanie 0.5.4+11 — port Colibri offline
 

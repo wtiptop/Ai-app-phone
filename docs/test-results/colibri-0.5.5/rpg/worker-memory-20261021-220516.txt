@@ -1,0 +1,49 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 3127802 Realtime: 3127802
+
+** MEMINFO in pid 10184 [pl.scalajaca.scalajaca:colibri] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap  1876344  1875976      292   363993  1876584  3155320  3147928     1938
+  Dalvik Heap      664      532        0       61     3416     3508     1770     1738
+ Dalvik Other      507      208      228      375      828                           
+        Stack      254      252        0      132      260                           
+    Other dev       22        8        8        0      184                           
+     .so mmap      758       68       96      120     7188                           
+    .jar mmap      729        0      304        0     2460                           
+    .apk mmap      324       20      304        4      324                           
+    .dex mmap       15        8        4    11076       20                           
+    .oat mmap       23        0        0        0      288                           
+    .art mmap     1958     1388      136     6013    10052                           
+   Other mmap       49       32       12        4      612                           
+      Unknown      289       96      188      225      340                           
+        TOTAL  2263939  1878588     1572   382003  2263939  3158828  3149698     3676
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:     2056                          13468
+         Native Heap:  1875976                        1876584
+                Code:      804                          10480
+               Stack:      252                            260
+            Graphics:        0                              0
+       Private Other:     1072
+              System:   383779
+             Unknown:                                    1764
+ 
+           TOTAL PSS:  2263939            TOTAL RSS:  1902556       TOTAL SWAP PSS:   382003
+ 
+ Objects
+               Views:        0         ViewRootImpl:        0
+         AppContexts:        2           Activities:        0
+              Assets:       14        AssetManagers:        0
+       Local Binders:        3        Proxy Binders:       23
+       Parcel memory:        2         Parcel count:        9
+    Death Recipients:        0      OpenSSL Sockets:        0
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 

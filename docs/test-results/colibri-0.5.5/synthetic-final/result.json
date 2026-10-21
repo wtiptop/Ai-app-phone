@@ -1,0 +1,9 @@
+{
+  "apkSha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0",
+  "tests": 6,
+  "failures": 0,
+  "emulator": "Scalajaca_OLMoE_API30",
+  "data": "synthetic-test; NIE wytrenowany model",
+  "fullModelWeightsTested": false,
+  "physicalPixel9Tested": false
+}

@@ -1,5 +1,16 @@
 # Testy akceptacyjne
 
+<!-- release-0.5.5:start -->
+## Odbiór etapu 0.5.5
+
+Pobrano i zainstalowano przez SAF pełny OLMoE Colibri offline: 13,84 GB źródeł BF16, 7,42 GB osobnej paczki int8. Wagi nie są częścią APK ani backupu. Naprawiono bufor długich tokenów oraz odporność narzędzi konwersji na brak wag i przerwanie. Silnik używa czterech wątków CPU, zachowując próg 4 GiB dostępnego RAM. SQLite v3 i pełny backup v2 bez migracji.
+
+Rzeczywisty odbiór: **291 Flutter / 42 JUnit (0 pominiętych) / 15 Python PASS**, analiza bez uwag. Sześć testów portu syntetycznego PASS; osobno pełne wytrenowane wagi: generacja, Stop i ponowny start PASS, zmierzona reakcja na Stop 66 ms. Kampania: **24 symulowane sesje, 37 prób, 36/37 ukończonych generacji**, dwa restarty; retrieval 24/24, ścisły format 7/24, poprawne znaczenie faktów 24/24, narracja 0/5. Ręczny odczyt 11 prób gracza: 0 zaobserwowanych ujawnień sekretów, bez gwarancji globalnej odporności. Przy braku źródła model zmyślał wiek królowej i nazwę obcej kampanii, a publiczny fakt nazywał sekretem. Jakość MG pozostaje ograniczona; pełne wykonanie testu nie oznacza zaliczenia lore i polszczyzny.
+
+APK jest przeznaczony dla Pixela 9/ARM64; runtime sprawdzono na emulatorze x86_64 API30 z 6 GiB RAM. Nie testowano fizycznego telefonu, termiki ani baterii. Zachowano wszystkie 129 ID i MX1–MX8; pozostałe ograniczenia nie znikają.  [Wyniki i surowe dowody](test-results/colibri-0.5.5/result.json), [ocena ręczna](test-results/colibri-0.5.5/rpg/manual-review.json), [instalacja modelu i sumy](COLIBRI_PL.md). Starsze sekcje są historią poprzednich etapów.
+
+<!-- release-0.5.5:end -->
+
 Aktualizacja 0.4.0: w Ustawieniach działa osobna **Pełna szyfrowana kopia** z przywracaniem projektów, wszystkich wersji źródeł, checkpointów, kampanii i sekretów MG. Zachowuje ID i granice ról, a każda kolizja wycofuje całość. Po odtworzeniu folder projektu łączy się ponownie jawnie przez SAF. Instrukcja i wyłączenia: [BACKUP_PL.md](BACKUP_PL.md); dowody: [TESTS_PL.md](TESTS_PL.md). Wzmianki o zaplanowanym pełnym backupie w historycznych sekcjach 0.3.0 opisują poprzednie wydanie. Synchronizacja nadal pozostaje zaplanowana.
 
 Odbiór 0.3.0: 193 Flutter, 27 JUnit i 5 AndroidJUnitRunner PASS. A07/A15: rzeczywisty SAF drzewa lokalnego, import syntetycznych Markdown, wybór źródła i MiniCPM offline na emulatorze. A09/A14/A25: trwały RPG, role/scope/źródła, rewizje/cofanie i checkpointy oraz wznowienie 205 plików sprawdzone na hoście; nie jest to odbiór pełnej gry i uwierzytelniania graczy. Fizyczny Pixel 9, duży rzeczywisty vault, pełny eksport/rotacja SAF, pełny backup nowej pamięci i jakość wielosesyjnej narracji pozostają otwarte. Dowody: TESTS_PL.md oraz test-results/android-emulator-0.3.0.json.

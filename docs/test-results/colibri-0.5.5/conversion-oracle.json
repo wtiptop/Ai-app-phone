@@ -1,0 +1,8 @@
+{
+  "experts": 1024,
+  "projections": 3072,
+  "rowsCompared": 9216,
+  "quantizationOracle": "oryginalna quantize_rows z przypi\u0119tego quant.h, MSVC f32, bits8",
+  "allSampledInt8AndScaleBytesIdentical": true,
+  "fullTensorComparison": false
+}

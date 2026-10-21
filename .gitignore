@@ -27,6 +27,7 @@ work/
 !docs/test-results/emulator-0.5.0/*.log
 !docs/test-results/emulator-0.5.1/*.log
 !docs/test-results/colibri-0.5.4/*.log
+!docs/test-results/colibri-0.5.5/**/*.log
 # Dane syntetyczne odtwarzane przez tools/colibri/make_test_fixture.py, tylko do APK testów.
 /android/app/src/androidTest/assets/colibri-tiny/
 **/__pycache__/

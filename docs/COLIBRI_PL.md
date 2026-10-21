@@ -1,8 +1,8 @@
-# Colibri na Androidzie — eksperymentalny port 0.5.4
+# Colibri na Androidzie — eksperymentalny port 0.5.5
 
 Colibri jest **silnikiem uruchamiającym modele**, nie osobnym modelem językowym. Dodano rzeczywisty port jego silnika OLMoE CPU do aplikacji Android. MiniCPM/llama.cpp pozostaje osobnym dostawcą i importerem GGUF.
 
-Stan: **eksperymentalna**. Kompilacja ARM64 jest przeznaczona dla Pixela 9; runtime sprawdzamy na emulatorze x86_64. Fizyczny Pixel 9, pełne wytrenowane wagi OLMoE, polska narracja, 24 sesje RPG na Colibri, termika, bateria i wydajność dużego modelu pozostają **niezweryfikowane**. Wyników MiniCPM 0.5.3 nie przypisujemy Colibri. Bieżące wyniki: [TESTS_PL.md](TESTS_PL.md).
+Stan: **eksperymentalny**. W 0.5.5 pobrano wszystkie trzy oficjalne shardy BF16, sprawdzono opublikowane SHA-256, przekonwertowano wszystkich 1024 ekspertów do int8 i zainstalowano pełną paczkę przez produkcyjny SAF na osobnym emulatorze x86_64. Generacja, Stop i ponowny start pełnego modelu przeszły offline. Polska odpowiedź była niezręczna; nie oznacza to odbioru jakości MG. Wyniki kampanii: [TESTS_PL.md](TESTS_PL.md). Fizyczny Pixel 9, jego bateria i termika pozostają niezweryfikowane. Wyników MiniCPM nie przypisujemy Colibri.
 
 ## Co działa w kodzie
 
@@ -16,11 +16,11 @@ Stan: **eksperymentalna**. Kompilacja ARM64 jest przeznaczona dla Pixela 9; runt
 
 Pierwszy obsługiwany profil to **allenai/OLMoE-1B-7B-0125-Instruct**, przekonwertowany do **merged int8** Colibri. Nazwa „1B-7B” oznacza model MoE: około 7B parametrów ogółem i około 1B aktywnych. Wszystkie wagi są nadal potrzebne na dysku. Nie importuj go jako GGUF; importer MiniCPM pozostaje odrębny.
 
-1. Przygotuj źródłowe wagi z [oficjalnego repozytorium AllenAI](https://huggingface.co/allenai/OLMoE-1B-7B-0125-Instruct). Pobieranie pełnego źródła to około 14 GB, wynik konwersji około 7–8 GB. W tym etapie **nie pobrano pełnych wag**, aby nie przedstawiać testu syntetycznego jako odbioru tego modelu. Osobno sprawdź kartę i licencję modelu; licencja silnika nie zastępuje licencji wag.
-2. Na komputerze użyj przypiętego konwertera `third_party/colibri/c/tools/convert_olmoe_merged.py` z już pobranym katalogiem, bez automatycznego uruchamiania serwera. Konwerter wymaga osobnego środowiska Python z numpy, torch, safetensors i huggingface_hub. Aplikacja Android tych pakietów nie potrzebuje. Nie zainstalowano ich automatycznie w systemie użytkownika. Konwerter jest narzędziem upstream; trzeba zapewnić miejsce i RAM również dla przetwarzanych shardów.
+1. Gotowa paczka wydania: `OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip` (7 416 461 483 B). Zawiera wszystkie parametry po konwersji, nie próbkę. Źródło: [przypięty commit AllenAI](https://huggingface.co/allenai/OLMoE-1B-7B-0125-Instruct/tree/b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e), 13 838 721 960 B samych wag BF16. Karta deklaruje język angielski i Apache-2.0; nie gwarantuje polskiej narracji. Kartę, tekst licencji i pochodzenie dostarczono obok ZIP.
+2. Do odtworzenia konwersji użyj `tools/colibri/convert_streaming.py` i NumPy. Narzędzie czyta bloki wag bez torch, sieci, pickle i kodu modelu; dense zachowuje bajtowo, a wszystkie projekcje ekspertów składa w 17 atomowych shardów. Aplikacja Android nie potrzebuje Pythona ani NumPy. Oryginalny konwerter upstream pozostaje bez zmian. Kontrola 9216 wierszy (trzy z każdej projekcji każdego eksperta) względem oryginalnego kwantyzatora C dała identyczne int8 i skale. Nie jest to porównanie wszystkich logitów z Transformers.
 
    ```powershell
-   python third_party/colibri/c/tools/convert_olmoe_merged.py --model C:/modele/OLMoE-Instruct --out C:/modele/OLMoE-colibri
+   python tools/colibri/convert_streaming.py --model C:/modele/OLMoE-Instruct --out C:/modele/OLMoE-colibri
    ```
 
    Nie używaj starego `convert_olmoe.py`: tworzy nieobsługiwany przez bieżący silnik rozdzielony format ekspertów. Konwersja w telefonie nie jest zaimplementowana.
@@ -28,12 +28,18 @@ Pierwszy obsługiwany profil to **allenai/OLMoE-1B-7B-0125-Instruct**, przekonwe
 3. Zbuduj paczkę danych narzędziem Scalającej (tylko biblioteka standardowa Pythona):
 
    ```powershell
-   python tools/colibri/package_model.py --model C:/modele/OLMoE-colibri --output C:/modele/OLMoE-colibri-android.zip
+   python tools/colibri/package_model.py --model C:/modele/OLMoE-colibri --output C:/modele/OLMoE-colibri-android.zip --source https://huggingface.co/allenai/OLMoE-1B-7B-0125-Instruct/tree/b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e
    ```
 
    Narzędzie nie pobiera modelu ani nie uruchamia kodu z jego katalogu. Nie nadpisuje istniejącego ZIP. Wypisuje SHA-256 manifestu i ZIP. Kopiuj sumę manifestu do aplikacji, jeśli masz zaufanie do miejsca przygotowania paczki.
 
+   Opcjonalna niezależna kontrola przed pakowaniem: wygeneruj kwantyzator z przypiętego kodu przez `python tools/colibri/verify_conversion.py --write-oracle C:/test/oracle.c`, skompiluj go z biblioteką matematyczną lokalnym kompilatorem C (MSVC: `cl /O2 /std:c11 /D_CRT_SECURE_NO_WARNINGS C:/test/oracle.c /Fe:C:/test/oracle.exe`), następnie wykonaj `python tools/colibri/verify_conversion.py --model C:/modele/OLMoE-Instruct --converted C:/modele/OLMoE-colibri --oracle C:/test/oracle.exe --report C:/test/verification.json`. Program kontrolny musi być przygotowany poza katalogami wag. Weryfikator porównuje cały zbiór dense, bajty każdego dense tensora oraz próbki każdej projekcji wszystkich ekspertów. Raport nie jest dowodem identycznych logitów ani kontroli każdej wagi int8.
+
 4. Przenieś ZIP na telefon. W Scalającej otwórz **Ustawienia → Dostawcy → Colibri offline → Zainstaluj paczkę Colibri ZIP**. Wskaż paczkę w systemowym wyborze pliku i pozostań na ekranie do końca instalacji. Następnie wybierz Colibri offline w czacie, sprawdź model i zatwierdź dokładny pakiet wejścia. Nie jest potrzebne połączenie z komputerem ani serwerem podczas rozmowy.
+
+   SHA-256 manifestu do pola aplikacji: `504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f`. SHA-256 ZIP do kontroli kopiowania: `f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2`. Nie wpisuj sumy ZIP jako sumy manifestu.
+
+   Powyższe sumy i przycisk „Wpisz hash paczki OLMoE 0.5.5” dotyczą dostarczonej paczki. Przy własnej konwersji użyj sumy manifestu wypisanej przez narzędzie; inne metadane paczki lub pliki zmieniają jej tożsamość. Daty plików ZIP mogą zmienić sumę całego archiwum bez zmiany manifestu.
 
 5. Po udanym imporcie oryginalny ZIP nadal jest na urządzeniu. Możesz usunąć go samodzielnie po sprawdzeniu modelu; aplikacja nie usuwa plików źródłowych. Usunięcie modelu w ustawieniach usuwa wyłącznie prywatną kopię jego wag, zachowując historię.
 
@@ -43,7 +49,7 @@ Pełne wagi nie są częścią APK, ZIP źródeł ani zaszyfrowanego backupu pro
 
 Pixel 9 ma 12 GB RAM według [Google](https://store.google.com/au/magazine/introducing-google-pixel-9?hl=en-GB). To pamięć całego telefonu, nie budżet aplikacji. Port wymaga **co najmniej 4 GiB aktualnie dostępnego RAM** i braku sygnału `lowMemory` przed generacją. Ten zachowawczy próg nie jest pomiarem szczytu ani gwarancją, że Android nie zakończy procesu.
 
-Dense wagi są ładowane do f32; do tego dochodzą KV, bufory obliczeń, cache dwóch ekspertów na warstwę, Flutter i baza. Wstępne oszacowanie dla kontekstu 4096: około 3 GB samych głównych struktur C, dodatkowo bufory i rezerwa. Rozmiar plików modelu nie jest zużyciem RAM. Eksperci są doczytywani z prywatnego magazynu; mały cache może powodować intensywny odczyt i niską szybkość. Port CPU ma jeden wątek obliczeń, bez OpenMP, GPU/NPU i Vulkan. Nie obiecujemy płynnej pracy ani jakości lepszej niż MiniCPM.
+Dense wagi są ładowane do f32; dochodzą KV, bufory obliczeń, cache dwóch ekspertów na warstwę, Flutter i baza. Oszacowanie dla kontekstu 4096 to około 3 GB głównych struktur C, dodatkowo bufory i rezerwa. Rozmiar plików nie jest zużyciem RAM. Eksperci są doczytywani z prywatnego magazynu, więc mały cache może powodować intensywny odczyt. W 0.5.5 działają cztery wątki CPU i statyczny OpenMP z NDK. Aktywne oryginalne pragmy SIMD mogą zmieniać zaokrąglenia względem dawnego builda bez OpenMP. IDOT=0, bez dodatkowej kwantyzacji aktywacji. Nie ma GPU/NPU ani Vulkan. Nie obiecujemy płynności ani przewagi jakości nad MiniCPM.
 
 Limit paczki: 10 GiB rozpakowanych danych, 128 plików, 512 MiB rezerwy na dysku. ZIP i kopia prywatna zajmują miejsce równocześnie — dla pełnego profilu przygotuj około 16 GB wolnego miejsca. Rozpakowanie jest strumieniowe, bez wczytywania całych wag do RAM. JSON ma osobne limity i kontrolę duplikatów kluczy; identyfikatory tokenów muszą mieścić się w słowniku modelu.
 
@@ -58,14 +64,29 @@ Dane syntetyczne są generowane lokalnie i ignorowane przez Git; nie trafiają d
 ```powershell
 python tools/colibri/make_test_fixture.py android/app/src/androidTest/assets/colibri-tiny
 flutter test --no-pub
-python -m unittest discover -s tools/colibri -p test_package_model.py -v
+python -m unittest discover -s tools/colibri -p test_*.py -v
 Push-Location android
 ./gradlew.bat :app:assembleDebug :app:assembleDebugAndroidTest :app:testDebugUnitTest -Ptarget-platform=android-arm64,android-x64
 Pop-Location
 ./scripts/test_android_colibri.ps1 -Output C:/testy/colibri-nowy-przebieg
 ```
 
-Wymagany jest skonfigurowany Flutter/Android SDK oraz własny uruchomiony emulator `Scalajaca_API30` na porcie 5556. Skrypt odłącza wyłącznie ten emulator od sieci, aktualizuje APK przez `install -r` i zachowuje dane. Testy importu pełnych GGUF w JUnit wymagają zmiennych `SCALAJACA_TEST_MODEL` i `SCALAJACA_TEST_MODEL_2B`; bez nich dwa przypadki są jawnie pomijane. W odbiorze 0.5.4 oba istniejące pliki były ustawione: pominiętych 0. Skrypt portu nie jest testem jakości narracji, pełnych wag ani fizycznego telefonu.
+Skrypt portu dopuszcza własny `Scalajaca_API30`/5556 lub `Scalajaca_OLMoE_API30`/5558 (parametr `-Serial emulator-5558`). Odłącza wyłącznie wybrany emulator, aktualizuje APK przez `install -r` i zachowuje dane. Wykonuje sześć testów syntetycznych, w tym pełny token 512 B. Testy JUnit pełnych GGUF wymagają `SCALAJACA_TEST_MODEL` i `SCALAJACA_TEST_MODEL_2B`; w 0.5.5 oba pliki wskazano, pominiętych 0. Test pełnych OLMoE uruchamia się oddzielnie klasą `ColibriFullModelDeviceTest`, z argumentami `fullModelTest=yes` i `modelSha256`. Wymaga produkcyjnie zainstalowanego modelu i minimum 4 GiB dostępnego RAM. Zapisuje surowy wynik, sprawdza generację, Stop i kolejny proces; nie zastępuje próby kampanii.
+
+Po instalacji obu APK i imporcie pełnych wag można odtworzyć ten test poniżej. Najpierw potwierdź nazwę własnego AVD (`ro.kernel.qemu.avd_name`); polecenia dotyczą wyłącznie emulatora 5558. Każde uruchomienie wymaga nowego `runId`, aby nie nadpisać wyniku. Kod testu sprawdza zakończenie po Stop poniżej 5 s; czas ładowania do pierwszego tokena jest osobnym pomiarem.
+
+```powershell
+adb -s emulator-5558 shell getprop ro.kernel.qemu.avd_name
+adb -s emulator-5558 shell cmd connectivity airplane-mode enable
+adb -s emulator-5558 shell svc wifi disable
+adb -s emulator-5558 shell svc data disable
+adb -s emulator-5558 shell dumpsys connectivity
+adb -s emulator-5558 shell am instrument -w -r -e class pl.scalajaca.scalajaca.colibri.ColibriFullModelDeviceTest -e fullModelTest yes -e runId moja-proba-001 -e modelSha256 504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f pl.scalajaca.scalajaca.test/androidx.test.runner.AndroidJUnitRunner
+adb -s emulator-5558 exec-out run-as pl.scalajaca.scalajaca cat files/colibri-full-moja-proba-001.json
+adb -s emulator-5558 shell dumpsys connectivity
+```
+
+Oczekiwany wynik techniczny to `OK (1 test)` i `finished: true` w JSON. Potwierdzenie offline wymaga `Active default network: none` przed i po próbie. Pierwszy smoke jest w `test-results/colibri-0.5.5/full/`, a powtórka z pomiarem reakcji na Stop w `full-timed/`. Te testy wykorzystują rzeczywiste wagi, lecz nie oceniają gramatyki ani lore.
 
 Ręczna kontrola instalatora otworzyła systemowy SAF i potwierdziła odrzucenie profilu syntetycznego w produkcji bez pozostawienia modelu/stagingu. W selektorze Androida 11 tego emulatora użyto fokusu klawiatury i Enter; dotyk wiersza nie aktywował pliku. Nie przedstawiamy tej próby jako pełnego odbioru dotykowego selektora na Pixelu. Dowody: `test-results/colibri-0.5.4/ui-import-result.json` i zrzuty ekranu.
 

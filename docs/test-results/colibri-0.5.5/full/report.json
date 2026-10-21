@@ -1,0 +1,36 @@
+{
+  "modelManifestSha256": "504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f",
+  "syntheticWeights": false,
+  "modelBytes": 7416456156,
+  "cases": [
+    {
+      "id": "generation-pl",
+      "availableBefore": 5059801088,
+      "status": "complete",
+      "inputTokens": 33,
+      "outputTokens": 45,
+      "limited": false,
+      "output": "Lesie są łącznym elementem życia na Ziemi, dając życie wodzie, ziemi, zwierzętom i ludziom.",
+      "elapsedMs": 65540
+    },
+    {
+      "id": "stop-after-first-token",
+      "availableBefore": 5450788864,
+      "status": "error",
+      "code": "cancelled",
+      "output": "Les",
+      "elapsedMs": 18795
+    },
+    {
+      "id": "restart-after-stop",
+      "availableBefore": 5459935232,
+      "status": "complete",
+      "inputTokens": 33,
+      "outputTokens": 8,
+      "limited": true,
+      "output": "Lesie są łącz",
+      "elapsedMs": 25496
+    }
+  ],
+  "finished": true
+}

@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+"""Lokalna konwersja pełnego OLMoE: BF16/F16 -> scaleni eksperci int8 Colibri.
+
+NumPy jest jedyną zależnością. Źródła są czytane blokami; bez torch/pickle,
+sieci i wykonywania kodu modelu. Dense pozostają bajt w bajt niezmienione.
+Matematyka odpowiada quantize_row z przypiętego convert_olmoe_merged.py.
+"""
+import argparse
+import hashlib
+import json
+import math
+import os
+import re
+import shutil
+import struct
+from pathlib import Path
+
+import numpy as np
+
+EXPERT = re.compile(r"model\.layers\.(\d+)\.mlp\.experts\.(\d+)\.(gate_proj|up_proj|down_proj)\.weight\Z")
+SKIP = re.compile(r"\.e_score_correction_bias$|^model\.rotary_emb\.")
+SIZES = {"BF16": 2, "F16": 2, "F32": 4, "I8": 1}
+
+
+def digest(file):
+    h = hashlib.sha256()
+    with Path(file).open('rb') as f:
+        for b in iter(lambda: f.read(8 * 1024**2), b''):
+            h.update(b)
+    return h.hexdigest()
+
+
+def unique(pairs):
+    result = {}
+    for k, v in pairs:
+        if k in result:
+            raise ValueError('Powtórzony klucz w nagłówku: ' + k)
+        result[k] = v
+    return result
+
+
+def header(file):
+    """Ścisła kontrola zakresów przed odczytem: brak luk, kolizji i duplikatów."""
+    file = Path(file)
+    with file.open('rb') as f:
+        raw = f.read(8)
+        if len(raw) != 8:
+            raise ValueError('Urwany nagłówek')
+        n, = struct.unpack('<Q', raw)
+        if not 2 <= n <= 8 * 1024**2:
+            raise ValueError('Nadmierny nagłówek')
+        data = json.loads(f.read(n), object_pairs_hook=unique)
+    tensors, ranges = {}, []
+    for name, entry in data.items():
+        if name == '__metadata__':
+            continue
+        dtype, shape, offsets = entry['dtype'], entry['shape'], entry['data_offsets']
+        if dtype not in SIZES or not isinstance(shape, list) or any(type(d) is not int or d <= 0 for d in shape):
+            raise ValueError('Nieobsługiwany typ/kształt: ' + name)
+        if len(offsets) != 2 or any(type(x) is not int or x < 0 for x in offsets):
+            raise ValueError('Nieprawidłowe offsety')
+        start, end = offsets
+        if end - start != math.prod(shape) * SIZES[dtype]:
+            raise ValueError('Rozmiar tensora nie odpowiada kształtowi')
+        tensors[name] = dict(entry, file=file, absolute=8 + n + start)
+        ranges.append((start, end))
+    cursor = 0
+    for start, end in sorted(ranges):
+        if start != cursor:
+            raise ValueError('Luka lub kolizja tensorów')
+        cursor = end
+    if 8 + n + cursor != file.stat().st_size:
+        raise ValueError('Urwany tensor lub nadmiarowe bajty')
+    return tensors
+
+
+def to_float(raw, dtype, shape):
+    if dtype == 'BF16':
+        return (np.frombuffer(raw, dtype='<u2').astype('<u4') << 16).view('<f4').reshape(shape)
+    return np.frombuffer(raw, dtype={'F16': '<f2', 'F32': '<f4'}[dtype]).astype('<f4').reshape(shape)
+
+
+def quantize_row(w):
+    w = np.asarray(w, dtype='<f4')
+    if w.ndim != 2 or not np.isfinite(w).all():
+        raise ValueError('Nieprawidłowe wartości wag')
+    maximum = np.maximum(np.max(np.abs(w), axis=1, keepdims=True), np.float32(1e-12))
+    scales = maximum / np.float32(127.0)
+    q = np.clip(np.rint(w / scales), -128, 127).astype('i1')
+    return q, scales[:, 0].astype('<f4')
+
+
+def copy_tensor(out, entry):
+    remain = entry['data_offsets'][1] - entry['data_offsets'][0]
+    with entry['file'].open('rb') as src:
+        src.seek(entry['absolute'])
+        while remain:
+            block = src.read(min(remain, 4 * 1024**2))
+            if not block:
+                raise ValueError('Urwany tensor podczas kopiowania')
+            out.write(block)
+            remain -= len(block)
+
+
+def quantize_tensor(out, entry, rows=64):
+    n, d = entry['shape']
+    scales = []
+    with entry['file'].open('rb') as src:
+        src.seek(entry['absolute'])
+        for start in range(0, n, rows):
+            count = min(rows, n - start)
+            raw = src.read(count * d * SIZES[entry['dtype']])
+            w = to_float(raw, entry['dtype'], (count, d))
+            q, s = quantize_row(w)
+            out.write(q.tobytes())
+            scales.append(s)
+    return np.concatenate(scales)
+
+
+def write_shard(file, specs, write_data, before_publish=None):
+    entries, offset = {}, 0
+    for name, dtype, shape in specs:
+        size = math.prod(shape) * SIZES[dtype]
+        entries[name] = dict(dtype=dtype, shape=shape, data_offsets=[offset, offset + size])
+        offset += size
+    raw = json.dumps(entries, separators=(',', ':')).encode()
+    raw += b' ' * (-len(raw) % 8)
+    partial = file.with_suffix('.safetensors.partial')
+    # Nie publikujemy połowy eksperta; przerwaną własną konwersję można wznowić.
+    with partial.open('wb') as out:
+        out.write(struct.pack('<Q', len(raw)))
+        out.write(raw)
+        write_data(out)
+        if out.tell() != 8 + len(raw) + offset:
+            raise ValueError('Nieprawidłowy rozmiar wyjścia')
+        out.flush()
+        os.fsync(out.fileno())
+    header(partial)
+    item = dict(file=file.name, bytes=partial.stat().st_size, sha256=digest(partial))
+    if before_publish is not None:
+        before_publish(item)
+    os.replace(partial, file)
+    return item
+
+
+def ensure_shard(file, specs, writer, receipts, persist):
+    """Receipt musi być trwały PRZED publikacją; odzyskujemy także gotowy partial."""
+    if file.name in receipts:
+        item = receipts[file.name]
+        partial = file.with_suffix('.safetensors.partial')
+        candidate = file if file.exists() else partial
+        if not candidate.exists() or candidate.stat().st_size != item['bytes'] or digest(candidate) != item['sha256']:
+            raise ValueError('Zmiana lub brak potwierdzonego sharda')
+        header(candidate)
+        if candidate == partial:
+            os.replace(partial, file)
+        return item
+    if file.exists():
+        raise ValueError('Shard bez potwierdzenia; wybierz nowy katalog')
+    return write_shard(file, specs, writer, before_publish=persist)
+
+
+def convert(source, output):
+    source, output = Path(source).resolve(), Path(output).resolve()
+    if source == output or source in output.parents or output in source.parents:
+        raise ValueError('Katalogi źródłowy i docelowy muszą być rozłączne')
+    config = json.loads((source / 'config.json').read_text())
+    from package_model import EXPECTED
+    if config.get('model_type') != 'olmoe' or any(config.get(k) != v for k, v in EXPECTED.items()):
+        raise ValueError('Wymagany pełny profil OLMoE Instruct')
+    tensors, inputs = {}, []
+    for file in sorted(source.glob('*.safetensors')):
+        current = header(file)
+        if tensors.keys() & current.keys():
+            raise ValueError('Tensor występuje w kilku shardach')
+        tensors.update(current)
+        inputs.append(dict(file=file.name, bytes=file.stat().st_size, sha256=digest(file)))
+    experts, dense = {}, {}
+    for name, entry in tensors.items():
+        m = EXPERT.fullmatch(name)
+        if m:
+            layer, expert, projection = int(m[1]), int(m[2]), m[3]
+            if not 0 <= layer < 16 or not 0 <= expert < 64:
+                raise ValueError('Nadmierny indeks eksperta')
+            shape = [2048, 1024] if projection == 'down_proj' else [1024, 2048]
+            if entry['shape'] != shape or entry['dtype'] not in ('BF16', 'F16', 'F32'):
+                raise ValueError('Nieprawidłowy ekspert: ' + name)
+            experts.setdefault((layer, expert), {})[projection] = entry
+        elif not SKIP.search(name):
+            dense[name] = entry
+    if len(experts) != 1024 or any(set(e) != {'gate_proj', 'up_proj', 'down_proj'} for e in experts.values()):
+        raise ValueError('Brak pełnych 1024 ekspertów')
+    output.mkdir(parents=True, exist_ok=True)
+    provenance = output / 'conversion.json'
+    old = json.loads(provenance.read_text()) if provenance.exists() else {}
+    if old and old['sourceFiles'] != inputs:
+        raise ValueError('Inne wagi źródłowe; wybierz nowy katalog wyjściowy')
+    if not old and any(output.iterdir()):
+        raise ValueError('Katalog zawiera obce dane')
+    report = dict(format=1, algorithm='Colibri row max / 127; round ties-even; int8; dense unchanged',
+                  converterSha256=digest(__file__), sourceFiles=inputs,
+                  outputFiles=list(old.get('outputFiles', [])))
+    if old and old.get('converterSha256') != report['converterSha256']:
+        raise ValueError('Zmiana konwertera wymaga nowego katalogu wyjściowego')
+    def checkpoint():
+        temp = provenance.with_suffix('.json.partial')
+        with temp.open('w', encoding='utf-8', newline='\n') as f:
+            f.write(json.dumps(report, indent=2) + '\n')
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp, provenance)
+    completed = {e['file']: e for e in old.get('outputFiles', [])}
+    if len(completed) != len(report['outputFiles']) or not set(completed) <= {f'model-{i:05d}.safetensors' for i in range(17)}:
+        raise ValueError('Nieprawidłowy dziennik konwersji')
+    checkpoint()
+    def persist(item):
+        completed[item['file']] = item
+        report['outputFiles'] = list(completed.values())
+        checkpoint()
+    def shard(number, specs, writer):
+        file = output / f'model-{number:05d}.safetensors'
+        item = ensure_shard(file, specs, writer, completed, persist)
+        print(f'ZWERYFIKOWANO {file.name}: {item["bytes"]} B', flush=True)
+    names = sorted(dense)
+    shard(0, [(n, dense[n]['dtype'], dense[n]['shape']) for n in names],
+          lambda out: [copy_tensor(out, dense[n]) for n in names])
+    for layer in range(16):
+        specs = []
+        for expert in range(64):
+            base = f'model.layers.{layer}.mlp.experts.{expert}'
+            specs.extend([(base + '.merged_weight', 'I8', [6291456]), (base + '.qs', 'F32', [4096])])
+        def writer(out):
+            for expert in range(64):
+                projections = experts[(layer, expert)]
+                scales = [quantize_tensor(out, projections[p]) for p in ('gate_proj', 'up_proj', 'down_proj')]
+                for s in scales:
+                    out.write(s.tobytes())
+        shard(layer + 1, specs, writer)
+    for name in ('config.json', 'tokenizer.json', 'tokenizer_config.json', 'generation_config.json', 'README.md'):
+        if (source / name).exists():
+            shutil.copyfile(source / name, output / name)
+    report['complete'] = True
+    report['experts'] = len(experts)
+    report['denseTensors'] = len(dense)
+    checkpoint()
+    print('Pełna konwersja zakończona.', flush=True)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--model', type=Path, required=True)
+    parser.add_argument('--out', type=Path, required=True)
+    args = parser.parse_args()
+    convert(args.model, args.out)

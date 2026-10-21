@@ -1,0 +1,4 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 2598885 Realtime: 2598885
+
+** MEMINFO in pid 9189 [pl.scalajaca.scalajaca:colibri] **

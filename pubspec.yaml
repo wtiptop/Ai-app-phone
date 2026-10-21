@@ -1,7 +1,7 @@
 name: scalajaca
 description: Samodzielny, prywatny czat wielu modeli AI na Androida.
 publish_to: none
-version: 0.5.4+11
+version: 0.5.5+12
 environment:
   sdk: '>=3.5.0 <4.0.0'
 dependencies:
@@ -29,3 +29,4 @@ flutter:
   assets:
     - assets/native_notices.txt
     - assets/colibri_notices.txt
+    - assets/llvm_notices.txt

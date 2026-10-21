@@ -1,0 +1,117 @@
+{
+  "version": "0.5.5+12",
+  "dateUtc": "2026-10-21T22:19:45.163477+00:00",
+  "flutterPassed": 291,
+  "junitPassed": 42,
+  "junitSkipped": 0,
+  "pythonPassed": 15,
+  "analyzeIssues": 0,
+  "syntheticPortTestsPassed": 6,
+  "realWeightSmokeExecutions": 2,
+  "realSmokeScenarios": [
+    "generacja",
+    "Stop",
+    "ponowna generacja"
+  ],
+  "timedStopToTerminalMs": 66,
+  "rpg": {
+    "run": "colibri-055-full-v1",
+    "reportSha256": "e236e4712ba45f8f7e3735f6ab93b2bc3f32b15ecca270e030d9985ced1394f4",
+    "sessions": 24,
+    "generations": 37,
+    "processStarts": 3,
+    "completedGenerations": 36,
+    "retrievalHits": 24,
+    "exactFactAnswers": 7,
+    "semanticFactAnswers": 24,
+    "narrativeQualified": 0,
+    "playerCasesReviewed": 11,
+    "secretLeaksObserved": 0,
+    "ownCampaignReturnPassed": true,
+    "foreignCampaignPassed": true,
+    "oldCheckpointCoherentAnswerPassed": true,
+    "gmPositiveControlPassed": true,
+    "fullQualityPassed": false
+  },
+  "memory": {
+    "workerSamples": 262,
+    "maxObservedWorkerPssKiB": 2301286,
+    "peakMeasured": false
+  },
+  "physicalPixel9Tested": false,
+  "emulator": {
+    "name": "Scalajaca_OLMoE_API30",
+    "serial": "emulator-5558",
+    "abi": "x86_64",
+    "api": 30,
+    "ramMiB": 6144,
+    "dataGiB": 24
+  },
+  "apk": {
+    "version": "0.5.5+12",
+    "buildExitCode": 0,
+    "signatureExitCode": 0,
+    "manifestExitCode": 0,
+    "zipalign16KiBExitCode": 0,
+    "bytes": 171206767,
+    "sha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0",
+    "abi": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+    "modelWeightsInApk": false,
+    "nativeLibrarySha256": {
+      "x86_64": "910b1c3d4f8d7b11b70f2fd3dc7bef2d53de1888714d147afeb6b880eff0918e",
+      "arm64-v8a": "24309869946ca9b2c6372e9a09b6eb9f28557afe15fe5d977d91be3340829455"
+    },
+    "deviceTest": "Osobny raport colibri-0.5.5",
+    "dateUtc": "2026-10-21T22:15:13.9334192+00:00"
+  },
+  "modelPackage": {
+    "repo": "allenai/OLMoE-1B-7B-0125-Instruct",
+    "revision": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
+    "format": "Pełne wagi: dense BF16, 1024 ekspertów merged int8, skale F32",
+    "modelBytes": 7416456156,
+    "zipBytes": 7416461483,
+    "zipSha256": "f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2",
+    "manifestSha256": "504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f",
+    "license": "Apache-2.0 wg przypiętej karty modelu",
+    "convertedBy": "Scalająca tools/colibri/convert_streaming.py; zmodyfikowana reprezentacja ekspertów względem źródłowego BF16"
+  },
+  "limits": [
+    "Kampania syntetyczna, nowe czaty, nie 24 sesje ludzi",
+    "Próbki PSS nie są pomiarem szczytu",
+    "Brak odbioru fizycznego Pixela, baterii, termiki i zgodności logitów z Transformers"
+  ],
+  "mainUiSmoke": {
+    "dateUtc": "2026-10-21T22:24:22.910804+00:00",
+    "apkSha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0",
+    "modelManifestSha256": "504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f",
+    "ownEmulator": "Scalajaca_OLMoE_API30",
+    "mainEntrypoint": true,
+    "consentPreviewObserved": true,
+    "realModelStreamingObserved": true,
+    "uiStopPassed": true,
+    "partialAnswerRestoredFromHistoryAfterForceStop": true,
+    "workerAbsentAfterStop": true,
+    "manifestButtonCorrect": true,
+    "manifestButtonDidNotStartImportObserved": true,
+    "offlineAfter": true,
+    "physicalPixel9Tested": false,
+    "latencyMeasurement": "Osobny full-timed/report.json, nie pomiar dotyku UI",
+    "qualityQualified": false
+  },
+  "finalArtifacts": [
+    {
+      "file": "Scalajaca-0.5.5-debug-arm64-x64.apk",
+      "bytes": 171206767,
+      "sha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0"
+    },
+    {
+      "file": "test-apk-final.apk",
+      "bytes": 502395,
+      "sha256": "2454755bc02673bc7dc36f98e2eed8d65165d0d8f04091a7cb17706cfee33f95"
+    }
+  ]
+}

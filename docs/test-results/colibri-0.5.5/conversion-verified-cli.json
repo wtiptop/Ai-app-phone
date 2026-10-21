@@ -1,0 +1,10 @@
+{
+  "denseTensors": 147,
+  "allDenseBytesIdentical": true,
+  "experts": 1024,
+  "projections": 3072,
+  "rowsCompared": 9216,
+  "allSampledInt8AndScaleBytesIdentical": true,
+  "fullTensorComparison": false,
+  "oracleExecutableSha256": "b92034c8b4c2a4aa926b03b9eb35c435e78a73d37b7c7e23f9ed31d5c456ea6d"
+}

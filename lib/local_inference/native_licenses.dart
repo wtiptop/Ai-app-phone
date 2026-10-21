@@ -14,5 +14,9 @@ void registerNativeLicenses() {
       ['Colibri (port OLMoE CPU)'],
       await rootBundle.loadString('assets/colibri_notices.txt'),
     );
+    yield LicenseEntryWithLineBreaks(
+      ['LLVM / OpenMP (Android NDK)'],
+      await rootBundle.loadString('assets/llvm_notices.txt'),
+    );
   });
 }

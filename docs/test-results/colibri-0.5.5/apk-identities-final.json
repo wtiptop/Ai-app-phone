@@ -1,0 +1,12 @@
+[
+  {
+    "file": "Scalajaca-0.5.5-debug-arm64-x64.apk",
+    "bytes": 171206767,
+    "sha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0"
+  },
+  {
+    "file": "test-apk-final.apk",
+    "bytes": 502395,
+    "sha256": "2454755bc02673bc7dc36f98e2eed8d65165d0d8f04091a7cb17706cfee33f95"
+  }
+]

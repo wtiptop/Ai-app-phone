@@ -1,0 +1,11 @@
+{
+  "repo": "allenai/OLMoE-1B-7B-0125-Instruct",
+  "revision": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
+  "format": "Pełne wagi: dense BF16, 1024 ekspertów merged int8, skale F32",
+  "modelBytes": 7416456156,
+  "zipBytes": 7416461483,
+  "zipSha256": "f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2",
+  "manifestSha256": "504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f",
+  "license": "Apache-2.0 wg przypiętej karty modelu",
+  "convertedBy": "Scalająca tools/colibri/convert_streaming.py; zmodyfikowana reprezentacja ekspertów względem źródłowego BF16"
+}

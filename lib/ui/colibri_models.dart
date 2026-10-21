@@ -97,7 +97,10 @@ class _ColibriModelsPageState extends State<ColibriModelsPage> {
             'Pixel 9: zgodny ARM64. Uruchomienie wymaga co najmniej 4 GiB wolnego RAM; dostępna pamięć zależy od Androida i innych aplikacji. Próg nie gwarantuje wydajności. Pełne wagi i jakość polskiej narracji tego portu nie zostały jeszcze zweryfikowane na fizycznym Pixelu 9.'),
         const SizedBox(height: 8),
         const Text(
-            'Instalacja: przygotuj ZIP narzędziem tools/colibri/package_model.py z repozytorium Scalającej, skopiuj go na telefon, następnie wybierz poniżej. Instalator sprawdzi manifest, kompletność i SHA-256 każdego pliku. Korzystaj z zaufanych wag. Sumy potwierdzają integralność, nie tożsamość wydawcy.'),
+            'Testy offline wykazały błędy polskiej narracji i formatu odpowiedzi OLMoE. Model wymaga sprawdzania odpowiedzi ze źródłami i nie został odebrany jako niezawodny Mistrz Gry.'),
+        const SizedBox(height: 8),
+        const Text(
+            'Instalacja: skopiuj przygotowaną paczkę OLMoE Colibri ZIP na telefon i wybierz ją poniżej. Instalator sprawdzi manifest, kompletność i SHA-256 każdego pliku. Korzystaj z zaufanych wag. Sumy potwierdzają integralność, nie tożsamość wydawcy.'),
         if (error.isNotEmpty)
           Text(error,
               style: TextStyle(color: Theme.of(context).colorScheme.error)),
@@ -111,6 +114,14 @@ class _ColibriModelsPageState extends State<ColibriModelsPage> {
                 labelText: 'SHA-256 manifestu (zalecane)',
                 helperText:
                     'Suma podana przez narzędzie pakujące; opcjonalna')),
+        TextButton(
+            onPressed: working
+                ? null
+                : () => hash.text =
+                    '504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f',
+            child: const Text('Wpisz hash paczki OLMoE 0.5.5')),
+        const Text(
+            'Przycisk tylko wpisuje sumę manifestu przygotowanej paczki. Nie pobiera wag ani nie rozpoczyna instalacji.'),
         FilledButton.icon(
             onPressed: working ? null : _import,
             icon: const Icon(Icons.install_mobile_outlined),

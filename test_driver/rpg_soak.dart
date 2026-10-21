@@ -11,6 +11,7 @@ import 'package:scalajaca/chat/chat_session.dart';
 import 'package:scalajaca/chat/prepared_chat.dart';
 import 'package:scalajaca/costs/local_cost_gate.dart';
 import 'package:scalajaca/local_inference/android_local_engine.dart';
+import 'package:scalajaca/local_inference/colibri_engine.dart';
 import 'package:scalajaca/local_inference/source_guidance.dart';
 import 'package:scalajaca/memory/context_packet.dart';
 import 'package:scalajaca/provider_registry/provider_registry.dart';
@@ -23,6 +24,8 @@ const runId = String.fromEnvironment('RPG_RUN', defaultValue: 'baseline-052');
 const sessionCount = int.fromEnvironment('RPG_SESSIONS', defaultValue: 6);
 const fixed = bool.fromEnvironment('RPG_FIXED', defaultValue: false);
 const enabled = bool.fromEnvironment('RPG_EMULATOR_TEST', defaultValue: false);
+const providerId =
+    String.fromEnvironment('RPG_PROVIDER', defaultValue: 'minicpm_local');
 const modelId = String.fromEnvironment('RPG_MODEL_SHA',
     defaultValue:
         '81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa');
@@ -55,6 +58,7 @@ Future<void> main() async {
                               Text('TEST RPG OFFLINE · $runId\n$value'))))))));
   if (!enabled ||
       !Platform.isAndroid ||
+      !['minicpm_local', 'colibri_local'].contains(providerId) ||
       !RegExp(r'^[a-z0-9-]{1,40}$').hasMatch(runId)) {
     progress.value = 'Test niedozwolony. Użyj własnego emulatora i skryptu.';
     return;
@@ -106,6 +110,9 @@ class Soak {
       if (report['modelSha256'] != null && report['modelSha256'] != modelId) {
         throw StateError('Nie można zmienić modelu w trakcie jednej próby.');
       }
+      if (report['provider'] != null && report['provider'] != providerId) {
+        throw StateError('Nie można zmienić silnika w trakcie jednej próby.');
+      }
       final guidanceHash = await contentDigest(sourceGuidance);
       if (report['sourceGuidanceSha256'] != null &&
           report['sourceGuidanceSha256'] != guidanceHash) {
@@ -115,13 +122,24 @@ class Soak {
       db = await AppDatabase.open(ContentCipher(_Secrets()),
           path: path.join(await getDatabasesPath(), 'rpg-soak-$runId.db'));
       store = CampaignStore(db);
-      engine = AndroidLocalEngine();
+      engine = providerId == 'colibri_local'
+          ? AndroidColibriEngine()
+          : AndroidLocalEngine();
       final models = await engine.status();
       if (!models.models.any((m) => m.id == modelId)) {
-        throw StateError('Brak zatwierdzonego oficjalnego GGUF.');
+        throw StateError('Brak zatwierdzonego pełnego modelu lokalnego.');
       }
       final model = models.models.singleWhere((m) => m.id == modelId);
+      if (providerId == 'colibri_local' && model.profile != 'olmoe-instruct') {
+        throw StateError(
+            'Test kampanii wymaga prawdziwych wag OLMoE, nie tiny fixture.');
+      }
       report.addAll({
+        'provider': providerId,
+        'syntheticCampaignData': true,
+        'modelWeightsReal': true,
+        'modelIdentityKind':
+            providerId == 'colibri_local' ? 'manifest-sha256' : 'gguf-sha256',
         'modelSha256': model.id,
         'modelProfile': model.profile,
         'modelBytes': model.bytes,
@@ -131,12 +149,15 @@ class Soak {
         'factOutputLimit': 96,
         'narrativeOutputLimit': 160
       });
-      await db.setSetting('model_minicpm_local', modelId);
+      await db.setSetting('model_$providerId', modelId);
       await db.setSetting('local_context', 4096);
       chat = ChatSession(
           db,
           ProviderRegistry([
-            LocalModelAdapter(engine: engine, readContext: () async => 4096)
+            if (providerId == 'colibri_local')
+              ColibriAdapter(engine: engine)
+            else
+              LocalModelAdapter(engine: engine, readContext: () async => 4096)
           ]));
       final id = await db.setting<String>('soak_campaign', '');
       if (id.isEmpty) {
@@ -389,7 +410,7 @@ class Soak {
           });
       await chat.create();
       await chat.bindScope(attachment);
-      final base = await chat.prepare(question, 'minicpm_local', modelId,
+      final base = await chat.prepare(question, providerId, modelId,
           attachment: attachment);
       PreparedChat withDigest(String digest) => PreparedChat(
           provider: base.provider,
@@ -403,10 +424,10 @@ class Soak {
           attachment: base.attachment);
       final p = withDigest(await withDigest('').calculateDigest(chat.scopeKey));
       final permit = await LocalCostGate(db)
-          .authorize('minicpm_local', modelId, 0, contextDigest: p.digest);
+          .authorize(providerId, modelId, 0, contextDigest: p.digest);
       report['activeCaseId'] = id;
       await save('generating');
-      await chat.send(question, 'minicpm_local', modelId, '',
+      await chat.send(question, providerId, modelId, '',
           prepared: p, permit: permit);
       final response = chat.messages.last;
       final textExact = expected == null

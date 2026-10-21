@@ -1,5 +1,28 @@
 # Rzeczywiste testy Scalającej
 
+<!-- release-0.5.5:start -->
+## Odbiór 0.5.5+12 — pełne wagi, nie fixture
+
+Pobrano i zainstalowano przez SAF pełny OLMoE Colibri offline: 13,84 GB źródeł BF16, 7,42 GB osobnej paczki int8. Wagi nie są częścią APK ani backupu. Naprawiono bufor długich tokenów oraz odporność narzędzi konwersji na brak wag i przerwanie. Silnik używa czterech wątków CPU, zachowując próg 4 GiB dostępnego RAM. SQLite v3 i pełny backup v2 bez migracji.
+
+Rzeczywisty odbiór: **291 Flutter / 42 JUnit (0 pominiętych) / 15 Python PASS**, analiza bez uwag. Sześć testów portu syntetycznego PASS; osobno pełne wytrenowane wagi: generacja, Stop i ponowny start PASS, zmierzona reakcja na Stop 66 ms. Kampania: **24 symulowane sesje, 37 prób, 36/37 ukończonych generacji**, dwa restarty; retrieval 24/24, ścisły format 7/24, poprawne znaczenie faktów 24/24, narracja 0/5. Ręczny odczyt 11 prób gracza: 0 zaobserwowanych ujawnień sekretów, bez gwarancji globalnej odporności. Przy braku źródła model zmyślał wiek królowej i nazwę obcej kampanii, a publiczny fakt nazywał sekretem. Jakość MG pozostaje ograniczona; pełne wykonanie testu nie oznacza zaliczenia lore i polszczyzny.
+
+APK jest przeznaczony dla Pixela 9/ARM64; runtime sprawdzono na emulatorze x86_64 API30 z 6 GiB RAM. Nie testowano fizycznego telefonu, termiki ani baterii. Zachowano wszystkie 129 ID i MX1–MX8; pozostałe ograniczenia nie znikają.  [Wyniki i surowe dowody](test-results/colibri-0.5.5/result.json), [ocena ręczna](test-results/colibri-0.5.5/rpg/manual-review.json), [instalacja modelu i sumy](COLIBRI_PL.md). Starsze sekcje są historią poprzednich etapów.
+
+<!-- release-0.5.5:end -->
+
+### Rozdzielenie prób i granice dowodów 0.5.5
+
+- Osobny ręczny smoke finalnego `main.dart`: wybór produkcyjnego Colibri, poprawny podgląd zgody (ten telefon, 0 USD), rzeczywisty streaming, przycisk Stop i status „Anulowano”. Po force-stop aplikacji częściowa odpowiedź została odczytana z historii SQLite. Proces `:colibri` był nieobecny po Stop; końcowy stan sieci `none`. Sprawdzono nowy przycisk wpisania manifestu bez rozpoczęcia importu. XML, dwa zrzuty i podsumowanie: `test-results/colibri-0.5.5/ui-final/result.json`. Po świeżym uruchomieniu wyświetla się nowy czat z dostawcą demo; starą rozmowę otwarto jawnie z historii. Nie jest to test automatycznego zachowania wybranego dostawcy między uruchomieniami.
+- Pierwszy APK główny i harness kampanii mają odrębne sumy w `test-results/colibri-0.5.5/apk-identities-initial.json`. Kampanię wykonano entrypointem diagnostycznym, korzystającym z produkcyjnej bazy, zgody na pakiet i adaptera. Finalny instalator uruchamia `lib/main.dart`; jego sumę zapisuje `android-build-0.5.5.json`. Biblioteki Colibri obu ABI są identyczne bajtowo z bibliotekami użytymi do kampanii — kontrola w `colibri-libraries.json`. Wynik kampanii nie jest testem interfejsu całej aplikacji.
+- Końcowe `flutter-tests-final.log`, `analyze-final.log`, `build-main-final.log` i `synthetic-final/` dotyczą finalnego kodu i APK. `full/` to pierwszy test prawdziwych wag. `full-timed/` jest powtórką na finalnym APK i zawiera dodatkową asercję czasu Stop. Od pierwszego tokena do zakończenia anulowania minęło 66 ms; 17 528 ms całej anulowanej generacji obejmuje również ładowanie i oczekiwanie na token. Ponowna odpowiedź z limitem ośmiu tokenów celowo jest urwana.
+- W 262 próbkach procesu `:colibri` największe zaobserwowane PSS wyniosło 2 301 286 KiB (około 2,20 GiB). To próbki co około 10 s, nie pomiar szczytu; nie obejmują całej pamięci aplikacji i systemu. Produkcyjny próg 4 GiB dostępnego RAM zachowano.
+- Poprawność konwersji: wszystkie 147 dense tensorów zgodne bajtowo, a 9216 wybranych wierszy wszystkich ekspertów zgodnych z kwantyzatorem C. Nie wykonano pełnego porównania logitów z Transformers. Nie można przypisać wszystkich wad narracji wyłącznie oryginalnemu modelowi ani uznać jakości portu za odebraną.
+- Ręczny odczyt wszystkich 37 pełnych pakietów i odpowiedzi potwierdza brak obserwowanego rzeczywistego sekretu w 11 próbach gracza. Atak 30 zakończył się limitem wyjścia, więc nie zaliczono go jako poprawnej odmowy. Publiczny BURSZTYN nazwany sekretem i wymyślone informacje są błędami jakości, nawet gdy literalna flaga wycieku pozostaje fałszywa. Żadnej z pięciu narracji nie zaliczono.
+- Zachowano nieudane próby pomocnicze: pierwszy push przed pełnym uruchomieniem Androida, początkowe błędne przekazanie listy klas przez PowerShell oraz zatrzymany test widgetu z niewłaściwym setupem SQLite w zegarze testowym. Poprawione uruchomienia mają osobne logi; wcześniejsze nie są liczone jako PASS. Poprawki narzędzi wznowienia nie zmieniają już wytworzonych wag; zachowano dokładny skrypt użyty do ich konwersji.
+
+Fizyczny Pixel 9, jego termika, bateria i wydajność ARM64 wymagają osobnego pomiaru. Dalszy rozwój jakości narracji, odmowy przy braku faktu i zgodności logitów pozostaje zaplanowany; 129 wymagań oraz MX1–MX8 pozostają w macierzy ze swoimi ograniczeniami.
+
 <!-- release-0.5.4:start -->
 ## Odbiór 0.5.4+11 — test portu i granice wyniku
 

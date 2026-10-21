@@ -1,0 +1,17 @@
+[
+  {
+    "sha256": "99b92c594a4487f43e2e7a8149c403faa7b54589774939554606cbc25a2cb8e6",
+    "bytes": 145960899,
+    "file": "Scalajaca-0.5.5-debug-arm64-x64.apk"
+  },
+  {
+    "sha256": "2b4c95d1836bae5bce41179d064e8e338e6b476ad0928dfed177d871233f8e08",
+    "bytes": 501838,
+    "file": "app-debug-androidTest.apk"
+  },
+  {
+    "sha256": "e58541d01385c88cd8b48aad45c703ff828b1c764e954cee8ffad25320f49776",
+    "bytes": 145960899,
+    "file": "rpg-harness.apk"
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "repo": "allenai/OLMoE-1B-7B-0125-Instruct",
+  "revision": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 8826,
+      "sha256": "503c4b4e37ae9c4dc39633bc3252864a963028dd00a1fa5bf0172bdaf2ecd62f",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "config.json",
+      "bytes": 828,
+      "sha256": "272998dd7ba4846dcc682f0b5a46144f4bcd9dde8e94d2f17bd8e5cf2f23d6ce",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "generation_config.json",
+      "bytes": 115,
+      "sha256": "9d849645be2b0eb25d34fda35037c6236c78329837856b4b22f2f5b61e77c0e5",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "model-00001-of-00003.safetensors",
+      "bytes": 4997744872,
+      "sha256": "61874210ca7c360f43f8c622cecc12441083d40190eae3b56bc9d6e1c0a30c1e",
+      "pinnedLfsSha256": "61874210ca7c360f43f8c622cecc12441083d40190eae3b56bc9d6e1c0a30c1e"
+    },
+    {
+      "file": "model-00002-of-00003.safetensors",
+      "bytes": 4997235176,
+      "sha256": "c523a43b8a17269d5fab33395048a83633f4d1d89c1958570cea738e2bbe80c9",
+      "pinnedLfsSha256": "c523a43b8a17269d5fab33395048a83633f4d1d89c1958570cea738e2bbe80c9"
+    },
+    {
+      "file": "model-00003-of-00003.safetensors",
+      "bytes": 3843741912,
+      "sha256": "97ae01e3519c52e63a018bca96ab17a89c4cd5cab1c6d742efed0fa5c0e2bb17",
+      "pinnedLfsSha256": "97ae01e3519c52e63a018bca96ab17a89c4cd5cab1c6d742efed0fa5c0e2bb17"
+    },
+    {
+      "file": "model.safetensors.index.json",
+      "bytes": 287214,
+      "sha256": "0e2e1e0d8d357ac7af817cff28410c3dbad398f060c517a433e4076b2aae5579",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "special_tokens_map.json",
+      "bytes": 437,
+      "sha256": "43ffdefa4e501eebdaaba8f34999ac1b5507dc836fab4a1d1529466de35101e0",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "tokenizer.json",
+      "bytes": 3565064,
+      "sha256": "d1e645ebd850d79567e531a3c103ac575d8e9cf45fa941420afc584b293438ea",
+      "pinnedLfsSha256": null
+    },
+    {
+      "file": "tokenizer_config.json",
+      "bytes": 6123,
+      "sha256": "67ac3cdae4e25e84d5d0f4faadb961dd36341cf04e02c7be90a8fd8e697617eb",
+      "pinnedLfsSha256": null
+    }
+  ]
+}

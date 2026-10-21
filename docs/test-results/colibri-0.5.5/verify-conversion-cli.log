@@ -1,0 +1,17 @@
+Warstwa 0: PASS
+Warstwa 1: PASS
+Warstwa 2: PASS
+Warstwa 3: PASS
+Warstwa 4: PASS
+Warstwa 5: PASS
+Warstwa 6: PASS
+Warstwa 7: PASS
+Warstwa 8: PASS
+Warstwa 9: PASS
+Warstwa 10: PASS
+Warstwa 11: PASS
+Warstwa 12: PASS
+Warstwa 13: PASS
+Warstwa 14: PASS
+Warstwa 15: PASS
+{"denseTensors": 147, "allDenseBytesIdentical": true, "experts": 1024, "projections": 3072, "rowsCompared": 9216, "allSampledInt8AndScaleBytesIdentical": true, "fullTensorComparison": false, "oracleExecutableSha256": "b92034c8b4c2a4aa926b03b9eb35c435e78a73d37b7c7e23f9ed31d5c456ea6d"}

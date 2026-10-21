@@ -1,5 +1,11 @@
 # Zależności i licencje
 
+## Uzupełnienie 0.5.5
+
+Pełny AllenAI OLMoE-1B-7B-0125-Instruct pobrano z commitu b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e. Karta deklaruje Apache-2.0. Osobna paczka danych zawiera wszystkich ekspertów po zmianie reprezentacji BF16→merged int8; obok dostarczono przypiętą kartę, tekst Apache-2.0 i pochodzenie z opisem tej zmiany. Wagi nadal są poza APK, archiwum źródeł i backupem kampanii.
+
+APK 0.5.5 dołącza statyczny runtime OpenMP z NDK 28.2.13676358. Sekcja LLVM Apache-2.0 z wyjątkami LLVM oraz historyczny tekst NCSA są w `assets/llvm_notices.txt`, zarejestrowanym w ekranie licencji. Nie wymaga instalacji `libomp.so` na telefonie. Oryginalne 119 plików Colibri i 1818 plików llama.cpp zachowało przypięte SHA-256; łatka bufora zmienia tylko kontrolowaną kopię kompilacyjną. Szczegóły: ADR 015 i COLIBRI_PL.md.
+
 <!-- release-0.5.4:start -->
 ## Colibri 0.5.4
 

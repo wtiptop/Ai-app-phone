@@ -1,0 +1,2 @@
+adb: error: failed to copy 'C:/Users/niezn/Documents/Codex/Scalajaca/outputs/OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip' to '/sdcard/Download/OLMoE-Colibri-int8.zip': remote secure_mkdirs failed: No such file or directory
+C:/Users/niezn/Documents/Codex/Scalajaca/outputs/OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip: 1 file pushed, 0 skipped. 192.5 MB/s (7416461483 bytes in 36.741s)

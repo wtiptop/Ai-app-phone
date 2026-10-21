@@ -1,0 +1,21 @@
+{
+  "version": "0.5.5+12",
+  "buildExitCode": 0,
+  "signatureExitCode": 0,
+  "manifestExitCode": 0,
+  "zipalign16KiBExitCode": 0,
+  "bytes": 171206767,
+  "sha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0",
+  "abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+  "modelWeightsInApk": false,
+  "nativeLibrarySha256": {
+    "x86_64": "910b1c3d4f8d7b11b70f2fd3dc7bef2d53de1888714d147afeb6b880eff0918e",
+    "arm64-v8a": "24309869946ca9b2c6372e9a09b6eb9f28557afe15fe5d977d91be3340829455"
+  },
+  "deviceTest": "Osobny raport colibri-0.5.5",
+  "dateUtc": "2026-10-21T22:15:13.9334192+00:00"
+}

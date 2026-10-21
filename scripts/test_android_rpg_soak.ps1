@@ -17,7 +17,8 @@ function Guard {
   if((Device shell getprop ro.kernel.qemu).Trim() -ne '1') { throw 'To nie jest emulator.' }
   $taskAvd=(Device shell getprop ro.boot.qemu.avd_name).Trim()
   if(!$taskAvd) { $taskAvd=(Device shell getprop ro.kernel.qemu.avd_name).Trim() }
-  if($taskAvd -ne 'Scalajaca_API30') { throw 'Nieoczekiwany AVD.' }
+  if(!(($Serial -eq 'emulator-5556' -and $taskAvd -eq 'Scalajaca_API30') -or
+       ($Serial -eq 'emulator-5558' -and $taskAvd -eq 'Scalajaca_OLMoE_API30'))) { throw 'Nieoczekiwany AVD.' }
 }
 function Offline([string]$Name) {
   if((Device shell settings get global airplane_mode_on).Trim() -ne '1') { throw 'Brak trybu samolotowego.' }
@@ -60,6 +61,7 @@ while([DateTime]::UtcNow -lt $taskDeadline) {
     $taskSample=Device shell dumpsys meminfo pl.scalajaca.scalajaca
     $taskSampleName='memory-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'.txt'
     $taskSample | Set-Content (Join-Path $Output $taskSampleName) -Encoding utf8
+    Device shell dumpsys meminfo pl.scalajaca.scalajaca:colibri | Set-Content (Join-Path $Output ('worker-'+$taskSampleName)) -Encoding utf8
     [ordered]@{ utc=[DateTime]::UtcNow.ToString('o'); activeCase=$taskReport.activeCaseId; sample=$taskSampleName } | ConvertTo-Json -Compress | Add-Content (Join-Path $Output 'memory-samples.jsonl') -Encoding utf8
   }
   while($taskCount -lt $taskReport.cases.Count) {

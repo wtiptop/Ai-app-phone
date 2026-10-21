@@ -1,0 +1,18 @@
+{
+  "dateUtc": "2026-10-21T22:24:22.910804+00:00",
+  "apkSha256": "a3c8ede7e0a7a6703ec023b8437a991be83c5fc923486d2ac7c6841200faddc0",
+  "modelManifestSha256": "504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f",
+  "ownEmulator": "Scalajaca_OLMoE_API30",
+  "mainEntrypoint": true,
+  "consentPreviewObserved": true,
+  "realModelStreamingObserved": true,
+  "uiStopPassed": true,
+  "partialAnswerRestoredFromHistoryAfterForceStop": true,
+  "workerAbsentAfterStop": true,
+  "manifestButtonCorrect": true,
+  "manifestButtonDidNotStartImportObserved": true,
+  "offlineAfter": true,
+  "physicalPixel9Tested": false,
+  "latencyMeasurement": "Osobny full-timed/report.json, nie pomiar dotyku UI",
+  "qualityQualified": false
+}

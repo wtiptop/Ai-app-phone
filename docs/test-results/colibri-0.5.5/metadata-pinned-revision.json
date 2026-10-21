@@ -1,0 +1,44 @@
+[
+  {
+    "file": "README.md",
+    "gitBlobSha1": "70e82fb71c012b9ff8d1ed0689566d22a993b84e",
+    "sha256": "503c4b4e37ae9c4dc39633bc3252864a963028dd00a1fa5bf0172bdaf2ecd62f",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "config.json",
+    "gitBlobSha1": "804a50eb193d606e759589d85c5a16383bb92291",
+    "sha256": "272998dd7ba4846dcc682f0b5a46144f4bcd9dde8e94d2f17bd8e5cf2f23d6ce",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "generation_config.json",
+    "gitBlobSha1": "500795d5a6370dedf20217e8b80ed458fed42a0b",
+    "sha256": "9d849645be2b0eb25d34fda35037c6236c78329837856b4b22f2f5b61e77c0e5",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "model.safetensors.index.json",
+    "gitBlobSha1": "4c7929b85bfb7ebfeb83cfd2398a4fe0ecfdf90e",
+    "sha256": "0e2e1e0d8d357ac7af817cff28410c3dbad398f060c517a433e4076b2aae5579",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "special_tokens_map.json",
+    "gitBlobSha1": "0eb8a134190a9aa0c55847911b41198f5094a2ca",
+    "sha256": "43ffdefa4e501eebdaaba8f34999ac1b5507dc836fab4a1d1529466de35101e0",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "tokenizer.json",
+    "gitBlobSha1": "72945541acdc0993cbb62a6c72811ebc875aa73b",
+    "sha256": "d1e645ebd850d79567e531a3c103ac575d8e9cf45fa941420afc584b293438ea",
+    "matchesPinnedRevision": true
+  },
+  {
+    "file": "tokenizer_config.json",
+    "gitBlobSha1": "98b62356cf5c8f07f50cbe86aa76bec2485cd3eb",
+    "sha256": "67ac3cdae4e25e84d5d0f4faadb961dd36341cf04e02c7be90a8fd8e697617eb",
+    "matchesPinnedRevision": true
+  }
+]

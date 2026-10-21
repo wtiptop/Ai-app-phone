@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pl.scalajaca.scalajaca.colibri.ColibriProtocolTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-21T17:21:20.523Z" hostname="LAPTOP-QT0T993B" time="0.015">
+  <properties/>
+  <testcase name="byteFramingAndUsageMatchPinnedProtocol" classname="pl.scalajaca.scalajaca.colibri.ColibriProtocolTest" time="0.013"/>
+  <testcase name="rejectsForeignIdsHugeFramesTruncationAndInvalidUsage" classname="pl.scalajaca.scalajaca.colibri.ColibriProtocolTest" time="0.001"/>
+  <testcase name="contextErrorIsNotSuccess" classname="pl.scalajaca.scalajaca.colibri.ColibriProtocolTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,5 +1,22 @@
 # Odtworzenie testu wielosesyjnej kampanii offline
 
+## Colibri 0.5.5 — pełne wagi
+
+Harness obsługuje teraz `RPG_PROVIDER=colibri_local`; domyślny `minicpm_local` zachowano. Dla Colibri wymaga zainstalowanej produkcyjnej paczki `olmoe-instruct`; odrzuca profil syntetyczny. `RPG_MODEL_SHA` oznacza SHA-256 manifestu paczki, a nie całego ZIP. Raport zapisuje rodzaj tożsamości, rzeczywiste wagi, silnik i hash instrukcji. Nie można zmienić dostawcy, modelu ani instrukcji w połowie jednej próby.
+
+Po zainstalowaniu pełnej paczki na własnym emulatorze `Scalajaca_OLMoE_API30` (port 5558, w odbiorze 6 GiB RAM i 24 GiB userdata) zbuduj oddzielny target:
+
+```powershell
+flutter build apk --debug --target-platform android-arm64,android-x64 -t test_driver/rpg_soak.dart --dart-define=RPG_EMULATOR_TEST=true --dart-define=RPG_RUN=colibri-nowa-proba --dart-define=RPG_SESSIONS=24 --dart-define=RPG_FIXED=true --dart-define=RPG_PROVIDER=colibri_local --dart-define=RPG_MODEL_SHA=504f62581e7a16037d4aac6cc831a6de6e7cd93995501970f34a76de5f44210f
+./scripts/test_android_rpg_soak.ps1 -Serial emulator-5558 -Apk C:/test/rpg-harness.apk -Run colibri-nowa-proba -TimeoutMinutes 180 -Output C:/test/colibri-rpg
+```
+
+Przed wywołaniem skryptu skopiuj zbudowany APK do wskazanego `C:/test/rpg-harness.apk` i odłącz emulator od sieci. Skrypt sprawdza tożsamość własnego AVD, brak internetu oraz brak wcześniejszej bazy/raportu o danym Run; nie nadpisuje próby. Wymóg minimum 4 GiB dostępnego RAM i limit 180 s pochodzą z produkcyjnego adaptera, bez obejścia na potrzeby testu. Pomiar `dumpsys meminfo` obejmuje osobno proces `:colibri`; jest próbkowany, nie wyznacza szczytu.
+
+Wynik 0.5.5: `test-results/colibri-0.5.5/rpg/report.json` i niezależna ocena ręczna obok. Osobno oceniamy poprawne znaczenie 24 faktów, ścisły format odpowiedzi, pięć narracji, bieżący kanon przy dawnym checkpointcie i wszystkie 11 wypowiedzi gracza z parafrazami sekretów. `secretLeak=false` jest wyłącznie kontrolą literalnych fraz; sam nie dowodzi ochrony znaczenia. Klasa Android `ColibriFullModelDeviceTest` z generacją/Stop/restartem nie zastępuje kampanii. Nie instaluj diagnostycznego targetu jako zwykłej aplikacji na Pixelu; po teście przywróć główny APK przez `install -r`, zachowując bazę i wagi.
+
+Poniższa procedura i metryki MiniCPM są historią osobnego silnika.
+
 Wersja 0.5.3. To próba na autorskich danych syntetycznych, bez kont, API i opłat. Wyniki i ocena odpowiedzi znajdują się w `TESTS_PL.md` oraz `test-results/rpg-campaign-0.5.3.json`; porównanie 1B zachowano w `test-results/rpg-campaign-0.5.2.json`. Test nie jest przeznaczony do uruchamiania na prywatnym telefonie.
 
 ## Co jest sprawdzane

@@ -1,0 +1,10 @@
+[
+  {
+    "abi": "arm64-v8a",
+    "command": "C:\\Users\\niezn\\Documents\\Codex\\Scalajaca\\work\\toolchain\\android-sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/niezn/Documents/Codex/Scalajaca/work/toolchain/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dscalajaca_colibri_EXPORTS -IC:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/build/.cxx/debug/6apx1v3d/arm64-v8a/colibri_patched -IC:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/third_party/colibri/c -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -O3 -fopenmp -o CMakeFiles\\scalajaca_colibri.dir\\colibri_bridge.c.o -c C:\\Users\\niezn\\Documents\\Codex\\Scalajaca\\outputs\\Scalajaca\\android\\app\\src\\main\\cpp\\colibri_bridge.c"
+  },
+  {
+    "abi": "x86_64",
+    "command": "C:\\Users\\niezn\\Documents\\Codex\\Scalajaca\\work\\toolchain\\android-sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/niezn/Documents/Codex/Scalajaca/work/toolchain/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dscalajaca_colibri_EXPORTS -IC:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/build/.cxx/debug/6apx1v3d/x86_64/colibri_patched -IC:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/third_party/colibri/c -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -O3 -fopenmp -msse4.2 -o CMakeFiles\\scalajaca_colibri.dir\\colibri_bridge.c.o -c C:\\Users\\niezn\\Documents\\Codex\\Scalajaca\\outputs\\Scalajaca\\android\\app\\src\\main\\cpp\\colibri_bridge.c"
+  }
+]

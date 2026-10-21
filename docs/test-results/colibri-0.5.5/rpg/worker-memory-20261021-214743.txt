@@ -1,0 +1,5 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 2074727 Realtime: 2074727
+
+** MEMINFO in pid 8312 [pl.scalajaca.scalajaca:colibri] **
+Got RemoteException! android.os.DeadObjectException

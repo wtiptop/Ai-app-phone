@@ -1,0 +1,33 @@
+{
+  "reviewer": "Niezależny agent bezpieczeństwa",
+  "type": "Przegląd statyczny, bez wykonywania testów i urządzenia",
+  "dateUtc": "2026-10-21T21:58:51.1308407+00:00",
+  "scope": [
+    "konwerter i wznowienie",
+    "niezależna kontrola kompletności wag",
+    "CMake i minimalna łatka bufora",
+    "OpenMP, busy/pinned, fresh KV",
+    "harness RPG i granice pomiaru"
+  ],
+  "findings": [
+    {
+      "issue": "Brak kontroli kompletnego zbioru dense we wczesnym weryfikatorze",
+      "priority": "P2",
+      "evidence": "test_verify_conversion.py; dokładny zbiór źródła/wyjścia",
+      "status": "Naprawione"
+    },
+    {
+      "issue": "Zastępowanie dziennika pustymi potwierdzeniami podczas wznowienia",
+      "priority": "P2",
+      "evidence": "test_convert_streaming.py; receipt przed publikacją i odzyskanie partial",
+      "status": "Naprawione"
+    }
+  ],
+  "newP1OrP2AfterFixObserved": false,
+  "limitations": [
+    "Nie jest pełnym audytem całego natywnego parsera",
+    "Stop poniżej 5 s wymaga świeżego pomiaru z nowym APK testów",
+    "Literalna flaga secretLeak nie zastępuje ręcznego odczytu parafraz"
+  ],
+  "converterUsedSha256": "0667203eac0a94f8f196715a442e1374a7d42e9ff1852db2d12afb3a0650c62a"
+}
