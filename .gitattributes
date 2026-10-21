@@ -20,3 +20,6 @@ docs/test-results/emulator-0.5.1/*.log -whitespace
 docs/test-results/emulator-0.5.3/*.txt -whitespace
 docs/test-results/rpg-0.5.3/*.txt -whitespace
 docs/test-results/rpg-0.5.3/**/*.txt -whitespace
+# Raporty mają przypięte SHA-256; Git nie może zmieniać ich końców linii.
+docs/test-results/rpg-0.5.3/*.json -text -whitespace
+docs/test-results/rpg-0.5.3/**/*.json -text -whitespace
