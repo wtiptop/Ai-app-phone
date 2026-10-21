@@ -455,7 +455,7 @@ class _CampaignPageState extends State<CampaignPage> {
                           }
                         })),
           Text(
-              'Wybrane ręcznie: ${selectedRecordIds.length}/20. Sekret MG trafia do pakietu tylko po ręcznym wyborze. Dołączony stan sesji MG jest pierwszy; to notatka, nie nowy kanon.'),
+              'Wybrane ręcznie: ${selectedRecordIds.length}/20. Sekret MG trafia do pakietu tylko po ręcznym wyborze. Bieżący kanon wyprzedza dołączoną notatkę sesji MG; jej wznowienie nie zmienia świata.'),
           FilledButton(
               onPressed: busy || widget.contextUnavailableReason != null
                   ? null

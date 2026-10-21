@@ -1,0 +1,44 @@
+{
+  "offline": true,
+  "source": "Archive.md",
+  "initialResults": "Znalezione fragmenty: 22. Strona 1. Wybrane: 2. Wybór dotyczy tej strony.",
+  "pageThreeReached": true,
+  "fixtureOutput": "COMPASS",
+  "actualOutput": "COMPASS",
+  "repeatedOutputs": [
+    "COMPASS",
+    "COMPASS",
+    "COMPASS"
+  ],
+  "newAnswerMetadata": [
+    {
+      "rowId": 151,
+      "messageId": "1792577685581345-2",
+      "conversationId": "1792577682614797-0",
+      "status": "complete",
+      "inputTokens": 511,
+      "outputTokens": 2
+    },
+    {
+      "rowId": 152,
+      "messageId": "1792577735497517-3",
+      "conversationId": "1792577682614797-0",
+      "status": "complete",
+      "inputTokens": 511,
+      "outputTokens": 2
+    },
+    {
+      "rowId": 153,
+      "messageId": "1792577797573790-4",
+      "conversationId": "1792577682614797-0",
+      "status": "complete",
+      "inputTokens": 511,
+      "outputTokens": 2
+    }
+  ],
+  "latestCardCheckedAtListEnd": true,
+  "receiptRetained": true,
+  "usageLabel": "Ukończono • 0 USD za API • wejście 511, wyjście 2 tokenów",
+  "elapsedMs": 161383,
+  "name": "paged-memory-real-answer"
+}

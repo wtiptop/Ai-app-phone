@@ -306,7 +306,7 @@ void main() {
     expect(head, before);
     final pack = await store.contextPack(access(), query: 'chronologia');
     expect(
-        pack.recordIds, ['active-session', 'z-own', 'a-official', 'b-extra']);
+        pack.recordIds, ['z-own', 'a-official', 'b-extra', 'active-session']);
     final other = await store.create(
         name: 'Drugi własny świat',
         edition: 'Inna testowa edycja',
@@ -364,7 +364,7 @@ void main() {
     final pack = await store.contextPack(access(),
         query: 'chronologia', selectedRecordIds: ['b-extra']);
     expect(
-        pack.recordIds, ['active-session', 'z-own', 'a-official', 'b-extra']);
+        pack.recordIds, ['z-own', 'a-official', 'b-extra', 'active-session']);
     expect(pack.recordIds.toSet(), hasLength(4));
     expect((await store.readCampaign(campaign.id, access())).revision, before);
   });
@@ -374,7 +374,7 @@ void main() {
       () async {
     final full = await store.contextPack(access(),
         query: 'bursztynowiec', includeCheckpoint: true);
-    expect(full.recordIds.first, 'active-session');
+    expect(full.recordIds.last, 'active-session');
     expect(full.text, contains('Własny cel sesji 24'));
     final selected = await store.contextPack(access(),
         query: 'bursztynowiec', includeCheckpoint: false);

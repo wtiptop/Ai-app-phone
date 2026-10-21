@@ -1,5 +1,6 @@
 param(
   [Parameter(Mandatory=$true)][string]$Model,
+  [ValidateSet('1b','2b')][string]$ModelSize='1b',
   [string]$Serial='emulator-5556',
   [string]$Adb=(Join-Path $env:ANDROID_HOME 'platform-tools/adb.exe'),
   [string]$Output=''
@@ -16,7 +17,8 @@ function DeviceAdb {
 if((DeviceAdb shell getprop ro.kernel.qemu).Trim() -ne '1') { throw 'To nie jest emulator.' }
 if((DeviceAdb shell getprop ro.build.version.sdk).Trim() -ne '30') { throw 'Fixture selektora sprawdzono na API 30; użyj obrazu Google APIs x86_64 Android 11 po angielsku.' }
 $taskModel=(Resolve-Path -LiteralPath $Model).Path
-if((Get-FileHash -LiteralPath $taskModel -Algorithm SHA256).Hash.ToLowerInvariant() -ne '81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa') { throw 'Fixture wymaga przypiętego oficjalnego MiniCPM5-1B Q4_K_M.' }
+$taskModelHash=if($ModelSize -eq '2b') { 'ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd' } else { '81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa' }
+if((Get-FileHash -LiteralPath $taskModel -Algorithm SHA256).Hash.ToLowerInvariant() -ne $taskModelHash) { throw 'Fixture wymaga przypiętego oficjalnego MiniCPM5 Q4_K_M w wybranym rozmiarze.' }
 $taskApk=Join-Path $taskRepo 'build/app/outputs/flutter-apk/app-debug.apk'
 if(!(Test-Path -LiteralPath $taskApk)) { throw 'Najpierw zbuduj APK: flutter build apk --debug --target-platform android-arm64,android-x64' }
 Push-Location (Join-Path $taskRepo 'android')
@@ -32,7 +34,7 @@ foreach($taskAnimation in @('window_animation_scale','transition_animation_scale
 DeviceAdb shell settings put system screen_off_timeout 2147483647
 DeviceAdb shell input keyevent KEYCODE_WAKEUP
 DeviceAdb shell wm dismiss-keyguard
-DeviceAdb push $taskModel '/sdcard/Download/MiniCPM5-1B-Q4_K_M.gguf'
+DeviceAdb push $taskModel "/sdcard/Download/MiniCPM5-$($ModelSize.ToUpperInvariant())-Q4_K_M.gguf"
 $taskFixture=Join-Path $Output 'ScalajacaTestVault'
 New-Item -ItemType Directory -Force -Path (Join-Path $taskFixture '.obsidian') | Out-Null
 $taskArchiveText="# Archive`nThe archive key is LANTERN.`n"
@@ -55,7 +57,7 @@ $taskInstalledPath=$taskInstalledPath.Trim()
 if($taskInstalledPath -notmatch '^/data/app/[a-zA-Z0-9_/+=.~\-]+/base[.]apk$') { throw 'Nieprawidłowa ścieżka zainstalowanego APK.' }
 DeviceAdb shell sha256sum $taskInstalledPath | Set-Content (Join-Path $Output 'installed-device-apk-sha256.txt')
 $taskLog=Join-Path $Output 'instrumentation.log'
-& $Adb -s $Serial shell am instrument -w -r -e scalajacaEmulator true -e class pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest 'pl.scalajaca.scalajaca.test/androidx.test.runner.AndroidJUnitRunner' *> $taskLog
+& $Adb -s $Serial shell am instrument -w -r -e scalajacaEmulator true -e modelSize $ModelSize -e class pl.scalajaca.scalajaca.local.LocalInferenceDeviceTest 'pl.scalajaca.scalajaca.test/androidx.test.runner.AndroidJUnitRunner' *> $taskLog
 $taskRunnerExit=$LASTEXITCODE
 Get-Content -LiteralPath $taskLog
 # Debug run-as zachowuje ograniczenia aplikacji. Nie wymaga adb root.

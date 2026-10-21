@@ -160,11 +160,8 @@ class _HomeState extends State<Home> {
   }
 
   Future<int> _sourceBudget() async => provider == 'minicpm_local'
-      ? ((await widget.store.setting('local_context', 4096)) -
-              1168 -
-              utf8.encode(sourceGuidance).length -
-              80)
-          .clamp(400, 2304)
+      ? localSourceBudgetBytes(
+          await widget.store.setting('local_context', 4096))
       : 6000;
 
   Future<void> _acceptContext(ContextAttachment attachment) async {
@@ -1443,7 +1440,7 @@ class _HomeState extends State<Home> {
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Scalająca',
-              applicationVersion: '0.5.2',
+              applicationVersion: '0.5.3',
             ),
           ),
           const ListTile(
@@ -1462,7 +1459,7 @@ class _HomeState extends State<Home> {
           const ListTile(
             title: Text('Diagnostyka lokalna'),
             subtitle: Text(
-              'Wersja 0.5.2 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
+              'Wersja 0.5.3 • baza v3 • brak telemetrii i logowania treści. Stan transportu widoczny w czacie.',
             ),
           ),
         ],

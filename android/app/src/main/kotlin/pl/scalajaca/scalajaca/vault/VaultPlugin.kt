@@ -89,7 +89,8 @@ class VaultPlugin(private val activity: Activity, messenger: BinaryMessenger) : 
             when (call.method) {
                 "pick" -> {
                     check(pending == null && !busy.get())
-                    check(handles().size < 8)
+                    // Limit nowych uchwytów sprawdzamy po wyborze: ponowny
+                    // odczyt tego samego vaultu może użyć istniejącego ID.
                     pendingWrite = call.argument<Boolean>("writable") == true
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
@@ -180,9 +181,17 @@ class VaultPlugin(private val activity: Activity, messenger: BinaryMessenger) : 
             require(VaultPolicy.root(root))
             val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or if (pendingWrite) Intent.FLAG_GRANT_WRITE_URI_PERMISSION else 0
             require(data.flags and flags == flags && data.flags and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION != 0)
+            val current = handles()
+            // Eksport ma osobny, tymczasowy uchwyt zapisu, odłączany po operacji.
+            // Nie wolno go współdzielić ani podnosić praw uchwytu tylko do odczytu.
+            val reusable = if (!pendingWrite) current.firstOrNull { it.uri == uri && !it.writable } else null
+            if (reusable == null && current.size >= 8) {
+                result.error("vault_limit", "Osiągnięto limit 8 połączeń. Możesz ponownie wybrać już połączony vault tylko do odczytu albo odłączyć nieużywane źródło, zachowując jego dane.", null)
+                return true
+            }
             resolver.takePersistableUriPermission(uri, flags)
-            val h = Handle(UUID.randomUUID().toString(), uri, root, pendingWrite)
-            save(handles() + h)
+            val h = reusable ?: Handle(UUID.randomUUID().toString(), uri, root, pendingWrite)
+            if (reusable == null) save(current + h)
             result.success(h.wire() + mapOf("available" to true))
         } catch (_: Exception) {
             result.error("vault_error", "Wybierz zwykły lokalny katalog vaultu w pamięci telefonu lub na karcie SD. Dostawcy chmurowi i ukryte katalogi są wyłączone.", null)

@@ -93,11 +93,21 @@ public final class GgufInspector {
         }
         if (!"llama".equals(metadata.get("general.architecture"))) throw new IOException("unsupported_model");
         String name = String.valueOf(metadata.getOrDefault("general.name", ""));
+        // Oficjalny MiniCPM5-2B Q4_K_M opisuje rozmiar w GGUF jako 2.6B.
+        // Alias dotyczy wyłącznie dokładnej tożsamości i geometrii tego profilu.
+        boolean officialTwoBAlias = name.equalsIgnoreCase("MiniCPM5 2.6B")
+            && "MiniCPM5".equalsIgnoreCase(String.valueOf(metadata.get("general.basename")))
+            && "2.6B".equalsIgnoreCase(String.valueOf(metadata.get("general.size_label")));
+        boolean mentionsTwoBAlias = (name + " " + metadata.getOrDefault("general.basename", "") + " "
+            + metadata.getOrDefault("general.size_label", "")).toLowerCase(Locale.ROOT).contains("2.6b");
+        if (mentionsTwoBAlias && !officialTwoBAlias) throw new IOException("unsupported_model");
         String identity = (name + metadata.getOrDefault("general.basename", "") + metadata.getOrDefault("general.size_label", "")).toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]", "");
-        String profile = identity.contains("minicpm5") && identity.contains("1b") ? "minicpm5_1b"
+        String profile = officialTwoBAlias ? "minicpm5_2b"
+            : identity.contains("minicpm5") && identity.contains("1b") ? "minicpm5_1b"
             : identity.contains("minicpm5") && identity.contains("2b") ? "minicpm5_2b" : null;
         if (profile == null) throw new IOException("unsupported_model");
         long layers = number(metadata, "llama.block_count", 0), embedding = number(metadata, "llama.embedding_length", 0);
+        if (officialTwoBAlias && (layers != 42 || embedding != 2048)) throw new IOException("unsupported_model");
         if (layers < 1 || layers > 64 || embedding < 1 || embedding > 4096 || number(metadata, "split.count", 1) != 1) throw invalid();
         long alignment = number(metadata, "general.alignment", 32);
         if (alignment < 1 || alignment > 4096 || (alignment & (alignment - 1)) != 0) throw invalid();

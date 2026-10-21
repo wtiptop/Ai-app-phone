@@ -76,6 +76,8 @@ class VaultBridge implements VaultGateway {
       // Nie przepuszczamy tekstu wyjątku systemu ani ścieżek plików do UI/logów.
       final message = switch (error.code) {
         'busy' => 'Poczekaj na zakończenie operacji na pamięci.',
+        'vault_limit' =>
+          'Osiągnięto limit 8 połączeń. Wybierz ponownie połączony vault tylko do odczytu albo odłącz nieużywane źródło, zachowując jego dane.',
         'cancelled' =>
           'Operację anulowano lub przekroczono czas. Możesz wznowić skanowanie.',
         'invalid_cursor' =>

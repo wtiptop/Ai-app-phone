@@ -787,7 +787,7 @@ class CampaignStore {
         final revision = campaign['revision'] as int;
         final rows = <Map<String, Object?>>[];
         final seen = <String>{};
-        // Stan sesji jest zawsze pierwszy w pakiecie MG. Nigdy w pakiecie gracza.
+        // Stan sesji MG jest obowiązkowy, gdy go dołączono. Nigdy w pakiecie gracza.
         if (includeCheckpoint &&
             context.role == AccessRole.gameMaster &&
             context.allowGmSecretContext &&
@@ -877,8 +877,13 @@ class CampaignStore {
             'Wiedza postaci nie jest pełnym stanem świata. Decyzje postaci należą do gracza.\n'
             '${query.trim().isNotEmpty && candidates.isEmpty && selectedRecordIds.isEmpty ? 'Brak dopasowanych źródeł w indeksie. Nie wymyślaj brakującego lore.\n' : ''}';
         final buffer = StringBuffer(header), ids = <String>[];
-        final included =
-            <({String id, int authority, int order, String text})>[];
+        final included = <({
+          String id,
+          bool sessionNote,
+          int authority,
+          int order,
+          String text
+        })>[];
         if (buffer.length > maxCharacters) {
           throw StateError(
               'Budżet jest zbyt mały na opis zakresu i brakujących źródeł.');
@@ -887,16 +892,24 @@ class CampaignStore {
             {required bool mandatory}) async {
           final record = await _record(row);
           final source = record.citation;
+          final sessionNote =
+              record.kind == CampaignRecordKind.sessionCheckpoint;
           final kind = switch (record.kind) {
             CampaignRecordKind.canon => 'KANON',
             CampaignRecordKind.worldEntity => 'STAN ŚWIATA',
             CampaignRecordKind.playerKnowledge => 'WIEDZA POSTACI',
             CampaignRecordKind.sessionCheckpoint => 'NOTATKA SESJI MG',
           };
-          final text = '\n[${record.id}; r${record.revision}; $kind; '
+          final recordRevision = sessionNote
+              ? 'rewizja zapisu notatki r${record.revision}'
+              : 'r${record.revision}';
+          final authority = sessionNote
+              ? 'notatka MG, nie ustala bieżącego kanonu świata'
+              : source.authority.name;
+          final text = '\n[${record.id}; $recordRevision; $kind; '
               '${source.verification == LoreVerification.verified ? 'ŹRÓDŁO POTWIERDZONE PRZEZ UŻYTKOWNIKA' : 'NIEZWERYFIKOWANE'}]\n'
-              '${record.title}\n${record.content}\nŹródło: ${source.title}; ${source.sourceId}; '
-              'strona/wpis: ${source.page ?? 'BRAK'}; edycja: ${source.edition}; poziom: ${source.authority.name}\n';
+              'Tytuł wpisu: ${record.title}\nTreść:\n${record.content}\nŹródło: ${source.title}; ${source.sourceId}; '
+              'strona/wpis: ${source.page ?? 'BRAK'}; edycja: ${source.edition}; poziom: $authority\n';
           if (buffer.length + text.length > maxCharacters) {
             if (mandatory) {
               throw StateError(record.id == _checkpointId
@@ -910,6 +923,7 @@ class CampaignStore {
           ids.add(record.id);
           included.add((
             id: record.id,
+            sessionNote: sessionNote,
             authority: source.authority.index,
             order: included.length,
             text: text
@@ -940,8 +954,9 @@ class CampaignStore {
           candidates = await page(scanned);
         }
         included.sort((a, b) {
-          if (a.id == _checkpointId) return b.id == _checkpointId ? 0 : -1;
-          if (b.id == _checkpointId) return 1;
+          // Notatka MG (także wznowiona z historii) nie jest kanonem.
+          // Jej późniejszy zapis nie podnosi ważności dawnych informacji.
+          if (a.sessionNote != b.sessionNote) return a.sessionNote ? 1 : -1;
           final priority = a.authority.compareTo(b.authority);
           return priority != 0 ? priority : a.order.compareTo(b.order);
         });

@@ -11,6 +11,7 @@ import 'package:scalajaca/chat/chat_session.dart';
 import 'package:scalajaca/chat/prepared_chat.dart';
 import 'package:scalajaca/costs/local_cost_gate.dart';
 import 'package:scalajaca/local_inference/android_local_engine.dart';
+import 'package:scalajaca/local_inference/source_guidance.dart';
 import 'package:scalajaca/memory/context_packet.dart';
 import 'package:scalajaca/provider_registry/provider_registry.dart';
 import 'package:scalajaca/rpg/campaign.dart';
@@ -22,9 +23,11 @@ const runId = String.fromEnvironment('RPG_RUN', defaultValue: 'baseline-052');
 const sessionCount = int.fromEnvironment('RPG_SESSIONS', defaultValue: 6);
 const fixed = bool.fromEnvironment('RPG_FIXED', defaultValue: false);
 const enabled = bool.fromEnvironment('RPG_EMULATOR_TEST', defaultValue: false);
-const modelId =
-    '81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa';
+const modelId = String.fromEnvironment('RPG_MODEL_SHA',
+    defaultValue:
+        '81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa');
 const secret = 'MG_TAJNE_749Z: Radosz potajemnie służy Kruczej Gildii.';
+final sourceBudgetCharacters = localSourceBudgetBytes(4096) ~/ 2;
 final progress = ValueNotifier<String>('Przygotowanie testu');
 
 class _Secrets implements SecretStore {
@@ -100,6 +103,15 @@ class Soak {
               'startedUtc': DateTime.now().toUtc().toIso8601String()
             };
       report['processStarts'] = (report['processStarts'] as int) + 1;
+      if (report['modelSha256'] != null && report['modelSha256'] != modelId) {
+        throw StateError('Nie można zmienić modelu w trakcie jednej próby.');
+      }
+      final guidanceHash = await contentDigest(sourceGuidance);
+      if (report['sourceGuidanceSha256'] != null &&
+          report['sourceGuidanceSha256'] != guidanceHash) {
+        throw StateError(
+            'Nie można zmienić instrukcji w trakcie jednej próby.');
+      }
       db = await AppDatabase.open(ContentCipher(_Secrets()),
           path: path.join(await getDatabasesPath(), 'rpg-soak-$runId.db'));
       store = CampaignStore(db);
@@ -108,6 +120,17 @@ class Soak {
       if (!models.models.any((m) => m.id == modelId)) {
         throw StateError('Brak zatwierdzonego oficjalnego GGUF.');
       }
+      final model = models.models.singleWhere((m) => m.id == modelId);
+      report.addAll({
+        'modelSha256': model.id,
+        'modelProfile': model.profile,
+        'modelBytes': model.bytes,
+        'contextTokens': 4096,
+        'sourceBudgetCharacters': sourceBudgetCharacters,
+        'sourceGuidanceSha256': guidanceHash,
+        'factOutputLimit': 96,
+        'narrativeOutputLimit': 160
+      });
       await db.setSetting('model_minicpm_local', modelId);
       await db.setSetting('local_context', 4096);
       chat = ChatSession(
@@ -328,7 +351,7 @@ class Soak {
       final pack = await store.contextPack(c,
           query: query,
           selectedRecordIds: selected,
-          maxCharacters: 1152,
+          maxCharacters: sourceBudgetCharacters,
           includeCheckpoint: attachState ?? !fixed);
       item.addAll({
         'pack': pack.text,
@@ -381,9 +404,18 @@ class Soak {
       final p = withDigest(await withDigest('').calculateDigest(chat.scopeKey));
       final permit = await LocalCostGate(db)
           .authorize('minicpm_local', modelId, 0, contextDigest: p.digest);
+      report['activeCaseId'] = id;
+      await save('generating');
       await chat.send(question, 'minicpm_local', modelId, '',
           prepared: p, permit: permit);
       final response = chat.messages.last;
+      final textExact = expected == null
+          ? null
+          : response.text
+                  .trim()
+                  .replaceAll(RegExp(r'^["„“\s]+|["„“\s.!]+$'), '')
+                  .toLowerCase() ==
+              expected.toLowerCase();
       item.addAll({
         'output': response.text,
         'status': response.status,
@@ -392,13 +424,10 @@ class Soak {
         'outputTokens': response.outputTokens,
         'omitted': p.omitted,
         'sourceGrounded': p.sourceGrounded,
-        'exact': expected == null
+        'textExact': textExact,
+        'exact': textExact == null
             ? null
-            : response.text
-                    .trim()
-                    .replaceAll(RegExp(r'^["„“\s]+|["„“\s.!]+$'), '')
-                    .toLowerCase() ==
-                expected.toLowerCase(),
+            : textExact && response.status == 'complete' && chat.error == null,
         'secretLeak': !gm &&
             forbidden.any(
                 (s) => response.text.toLowerCase().contains(s.toLowerCase())),
@@ -417,6 +446,7 @@ class Soak {
       item['error'] = '$e';
     }
     item['elapsedMs'] = DateTime.now().difference(began).inMilliseconds;
+    report.remove('activeCaseId');
     (report['cases'] as List).add(item);
     await save('running');
   }

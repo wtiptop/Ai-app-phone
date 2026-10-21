@@ -8,6 +8,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../local/local_adapter_test.dart' show FakeLocalEngine, modelId;
 
 class Engine extends FakeLocalEngine {
+  String? importedHash;
+  int imports = 0;
   final models = <LocalModel>[
     const LocalModel(
         id: modelId,
@@ -21,6 +23,8 @@ class Engine extends FakeLocalEngine {
       models: List.of(models));
   @override
   Future<LocalModel?> importModel({String expectedSha256 = ''}) async {
+    importedHash = expectedSha256;
+    imports++;
     final model = LocalModel(
         id: 'b' * 64, name: 'MiniCPM5 2B', profile: 'minicpm5_2b', bytes: 1000);
     models.add(model);
@@ -80,6 +84,8 @@ void main() {
   testWidgets('Import i potwierdzone usunięcie aktualizują wybór',
       (tester) async {
     await boot(tester);
+    await tester.ensureVisible(find.text('Importuj plik GGUF'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Importuj plik GGUF'));
     await flush(tester);
     expect(
@@ -100,6 +106,33 @@ void main() {
         '');
     expect(engine.models, hasLength(1));
     expect(engine.calls, 0);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets(
+      'Wpisanie hash 2B nie pobiera ani nie wybiera modelu; import przekazuje hash',
+      (tester) async {
+    await boot(tester);
+    await tester.ensureVisible(find.text('Wpisz hash 2B'));
+    await tester.tap(find.text('Wpisz hash 2B'));
+    await flush(tester);
+    expect(engine.imports, 0);
+    expect(engine.calls, 0);
+    expect(
+        await tester.runAsync(() => store.setting('model_minicpm_local', '')),
+        '');
+    expect(tester.widget<TextField>(find.byType(TextField)).controller!.text,
+        'ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd');
+    await tester.ensureVisible(find.text('Importuj plik GGUF'));
+    await tester.tap(find.text('Importuj plik GGUF'));
+    await flush(tester);
+    expect(engine.importedHash,
+        'ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd');
+    expect(engine.imports, 1);
+    expect(engine.calls, 0);
+    expect(await tester.runAsync(() => store.setting('paid_enabled', false)),
+        isFalse);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
   });

@@ -1,0 +1,231 @@
+{
+  "version": "0.5.3+10",
+  "date": "2026-10-21 Europe/Warsaw",
+  "tests": 8,
+  "passed": 8,
+  "failures": 0,
+  "skipped": 0,
+  "flutterPassed": 285,
+  "junitPassed": 39,
+  "seconds": 882.325,
+  "apkSha256": "c92206953a2cf83a5edbf4b6175318fdbf83d82386e8dea6021b1e827597a417",
+  "emulator": "Scalajaca_API30 / Android 11 API30 / x86_64 / 4096 MiB",
+  "network": "Tryb samolotowy, WiFi/dane wyłączone; brak aktywnej sieci przed/po scenariuszach i na końcu JNI.",
+  "cases": [
+    {
+      "modelSha256": "ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",
+      "bytes": 1561318368,
+      "elapsedMs": 16468,
+      "engineCommit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "fixtureOutput": "OK",
+      "offline": true,
+      "name": "saf-offline-chat"
+    },
+    {
+      "finish_reason": "cancelled",
+      "input_tokens": 27,
+      "output_tokens": 1,
+      "elapsedMs": 2401,
+      "stopLatencyMs": 65,
+      "fixtureOutput": "The",
+      "name": "jni-stream-stop"
+    },
+    {
+      "cancelled": true,
+      "nextGenerationCompleted": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 21, wyjście 1 tokenów",
+      "name": "ui-stop-recovery"
+    },
+    {
+      "cancelledAfterHome": true,
+      "name": "background-stop"
+    },
+    {
+      "offline": true,
+      "fixtureOutput": "LANTERN",
+      "actualOutput": "LANTERN",
+      "handlesBefore": 8,
+      "handlesAfter": 8,
+      "reusedReadHandle": true,
+      "oldHandleIdsPreserved": true,
+      "elapsedMs": 71669,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 787, wyjście 2 tokenów",
+      "source": "Archive.md",
+      "receiptRetained": true,
+      "name": "vault-saf-real-answer"
+    },
+    {
+      "offline": true,
+      "source": "Archive.md",
+      "initialResults": "Znalezione fragmenty: 22. Strona 1. Wybrane: 2. Wybór dotyczy tej strony.",
+      "pageThreeReached": true,
+      "fixtureOutput": "COMPASS",
+      "actualOutput": "COMPASS",
+      "repeatedOutputs": [
+        "COMPASS",
+        "COMPASS",
+        "COMPASS"
+      ],
+      "newAnswerMetadata": [
+        {
+          "rowId": 151,
+          "messageId": "1792577685581345-2",
+          "conversationId": "1792577682614797-0",
+          "status": "complete",
+          "inputTokens": 511,
+          "outputTokens": 2
+        },
+        {
+          "rowId": 152,
+          "messageId": "1792577735497517-3",
+          "conversationId": "1792577682614797-0",
+          "status": "complete",
+          "inputTokens": 511,
+          "outputTokens": 2
+        },
+        {
+          "rowId": 153,
+          "messageId": "1792577797573790-4",
+          "conversationId": "1792577682614797-0",
+          "status": "complete",
+          "inputTokens": 511,
+          "outputTokens": 2
+        }
+      ],
+      "latestCardCheckedAtListEnd": true,
+      "receiptRetained": true,
+      "usageLabel": "Ukończono • 0 USD za API • wejście 511, wyjście 2 tokenów",
+      "elapsedMs": 161383,
+      "name": "paged-memory-real-answer"
+    },
+    {
+      "fixture": "fde6f416-f1f4-42e5-bfc4-19318ce28e77",
+      "campaignId": "1792577344597114-0",
+      "initialHistoryRevisions": [
+        1,
+        2
+      ],
+      "resumedRevision": 3,
+      "oldCiphertextPreserved": true,
+      "resumedFieldsVerifiedViaUi": true,
+      "gmCheckpointIndexed": false,
+      "playerNoHistoryOrCheckpoint": true,
+      "offlineBefore": true,
+      "offlineAfter": true,
+      "api": "30",
+      "abi": "x86_64"
+    },
+    {
+      "diagnosticOnly": false,
+      "modelSha256": "ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",
+      "modelProfile": "minicpm5_2b",
+      "modelBytes": 1561318368,
+      "sourceGrounded": true,
+      "beforeDartAndUi": true,
+      "trials": [
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 29317
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 28844
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "COMPASS",
+          "expected": "COMPASS",
+          "chunks": [
+            {
+              "utf8": "COMP",
+              "base64": "Q09NUA=="
+            },
+            {
+              "utf8": "ASS",
+              "base64": "QVNT"
+            }
+          ],
+          "elapsedMs": 28744
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "LANTERN",
+          "expected": "LANTERN",
+          "chunks": [
+            {
+              "utf8": "LAN",
+              "base64": "TEFO"
+            },
+            {
+              "utf8": "TERN",
+              "base64": "VEVSTg=="
+            }
+          ],
+          "elapsedMs": 28636
+        },
+        {
+          "finish_reason": "stop",
+          "input_tokens": 401,
+          "output_tokens": 2,
+          "rawOutput": "RAVEN",
+          "expected": "RAVEN",
+          "chunks": [
+            {
+              "utf8": "R",
+              "base64": "Ug=="
+            },
+            {
+              "utf8": "AVEN",
+              "base64": "QVZFTg=="
+            }
+          ],
+          "elapsedMs": 28761
+        }
+      ]
+    }
+  ],
+  "physicalPixel9Tested": false,
+  "modelSha256": "ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",
+  "modelProfile": "minicpm5_2b",
+  "rawGroundedExactTrials": 5,
+  "longCampaignReport": "rpg-campaign-0.5.3.json",
+  "longCampaignQualityVerified": false,
+  "junitSkipped": 0,
+  "instrumentationExecutions": 9,
+  "supplementaryRecallExecutions": 1,
+  "supplementaryRecallSeconds": 209.162,
+  "coreScenarioSeconds": 673.163
+}

@@ -1,0 +1,57 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 2795070 Realtime: 2795070
+
+** MEMINFO in pid 6415 [pl.scalajaca.scalajaca] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    68856    68764        0        0    71420    85308    43456    37961
+  Dalvik Heap     2135     1964        0        0     6344     5047     2524     2523
+ Dalvik Other     2081     1748        0        0     2972                           
+        Stack      916      916        0        0      928                           
+       Ashmem        2        0        0        0       12                           
+    Other dev       16        0       16        0      228                           
+     .so mmap     4018      204      696        0    41976                           
+    .jar mmap     3656        0      776        0    26304                           
+    .apk mmap    24682      772    23096        0    47508                           
+    .ttf mmap     3172        0       36        0     9748                           
+    .dex mmap    11084    11028       48        0    11116                           
+    .oat mmap      249        0       88        0     2068                           
+    .art mmap     7933     7384       40        0    20032                           
+   Other mmap    67056       68    64876        0    72312                           
+      Unknown   101314   101296        0        0   101772                           
+        TOTAL   297170   194144    89672        0   297170    90355    45980    40484
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:     9388                          26376
+         Native Heap:    68764                          71420
+                Code:    36772                         139452
+               Stack:      916                            928
+            Graphics:        0                              0
+       Private Other:   167976
+              System:    13354
+             Unknown:                                  176564
+ 
+           TOTAL PSS:   297170            TOTAL RSS:   414740      TOTAL SWAP (KB):        0
+ 
+ Objects
+               Views:        8         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:       15        AssetManagers:        0
+       Local Binders:       13        Proxy Binders:       33
+       Parcel memory:        7         Parcel count:       30
+    Death Recipients:        0      OpenSSL Sockets:        0
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      781
+  PAGECACHE_OVERFLOW:      548          MALLOC_SIZE:      117
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4      512            100    2693/302/25  /data/user/0/pl.scalajaca.scalajaca/databases/rpg-soak-campaign-2b-fixed-053.db
+ 
+ Asset Allocations
+    : 17K

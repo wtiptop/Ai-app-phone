@@ -2,6 +2,7 @@ param(
   [Parameter(Mandatory=$true)][string]$Apk,
   [Parameter(Mandatory=$true)][ValidatePattern('^[a-z0-9-]{1,40}$')][string]$Run,
   [Parameter(Mandatory=$true)][string]$Output,
+  [ValidateRange(10,180)][int]$TimeoutMinutes=40,
   [string]$Serial='emulator-5556',
   [string]$Adb=(Join-Path $env:ANDROID_HOME 'platform-tools/adb.exe')
 )
@@ -46,7 +47,7 @@ $taskPackage=(Device shell pm path pl.scalajaca.scalajaca | Select-Object -First
 Device shell sha256sum $taskPackage | Set-Content (Join-Path $Output 'installed-harness-sha256.txt') -Encoding utf8
 Device shell am force-stop pl.scalajaca.scalajaca
 Launch
-$taskDeadline=[DateTime]::UtcNow.AddMinutes(40)
+$taskDeadline=[DateTime]::UtcNow.AddMinutes($TimeoutMinutes)
 $taskCount=0
 $taskRestarts=[Collections.Generic.HashSet[string]]::new()
 while([DateTime]::UtcNow -lt $taskDeadline) {
@@ -55,6 +56,12 @@ while([DateTime]::UtcNow -lt $taskDeadline) {
   if($LASTEXITCODE -ne 0) { continue }
   try { $taskReport=$taskJson | ConvertFrom-Json } catch { continue }
   $taskJson | Set-Content (Join-Path $Output 'report.json') -Encoding utf8
+  if($taskReport.status -eq 'generating') {
+    $taskSample=Device shell dumpsys meminfo pl.scalajaca.scalajaca
+    $taskSampleName='memory-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'.txt'
+    $taskSample | Set-Content (Join-Path $Output $taskSampleName) -Encoding utf8
+    [ordered]@{ utc=[DateTime]::UtcNow.ToString('o'); activeCase=$taskReport.activeCaseId; sample=$taskSampleName } | ConvertTo-Json -Compress | Add-Content (Join-Path $Output 'memory-samples.jsonl') -Encoding utf8
+  }
   while($taskCount -lt $taskReport.cases.Count) {
     $taskCase=$taskReport.cases[$taskCount++]
     [ordered]@{ proba=$taskCase.id; trafienie=$taskCase.retrievalHit; dokladnie=$taskCase.exact; odpowiedz=$taskCase.output; blad=$taskCase.error } | ConvertTo-Json -Compress

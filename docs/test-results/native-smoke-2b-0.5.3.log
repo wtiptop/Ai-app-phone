@@ -1,0 +1,593 @@
+-- llama.cpp version: 0.7.0-dev
+CMAKE_BUILD_TYPE=Release
+fatal: detected dubious ownership in repository at 'C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca'
+'C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca' is owned by:
+	LAPTOP-QT0T993B/niezn (S-1-5-21-1011612874-1983452050-2136150521-1001)
+but the current user is:
+	LAPTOP-QT0T993B/CodexSandboxOffline (S-1-5-21-1011612874-1983452050-2136150521-1004)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca
+fatal: detected dubious ownership in repository at 'C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca'
+'C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca' is owned by:
+	LAPTOP-QT0T993B/niezn (S-1-5-21-1011612874-1983452050-2136150521-1001)
+but the current user is:
+	LAPTOP-QT0T993B/CodexSandboxOffline (S-1-5-21-1011612874-1983452050-2136150521-1004)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: AMD64
+-- CMAKE_GENERATOR_PLATFORM: 
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: /arch:AVX2 GGML_AVX2;GGML_FMA;GGML_F16C;__BMI2__;GGML_BMI2
+-- ggml version: 0.27.0
+-- ggml commit:  unknown
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/niezn/Documents/Codex/Scalajaca/work/native-windows
+[1/8] Building CXX object CMakeFiles\scalajaca_local_smoke.dir\local_smoke.cpp.obj
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\android\app\src\main\cpp\local_engine.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\atomic
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals_core.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\sal.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\concurrencysal.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vadefs.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xkeycheck.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\crtdbg.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new_debug.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\crtdefs.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\use_ansi.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstddef
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stddef.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtr1common
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdint
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdint.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstring
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\string.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memory.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memcpy_s.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\errno.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_string.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstring.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xatomic.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.inl.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\type_traits
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstddef
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdlib
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_math.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdlib.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_malloc.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_search.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdlib.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\initializer_list
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xthreads.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\climits
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtimec.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ctime
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\time.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wtime.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\chrono
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cfloat
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\float.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cwchar
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdio
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdio.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdio.h
+Uwaga: w tym pliku:          C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_stdio_config.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\wchar.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wconio.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wctype.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wdirect.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wio.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_share.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wprocess.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/stat.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/types.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\isa_availability.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ratio
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\utility
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\system_error
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_system_error_abi.hpp
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cerrno
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdexcept
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\exception
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\malloc.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_exception.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\eh.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_terminate.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstring
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iosfwd
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xmemory
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\new
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xutility
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_iter_core.hpp
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xpolymorphic_allocator.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\tuple
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xcall_once.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xerrc.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xfilesystem_abi.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\functional
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\typeinfo
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_typeinfo.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\unordered_map
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xhash
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cmath
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\list
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vector
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xbit_ops.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xnode_handle.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\string
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cctype
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\ctype.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iostream
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\istream
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ostream
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ios
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocnum
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iterator
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\streambuf
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xiosbase
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\share.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocale
+Uwaga: w tym pliku:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\memory
+Uwaga: w tym pliku:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xfacet
+Uwaga: w tym pliku:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocinfo
+Uwaga: w tym pliku:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_xlocinfo_types.hpp
+Uwaga: w tym pliku:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\clocale
+Uwaga: w tym pliku:            C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\locale.h
+[2/8] Building C object llama-build\ggml\src\CMakeFiles\ggml-base.dir\ggml.c.obj
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\work\native-windows\llama-build\ggml\src\ggml-version.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-backend.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdbool.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stddef.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\sal.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\concurrencysal.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vadefs.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdint.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdio.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdio.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_stdio_config.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml-alloc.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\ggml-impl.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\gguf.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\assert.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_math.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_math_defines.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdlib.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_malloc.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_search.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdlib.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\string.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memory.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memcpy_s.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\errno.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_string.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstring.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\ggml-threading.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-cpu.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\ggml-quants.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\ggml-common.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\malloc.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\assert.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\time.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wtime.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\inttypes.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\float.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdarg.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\signal.h
+Uwaga: w tym pliku:  C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\windows.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\winapifamily.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\winpackagefamily.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\sdkddkver.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\excpt.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\windef.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\minwindef.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\specstrings.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\specstrings_strict.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\specstrings_undef.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\driverspecs.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\sdv_driverspecs.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winnt.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\ctype.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wctype.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\kernelspecs.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\basetsd.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\guiddef.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack4.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack4.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack4.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack2.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack2.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack2.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack8.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack1.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\pshpack1.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\shared\poppack.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\apiset.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\ktmtypes.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winbase.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\apisetcconv.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\minwinbase.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\apiquery2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\processenv.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\fileapifromapp.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\fileapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\debugapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\utilapiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\handleapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\errhandlingapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\fibersapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\namedpipeapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\profileapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\heapapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\ioapiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\synchapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\interlockedapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\processthreadsapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\sysinfoapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\memoryapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\enclaveapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\threadpoollegacyapiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\threadpoolapiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\jobapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\jobapi2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\wow64apiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\libloaderapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\securitybaseapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\namespaceapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\systemtopologyapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\processtopologyapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\securityappcontainer.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\realtimeapiset.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\winerror.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\timezoneapi.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\wingdi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack1.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack4.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack4.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winuser.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\pshpack2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\poppack.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\tvout.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winnls.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\datetimeapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\stringapiset.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winnls.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\wincon.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\wincontypes.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\consoleapi.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\consoleapi2.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\consoleapi3.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winver.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\verrsrc.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winreg.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\reason.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winnetwk.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\wnnc.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\shared\stralign.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\winsvc.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\mcx.h
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\imm.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\\include\10.0.22000.0\\um\ime_cmodes.h
+[3/8] Linking CXX static library llama-build\ggml\src\ggml-base.lib
+[4/8] Building CXX object llama-build\src\CMakeFiles\llama.dir\llama.cpp.obj
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\..\include\llama.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdbool.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stddef.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\sal.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\concurrencysal.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vadefs.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdint.h
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdio.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdio.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_stdio_config.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-cpu.h
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml-backend.h
+Uwaga: w tym pliku:     C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml-alloc.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-opt.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\gguf.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-impl.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\string
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals_core.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xkeycheck.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstring
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iosfwd
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\crtdbg.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new_debug.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\crtdefs.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\use_ansi.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdio
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstring
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\string.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memory.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memcpy_s.h
+Uwaga: w tym pliku:          C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\errno.h
+Uwaga: w tym pliku:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_string.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstring.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cwchar
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\wchar.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wconio.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wctype.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wdirect.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wio.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_share.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wprocess.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdlib.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wtime.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/stat.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/types.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstddef
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstddef
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtr1common
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdlib
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_math.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdlib.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_malloc.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_search.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\initializer_list
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xmemory
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdint
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cfloat
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\float.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\climits
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.inl.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\isa_availability.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\new
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\exception
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\type_traits
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\malloc.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_exception.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\eh.h
+Uwaga: w tym pliku:          C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_terminate.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xatomic.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xutility
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_iter_core.hpp
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\utility
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xpolymorphic_allocator.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\tuple
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cctype
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\ctype.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vector
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\work\native-windows\llama-build\src\llama-version.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-chat.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-context.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-ext.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\map
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtree
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xnode_handle.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-cparams.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-graph.h
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-arch.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\set
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-batch.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\array
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\bitset
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\memory
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\typeinfo
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_typeinfo.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\unordered_map
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xhash
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cmath
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\list
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xbit_ops.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\unordered_set
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-hparams.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cassert
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\assert.h
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-adapter.h
+Uwaga: w tym pliku:     C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-cpp.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\functional
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-memory.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-moe-cache.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-mmap.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-vocab.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-model-loader.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdexcept
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-model-saver.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\llama-model.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\algorithm
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cassert
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\assert.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cinttypes
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\inttypes.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ctime
+Uwaga: w tym pliku:   C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\time.h
+[5/8] Building CXX object CMakeFiles\scalajaca_core.dir\local_engine.cpp.obj
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\android\app\src\main\cpp\local_engine.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\atomic
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\yvals_core.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\sal.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\concurrencysal.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vadefs.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xkeycheck.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\crtdbg.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new_debug.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_new.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\crtdefs.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\use_ansi.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstddef
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stddef.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtr1common
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdint
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdint.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstring
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\string.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memory.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_memcpy_s.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\errno.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_string.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstring.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xatomic.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\intrin0.inl.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\type_traits
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstddef
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdlib
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_math.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdlib.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_malloc.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_search.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdlib.h
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\initializer_list
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xthreads.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\climits
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtimec.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ctime
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\time.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wtime.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\chrono
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\limits
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cfloat
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\float.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cwchar
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cstdio
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\stdio.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wstdio.h
+Uwaga: w tym pliku:          C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_stdio_config.h
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\wchar.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wconio.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wctype.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wdirect.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wio.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_share.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_wprocess.h
+Uwaga: w tym pliku:        C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/stat.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\sys/types.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\isa_availability.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ratio
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\utility
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\system_error
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_system_error_abi.hpp
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cerrno
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdexcept
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\exception
+Uwaga: w tym pliku:       C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\malloc.h
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_exception.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\eh.h
+Uwaga: w tym pliku:         C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_terminate.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xstring
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iosfwd
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xmemory
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\new
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xutility
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_iter_core.hpp
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xpolymorphic_allocator.h
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\tuple
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xcall_once.h
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xerrc.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xfilesystem_abi.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\functional
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\typeinfo
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_typeinfo.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\unordered_map
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xhash
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cmath
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\list
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vector
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xbit_ops.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xnode_handle.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\string
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cctype
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\ctype.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\src\..\include\llama.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdbool.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-cpu.h
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml-backend.h
+Uwaga: w tym pliku:     C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\include\ggml-alloc.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\ggml-opt.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\ggml\src\..\include\gguf.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\json.h
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\iterator
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\map
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xtree
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\memory
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\set
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\string_view
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja/lexer.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja\utils.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\sstream
+Uwaga: w tym pliku:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\istream
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ostream
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\ios
+Uwaga: w tym pliku:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocnum
+Uwaga: w tym pliku:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\streambuf
+Uwaga: w tym pliku:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xiosbase
+Uwaga: w tym pliku:           C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\share.h
+Uwaga: w tym pliku:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocale
+Uwaga: w tym pliku:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xfacet
+Uwaga: w tym pliku:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xlocinfo
+Uwaga: w tym pliku:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\__msvc_xlocinfo_types.hpp
+Uwaga: w tym pliku:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\clocale
+Uwaga: w tym pliku:              C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\locale.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\algorithm
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja/parser.h
+Uwaga: w tym pliku:   C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja\runtime.h
+Uwaga: w tym pliku:    C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja\value.h
+Uwaga: w tym pliku:     C:\Users\niezn\Documents\Codex\Scalajaca\outputs\Scalajaca\third_party\llama.cpp\common\jinja\string.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\optional
+Uwaga: w tym pliku:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\xsmf_control.h
+Uwaga: w tym pliku:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\cassert
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\assert.h
+Uwaga: w tym pliku:  C:\Users\niezn\Documents\Codex\Scalajaca\work\native-windows\templates.h
+Uwaga: w tym pliku:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\mutex
+Uwaga: w tym pliku:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\thread
+Uwaga: w tym pliku:    C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\process.h
+Uwaga: w tym pliku:     C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\corecrt_startup.h
+Uwaga: w tym pliku:      C:\Program Files (x86)\Windows Kits\10\include\10.0.22000.0\ucrt\math.h
+Uwaga: w tym pliku:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\vcruntime_startup.h
+[6/8] Linking CXX static library llama-build\src\llama.lib
+[7/8] Linking CXX static library scalajaca_core.lib
+[8/8] Linking CXX executable scalajaca_local_smoke.exe
+local_smoke.cpp
+Powód: stop; wejście: 21; wyjście: 1
+OK
+PASS: rzeczywista generacja i anulowanie przed uruchomieniem.

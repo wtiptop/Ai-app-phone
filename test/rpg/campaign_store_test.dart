@@ -379,7 +379,7 @@ void main() {
   });
 
   test(
-      'Zmiana treści i rollback atomowo zmieniają indeks; checkpoint pozostaje pierwszy',
+      'Zmiana treści i rollback atomowo zmieniają indeks; kanon wyprzedza checkpoint',
       () async {
     await store.putRecord(fact('gate', 'Stara brama'), scope(),
         expectedRevision: 0, userApproved: true);
@@ -402,7 +402,7 @@ void main() {
         scope(),
         expectedRevision: 3);
     final pack = await store.contextPack(scope(), query: 'brama');
-    expect(pack.recordIds, ['active-session', 'gate']);
+    expect(pack.recordIds, ['gate', 'active-session']);
     expect(
         (await store.contextPack(scope(role: AccessRole.rpgPlayer),
                 query: 'brama'))

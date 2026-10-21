@@ -82,18 +82,20 @@ void main() {
   });
 
   test('błędy systemu nie ujawniają ścieżek i treści', () async {
-    messenger.setMockMethodCallHandler(
-        channel,
-        (_) async => throw PlatformException(
-            code: 'vault_error',
-            message: 'private/vault/secret.md: PRIVATE CONTENT'));
-    try {
-      await bridge.read('opaque-handle', 'token');
-      fail('Oczekiwano błędu');
-    } on VaultException catch (error) {
-      expect(error.code, 'vault_error');
-      expect(error.message, isNot(contains('private')));
-      expect(error.message, isNot(contains('PRIVATE CONTENT')));
+    for (final code in ['vault_error', 'vault_limit']) {
+      messenger.setMockMethodCallHandler(
+          channel,
+          (_) async => throw PlatformException(
+              code: code, message: 'private/vault/secret.md: PRIVATE CONTENT'));
+      try {
+        await bridge.read('opaque-handle', 'token');
+        fail('Oczekiwano błędu');
+      } on VaultException catch (error) {
+        expect(error.code, code);
+        expect(error.message, isNot(contains('private')));
+        expect(error.message, isNot(contains('PRIVATE CONTENT')));
+        if (code == 'vault_limit') expect(error.message, contains('limit 8'));
+      }
     }
   });
 

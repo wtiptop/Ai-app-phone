@@ -29,6 +29,15 @@ public class GgufInspectorTest {
         while(buffer.size()%32!=0)out.writeByte(0);out.write(new byte[128*tensors]);return buffer.toByteArray();
     }
     private byte[] valid() throws IOException {return fixture("MiniCPM5 1B","llama",0,0,1,false);}
+    private byte[] twoBAlias(String basename,String size,int layers,int embedding) throws IOException {
+        ByteArrayOutputStream buffer=new ByteArrayOutputStream();DataOutputStream out=new DataOutputStream(buffer);
+        out.writeInt(0x47475546);u32(out,3);u64(out,1);u64(out,6);
+        text(out,"general.architecture","llama");text(out,"general.name","MiniCPM5 2.6B");
+        text(out,"general.basename",basename);text(out,"general.size_label",size);
+        integer(out,"llama.block_count",layers);integer(out,"llama.embedding_length",embedding);
+        string(out,"test");u32(out,1);u64(out,32);u32(out,0);u64(out,0);
+        while(buffer.size()%32!=0)out.writeByte(0);out.write(new byte[128]);return buffer.toByteArray();
+    }
     private File write(byte[] bytes) throws IOException {File file=temporary.newFile();Files.write(file.toPath(),bytes);return file;}
     private String hash(byte[] bytes) throws Exception {StringBuilder hex=new StringBuilder();for(byte b:MessageDigest.getInstance("SHA-256").digest(bytes))hex.append(String.format(Locale.ROOT,"%02x",b&255));return hex.toString();}
     private void rejects(byte[] bytes,String code) throws IOException {
@@ -37,6 +46,17 @@ public class GgufInspectorTest {
     }
     @Test public void readsStructuralMetadata() throws IOException {GgufInspector.Info info=GgufInspector.inspect(write(valid()),()->false);assertEquals("minicpm5_1b",info.profile);assertEquals(1,info.tensors);}
     @Test public void acceptsTwoBProfile() throws IOException {assertEquals("minicpm5_2b",GgufInspector.inspect(write(fixture("MiniCPM5 2B","llama",0,0,1,false)),()->false).profile);}
+    @Test public void acceptsOfficialTwoBSizeAlias() throws IOException {
+        assertEquals("minicpm5_2b",GgufInspector.inspect(write(twoBAlias("MiniCPM5","2.6B",42,2048)),()->false).profile);
+    }
+    @Test public void rejectsUnrecognisedTwoBSizeAliasIdentityOrGeometry() throws IOException {
+        rejects(twoBAlias("Other","2.6B",42,2048),"unsupported_model");
+        rejects(twoBAlias("MiniCPM5","2.7B",42,2048),"unsupported_model");
+        rejects(twoBAlias("MiniCPM5","2B",41,2560),"unsupported_model");
+        rejects(twoBAlias("MiniCPM5 2B","2.6B",42,2048),"unsupported_model");
+        rejects(twoBAlias("MiniCPM5","2.6B",41,2048),"unsupported_model");
+        rejects(twoBAlias("MiniCPM5","2.6B",42,2560),"unsupported_model");
+    }
     @Test public void rejectsMagic() throws IOException {byte[] b=valid();b[0]=0;rejects(b,"invalid_gguf");}
     @Test public void rejectsVersion() throws IOException {byte[] b=valid();b[4]=4;rejects(b,"invalid_gguf");}
     @Test public void boundsTensorCount() throws IOException {byte[] b=valid();Arrays.fill(b,8,16,(byte)127);rejects(b,"invalid_gguf");}
@@ -87,6 +107,16 @@ public class GgufInspectorTest {
             LocalModelStore.Model model=store.importFrom(source,"81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",()->false);
             assertEquals("minicpm5_1b",model.profile);assertEquals(688065920L,model.bytes);
             assertEquals(219,GgufInspector.inspect(store.modelFile(model.id),()->false).tensors);
+            store.remove(model.id);assertTrue(store.list().isEmpty());assertTrue(original.exists());
+        }
+    }
+    @Test public void importsRealOfficialTwoBWhenProvided() throws Exception {
+        String path=System.getProperty("scalajaca.testModel2B");Assume.assumeNotNull(path);
+        File original=new File(path);LocalModelStore store=new LocalModelStore(temporary.newFolder());
+        try(InputStream source=new FileInputStream(original)){
+            LocalModelStore.Model model=store.importFrom(source,"ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",()->false);
+            assertEquals("minicpm5_2b",model.profile);assertEquals(1561318368L,model.bytes);
+            assertEquals(381,GgufInspector.inspect(store.modelFile(model.id),()->false).tensors);
             store.remove(model.id);assertTrue(store.list().isEmpty());assertTrue(original.exists());
         }
     }

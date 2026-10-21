@@ -1,0 +1,100 @@
+{
+  "diagnosticOnly": false,
+  "modelSha256": "ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",
+  "modelProfile": "minicpm5_2b",
+  "modelBytes": 1561318368,
+  "sourceGrounded": true,
+  "beforeDartAndUi": true,
+  "trials": [
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMPASS",
+      "expected": "COMPASS",
+      "chunks": [
+        {
+          "utf8": "COMP",
+          "base64": "Q09NUA=="
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 29317
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMPASS",
+      "expected": "COMPASS",
+      "chunks": [
+        {
+          "utf8": "COMP",
+          "base64": "Q09NUA=="
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 28844
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "COMPASS",
+      "expected": "COMPASS",
+      "chunks": [
+        {
+          "utf8": "COMP",
+          "base64": "Q09NUA=="
+        },
+        {
+          "utf8": "ASS",
+          "base64": "QVNT"
+        }
+      ],
+      "elapsedMs": 28744
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "LANTERN",
+      "expected": "LANTERN",
+      "chunks": [
+        {
+          "utf8": "LAN",
+          "base64": "TEFO"
+        },
+        {
+          "utf8": "TERN",
+          "base64": "VEVSTg=="
+        }
+      ],
+      "elapsedMs": 28636
+    },
+    {
+      "finish_reason": "stop",
+      "input_tokens": 401,
+      "output_tokens": 2,
+      "rawOutput": "RAVEN",
+      "expected": "RAVEN",
+      "chunks": [
+        {
+          "utf8": "R",
+          "base64": "Ug=="
+        },
+        {
+          "utf8": "AVEN",
+          "base64": "QVZFTg=="
+        }
+      ],
+      "elapsedMs": 28761
+    }
+  ]
+}

@@ -1,12 +1,14 @@
 package pl.scalajaca.scalajaca.local
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.SystemClock
 import android.os.Bundle
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Configurator
+import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import org.json.JSONObject
@@ -29,7 +31,8 @@ class LocalInferenceDeviceTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val target = instrumentation.targetContext
     private val device = UiDevice.getInstance(instrumentation)
-    private val expectedHash = "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa"
+    private val fixture by lazy { OfflineModelFixture.selected() }
+    private val expectedHash get() = fixture.sha256
     private val proofDir by lazy { File(target.filesDir, "emulator-proof").apply { mkdirs() } }
 
     @Before fun emulatorOnlyAndOffline() {
@@ -113,13 +116,22 @@ class LocalInferenceDeviceTest {
         if (resetTask) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         target.startActivity(intent)
     }
-    private fun field(): UiObject2 = device.findObject(By.clazz("android.widget.EditText"))
-        ?: throw AssertionError("Brak pola tekstowego")
+    private fun field(): UiObject2 {
+        val end = SystemClock.elapsedRealtime() + 10000
+        do {
+            device.findObjects(By.clazz("android.widget.EditText")).firstOrNull(::visible)?.let { return it }
+            // Otwarcie IME i przewinięcie Fluttera przebudowują drzewo semantyki.
+            SystemClock.sleep(200)
+        } while (SystemClock.elapsedRealtime() < end)
+        checkpoint("missing-field-${testName.methodName}")
+        throw AssertionError("Brak widocznego pola tekstowego")
+    }
     private fun scrollToField(): UiObject2 {
         repeat(12) {
             val edit = device.findObject(By.clazz("android.widget.EditText"))
             if (edit != null && edit.visibleBounds.height() > 0) return edit
             device.swipe(device.displayWidth / 2, device.displayHeight * 4 / 5, device.displayWidth / 2, device.displayHeight / 3, 30)
+            SystemClock.sleep(450)
         }
         checkpoint("missing-field-${testName.methodName}")
         throw AssertionError("Brak widocznego pola tekstowego")
@@ -150,6 +162,20 @@ class LocalInferenceDeviceTest {
         click("Wyślij wiadomość")
         click("Uruchom offline")
     }
+    private fun waitForCompletion(timeout: Long = 210000): UiObject2 {
+        val end = SystemClock.elapsedRealtime() + timeout
+        do {
+            val complete = containing("Ukończono • 0 USD za API")
+            val retry = find("Ponów ostatnią odpowiedź")
+            // Przy ponowieniu poprzednia odpowiedź nadal ma status Ukończono.
+            // Wymagamy też końca bieżącej generacji, aby nie odczytać starej karty.
+            if (complete != null && find("Anuluj generowanie") == null &&
+                retry != null && retry.isEnabled && find("Wyślij wiadomość")?.isEnabled == true) return complete
+            SystemClock.sleep(200)
+        } while (SystemClock.elapsedRealtime() < end)
+        checkpoint("completion-failure-${testName.methodName}")
+        throw AssertionError("Bieżąca generacja nie zakończyła się poprawnie")
+    }
     private fun enterText(value: String) {
         field().click()
         SystemClock.sleep(600)
@@ -178,13 +204,14 @@ class LocalInferenceDeviceTest {
         // Flutter udostępnia labelText jako wskazówkę pola, nie osobny tekst.
         scrollToField()
         enterText(expectedHash)
+        hideKeyboard()
         scrollTo("Importuj plik GGUF")
         click("Importuj plik GGUF")
         // Systemowy selektor DocumentsUI, bez wstrzykiwania wyniku Activity.
         // Powrót selektora może pokazać ostatni katalog albo Recents. Otwieramy
         // fizyczny katalog, niezależnie od indeksowania MIME w MediaStore.
         repeat(8) {
-            if (find("MiniCPM5-1B-Q4_K_M.gguf") != null) return@repeat
+            if (find(fixture.filename) != null) return@repeat
             when {
                 find("Open from") != null -> {
                     SystemClock.sleep(400)
@@ -196,14 +223,14 @@ class LocalInferenceDeviceTest {
             }
             SystemClock.sleep(500)
         }
-        click("MiniCPM5-1B-Q4_K_M.gguf")
+        click(fixture.filename)
         waitFor("Model zapisany w telefonie", 120000, contains = true)
         val imported = scrollTo("Wybrany do czatu")
         assertNotNull(imported)
         val store = LocalModelStore(File(target.filesDir, "local_models"))
         val actual = store.get(expectedHash)
-        assertEquals(688065920L, actual.bytes)
-        assertEquals("minicpm5_1b", actual.profile)
+        assertEquals(fixture.bytes, actual.bytes)
+        assertEquals(fixture.profile, actual.profile)
         assertEquals("5aeac37a35b44fde4bdffaec9159f2fcb253b622", NativeLlama.version())
         device.takeScreenshot(File(proofDir, "imported.png"))
         device.pressBack(); device.pressBack()
@@ -212,7 +239,7 @@ class LocalInferenceDeviceTest {
         freshChat()
         val began = SystemClock.elapsedRealtime()
         send("Reply with only the single word: OK")
-        val completed = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val completed = waitForCompletion()
         val usage = completed.text ?: completed.contentDescription ?: ""
         assertTrue("Model rzeczywiście wyemitował tokeny: $usage", Regex("wyjście [1-9][0-9]* tokenów").containsMatchIn(usage))
         // Sam prompt też zawiera OK; sprawdzamy osobny węzeł odpowiedzi.
@@ -256,7 +283,7 @@ class LocalInferenceDeviceTest {
         device.takeScreenshot(File(proofDir, "stopped.png"))
         freshChat()
         send("Reply with only the single word: OK")
-        val completed = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val completed = waitForCompletion()
         val usage = completed.text ?: completed.contentDescription ?: ""
         assertTrue(Regex("wyjście [1-9][0-9]* tokenów").containsMatchIn(usage))
         assertNotNull(find("OK") ?: find("OK."))
@@ -343,6 +370,51 @@ class LocalInferenceDeviceTest {
         throw AssertionError("Model musi odczytać dokładny fakt $expected (bez wymogu zapisu liter)")
     }
 
+    private fun lastMessageRowId(): Long = SQLiteDatabase.openDatabase(
+        target.getDatabasePath("scalajaca.db").absolutePath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+        db.rawQuery("SELECT COALESCE(MAX(rowid),0) FROM messages", null).use { rows -> rows.moveToFirst(); rows.getLong(0) }
+    }
+    private fun newAssistant(afterRowId: Long, conversationId: String? = null): JSONObject = SQLiteDatabase.openDatabase(
+        target.getDatabasePath("scalajaca.db").absolutePath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+        // Wyłącznie metadane nowej syntetycznej odpowiedzi; bez odszyfrowywania treści.
+        db.rawQuery("SELECT rowid,id,conversation_id,status,input_tokens,output_tokens FROM messages WHERE rowid>? AND role='assistant' AND provider='minicpm_local' AND model=? ORDER BY rowid",
+            arrayOf(afterRowId.toString(), expectedHash)).use { rows ->
+            assertEquals("Jedno żądanie musi zapisać dokładnie jedną nową odpowiedź", 1, rows.count)
+            rows.moveToFirst()
+            if (conversationId != null) assertEquals(conversationId, rows.getString(2))
+            assertEquals("Nowa, a nie wcześniejsza odpowiedź musi być ukończona", "complete", rows.getString(3))
+            assertTrue("Nowa odpowiedź musi mieć rzeczywiste tokeny", rows.getInt(5) > 0)
+            JSONObject().put("rowId", rows.getLong(0)).put("messageId", rows.getString(1))
+                .put("conversationId", rows.getString(2)).put("status", rows.getString(3))
+                .put("inputTokens", rows.getInt(4)).put("outputTokens", rows.getInt(5))
+        }
+    }
+    private fun latestFact(expected: String, answer: JSONObject): String {
+        val list = device.findObjects(By.scrollable(true)).filter(::visible).firstOrNull()
+            ?: throw AssertionError("Brak przewijanej listy odpowiedzi")
+        var reachedEnd = false
+        for (step in 0 until 20) {
+            if (!list.scroll(Direction.DOWN, 1f)) { reachedEnd = true; break }
+        }
+        assertTrue("Odczyt wymaga rzeczywistego końca listy, bez starszej karty", reachedEnd)
+        SystemClock.sleep(500)
+        val cards = mutableListOf<AccessibilityNodeInfo>()
+        fun collect(node: AccessibilityNodeInfo?) {
+            if (node == null) return
+            if (node.isVisibleToUser && node.hintText?.toString() == "minicpm_local · $expectedHash") cards.add(node)
+            for (index in 0 until node.childCount) collect(node.getChild(index))
+        }
+        collect(instrumentation.uiAutomation.rootInActiveWindow)
+        val last = cards.lastOrNull() ?: throw AssertionError("Brak ostatniej karty modelu")
+        val status = "Ukończono • 0 USD za API • wejście ${answer.getInt("inputTokens")}, wyjście ${answer.getInt("outputTokens")} tokenów"
+        assertTrue("Status musi należeć do ostatniej karty i zgadzać się z nowym rekordem",
+            (0 until last.childCount).any { last.getChild(it)?.contentDescription?.toString() == status })
+        val text = last.text?.toString().orEmpty()
+        assertTrue("Ostatnia odpowiedź musi brzmieć dokładnie $expected; otrzymano: $text",
+            Pattern.compile("^\\s*" + Pattern.quote(expected) + "[.]?\\s*$", Pattern.CASE_INSENSITIVE).matcher(text).matches())
+        return text
+    }
+
     @Test fun e_localVaultSafSourceAndRealAnswer() {
         // Własne syntetyczne dane. Test nie otwiera prywatnego vaultu.
         val folder = "/sdcard/Documents/ScalajacaTestVault"
@@ -350,6 +422,10 @@ class LocalInferenceDeviceTest {
         // UiAutomation.executeShellCommand nie jest powłoką obsługującą pipe/redirection.
         assertTrue("Brak fixture vaultu; uruchom skrypt przygotowujący test", device.executeShellCommand("cat $folder/Archive.md").contains("LANTERN"))
         assertTrue(device.executeShellCommand("cat $folder/GM_SECRET.md").contains("VAULT_GM_SENTINEL_426"))
+        fun vaultHandles() = JSONArray(target.getSharedPreferences("vault_handles_v1", android.content.Context.MODE_PRIVATE).getString("handles", "[]"))
+        val handlesBefore = vaultHandles()
+        val fixtureUri = "content://com.android.externalstorage.documents/tree/primary%3ADocuments%2FScalajacaTestVault"
+        val hadReadHandle = (0 until handlesBefore.length()).any { handlesBefore.getJSONObject(it).let { h -> h.getString("uri") == fixtureUri && !h.getBoolean("write") } }
         startApp(resetTask = true)
         selectLocalProvider()
         click("Pamięć", contains = true)
@@ -357,11 +433,22 @@ class LocalInferenceDeviceTest {
         click("Połącz lokalny vault", contains = true)
         // Selektor drzewa pamięta ostatni katalog Download, którego Android 11
         // nie pozwala udostępnić jako root. Nawigujemy jawnym breadcrumbem.
+        val pickerEnd = SystemClock.elapsedRealtime() + 15000
+        fun pickerVisible() = device.hasObject(By.pkg("com.google.android.documentsui")) || device.hasObject(By.pkg("com.android.documentsui"))
+        while (!pickerVisible() && SystemClock.elapsedRealtime() < pickerEnd) SystemClock.sleep(200)
+        assertTrue("Systemowy selektor folderu nie został otwarty", pickerVisible())
+        if (find("sdk_gphone_x86_64") == null) click("Show roots", contains = true)
         click("sdk_gphone_x86_64")
         click("Documents")
         click("ScalajacaTestVault")
         click("USE THIS FOLDER", contains = true)
         click("ALLOW", contains = true)
+        val handlesAfter = vaultHandles()
+        assertEquals("Ponowny wybór vaultu nie zużywa kolejnego uchwytu", handlesBefore.length() + if (hadReadHandle) 0 else 1, handlesAfter.length())
+        for (i in 0 until handlesBefore.length()) {
+            val old = handlesBefore.getJSONObject(i)
+            assertTrue("Zachowano poprzednie ID i uprawnienia", (0 until handlesAfter.length()).any { handlesAfter.getJSONObject(it).toString() == old.toString() })
+        }
         scrollTo("Importuj / wznów")
         click("Importuj / wznów")
         waitFor("Import ukończony", contains = true)
@@ -379,7 +466,7 @@ class LocalInferenceDeviceTest {
         click("Użyj w czacie")
         val began = SystemClock.elapsedRealtime()
         send("Copy the archive key from the provided source verbatim. Keep its exact spelling. Reply only with the key.")
-        val completed = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val completed = waitForCompletion()
         val usage = completed.text ?: completed.contentDescription ?: ""
         checkpoint("vault-real-answer")
         val actualOutput = actualFact("LANTERN")
@@ -389,6 +476,7 @@ class LocalInferenceDeviceTest {
         checkpoint("vault-saved-receipt")
         click("Zamknij")
         saveReport("vault-saf-real-answer", JSONObject().put("offline", true).put("fixtureOutput", "LANTERN").put("actualOutput", actualOutput)
+            .put("handlesBefore", handlesBefore.length()).put("handlesAfter", handlesAfter.length()).put("reusedReadHandle", hadReadHandle).put("oldHandleIdsPreserved", true)
             .put("elapsedMs", SystemClock.elapsedRealtime() - began).put("usageLabel", usage)
             .put("source", "Archive.md").put("receiptRetained", true))
     }
@@ -423,11 +511,14 @@ class LocalInferenceDeviceTest {
         checkpoint("memory-late-fact-preview")
         click("Użyj w czacie")
         val began = SystemClock.elapsedRealtime()
+        val beforeRowId = lastMessageRowId()
         send("Copy the recovery key from the provided source verbatim. Keep its exact spelling. Reply only with the key.")
-        val done = waitFor("Ukończono • 0 USD za API", 210000, contains = true)
+        val done = waitForCompletion()
         val usage = done.text ?: done.contentDescription ?: ""
         checkpoint("memory-late-fact-answer")
-        val actualOutput = actualFact("COMPASS")
+        var answer = newAssistant(beforeRowId)
+        val answerMetadata = JSONArray().put(answer)
+        val actualOutput = latestFact("COMPASS", answer)
         click("Źródła użyte w odpowiedzi")
         waitFor("Zapisany pakiet źródeł")
         assertNotNull(containing("COMPASS"))
@@ -436,17 +527,22 @@ class LocalInferenceDeviceTest {
         click("Zamknij")
         val repeatedOutputs = JSONArray().put(actualOutput)
         repeat(2) {
+            val previousRowId = lastMessageRowId()
             click("Ponów ostatnią odpowiedź")
             click("Uruchom offline")
             // Ta sama zatwierdzona wiadomość, bez starej odpowiedzi w kontekście.
             waitFor("Anuluj generowanie")
-            waitFor("Ukończono • 0 USD za API", 210000, contains = true)
-            repeatedOutputs.put(actualFact("COMPASS"))
+            waitForCompletion()
+            answer = newAssistant(previousRowId, answer.getString("conversationId"))
+            answerMetadata.put(answer)
+            repeatedOutputs.put(latestFact("COMPASS", answer))
         }
+        assertEquals(3, (0 until answerMetadata.length()).map { answerMetadata.getJSONObject(it).getString("messageId") }.toSet().size)
         checkpoint("memory-late-fact-repeated")
         saveReport("paged-memory-real-answer", JSONObject().put("offline", true).put("source", "Archive.md")
             .put("initialResults", summary).put("pageThreeReached", true).put("fixtureOutput", "COMPASS").put("actualOutput", actualOutput)
             .put("repeatedOutputs", repeatedOutputs)
+            .put("newAnswerMetadata", answerMetadata).put("latestCardCheckedAtListEnd", true)
             .put("receiptRetained", true).put("usageLabel", usage).put("elapsedMs", SystemClock.elapsedRealtime() - began))
     }
 

@@ -181,6 +181,17 @@ void main() {
     expect(current.citation.sourceId, 'history-checkpoint:2');
     expect(current.citation.page, contains('zapis jako rewizja 5'));
     expect(current.title, contains('bez zmiany kanonu'));
+    final pack = await store.contextPack(scope(), query: 'brama');
+    expect(pack.recordIds, ['gate', 'active-session']);
+    expect(pack.text.indexOf('Brama zamknięta po bieżących wydarzeniach'),
+        lessThan(pack.text.indexOf('Dawny cel')));
+    expect(pack.text, contains('rewizja zapisu notatki r5'));
+    expect(pack.text,
+        contains('poziom: notatka MG, nie ustala bieżącego kanonu świata'));
+    expect(pack.text, contains('Tytuł wpisu: Brama\nTreść:\n'));
+    final sessionText =
+        pack.text.substring(pack.text.indexOf('[active-session;'));
+    expect(sessionText, isNot(contains('poziom: approvedCampaignCanon')));
     expect((await store.audit(scope())).first.kind, 'checkpointSaved');
     final history = await store.checkpointHistory(scope());
     expect(history.map((e) => e.record.revision), [5, 4, 2]);

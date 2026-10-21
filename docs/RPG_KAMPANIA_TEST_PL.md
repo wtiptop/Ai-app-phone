@@ -1,6 +1,6 @@
 # Odtworzenie testu wielosesyjnej kampanii offline
 
-Wersja 0.5.2. To próba na autorskich danych syntetycznych, bez kont, API i opłat. Wyniki końcowe i ocena odpowiedzi znajdują się w `TESTS_PL.md` oraz `test-results/rpg-campaign-0.5.2.json`. Test nie jest przeznaczony do uruchamiania na prywatnym telefonie.
+Wersja 0.5.3. To próba na autorskich danych syntetycznych, bez kont, API i opłat. Wyniki i ocena odpowiedzi znajdują się w `TESTS_PL.md` oraz `test-results/rpg-campaign-0.5.3.json`; porównanie 1B zachowano w `test-results/rpg-campaign-0.5.2.json`. Test nie jest przeznaczony do uruchamiania na prywatnym telefonie.
 
 ## Co jest sprawdzane
 
@@ -14,19 +14,19 @@ Test używa bazy `rpg-soak-<Run>.db` i osobnego prefiksu wpisów Keystore. Nie c
 
 ## Wykonanie
 
-Wymagane są Flutter/SDK/JDK z instrukcji Androida, własny AVD **Scalajaca_API30**, Android 11/API30 x86_64, oficjalny model 1B Q4_K_M wcześniej zaimportowany przez systemowy selektor oraz PowerShell 7. SHA-256 modelu: `81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa`. Skrypt nie pobiera wag ani nie instaluje sterownika.
+Wymagane są Flutter/SDK/JDK z instrukcji Androida, własny AVD **Scalajaca_API30**, Android 11/API30 x86_64, oficjalny model Q4_K_M wcześniej zaimportowany przez systemowy selektor oraz PowerShell 7. Próba 0.5.3 używa MiniCPM5-2B: SHA-256 `ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd`, 1561318368 bajtów. Domyślny hash harnessu nadal wskazuje 1B (`81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa`), dlatego dla 2B wymagane jest jawne `RPG_MODEL_SHA`. Raport zapisuje faktyczny hash, profil i rozmiar; zmiana modelu podczas jednej próby jest odrzucana. Skrypt nie pobiera wag ani nie instaluje sterownika.
 
 1. Zaczekaj na pełny start własnego emulatora i wyłącz WiFi/dane, włączając tryb samolotowy.
 2. Zbuduj **oddzielny** target diagnostyczny:
 
 ```powershell
-flutter build apk --debug --target-platform android-x64 --target test_driver/rpg_soak.dart --dart-define=RPG_EMULATOR_TEST=true --dart-define=RPG_RUN=nowa-proba-24 --dart-define=RPG_SESSIONS=24 --dart-define=RPG_FIXED=true
+flutter build apk --debug --target-platform android-x64 --target test_driver/rpg_soak.dart --dart-define=RPG_EMULATOR_TEST=true --dart-define=RPG_RUN=nowa-proba-24 --dart-define=RPG_SESSIONS=24 --dart-define=RPG_FIXED=true --dart-define=RPG_MODEL_SHA=ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd
 ```
 
 3. Zachowaj ten plik jako osobny testowy APK. Uruchom skrypt z pełnymi ścieżkami:
 
 ```powershell
-scripts/test_android_rpg_soak.ps1 -Apk <testowy-APK> -Run nowa-proba-24 -Output <osobny-folder-dowodow> -Adb <adb.exe>
+scripts/test_android_rpg_soak.ps1 -Apk <testowy-APK> -Run nowa-proba-24 -Output <osobny-folder-dowodow> -TimeoutMinutes 90 -Adb <adb.exe>
 ```
 
 4. Sprawdź `report.json`, wszystkie odpowiedzi i dowody offline. Status `complete` oznacza zakończenie procedury, **nie zaliczenie jakości**. Skrypt odmawia ponownego użycia raportu danego Run. Nie usuwaj prywatnych danych, aby wymusić powtórkę; użyj nowego identyfikatora i świeżej fixture.
@@ -36,12 +36,16 @@ scripts/test_android_rpg_soak.ps1 -Apk <testowy-APK> -Run nowa-proba-24 -Output 
 flutter build apk --debug --target lib/main.dart --target-platform android-arm64,android-x64
 ```
 
-Następnie wykonaj standardową regresję importu GGUF, Stop, SAF, źródeł i historii przez `test_android_continuity.ps1`, opisaną w `TESTS_PL.md`. Wydawany plik ma pochodzić z głównego targetu i mieć hash zgodny z zainstalowanym APK. APK diagnostyczny nie jest artefaktem dla Pixela.
+Następnie wykonaj standardową regresję importu GGUF, Stop, SAF, źródeł i historii przez `test_android_continuity.ps1 -Model <GGUF> -ModelSize 2b`, opisaną w `TESTS_PL.md`. Surowy test JNI otrzymuje analogiczne `-e modelSize 2b`; domyślne 1b zachowuje zgodność wcześniejszych procedur. Wydawany plik ma pochodzić z głównego targetu i mieć hash zgodny z zainstalowanym APK. APK diagnostyczny nie jest artefaktem dla Pixela.
 
 ## Interpretacja
 
-Model działa w kontekście 4096. W pytaniach o dawne fakty test jawnie wyłącza dołączenie notatki sesji, tak jak pozwala nowy przełącznik UI; przy konfrontacji starej notatki z kanonem włącza ją. Pakiet ma rzeczywisty budżet aplikacji 1152 znaków. Limity wyjścia testu wynoszą 96 tokenów dla faktu i 160 dla narracji; normalny czat zachowuje limit 512. Nie należy przedstawiać tej próby jako 24 pełnych sesji gry ludzi lub testu długiego tekstu na jednym wywołaniu.
+Model działa w kontekście 4096. W pytaniach o dawne fakty test jawnie wyłącza dołączenie notatki sesji, tak jak pozwala nowy przełącznik UI; przy konfrontacji starej notatki z kanonem włącza ją. UI i test korzystają ze wspólnej funkcji `localSourceBudgetBytes`; harness ostrożnie przelicza bajty na znaki dzieląc budżet przez dwa. Końcowa instrukcja 0.5.3 pozostawia 1128 znaków, a wcześniejsze próby 1B i pierwszy pełny 2B miały 1152. Raport zapisuje faktyczny budżet i hash instrukcji; zmiana instrukcji w trakcie jednej próby jest odrzucana. Limity wyjścia testu wynoszą 96 tokenów dla faktu i 160 dla narracji; normalny czat zachowuje limit 512. Nie należy przedstawiać tej próby jako 24 pełnych sesji gry ludzi lub testu długiego tekstu na jednym wywołaniu ani przypisywać całej różnicy wyników samemu rozmiarowi modelu.
 
-`retrievalHit` dotyczy wyłącznie treści pakietu; `exact` porównuje całą odpowiedź, dopuszczając tylko zmianę wielkości liter i końcową interpunkcję/cudzysłów. Metadane źródła zamiast odpowiedzi są porażką. Wykrywanie markerów sekretu jest pomocnicze: odpowiedzi gracza należy również przeczytać pod kątem parafraz. Podobnie narracja wymaga osobnej oceny języka polskiego, kanonu, wymyślonych ustaleń i decyzji za graczy. Odpowiedź modelu nigdy sama nie zmienia kampanii.
+`retrievalHit` dotyczy wyłącznie obecności oczekiwanego tekstu w pakiecie; trzeba również obejrzeć ID i aktualną treść kanonu. Zapytanie otrzymuje gotowe hasło tematu, a narracja wskazany wpis `z-magia`; nie jest to odbiór wyszukiwania z naturalnego pytania. `textExact` porównuje całą odpowiedź, dopuszczając tylko zmianę wielkości liter i końcową interpunkcję/cudzysłów. `exact` dodatkowo wymaga zakończenia `complete` i braku błędu. Historyczne 19/24 z 1B nie zmienia się po tym zaostrzeniu: wszystkie 24 próby faktów zakończyły się bez błędu. Metadane źródła zamiast odpowiedzi są porażką.
 
-Fizyczny Pixel 9, pełne 2B, bateria/termika, szczyt RAM, wielodniowa gra, korpus GB i automatyczny kontroler sprzeczności pozostają niezweryfikowane lub zaplanowane. Jedna próbka `dumpsys meminfo` jest diagnostyką emulatora, nie pomiarem szczytu ani wynikiem telefonu.
+Każda z pięciu narracji musi być ukończona bez błędu i zawierać dwa krótkie, zrozumiałe zdania po polsku opisujące otoczenie archiwum, uwzględniające zakaz magii. Nie może powtarzać poleceń/metadanych, podejmować decyzji za graczy, ujawniać sekretów ani ustanawiać nowych trwałych faktów lore. Zwykła scenografia jest dopuszczalna. Te same warunki dotyczą porównania 1B/2B. To pięć niezależnych opisów tego samego źródła, nie ciągła historia.
+
+Wykrywanie markerów sekretu jest pomocnicze: pełne pakiety i odpowiedzi gracza należy przeczytać pod kątem parafraz związku Radosza z Kruczą Gildią, dawnej trucizny i obcego medalionu. Pozytywna kontrola MG musi otrzymać i odczytać prawdziwy sekret. Brak wieku królowej wymaga przyznania braku danych bez wymyślonej liczby. Stary checkpoint wymaga odpowiedzi zgodnej z aktualnym kanonem, oddzielnie od oceny formatu. `campaignUnchanged` porównuje rewizję przez API, nie skróty wszystkich rekordów. Odpowiedź modelu nigdy sama nie zatwierdza faktu w kampanii.
+
+Fizyczny Pixel 9, bateria/termika, szczyt RAM, wielodniowa gra, korpus GB i automatyczny kontroler sprzeczności pozostają niezweryfikowane lub zaplanowane. Skrypt zapisuje `dumpsys meminfo` co około 10 sekund podczas generacji i indeks próbek `memory-samples.jsonl`. Maksimum zaobserwowanych próbek jest diagnostyką emulatora, nie rzeczywistym szczytem ani wynikiem telefonu.

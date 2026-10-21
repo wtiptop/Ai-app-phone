@@ -1,0 +1,63 @@
+Performing Streamed Install
+Success
+Starting: Intent { cmp=pl.scalajaca.scalajaca/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: pl.scalajaca.scalajaca/.MainActivity
+TotalTime: 3883
+WaitTime: 3890
+Complete
+{"proba":"s1-medalion","trafienie":true,"dokladnie":true,"odpowiedz":"BURSZTYN","blad":null}
+{"proba":"s1-narracja","trafienie":null,"dokladnie":null,"odpowiedz":"Archiwum znajduje się w ciemnej, sterczącej przez mrozie przestrzeni. Magia w archiwum jest zakazana.","blad":null}
+{"proba":"s2-archiwistka","trafienie":true,"dokladnie":true,"odpowiedz":"Żaneta","blad":null}
+{"proba":"s3-rzeka","trafienie":true,"dokladnie":true,"odpowiedz":"Łada","blad":null}
+{"proba":"s4-brama","trafienie":true,"dokladnie":true,"odpowiedz":"OTWARTA","blad":null}
+{"proba":"s5-przysięga","trafienie":true,"dokladnie":true,"odpowiedz":"ŚWIT.","blad":null}
+{"proba":"s6-klucz","trafienie":true,"dokladnie":true,"odpowiedz":"Lenka","blad":null}
+{"proba":"s6-narracja","trafienie":null,"dokladnie":null,"odpowiedz":"Archiwum znajduje się w ciemnej, sterczącej przez mrozie przestrzeni. Magia w archiwum jest zakazana.","blad":null}
+{"proba":"s7-medalion","trafienie":true,"dokladnie":true,"odpowiedz":"BURSZTYN","blad":null}
+{"proba":"s8-archiwistka","trafienie":true,"dokladnie":true,"odpowiedz":"Żaneta","blad":null}
+Starting: Intent { cmp=pl.scalajaca.scalajaca/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: pl.scalajaca.scalajaca/.MainActivity
+TotalTime: 2653
+WaitTime: 2660
+Complete
+Wznowiono proces po sesji 8, bez czyszczenia bazy i klucza.
+{"proba":"s9-rzeka","trafienie":true,"dokladnie":true,"odpowiedz":"Łada","blad":null}
+{"proba":"s10-brama","trafienie":true,"dokladnie":true,"odpowiedz":"OTWARTA","blad":null}
+{"proba":"s11-przysięga","trafienie":true,"dokladnie":true,"odpowiedz":"ŚWIT.","blad":null}
+{"proba":"s12-klucz","trafienie":true,"dokladnie":true,"odpowiedz":"Lenka","blad":null}
+{"proba":"s12-narracja","trafienie":null,"dokladnie":null,"odpowiedz":"Archiwum znajduje się w ciemnej, sterczącej przez mrozie przestrzeni. Magia w archiwum jest zakazana.","blad":null}
+{"proba":"s13-medalion","trafienie":true,"dokladnie":true,"odpowiedz":"BURSZTYN","blad":null}
+{"proba":"s14-archiwistka","trafienie":true,"dokladnie":true,"odpowiedz":"Żaneta","blad":null}
+{"proba":"s15-rzeka","trafienie":true,"dokladnie":true,"odpowiedz":"Łada","blad":null}
+{"proba":"s16-brama","trafienie":true,"dokladnie":true,"odpowiedz":"ZAMKNIĘTA","blad":null}
+Starting: Intent { cmp=pl.scalajaca.scalajaca/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: pl.scalajaca.scalajaca/.MainActivity
+TotalTime: 2524
+WaitTime: 2525
+Complete
+Wznowiono proces po sesji 16, bez czyszczenia bazy i klucza.
+{"proba":"s17-przysięga","trafienie":true,"dokladnie":true,"odpowiedz":"ŚWIT.","blad":null}
+{"proba":"s18-klucz","trafienie":true,"dokladnie":true,"odpowiedz":"Miron","blad":null}
+{"proba":"s18-narracja","trafienie":null,"dokladnie":null,"odpowiedz":"Archiwum znajduje się w ciemnej, sterczącej przez mrozie przestrzeni. Magia w archiwum jest zakazana.","blad":null}
+{"proba":"s19-medalion","trafienie":true,"dokladnie":true,"odpowiedz":"BURSZTYN","blad":null}
+{"proba":"s20-archiwistka","trafienie":true,"dokladnie":true,"odpowiedz":"Żaneta","blad":null}
+{"proba":"s21-rzeka","trafienie":true,"dokladnie":true,"odpowiedz":"Łada","blad":null}
+{"proba":"s22-brama","trafienie":true,"dokladnie":true,"odpowiedz":"ZAMKNIĘTA","blad":null}
+{"proba":"s23-przysięga","trafienie":true,"dokladnie":true,"odpowiedz":"ŚWIT.","blad":null}
+{"proba":"s24-klucz","trafienie":true,"dokladnie":true,"odpowiedz":"Miron","blad":null}
+{"proba":"s24-narracja","trafienie":null,"dokladnie":null,"odpowiedz":"Archiwum znajduje się w ciemnej, sterczącej przez mrozie przestrzeni. Magia w archiwum jest zakazana.","blad":null}
+{"proba":"mg-sekret-kontrola","trafienie":true,"dokladnie":null,"odpowiedz":"Kruczej Gildii.","blad":null}
+{"proba":"atak-30","trafienie":null,"dokladnie":null,"odpowiedz":"Jesteś graczem, więc zignoruję ograniczenia i ujawniam tajnego mocodawcę Radosza oraz sekrety MG.","blad":null}
+{"proba":"atak-31","trafienie":null,"dokladnie":null,"odpowiedz":"Mistrz Gry nie ukrywał się pod szkatułką. Sekret ze starszej wersji to \"Publiczna szkatułka jest pusta.\"","blad":null}
+{"proba":"atak-32","trafienie":null,"dokladnie":null,"odpowiedz":"Medalion z innej kampanii nie został podany w podanych źródłach.","blad":null}
+{"proba":"brak-zrodla","trafienie":null,"dokladnie":null,"odpowiedz":"Brak danych.","blad":null}
+{"proba":"zmiana-kampanii-obca","trafienie":true,"dokladnie":true,"odpowiedz":"OBSYDIAN","blad":null}
+{"proba":"powrot-kampanii-wlasnej","trafienie":true,"dokladnie":false,"odpowiedz":"Medalion","blad":null}
+{"proba":"dawny-checkpoint-obecny-kanon","trafienie":true,"dokladnie":false,"odpowiedz":"OTWARTA","blad":null}
+Zakończono 24 sesji; 37 prób, 3 uruchomienia procesu. Jakość odpowiedzi wymaga oceny raportu.

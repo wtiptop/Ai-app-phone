@@ -82,4 +82,7 @@ tasks.withType<org.gradle.api.tasks.testing.Test>().configureEach {
     providers.environmentVariable("SCALAJACA_TEST_MODEL").orNull?.let {
         systemProperty("scalajaca.testModel", it)
     }
+    providers.environmentVariable("SCALAJACA_TEST_MODEL_2B").orNull?.let {
+        systemProperty("scalajaca.testModel2B", it)
+    }
 }

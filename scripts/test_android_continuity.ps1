@@ -1,5 +1,6 @@
 param(
   [Parameter(Mandatory=$true)][string]$Model,
+  [ValidateSet('1b','2b')][string]$ModelSize='1b',
   [string]$Serial='emulator-5556',
   [string]$Adb=(Join-Path $env:ANDROID_HOME 'platform-tools/adb.exe'),
   [string]$Output=''
@@ -18,7 +19,7 @@ if($taskAvd -ne 'Scalajaca_API30') { throw 'Wymagany własny AVD Scalajaca_API30
 $taskInferencePassed=$true
 $taskInferenceStarted=[DateTime]::UtcNow
 try {
-  & (Join-Path $PSScriptRoot 'test_android_emulator.ps1') -Model $Model -Serial $Serial -Adb $Adb -Output $Output
+  & (Join-Path $PSScriptRoot 'test_android_emulator.ps1') -Model $Model -ModelSize $ModelSize -Serial $Serial -Adb $Adb -Output $Output
 } catch {
   $taskInferenceLog=Join-Path $Output 'instrumentation.log'
   # Po pełnym odbiorze z błędem asercji nadal sprawdzamy niezależną kampanię.

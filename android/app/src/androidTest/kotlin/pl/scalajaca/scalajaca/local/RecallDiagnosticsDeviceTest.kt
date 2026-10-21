@@ -43,9 +43,12 @@ class RecallDiagnosticsDeviceTest {
         assertTrue(excerpt.getString("text").endsWith("The recovery key is COMPASS.\n"))
         assertEquals(1,source.getJSONArray("sources").length())
         val grounded=InstrumentationRegistry.getArguments().getString("grounded","true")=="true"
-        val id="81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa"
+        val fixture=OfflineModelFixture.selected()
+        val id=fixture.sha256
         val store=LocalModelStore(File(target.filesDir,"local_models"))
         val model=store.get(id)
+        assertEquals(fixture.profile,model.profile)
+        assertEquals(fixture.bytes,model.bytes)
         val trials=JSONArray()
         // Trzy identyczne próby oraz inne nazwy: brak specjalnego traktowania COMPASS.
         val expectedValues=if(grounded) listOf("COMPASS","COMPASS","COMPASS","LANTERN","RAVEN") else listOf("COMPASS","COMPASS","COMPASS")
@@ -66,6 +69,7 @@ class RecallDiagnosticsDeviceTest {
             assertEquals("stop",result.getString("finish_reason"))
             trials.put(result.put("rawOutput",output.toString()).put("expected",expected).put("chunks",chunks).put("elapsedMs",SystemClock.elapsedRealtime()-began))
             File(proof,"raw-recall-${if(grounded) "grounded" else "sampled"}.json").writeText(JSONObject().put("diagnosticOnly",!grounded)
+                .put("modelSha256",model.id).put("modelProfile",model.profile).put("modelBytes",model.bytes)
                 .put("sourceGrounded",grounded).put("beforeDartAndUi",true).put("trials",trials).toString(2))
             if(grounded) assertEquals("Zachowawczy tryb musi zachować dokładny fakt, próba $index",expected,output.toString().trim())
         }

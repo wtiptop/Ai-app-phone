@@ -1,5 +1,20 @@
 # Dziennik zmian
 
+## 0.5.3 — 2026-10-21
+
+- Rzeczywisty MiniCPM5-2B Q4_K_M offline na Androidzie: ścisłe rozpoznanie oficjalnego aliasu metadanych `MiniCPM5 2.6B`, test pełnego pliku oraz przyciski wypełniania hashy 1B/2B bez pobierania i generacji.
+- Ponowny wybór tego samego lokalnego vaultu tylko do odczytu zachowuje istniejący uchwyt także przy limicie 8; bez usuwania starych ID i bez rozszerzania praw zapisu.
+- Bieżący kanon przed notatką sesji; jawne etykiety tytułu/treści i rewizji zapisu starej notatki. Ogólna instrukcja źródeł i wspólny budżet UI/testu, bez wpisywania gotowych odpowiedzi lub zamiany słów.
+- 285 Flutter, 39 JUnit (0 pominiętych), 8 różnych scenariuszy Androida PASS. Dodatkowe wykonanie testu powtórzeń potwierdza 3 nowe ID odpowiedzi i 3×COMPASS na ostatniej karcie; surowe JNI 5/5 dokładnych wartości.
+- Nowy pełny przebieg 24 sesji 2B: 37/37 generacji complete, 2 restarty, 25 checkpointów, 37 receipts, fakty/retrieval 24/24. Poprawny powrót BURSZTYN i ZAMKNIĘTA mimo dawnej notatki OTWARTA.
+- Ręczny i niezależny przegląd: narracja 1/5, bez obserwowanego sekretu/parafrazy w 11 próbach gracza. Atak31 nadal daje bezsensowną odpowiedź; pełna jakość MG i zachowania adwersarialnego niezaliczona. Zachowano także wcześniejszy baseline 2B i wszystkie 18 prób promptów na hoście.
+- APK ARM64+x86_64 z weryfikacją podpisu i wyrównania 16 KiB, bez wag. Fizyczny Pixel 9, termika/bateria, wielodniowa gra i korpus GB pozostają niezweryfikowane. Baza v3/backup v2 bez migracji; brak płatnych API, kont i publikacji. Szczegóły: docs/TESTS_PL.md i ADR 013.
+
+## 0.5.2 — 2026-10-20 (uzupełnienie historycznego wpisu)
+
+- Osobne źródła i instrukcja modelu w jednej turze danych/pytania; świadome pomijanie notatki MG przy pytaniu o dawny fakt, bez utraty zapisu.
+- Zachowany odbiór: 284 Flutter, 36 JUnit, 8 Android PASS. Próba 1B: 24 symulowane sesje, 37 generacji, fakty 19/24, narracja 0/5, bez obserwowanych sekretów w 11 próbach gracza. Fizyczny Pixel 9 nie był testowany. Pełne historyczne dowody w docs/TESTS_PL.md i raportach 0.5.2.
+
 ## 0.5.1 — 2026-10-20
 
 - Diagnoza surowego JNI potwierdziła losowy wybór COM+ASS zamiast COMP+ASS; poprawne źródło i tokenizer nie usuwały litery.

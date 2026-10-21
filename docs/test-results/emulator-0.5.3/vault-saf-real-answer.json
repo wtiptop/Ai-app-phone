@@ -1,0 +1,14 @@
+{
+  "offline": true,
+  "fixtureOutput": "LANTERN",
+  "actualOutput": "LANTERN",
+  "handlesBefore": 8,
+  "handlesAfter": 8,
+  "reusedReadHandle": true,
+  "oldHandleIdsPreserved": true,
+  "elapsedMs": 71669,
+  "usageLabel": "Ukończono • 0 USD za API • wejście 787, wyjście 2 tokenów",
+  "source": "Archive.md",
+  "receiptRetained": true,
+  "name": "vault-saf-real-answer"
+}
