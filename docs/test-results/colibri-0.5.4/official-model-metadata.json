@@ -1,0 +1,7 @@
+{
+  "repo": "allenai/OLMoE-1B-7B-0125-Instruct",
+  "revision": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
+  "tokenizerBytes": 3565064,
+  "tokenizerSha256": "d1e645ebd850d79567e531a3c103ac575d8e9cf45fa941420afc584b293438ea",
+  "license": "apache-2.0"
+}

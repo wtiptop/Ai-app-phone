@@ -1,0 +1,19 @@
+{
+  "version": "0.5.4+11",
+  "apkSha256": "74f0127b17322f2b816eb84c2deab7580da71f5174cf7f28d4abce5ced779c78",
+  "bytes": 169585850,
+  "abi": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "signatureVerified": true,
+  "zipalign16KiBVerified": true,
+  "nativeLibraries": {
+    "arm64-v8a/llama": "4f620192116aa67578cdeb09db77edf08a9507385b6296c41da88314623c9cd7",
+    "arm64-v8a/colibri": "b1f51fb2be47b5e446433c02ad75ee5c04e8c75df082e55a343bd0203d409ab0",
+    "x86_64/llama": "dcfb1f12be25716a53c3c0fa872069d84d69f044a374fe1709212b8457fae0d8",
+    "x86_64/colibri": "6a6d735de2144a2f7289d3d25f3a6032f3183d218dd80ef08a711a0adf293cfa"
+  },
+  "engineCommit": "e0db083cdc9e563e0766cc6fc661ef23c32298e0",
+  "modelWeightsInApk": false
+}

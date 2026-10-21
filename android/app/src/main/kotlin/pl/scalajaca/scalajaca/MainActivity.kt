@@ -11,10 +11,12 @@ import java.nio.charset.StandardCharsets
 import pl.scalajaca.scalajaca.local.LocalInferencePlugin
 import pl.scalajaca.scalajaca.vault.VaultPlugin
 import pl.scalajaca.scalajaca.backup.BackupFilePlugin
+import pl.scalajaca.scalajaca.colibri.ColibriPlugin
 
 /** Jednorazowe wybory SAF, bez szerokich uprawnień do plików. */
 class MainActivity : FlutterActivity() {
     private var localInference: LocalInferencePlugin? = null
+    private var colibri: ColibriPlugin? = null
     private var vault: VaultPlugin? = null
     private var backupFiles: BackupFilePlugin? = null
     private var pending: MethodChannel.Result? = null
@@ -23,6 +25,7 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        colibri = ColibriPlugin(this, flutterEngine.dartExecutor.binaryMessenger)
         backupFiles = BackupFilePlugin(this, flutterEngine.dartExecutor.binaryMessenger)
         try { vault = VaultPlugin(this, flutterEngine.dartExecutor.binaryMessenger) }
         catch (_: Exception) {
@@ -92,6 +95,7 @@ class MainActivity : FlutterActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (localInference?.activityResult(requestCode, resultCode, data) == true) return
+        if (colibri?.activityResult(requestCode, resultCode, data) == true) return
         if (vault?.activityResult(requestCode, resultCode, data) == true) return
         if (backupFiles?.activityResult(requestCode, resultCode, data) == true) return
         if (requestCode != 8101 && requestCode != 8102) return
@@ -132,12 +136,14 @@ class MainActivity : FlutterActivity() {
         }.start()
     }
     override fun onStop() {
+        colibri?.background()
         localInference?.background()
         vault?.background()
         super.onStop()
     }
 
     override fun onDestroy() {
+        colibri?.close()
         localInference?.close()
         vault?.close()
         backupFiles?.close()

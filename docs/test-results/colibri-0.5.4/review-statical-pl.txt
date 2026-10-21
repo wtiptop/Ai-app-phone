@@ -1,0 +1,2 @@
+Niezależny przegląd statyczny: memory_security_review, 21.10.2026.
+Potwierdzono poprawki: immutable hash importu po busy, cleanup osieroconego stagingu pod globalną blokadą, blokada markerów przed dispatch, zgodność parserów (duplikaty/escape/NUL), limity JSON i token IDs, kolejna praca modeli lokalnych. Po poprawkach nie ustalono nowych P1/P2, obejścia ACL/digest ani fallbacku sieciowego. Reviewer nie wykonywał testów. Pozostają pełne wagi, RAM, wydajność/jakość na Pixelu 9; proces nie jest sandboxem UID, oczekiwanie na śmierć ma limit 3 s.

@@ -64,12 +64,14 @@ class ChatSession extends ChangeNotifier {
       final i = history.lastIndexWhere((m) => m.role == 'user');
       if (i >= 0) history.removeRange(i, history.length);
     }
-    final output = provider == 'minicpm_local' ? 512 : 1024;
-    final context = provider == 'minicpm_local'
-        ? await store.setting('local_context', 4096)
+    final output = isLocalProvider(provider) ? 512 : 1024;
+    final context = isLocalProvider(provider)
+        ? (provider == 'colibri_local'
+            ? 4096
+            : await store.setting('local_context', 4096))
         : 0;
-    final budget = provider == 'minicpm_local' ? context - output - 256 : 24000;
-    final localSources = provider == 'minicpm_local' && attachment != null;
+    final budget = isLocalProvider(provider) ? context - output - 256 : 24000;
+    final localSources = isLocalProvider(provider) && attachment != null;
     final prefix = <ChatTurn>[
       if (localSources)
         const ChatTurn(role: ChatRole.system, text: sourceGuidance),
@@ -117,7 +119,7 @@ class ChatSession extends ChangeNotifier {
       'model': model,
       'scope': scopeKey,
       'output': output,
-      'sourceGrounded': provider == 'minicpm_local' && attachment != null,
+      'sourceGrounded': isLocalProvider(provider) && attachment != null,
       'turns': [
         for (final t in turns) {'role': t.role.name, 'text': t.text}
       ]

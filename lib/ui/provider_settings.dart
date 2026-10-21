@@ -4,6 +4,8 @@ import '../auth/secret_store.dart';
 import '../provider_registry/provider_registry.dart';
 import '../storage/app_database.dart';
 import 'local_models.dart';
+import 'colibri_models.dart';
+import '../local_inference/colibri_engine.dart';
 
 Future<bool> confirm(
   BuildContext context,
@@ -60,7 +62,9 @@ class ProviderSettings extends StatelessWidget {
             const Text(
               'API i abonament aplikacji konsumenckiej to odrębne sposoby dostępu. Zapis klucza nie uruchamia zapytań. Klucz BYOK w telefonie może zostać przejęty na zrootowanym urządzeniu. Ustaw limity także u dostawcy.',
             ),
-            for (final p in registry.adapters.whereType<LocalModelAdapter>())
+            for (final p in registry.adapters
+                .whereType<LocalModelAdapter>()
+                .where((p) => p.id == 'minicpm_local'))
               Card(
                   child: ListTile(
                 leading: const Icon(Icons.offline_bolt_outlined),
@@ -74,8 +78,21 @@ class ProviderSettings extends StatelessWidget {
                         builder: (_) =>
                             LocalModelsPage(engine: p.engine, store: store))),
               )),
+            for (final p in registry.adapters.whereType<ColibriAdapter>())
+              Card(
+                  child: ListTile(
+                      leading: const Icon(Icons.offline_bolt_outlined),
+                      title: const Text('Colibri offline — port Androida'),
+                      subtitle: const Text(
+                          'Eksperymentalny • OLMoE • instalacja paczki • bez serwera'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (_) => ColibriModelsPage(
+                                  engine: p.engine, store: store))))),
             for (final p in registry.adapters
-                .where((p) => p.id != 'demo' && p.id != 'minicpm_local'))
+                .where((p) => p.id != 'demo' && !isLocalProvider(p.id)))
               ProviderCard(provider: p, store: store, secrets: secrets),
             const Card(
               child: Padding(

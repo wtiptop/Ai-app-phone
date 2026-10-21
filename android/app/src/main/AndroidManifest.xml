@@ -8,6 +8,8 @@
         android:usesCleartextTraffic="false"
         android:name="${applicationName}"
         android:icon="@drawable/ic_scalajaca">
+        <service android:name=".colibri.ColibriService"
+            android:process=":colibri" android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,4 +1,7 @@
 * text=auto eol=lf
+third_party/colibri/** -text -whitespace
+assets/colibri_notices.txt -whitespace
+docs/test-results/colibri-0.5.4/*.txt -whitespace
 *.bat text eol=crlf
 *.png binary
 *.jar binary

@@ -1,5 +1,12 @@
 # Zależności i licencje
 
+<!-- release-0.5.4:start -->
+## Colibri 0.5.4
+
+Przypięto Colibri e0db083cdc9e563e0766cc6fc661ef23c32298e0 (Apache-2.0) z NOTICE i THIRD_PARTY_NOTICES. Inwentarz surowych plików: third_party/colibri/SHA256SUMS.txt. Zestaw licencji w APK: assets/colibri_notices.txt, ekran licencji Fluttera. Metadane oficjalnego modelu OLMoE deklarują Apache-2.0; nie pobrano pełnych wag, a licencji silnika nie stosujemy automatycznie do innych modeli. Instrukcja: COLIBRI_PL.md.
+
+<!-- release-0.5.4:end -->
+
 W 0.2.1 ponownie zebrano teksty licencji 100 rozwiązanych pakietów Dart, bez braków. Usunięto nieużywane testowe integration_test wraz z zależnościami. AndroidJUnitRunner 1.7.0 i UIAutomator 2.3.0 (AndroidX, Apache-2.0) są zależnościami osobnego testowego APK, nie głównej aplikacji. Publiczny GGUF pozostaje poza APK i paczką źródeł.
 
 Aktualizacja 0.2.1: APK zawiera statyczny silnik llama.cpp/ggml CPU (MIT), parser JSON (MIT) i dwa przypięte szablony MiniCPM5 (Apache-2.0). Pełne teksty są w `third_party/llama.cpp/LICENSE`, `licenses/`, `android/app/src/main/cpp/templates/LICENSE` oraz `assets/native_notices.txt`, rejestrowanym w ekranie licencji Flutter. Pochodzenie i sumy: `UPSTREAM.json`, `FILE_SHA256.json`, `templates/PROVENANCE.json`. Audyt potwierdził zgodność 1818 plików z commitem `5aeac37a35b44fde4bdffaec9159f2fcb253b622`. Linkujemy tylko CPU oraz potrzebny parser Jinja/JSON; inne vendored backendy nie są dystrybuowane jako aktywne biblioteki APK.

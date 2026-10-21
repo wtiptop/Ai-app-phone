@@ -24,12 +24,18 @@ class _Run {
 }
 
 class AndroidLocalEngine implements LocalInferenceEngine {
-  AndroidLocalEngine({MethodChannel? channel})
+  AndroidLocalEngine({MethodChannel? channel, this.errorForCode = localError})
       : _channel =
             channel ?? const MethodChannel('pl.scalajaca/local_inference') {
     _channel.setMethodCallHandler(_event);
   }
   final MethodChannel _channel;
+  final ProviderException Function(String) errorForCode;
+  Map<String, Object?> generateArguments(List<ChatTurn> turns) => {
+        'turns': [
+          for (final t in turns) {'role': t.role.name, 'text': t.text}
+        ]
+      };
   _Run? _active;
   int _serial = 0;
   bool _disposed = false;
@@ -42,7 +48,7 @@ class AndroidLocalEngine implements LocalInferenceEngine {
     try {
       return await _channel.invokeMethod<T>(method, arguments);
     } on PlatformException catch (e) {
-      throw localError(e.code);
+      throw errorForCode(e.code);
     } on MissingPluginException {
       throw localError('unsupported_abi');
     }
@@ -83,7 +89,7 @@ class AndroidLocalEngine implements LocalInferenceEngine {
       case 'bytes':
         run.bytes.add(data['bytes'] as Uint8List);
       case 'error':
-        run.finish(_Terminal(error: localError(data['code'] as String)));
+        run.finish(_Terminal(error: errorForCode(data['code'] as String)));
       case 'done':
         final reason = data['reason'];
         final error = switch (reason) {
@@ -120,9 +126,7 @@ class AndroidLocalEngine implements LocalInferenceEngine {
         await _call<void>('generate', {
           'requestId': run.id,
           'model': model,
-          'turns': [
-            for (final t in turns) {'role': t.role.name, 'text': t.text}
-          ],
+          ...generateArguments(turns),
           'context': context,
           'maxTokens': maxTokens,
           'sourceGrounded': sourceGrounded

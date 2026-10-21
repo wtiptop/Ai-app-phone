@@ -1,5 +1,12 @@
 # Prywatność Scalającej
 
+<!-- release-0.5.4:start -->
+## Colibri 0.5.4
+
+Zapytania Colibri pozostają w telefonie; nie ma transportu HTTP ani fallbacku do chmury. Prompty przechodzą przez anonimowe potoki, bez plików tekstowych i logowania treści w procesie natywnym. Wagi są prywatną kopią po jawnym SAF; model nie otrzymuje całego vaultu. Kontrola sekretów MG i zatwierdzonego zakresu pozostaje wspólna. Wagi nie wchodzą do backupu projektów/kampanii i wymagają ponownej instalacji po odtworzeniu na innym urządzeniu.
+
+<!-- release-0.5.4:end -->
+
 ## Aktualizacja 0.5.0
 
 Stronicowanie wyszukiwania i historii nie włącza sieci ani synchronizacji. Wyniki są lokalne; model otrzymuje wyłącznie potwierdzony, ograniczony podgląd aktualnych źródeł. Punkty analiz przywracają formularz, a archiwalne sesje RPG są prywatnym widokiem MG, bez automatycznej wysyłki. Zmiana pytania usuwa wcześniejszy wybór, a zmiana projektu czyści formularz i wyniki. Historię i sekrety nadal obejmuje pełna szyfrowana kopia; model GGUF i klucze API pozostają poza nią. Szczegóły: docs/PAMIEC_CIAGLOSC_PL.md.

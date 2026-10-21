@@ -1,0 +1,1 @@
+Obie próby sprzed poprawki zakończyły się timeout, mimo równoległego sprawdzania flags. Force-stop wykonano już po wyniku drugiej próby; nie był zaliczeniem ani przerwaniem przed wynikiem.

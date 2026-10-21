@@ -1,5 +1,20 @@
 # Budowanie i instalacja na Androidzie
 
+<!-- release-0.5.4:start -->
+## Instalacja 0.5.4+11 na Pixelu 9
+
+Dodano eksperymentalny port **Colibri OLMoE CPU w telefonie**, bez serwera, HTTP i kont. Wbudowany silnik, osobny proces na odpowiedź, import paczki ZIP z SHA-256, streaming/Stop, ograniczenia RAM/dysku/JSON i kolejna praca lokalnych modeli. MiniCPM pozostaje osobnym dostawcą. Baza v3 i backup v2 bez migracji; wagi instaluje się osobno.
+
+**Odbiór 0.5.4:** 290/290 Flutter, 42/42 JUnit (0 pominiętych), 3/3 testy pakowania; analiza bez uwag. Android offline: 5/5 scenariuszy portu Colibri **na danych syntetycznych** oraz osobna regresja MiniCPM 2B. Pełne wytrenowane wagi OLMoE, polska narracja Colibri, 24 sesje na Colibri, wydajność i fizyczny Pixel 9 pozostają **niezweryfikowane**. Wyników RPG MiniCPM 0.5.3 nie przenosimy na Colibri.
+
+Build wywołany bezpośrednio przez Gradle pominął optymalizację C/C++; dwie próby MiniCPM osiągnęły timeout 180 s. Poprawiono politykę CMake dla Androida, wymuszając zoptymalizowane silniki także w APK debug; zachowano logi obu nieudanych prób i osobny końcowy wynik. Nie zaliczamy tych prób jako PASS.
+
+Instalacja modelu, format paczki, limity i pochodzenie: [COLIBRI_PL.md](COLIBRI_PL.md). Wyniki surowe i hash APK: [raport 0.5.4](test-results/colibri-0.5.4/result.json). Starsze sekcje poniżej są zapisem poprzednich etapów.
+
+Artefakt: `Scalajaca-0.5.4-debug-arm64-x64.apk`, versionCode 11, podpis debug, oba ABI i wyrównanie 16 KiB zweryfikowane. Aktualizacja przez `adb install -r` zachowuje dane. Nie odinstalowuj ani nie czyść danych. Model: Ustawienia → Dostawcy → Colibri offline. Pełna paczka wag nie jest jeszcze przygotowana; instrukcja konwersji i pakowania opisuje dalszy etap.
+
+<!-- release-0.5.4:end -->
+
 <!-- release-0.5.3:start -->
 ## Wydanie 0.5.3+10
 

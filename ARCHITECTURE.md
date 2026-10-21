@@ -1,5 +1,12 @@
 # Architektura Scalającej
 
+<!-- release-0.5.4:start -->
+## Colibri 0.5.4
+
+Nowy adapter `colibri_local` używa osobnej nieeksportowanej usługi Androida `:colibri`, JNI i potoków stdin/stdout. Brak serwera i Pythona w telefonie. Każda odpowiedź ma świeży proces/KV; źródła i role kontroluje wspólna warstwa aplikacji. Lokalne modele w porównaniu działają kolejno. Decyzja: ADR/014-colibri-offline-android.md; szczegóły: docs/COLIBRI_PL.md.
+
+<!-- release-0.5.4:end -->
+
 Aktualizacja 0.5.2: `CampaignStore.contextPack` filtruje słowa pospolite pytań, stronicuje kandydatów po 40 z limitem 2000 i wymaga pełnego zmieszczenia ręcznego wyboru/checkpointu. Wynik zachowuje hierarchię i oznaczenie rodzaju wpisu. MG może wyłączyć automatyczny checkpoint bez zmiany trwałego świata. Lokalne pakiety kampanii wymagają kontekstu 4096; mniejsze okna pozwalają nadal przeglądać i edytować dane. `ChatSession` dla MiniCPM ze źródłami składa dane i pytanie w jedną turę user, zachowując osobny stały system i digest dokładnego tekstu. Baza v3, backup v2 i receipt v1 bez zmian. Próba 24 symulowanych sesji działa przez oddzielny target Androida; nie stanowi odbioru jakości pełnej gry. ADR 012, docs/RPG_KAMPANIA_TEST_PL.md i bieżący raport opisują granice.
 
 ## Zmiana 0.5.1

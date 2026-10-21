@@ -1,5 +1,20 @@
 # Rzeczywiste testy Scalającej
 
+<!-- release-0.5.4:start -->
+## Odbiór 0.5.4+11 — test portu i granice wyniku
+
+Dodano eksperymentalny port **Colibri OLMoE CPU w telefonie**, bez serwera, HTTP i kont. Wbudowany silnik, osobny proces na odpowiedź, import paczki ZIP z SHA-256, streaming/Stop, ograniczenia RAM/dysku/JSON i kolejna praca lokalnych modeli. MiniCPM pozostaje osobnym dostawcą. Baza v3 i backup v2 bez migracji; wagi instaluje się osobno.
+
+**Odbiór 0.5.4:** 290/290 Flutter, 42/42 JUnit (0 pominiętych), 3/3 testy pakowania; analiza bez uwag. Android offline: 5/5 scenariuszy portu Colibri **na danych syntetycznych** oraz osobna regresja MiniCPM 2B. Pełne wytrenowane wagi OLMoE, polska narracja Colibri, 24 sesje na Colibri, wydajność i fizyczny Pixel 9 pozostają **niezweryfikowane**. Wyników RPG MiniCPM 0.5.3 nie przenosimy na Colibri.
+
+Build wywołany bezpośrednio przez Gradle pominął optymalizację C/C++; dwie próby MiniCPM osiągnęły timeout 180 s. Poprawiono politykę CMake dla Androida, wymuszając zoptymalizowane silniki także w APK debug; zachowano logi obu nieudanych prób i osobny końcowy wynik. Nie zaliczamy tych prób jako PASS.
+
+Instalacja modelu, format paczki, limity i pochodzenie: [COLIBRI_PL.md](COLIBRI_PL.md). Wyniki surowe i hash APK: [raport 0.5.4](test-results/colibri-0.5.4/result.json). Starsze sekcje poniżej są zapisem poprzednich etapów.
+
+Scenariusze portu: świeży proces i generacja/usage; Stop po tokenie i natychmiastowa kolejna odpowiedź; Stop przed bind i przepełnienie kontekstu; awaria C i odzyskanie; atomowy import, hash, anulowanie, traversal/duplikaty, odrzucenie syntetycznego profilu w produkcji, duplikaty/escape/NUL w JSON, nadmierna głębokość i liczba węzłów, token ID poza słownikiem. Syntetyczne wagi przewidujące A są odtwarzane generatorem i trafiają wyłącznie do APK testów. Nie są modelem do czatu.
+
+<!-- release-0.5.4:end -->
+
 <!-- release-0.5.3:start -->
 ## Odbiór 0.5.3+10 — porównanie 1B/2B — 21.10.2026, Europe/Warsaw
 

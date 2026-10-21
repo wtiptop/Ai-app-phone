@@ -1,0 +1,8 @@
+00:00 +0: loading C:/Users/niezn/Documents/Codex/Scalajaca/outputs/Scalajaca/test/local/colibri_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: Znaczniki źródła nie stają się turami modelu; brak dispatch do natywnego procesu
+00:00 +1: OLMoE zachowuje role, polskie UTF-8 i natywny szablon przypiętego silnika
+00:00 +2: Nowy kanał wysyła tylko lokalne bajty i odtwarza fragmentowane UTF-8
+00:00 +3: Colibri ma własny model, zerowy koszt bez płatnego API i granicę zakresu MG
+00:00 +4: (tearDownAll)
+00:00 +4: All tests passed!

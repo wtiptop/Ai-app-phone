@@ -1,5 +1,12 @@
 # Macierz oficjalnych integracji Scalającej
 
+<!-- release-0.5.4:start -->
+## Colibri 0.5.4 — lokalny silnik
+
+Colibri nie jest kontem ani subskrypcją. Port OLMoE działa przez CPU na Androidzie, bez serwera i klucza API; 0 USD opłat API, kosztem zasobów telefonu. Status eksperymentalna: wymagane osobno przygotowane wagi i wystarczający RAM/dysk. Brak pełnego testu wag/Polskiego RPG/Pixela. Weryfikowane repo/commit i formaty: docs/COLIBRI_PL.md. Dotychczasowe rozróżnienie kont, abonamentów i API poniżej pozostaje bez zmian.
+
+<!-- release-0.5.4:end -->
+
 Data weryfikacji: **2026-10-17**, strefa Europe/Warsaw. Źródła: otwarte dokumentacje dostawców; nie wykonano płatnej generacji, logowania ani połączenia kont. „Zaimplementowany” oznacza kod transportu i testy na atrapach HTTP, nie potwierdzone połączenie z prywatnym kontem. Zmiany ofert wymagają ponownej weryfikacji przed wydaniem.
 
 ## Konto, plan i API

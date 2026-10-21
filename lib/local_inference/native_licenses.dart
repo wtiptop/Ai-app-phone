@@ -10,5 +10,9 @@ void registerNativeLicenses() {
       ['llama.cpp / GGML / szablony MiniCPM'],
       await rootBundle.loadString('assets/native_notices.txt'),
     );
+    yield LicenseEntryWithLineBreaks(
+      ['Colibri (port OLMoE CPU)'],
+      await rootBundle.loadString('assets/colibri_notices.txt'),
+    );
   });
 }

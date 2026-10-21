@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../auth/secret_store.dart';
 import '../costs/local_cost_gate.dart';
 import '../provider_registry/provider_registry.dart';
+import '../provider_registry/local_run_schedule.dart';
 import '../storage/app_database.dart';
 import 'provider_settings.dart';
 
@@ -63,14 +64,14 @@ class _ComparisonState extends State<Comparison> {
       final permits = <String, RequestPermit>{};
       final gate = LocalCostGate(widget.store);
       for (final id in selected) {
-        keys[id] = id == 'demo' || id == 'minicpm_local'
+        keys[id] = id == 'demo' || isLocalProvider(id)
             ? ''
             : await widget.secrets.read('api_$id') ?? '';
         modelNames[id] = id == 'demo'
             ? 'demo-local'
             : await widget.store.setting('model_$id', '');
         if (id != 'demo' &&
-            ((id != 'minicpm' && id != 'minicpm_local' && keys[id]!.isEmpty) ||
+            ((id != 'minicpm' && !isLocalProvider(id) && keys[id]!.isEmpty) ||
                 modelNames[id]!.isEmpty)) {
           throw StateError(
             'Skonfiguruj ${widget.registry.adapter(id).label} w Dostawcach.',
@@ -80,8 +81,8 @@ class _ComparisonState extends State<Comparison> {
         final adapter = widget.registry.adapter(id);
         recipients[id] = adapter is MiniCpmAdapter
             ? (await adapter.endpoint()).recipient
-            : id == 'minicpm_local'
-                ? 'Ten telefon • MiniCPM offline'
+            : isLocalProvider(id)
+                ? 'Ten telefon • model offline'
                 : adapter.label;
       }
       if (!mounted || cancelled) return;
@@ -100,42 +101,40 @@ class _ComparisonState extends State<Comparison> {
         }),
       );
       if (cancelled) return;
-      await Future.wait(
-        selected.map((id) async {
-          try {
-            if (cancelled) return;
-            permits[id]?.consume(id, modelNames[id]!);
+      await runProviderRequests(selected, (id) async {
+        try {
+          if (cancelled) return;
+          permits[id]?.consume(id, modelNames[id]!);
+          update(() {
+            results[id] = '';
+            statuses[id] = 'Generowanie';
+          });
+          await for (final e in widget.registry.adapter(id).stream(
+                ProviderRequest(
+                  model: modelNames[id]!,
+                  apiKey: keys[id]!,
+                  expectedEndpoint: id == 'minicpm' ? recipients[id] : null,
+                  turns: [
+                    ChatTurn(role: ChatRole.user, text: prompt.text),
+                  ],
+                ),
+              )) {
+            if (cancelled) break;
             update(() {
-              results[id] = '';
-              statuses[id] = 'Generowanie';
+              results[id] = (results[id] ?? '') + e.delta;
+              if (e.done) {
+                statuses[id] =
+                    'Ukończono${e.usage?.outputTokens == null ? '' : ' · ${e.usage!.outputTokens} tokenów wyjścia'}';
+              }
             });
-            await for (final e in widget.registry.adapter(id).stream(
-                  ProviderRequest(
-                    model: modelNames[id]!,
-                    apiKey: keys[id]!,
-                    expectedEndpoint: id == 'minicpm' ? recipients[id] : null,
-                    turns: [
-                      ChatTurn(role: ChatRole.user, text: prompt.text),
-                    ],
-                  ),
-                )) {
-              if (cancelled) break;
-              update(() {
-                results[id] = (results[id] ?? '') + e.delta;
-                if (e.done) {
-                  statuses[id] =
-                      'Ukończono${e.usage?.outputTokens == null ? '' : ' · ${e.usage!.outputTokens} tokenów wyjścia'}';
-                }
-              });
-            }
-            if (cancelled) update(() => statuses[id] = 'Anulowano');
-          } on ProviderException catch (e) {
-            update(() => statuses[id] = e.message);
-          } catch (_) {
-            update(() => statuses[id] = 'Nie udało się uzyskać odpowiedzi.');
           }
-        }),
-      );
+          if (cancelled) update(() => statuses[id] = 'Anulowano');
+        } on ProviderException catch (e) {
+          update(() => statuses[id] = e.message);
+        } catch (_) {
+          update(() => statuses[id] = 'Nie udało się uzyskać odpowiedzi.');
+        }
+      });
     } on StateError catch (e) {
       if (mounted) notice(context, e.message.toString());
     } catch (_) {
@@ -159,7 +158,7 @@ class _ComparisonState extends State<Comparison> {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const Text(
-                  'Jawni odbiorcy i osobne wyniki. Wersja eksperymentalna: wyniki w RAM, skopiuj je przed wyjściem. Demo jest atrapą, a zgodność modeli nie stanowi dowodu prawdziwości.',
+                  'Jawni odbiorcy i osobne wyniki. Modele lokalne pracują kolejno, aby współdzielić RAM telefonu. Wersja eksperymentalna: wyniki w RAM, skopiuj je przed wyjściem. Demo jest atrapą, a zgodność modeli nie stanowi dowodu prawdziwości.',
                 ),
                 Wrap(
                   spacing: 8,

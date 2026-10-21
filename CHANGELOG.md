@@ -1,5 +1,12 @@
 # Dziennik zmian
 
+<!-- release-0.5.4:start -->
+## 0.5.4+11 — Colibri Android offline
+
+Port OLMoE CPU w osobnym procesie Androida; import paczki Colibri z SHA-256 i atomowym stagingiem; czat/streaming/Stop, błędy, kontrola RAM i termiki. Ochrona markerów źródeł, duplikatów/escape/NUL i rozmiaru/struktury JSON, token IDs, zachowanie ACL/digest. Lokalne modele w porównaniu pracują kolejno. Naprawiono brak optymalizacji natywnych silników przy bezpośrednim Gradle. 290 Flutter, 42 JUnit, 3 Python oraz 5 scenariuszy portu na danych syntetycznych PASS. Pełne wagi OLMoE i fizyczny Pixel 9 nieodebrane; instrukcja i rzeczywiste wyniki w docs/COLIBRI_PL.md i docs/TESTS_PL.md.
+
+<!-- release-0.5.4:end -->
+
 ## 0.5.3 — 2026-10-21
 
 - Rzeczywisty MiniCPM5-2B Q4_K_M offline na Androidzie: ścisłe rozpoznanie oficjalnego aliasu metadanych `MiniCPM5 2.6B`, test pełnego pliku oraz przyciski wypełniania hashy 1B/2B bez pobierania i generacji.

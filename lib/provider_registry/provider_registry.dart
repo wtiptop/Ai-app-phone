@@ -14,7 +14,8 @@ class ProviderRegistry {
       : _adapters = {for (final adapter in adapters) adapter.id: adapter};
   factory ProviderRegistry.standard(
           {MiniCpmEndpointReader? miniCpmEndpoint,
-          ProviderAdapter? localAdapter}) =>
+          ProviderAdapter? localAdapter,
+          ProviderAdapter? colibriAdapter}) =>
       ProviderRegistry([
         DemoAdapter(),
         OpenAiAdapter(),
@@ -23,6 +24,7 @@ class ProviderRegistry {
         XaiAdapter(),
         MiniCpmAdapter(readEndpoint: miniCpmEndpoint ?? () async => ''),
         if (localAdapter != null) localAdapter,
+        if (colibriAdapter != null) colibriAdapter,
       ]);
   final Map<String, ProviderAdapter> _adapters;
   List<ProviderAdapter> get adapters => List.unmodifiable(_adapters.values);

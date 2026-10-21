@@ -1,5 +1,12 @@
 # Bezpieczeństwo Scalającej
 
+<!-- release-0.5.4:start -->
+## Granice portu Colibri 0.5.4
+
+Importer danych jest atomowy i ogranicza nazwy plików, sumy, rozmiary, strukturę JSON i token IDs. Blokuje znaczniki OLMoE w treści przed dispatch. Osobny proces chroni przed zwykłym exit/awarią C, lecz ma ten sam UID; nie jest sandboxem dla złośliwych wag. Używaj zaufanych źródeł. Testy syntetyczne nie są audytem całego parsera natywnego. Statyczny niezależny review i wyniki: docs/test-results/colibri-0.5.4/.
+
+<!-- release-0.5.4:end -->
+
 Aktualizacja 0.5.2: jawny wybór RPG nie może zostać cicho pominięty przez budżet. Wyłączenie automatycznego checkpointu nie znosi ACL/opt-in. Próba 24 sesji sprawdzała rzeczywisty Keystore/SQLite/JNI na osobnym syntetycznym magazynie i 11 odpowiedzi gracza, bez zaobserwowanych sekretów w pakietach lub odpowiedziach. Tekst „udawaj MG” nie zmienia roli. Wynik jest kontrolowaną próbą, nie dowodem pełnej odporności. Target diagnostyczny nie jest importowany przez główny APK. Snapshot, digest i walidacja rewizji nadal obejmują dokładny prompt.
 
 ## Zmiana 0.5.1

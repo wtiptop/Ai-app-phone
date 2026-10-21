@@ -1,0 +1,9 @@
+{
+  "screenInspected": true,
+  "systemSafOpened": true,
+  "testFile": "Scalajaca-Colibri-test.zip",
+  "selection": "Fokus klawiatury + Enter w selektorze Android 11; dotyk wiersza nie aktywował pliku",
+  "syntheticProfileRejectedInProduction": true,
+  "modelDirectoryEmpty": true,
+  "trainedModelImportVerified": false
+}

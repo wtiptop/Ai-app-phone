@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../storage/models.dart';
+import '../provider_registry/provider_adapter.dart';
 import 'cost_store.dart';
 
 class RequestPermit {
@@ -34,7 +35,7 @@ class LocalCostGate {
     if (model.isEmpty || configuredModel != model) {
       throw StateError('Ustaw model i jego cennik w Dostawcach.');
     }
-    if (provider == 'minicpm_local') return 0;
+    if (isLocalProvider(provider)) return 0;
     final input = await store.setting<double>('input_rate_$provider', -1);
     final output = await store.setting<double>('output_rate_$provider', -1);
     if (provider == 'minicpm' && await _freeMiniCpm()) return 0;
@@ -57,11 +58,11 @@ class LocalCostGate {
   }
 
   Future<void> _reserveGroup(Map<String, double> amounts) async {
-    if (amounts.containsKey('minicpm_local') && amounts['minicpm_local'] != 0) {
-      throw StateError('Lokalna inferencja nie nalicza kosztów API.');
-    }
-    if (amounts['minicpm_local'] == 0) {
-      amounts = Map.of(amounts)..remove('minicpm_local');
+    for (final id in ['minicpm_local', 'colibri_local']) {
+      if (amounts.containsKey(id) && amounts[id] != 0) {
+        throw StateError('Lokalna inferencja nie nalicza kosztów API.');
+      }
+      if (amounts[id] == 0) amounts = Map.of(amounts)..remove(id);
     }
     if (amounts.containsKey('minicpm') && amounts['minicpm'] == 0) {
       if (!await _freeMiniCpm()) {
@@ -119,11 +120,11 @@ class LocalCostGate {
     double amount, {
     String? contextDigest,
   }) async {
-    if ((provider == 'minicpm' || provider == 'minicpm_local') &&
+    if ((provider == 'minicpm' || isLocalProvider(provider)) &&
         amount == 0 &&
         (model.isEmpty ||
             model != await store.setting('model_$provider', ''))) {
-      throw StateError('Skonfiguruj model MiniCPM przed zatwierdzeniem.');
+      throw StateError('Skonfiguruj model przed zatwierdzeniem.');
     }
     await reserve(provider, amount);
     return RequestPermit._(provider, model, contextDigest);
@@ -132,12 +133,14 @@ class LocalCostGate {
   Future<Map<String, RequestPermit>> authorizeMany(
     Map<String, ({String model, double amount})> requests,
   ) async {
-    final local = requests['minicpm_local'];
-    if (local != null &&
-        (local.amount != 0 ||
-            local.model.isEmpty ||
-            local.model != await store.setting('model_minicpm_local', ''))) {
-      throw StateError('Skonfiguruj lokalny model przed zatwierdzeniem.');
+    for (final id in ['minicpm_local', 'colibri_local']) {
+      final local = requests[id];
+      if (local != null &&
+          (local.amount != 0 ||
+              local.model.isEmpty ||
+              local.model != await store.setting('model_$id', ''))) {
+        throw StateError('Skonfiguruj lokalny model przed zatwierdzeniem.');
+      }
     }
     final miniCpm = requests['minicpm'];
     if (miniCpm != null &&

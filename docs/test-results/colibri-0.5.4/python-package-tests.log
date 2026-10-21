@@ -1,0 +1,12 @@
+test_archive_hashes_and_order (test_package_model.PackageContractTest.test_archive_hashes_and_order) ... ok
+test_existing_output_is_preserved (test_package_model.PackageContractTest.test_existing_output_is_preserved) ... ok
+test_incompatible_profile_is_rejected_before_zip (test_package_model.PackageContractTest.test_incompatible_profile_is_rejected_before_zip) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.190s
+
+OK
+Paczka: C:\Users\niezn\Documents\Codex\Scalajaca\work\runtime\root-temp\tmpbq0blve6\test.zip
+Dane modelu: 269 B
+SHA-256 manifestu: b41fe94e9f82de91fc068211e1e5122abfdaf3e4536ff9e0d7c432f19dafe9b0
+SHA-256 ZIP: 124ad6a273f8bf7b9bdf11cf2ad1d6d34c1c7809e6ffea4d6c1690c6378e28dd

@@ -1,5 +1,24 @@
 # Macierz wymagań Scalającej
 
+<!-- release-0.5.4:start -->
+## Rozszerzenie MX8 — Colibri offline
+
+Dodano eksperymentalny port **Colibri OLMoE CPU w telefonie**, bez serwera, HTTP i kont. Wbudowany silnik, osobny proces na odpowiedź, import paczki ZIP z SHA-256, streaming/Stop, ograniczenia RAM/dysku/JSON i kolejna praca lokalnych modeli. MiniCPM pozostaje osobnym dostawcą. Baza v3 i backup v2 bez migracji; wagi instaluje się osobno.
+
+**Odbiór 0.5.4:** 290/290 Flutter, 42/42 JUnit (0 pominiętych), 3/3 testy pakowania; analiza bez uwag. Android offline: 5/5 scenariuszy portu Colibri **na danych syntetycznych** oraz osobna regresja MiniCPM 2B. Pełne wytrenowane wagi OLMoE, polska narracja Colibri, 24 sesje na Colibri, wydajność i fizyczny Pixel 9 pozostają **niezweryfikowane**. Wyników RPG MiniCPM 0.5.3 nie przenosimy na Colibri.
+
+Build wywołany bezpośrednio przez Gradle pominął optymalizację C/C++; dwie próby MiniCPM osiągnęły timeout 180 s. Poprawiono politykę CMake dla Androida, wymuszając zoptymalizowane silniki także w APK debug; zachowano logi obu nieudanych prób i osobny końcowy wynik. Nie zaliczamy tych prób jako PASS.
+
+Instalacja modelu, format paczki, limity i pochodzenie: [COLIBRI_PL.md](COLIBRI_PL.md). Wyniki surowe i hash APK: [raport 0.5.4](test-results/colibri-0.5.4/result.json). Starsze sekcje poniżej są zapisem poprzednich etapów.
+
+Zachowano wszystkie **129 pierwotnych ID i MX1–MX7**. Dodano **MX8: Colibri na Pixelu 9 offline bez serwera** — eksperymentalny port i instalator danych działają w zakresie testów syntetycznych; pełne wagi i odbiór fizycznego telefonu zaplanowane. Nie oznacza to ukończenia wcześniejszych ograniczonych modułów, niezawodnego MG, grafu pamięci ani synchronizacji.
+
+| ID | Zakres | Stan |
+|---|---|---|
+| MX8 | Colibri na Pixelu 9 offline bez serwera | Eksperymentalny port OLMoE, instalator i testy syntetyczne PASS; pełne wagi, jakość i fizyczny telefon zaplanowane |
+
+<!-- release-0.5.4:end -->
+
 <!-- release-0.5.3:start -->
 ## Uzupełnienie 0.5.3+10: rzeczywisty model 2B
 

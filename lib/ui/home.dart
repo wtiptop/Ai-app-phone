@@ -159,9 +159,10 @@ class _HomeState extends State<Home> {
     await _load();
   }
 
-  Future<int> _sourceBudget() async => provider == 'minicpm_local'
-      ? localSourceBudgetBytes(
-          await widget.store.setting('local_context', 4096))
+  Future<int> _sourceBudget() async => isLocalProvider(provider)
+      ? localSourceBudgetBytes((provider == 'colibri_local'
+          ? 4096
+          : await widget.store.setting('local_context', 4096)))
       : 6000;
 
   Future<void> _acceptContext(ContextAttachment attachment) async {
@@ -195,8 +196,11 @@ class _HomeState extends State<Home> {
   Future<void> _openCampaign() async {
     try {
       final budget = await _sourceBudget();
-      final smallContext = provider == 'minicpm_local' &&
-          await widget.store.setting('local_context', 4096) < 4096;
+      final smallContext = isLocalProvider(provider) &&
+          (provider == 'colibri_local'
+                  ? 4096
+                  : await widget.store.setting('local_context', 4096)) <
+              4096;
       if (!mounted) return;
       final store = CampaignStore(widget.store);
       final pack = await Navigator.push<CampaignContextPack>(
@@ -256,11 +260,13 @@ class _HomeState extends State<Home> {
                 subtitle: Text(
                   p.id == 'demo'
                       ? 'Działa offline • jawna atrapa • 0 USD'
-                      : p.id == 'minicpm_local'
-                          ? 'Bez sieci • wbudowany llama.cpp • import GGUF'
-                          : p.id == 'minicpm'
-                              ? 'Eksperymentalna • opcjonalny własny serwer HTTPS'
-                              : 'Wymaga klucza i modelu • API',
+                      : p.id == 'colibri_local'
+                          ? 'Bez sieci • eksperymentalny port Colibri • paczka OLMoE'
+                          : p.id == 'minicpm_local'
+                              ? 'Bez sieci • wbudowany llama.cpp • import GGUF'
+                              : p.id == 'minicpm'
+                                  ? 'Eksperymentalna • opcjonalny własny serwer HTTPS'
+                                  : 'Wymaga klucza i modelu • API',
                 ),
                 trailing: provider == p.id ? const Icon(Icons.check) : null,
                 onTap: () => Navigator.pop(context, p.id),
@@ -321,16 +327,16 @@ class _HomeState extends State<Home> {
         await session.create(privateMode: privateMode);
       }
       if (provider != 'demo') {
-        key = provider == 'minicpm_local'
+        key = isLocalProvider(provider)
             ? ''
             : await widget.secrets.read('api_$provider') ?? '';
         model = await widget.store.setting('model_$provider', '');
         if ((provider != 'minicpm' &&
-                provider != 'minicpm_local' &&
+                !isLocalProvider(provider) &&
                 key.isEmpty) ||
             model.isEmpty) {
-          throw StateError(provider == 'minicpm_local'
-              ? 'Zaimportuj i wybierz GGUF w Ustawienia → Dostawcy → MiniCPM offline.'
+          throw StateError(isLocalProvider(provider)
+              ? 'Zainstaluj i wybierz model w Ustawienia → Dostawcy → wybrany silnik offline.'
               : 'Wprowadź klucz i model w Ustawienia → Dostawcy.');
         }
       }
@@ -342,11 +348,11 @@ class _HomeState extends State<Home> {
         final target = widget.registry.adapter(provider);
         final recipient = target is MiniCpmAdapter
             ? (await target.endpoint()).recipient
-            : provider == 'minicpm_local'
+            : isLocalProvider(provider)
                 ? 'Wyłącznie ten telefon • bez sieci'
                 : target.label;
         if (target is MiniCpmAdapter) expectedEndpoint = recipient;
-        final costInfo = provider == 'minicpm_local'
+        final costInfo = isLocalProvider(provider)
             ? '0 USD za API. Obliczenia korzystają z CPU, RAM i baterii telefonu. Limit wyjścia: 512 tokenów.'
                 '${prepared.sourceGrounded ? '\nTryb źródeł: zachowawcze odpowiedzi na podstawie zatwierdzonego pakietu. Weryfikuj nazwy i fakty ze źródłami.' : ''}'
             : provider == 'minicpm' && estimate == 0
@@ -358,11 +364,11 @@ class _HomeState extends State<Home> {
         if (!mounted) return;
         if (!await confirm(
           context,
-          provider == 'minicpm_local'
+          isLocalProvider(provider)
               ? 'Uruchom model offline?'
               : 'Wyślij do ${widget.registry.adapter(provider).label}?',
           'Odbiorca: $recipient\nModel: $model\n\nZakres: ${_attachment?.label ?? 'bez dołączonych plików i pamięci'}. Pominięte starsze wiadomości: ${prepared.omitted}. Zachowano je w archiwum lokalnym.\n\n$costInfo\n\nDokładny pakiet wejściowy (role i treść):\n${prepared.preview}',
-          action: provider == 'minicpm_local'
+          action: isLocalProvider(provider)
               ? 'Uruchom offline'
               : 'Zatwierdź wysłanie i koszt',
         )) {
@@ -660,8 +666,8 @@ class _HomeState extends State<Home> {
                     ? 'Tryb prywatny • rozmowa tylko w RAM'
                     : provider == 'demo'
                         ? 'DEMO OFFLINE • atrapa odpowiedzi • bez opłat'
-                        : provider == 'minicpm_local'
-                            ? 'MiniCPM OFFLINE • obliczenia w tym telefonie • bez API'
+                        : isLocalProvider(provider)
+                            ? 'MODEL OFFLINE • obliczenia w tym telefonie • bez API'
                             : provider == 'minicpm'
                                 ? 'MiniCPM • dane trafią na Twój serwer HTTPS'
                                 : 'API • dane opuszczą telefon po potwierdzeniu',
@@ -785,7 +791,7 @@ class _HomeState extends State<Home> {
                                   liveRegion: m.status != 'streaming' &&
                                       m.status != 'pending',
                                   child: Text(
-                                    '${_statusLabel(m.status)} • ${m.provider == 'demo' || m.provider == 'minicpm_local' ? '0 USD za API' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
+                                    '${_statusLabel(m.status)} • ${m.provider == 'demo' || isLocalProvider(m.provider) ? '0 USD za API' : m.provider == 'minicpm' ? 'koszt wg konfiguracji własnego serwera' : 'koszt wg API / lokalnej rezerwy'}${m.inputTokens == null ? '' : ' • wejście ${m.inputTokens}, wyjście ${m.outputTokens ?? '?'} tokenów'}',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),

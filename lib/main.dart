@@ -6,6 +6,7 @@ import 'provider_registry/provider_registry.dart';
 import 'storage/app_database.dart';
 import 'ui/home.dart';
 import 'local_inference/android_local_engine.dart';
+import 'local_inference/colibri_engine.dart';
 import 'local_inference/native_licenses.dart';
 
 Future<void> main() async {
@@ -55,7 +56,9 @@ class ScalajacaApp extends StatefulWidget {
 
 class _ScalajacaAppState extends State<ScalajacaApp> {
   late final localEngine = AndroidLocalEngine();
+  late final colibriEngine = AndroidColibriEngine();
   late final registry = ProviderRegistry.standard(
+    colibriAdapter: ColibriAdapter(engine: colibriEngine),
     miniCpmEndpoint: () => widget.store.setting('endpoint_minicpm', ''),
     localAdapter: LocalModelAdapter(
         engine: localEngine,
@@ -65,6 +68,7 @@ class _ScalajacaAppState extends State<ScalajacaApp> {
   void dispose() {
     registry.cancelAll();
     localEngine.dispose();
+    colibriEngine.dispose();
     super.dispose();
   }
 

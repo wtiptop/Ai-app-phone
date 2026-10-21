@@ -1,6 +1,9 @@
 /// Typy transportu. Nie przechowują sekretów ani nie zapisują diagnostyki.
 enum ChatRole { system, user, assistant }
 
+bool isLocalProvider(String id) =>
+    id == 'minicpm_local' || id == 'colibri_local';
+
 class ChatTurn {
   const ChatTurn({required this.role, required this.text});
   final ChatRole role;

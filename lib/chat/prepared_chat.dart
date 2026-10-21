@@ -18,7 +18,7 @@ class PreparedChat {
   final List<ChatTurn> turns;
   final int sessionVersion, omitted, maxOutputTokens;
   final ContextAttachment? attachment;
-  bool get sourceGrounded => provider == 'minicpm_local' && attachment != null;
+  bool get sourceGrounded => isLocalProvider(provider) && attachment != null;
   Future<String> calculateDigest(String? scope) => contentDigest(jsonEncode({
         'provider': provider,
         'model': model,
