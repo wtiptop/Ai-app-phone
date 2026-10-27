@@ -1,6 +1,6 @@
 # Inwentarz plików Scalającej
 
-Wersja 0.5.5+12. Liczba plików źródłowych i dowodów: 3560. Build, work, klucze, pełne wagi i generowane dane syntetyczne pozostają poza ZIP źródeł. Narzędzia konwersji i odtwarzania fixture są w tools/colibri/.
+Wersja aplikacji 0.5.5+12; przygotowanie GitHub 27.10.2026. Liczba plików źródłowych i dowodów: 3567. Build, work, klucze, pełne wagi i generowane dane syntetyczne pozostają poza kodem i ZIP źródeł. Wagi i APK są dystrybuowane jako osobne załączniki wydania.
 
 ```text
 .gitattributes
@@ -99,6 +99,7 @@ docs/LICENSES_PL.md
 docs/MINICPM_PL.md
 docs/OBSIDIAN_PAMIEC_RPG_PL.md
 docs/PAMIEC_CIAGLOSC_PL.md
+docs/PUBLIKACJA_GITHUB_PL.md
 docs/REQUIREMENTS_TRACEABILITY_PL.md
 docs/ROADMAP_PL.md
 docs/RPG_KAMPANIA_TEST_PL.md
@@ -1187,6 +1188,10 @@ docs/test-results/flutter-ui-0.5.0.log
 docs/test-results/flutter-ui-budget-0.5.3.log
 docs/test-results/flutter-vault-a11y-0.5.0.log
 docs/test-results/gguf-junit-0.2.0.xml
+docs/test-results/github-2026-10-27/OLMoE-Colibri-parts.json
+docs/test-results/github-2026-10-27/parts-verification.json
+docs/test-results/github-2026-10-27/python-tests.log
+docs/test-results/github-2026-10-27/source-audit-before-upload.json
 docs/test-results/junit-0.5.3/TEST-pl.scalajaca.scalajaca.backup.BackupFilePolicyTest.xml
 docs/test-results/junit-0.5.3/TEST-pl.scalajaca.scalajaca.local.GgufInspectorTest.xml
 docs/test-results/junit-0.5.3/TEST-pl.scalajaca.scalajaca.vault.VaultPolicyTest.xml
@@ -3555,10 +3560,12 @@ third_party/llama.cpp/vendor/sheredom/subprocess.h
 third_party/llama.cpp/vendor/stb/CMakeLists.txt
 third_party/llama.cpp/vendor/stb/stb_image.h
 tools/colibri/convert_streaming.py
+tools/colibri/join_release_parts.py
 tools/colibri/make_test_fixture.py
 tools/colibri/package_model.py
 tools/colibri/patch_olmoe.cmake
 tools/colibri/test_convert_streaming.py
+tools/colibri/test_join_release_parts.py
 tools/colibri/test_native_patch.py
 tools/colibri/test_package_model.py
 tools/colibri/test_verify_conversion.py

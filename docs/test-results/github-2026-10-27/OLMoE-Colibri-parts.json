@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip",
+  "bytes": 7416461483,
+  "sha256": "f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2",
+  "partBytes": 1073741824,
+  "parts": [
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part001",
+      "bytes": 1073741824,
+      "sha256": "7d9a8459ef1e08336cc1f3c89d121a33bd5942a99b6d627c1053bd9bf6e8d491"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part002",
+      "bytes": 1073741824,
+      "sha256": "b8892eaed719b5a50927d14fc62364193a8f23ea2abe4ae187f2606855457c4f"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part003",
+      "bytes": 1073741824,
+      "sha256": "efd22775632116fb9e19ebca5ce2df9ac508cf72bb2709464fa6690464ff6e64"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part004",
+      "bytes": 1073741824,
+      "sha256": "b571e1650f778b8437b442853d25fb46e7d0268bdf20a4b798fa3d60223840ad"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part005",
+      "bytes": 1073741824,
+      "sha256": "702580b17dda424843c4c08059920987b5d4c3a28e49bacb7f46f02b7413e7f5"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part006",
+      "bytes": 1073741824,
+      "sha256": "cec2a751ff003b49e1894baa71d524b60b295e4d404b28659cf248751ee0b1b1"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part007",
+      "bytes": 974010539,
+      "sha256": "2baf783a8574bd6ae27beac3d03cb38c97c744bdb6861c7a994c33519d8a7c3a"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ third_party/colibri/** -text -whitespace
 assets/colibri_notices.txt -whitespace
 assets/llvm_notices.txt -whitespace
 docs/test-results/colibri-0.5.5/** -text -whitespace
+docs/test-results/github-2026-10-27/** -text -whitespace
 docs/test-results/colibri-0.5.4/*.txt -whitespace
 *.bat text eol=crlf
 *.png binary

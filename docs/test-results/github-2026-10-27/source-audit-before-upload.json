@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-27",
+  "commits": 14,
+  "blobs": 3769,
+  "bytesScanned": 76611200,
+  "credentialPatterns": [
+    "github-token",
+    "openai-anthropic-key",
+    "google-api-key",
+    "aws-access-key",
+    "private-key"
+  ],
+  "findings": [],
+  "sensitiveFileNames": [],
+  "limit": "Kontrola wzorców i nazw, nie pełny audyt bezpieczeństwa. Fikcyjne dane kampanii i publiczne SHA nie są poświadczeniami."
+}
