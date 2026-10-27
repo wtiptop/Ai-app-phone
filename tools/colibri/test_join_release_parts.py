@@ -64,6 +64,21 @@ class JoinPartsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             join(self.path)
 
+    def test_delivery_of_more_than_100_parts_and_limit(self):
+        self.manifest['parts'] = []
+        for i in range(111):
+            name = f'delivery.part{i:03}'
+            (self.root / name).write_bytes(b'x')
+            self.manifest['parts'].append(dict(file=name, bytes=1, sha256=hashlib.sha256(b'x').hexdigest()))
+        self.manifest['bytes'] = 111
+        self.manifest['sha256'] = hashlib.sha256(b'x' * 111).hexdigest()
+        self.save()
+        self.assertEqual(join(self.path).read_bytes(), b'x' * 111)
+        self.manifest['parts'] *= 2
+        self.save()
+        with self.assertRaises(ValueError):
+            join(self.path, self.root / 'other.zip')
+
 
 if __name__ == '__main__':
     unittest.main()

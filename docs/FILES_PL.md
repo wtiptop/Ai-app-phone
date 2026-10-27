@@ -1,6 +1,6 @@
 # Inwentarz plików Scalającej
 
-Wersja aplikacji 0.5.5+12; przygotowanie GitHub 27.10.2026. Liczba plików źródłowych i dowodów: 3567. Build, work, klucze, pełne wagi i generowane dane syntetyczne pozostają poza kodem i ZIP źródeł. Wagi i APK są dystrybuowane jako osobne załączniki wydania.
+Wersja aplikacji 0.5.5+12; dystrybucja GitHub 27.10.2026. Plików źródłowych i dowodów: 3571. Wagi, APK, klucze, bazy, SDK, work i pobrane-modele pozostają poza kodem.
 
 ```text
 .gitattributes
@@ -1188,8 +1188,11 @@ docs/test-results/flutter-ui-0.5.0.log
 docs/test-results/flutter-ui-budget-0.5.3.log
 docs/test-results/flutter-vault-a11y-0.5.0.log
 docs/test-results/gguf-junit-0.2.0.xml
+docs/test-results/github-2026-10-27/OLMoE-Colibri-parts-64MiB.json
 docs/test-results/github-2026-10-27/OLMoE-Colibri-parts.json
+docs/test-results/github-2026-10-27/parts-verification-64MiB.json
 docs/test-results/github-2026-10-27/parts-verification.json
+docs/test-results/github-2026-10-27/python-tests-64m.log
 docs/test-results/github-2026-10-27/python-tests.log
 docs/test-results/github-2026-10-27/source-audit-before-upload.json
 docs/test-results/junit-0.5.3/TEST-pl.scalajaca.scalajaca.backup.BackupFilePolicyTest.xml
@@ -1578,6 +1581,7 @@ pubspec.lock
 pubspec.yaml
 scripts/build_android.ps1
 scripts/collect_notices.ps1
+scripts/pobierz_model_github.ps1
 scripts/test_android_backup.ps1
 scripts/test_android_colibri.ps1
 scripts/test_android_continuity.ps1

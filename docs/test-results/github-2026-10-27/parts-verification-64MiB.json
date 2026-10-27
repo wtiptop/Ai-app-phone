@@ -1,0 +1,24 @@
+[
+  {
+    "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip",
+    "parts": 111,
+    "bytes": 7416461483,
+    "sha256": "f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2",
+    "allPartHashesVerified": true,
+    "fullJoinPassed": true
+  },
+  {
+    "file": "MiniCPM5-1B-Q4_K_M.gguf",
+    "parts": 11,
+    "bytes": 688065920,
+    "sha256": "81b64d05a23b17b34c475f42b3e72fbde62d4b92cc34541f7a8031d0752deafa",
+    "allPartHashesVerified": true
+  },
+  {
+    "file": "MiniCPM5-2B-Q4_K_M.gguf",
+    "parts": 24,
+    "bytes": 1561318368,
+    "sha256": "ec2d5801640099e97d8d7e8003ad4d81f336e757811f03a26173dddf386602fd",
+    "allPartHashesVerified": true
+  }
+]

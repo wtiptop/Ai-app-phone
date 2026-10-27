@@ -21,7 +21,7 @@ def join(manifest_path, output=None):
         raise ValueError('Nieobsługiwana wersja manifestu części.')
     names = set()
     parts = manifest.get('parts', [])
-    if not isinstance(parts, list) or not 1 <= len(parts) <= 100 or not all(isinstance(p, dict) for p in parts):
+    if not isinstance(parts, list) or not 1 <= len(parts) <= 128 or not all(isinstance(p, dict) for p in parts):
         raise ValueError('Niekompletny manifest części.')
     for item in [manifest, *parts]:
         name = item.get('file', '')
@@ -34,7 +34,7 @@ def join(manifest_path, output=None):
             raise ValueError('Nieprawidłowy SHA-256 w manifeście.')
         if type(item.get('bytes')) is not int or item['bytes'] <= 0:
             raise ValueError('Nieprawidłowy rozmiar w manifeście.')
-    if not 1 <= len(parts) <= 100 or sum(p['bytes'] for p in parts) != manifest['bytes']:
+    if sum(p['bytes'] for p in parts) != manifest['bytes']:
         raise ValueError('Niekompletny manifest części.')
     target = pathlib.Path(output).resolve() if output else manifest_path.parent / manifest['file']
     sources = [manifest_path.parent / p['file'] for p in parts]

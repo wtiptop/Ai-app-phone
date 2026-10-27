@@ -25,12 +25,25 @@ nowego odbioru telefonu, baterii lub jakości narracji. Pełny raport jest w
 
 GitHub ogranicza pojedynczy załącznik wydania do mniej niż 2 GiB
 ([oficjalne limity](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)).
-Gotowy ZIP 7 416 461 483 B podzielono na siedem części: pierwsze sześć po
-1 GiB i ostatnią 974 010 539 B. Wszystkie są potrzebne. To surowy podział
-bajtów, nie siedem osobnych archiwów do importowania w aplikacji.
+Po przerwaniu dużej przesyłki zmniejszono części: gotowy ZIP 7 416 461 483 B
+jest dzielony na **111 części**, pierwsze 110 po 64 MiB i ostatnią
+34 486 443 B. Wszystkie są potrzebne. To surowy podział bajtów, nie osobne
+archiwa do importowania w aplikacji. Końcowe dane i SHA-256 nie zmieniły się.
+
+Najwygodniej pobrać z wydania `pobierz_model_github.ps1` i uruchomić:
+
+```powershell
+./pobierz_model_github.ps1 -Model olmoe -Folder C:/Modele/OLMoE
+```
+
+Skrypt korzysta z systemowego curl z weryfikacją TLS, pobiera i sprawdza części,
+wznawia niepełne pobrania oraz uruchamia składanie Pythonem 3.11+. Nie wymaga
+logowania ani tokenu. Profil `minicpm1b` pobiera 11 części GGUF, a `minicpm2b`
+24 części; każdy model wybierz do osobnego folderu. Instalator MiniCPM przyjmuje
+złożony GGUF, a instalator Colibri — złożony ZIP. Składanie ręczne:
 
 1. Pobierz do jednego folderu `OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part001`
-   do `.part007`, `OLMoE-Colibri-parts.json` oraz `join_release_parts.py`.
+   do `.part111`, `OLMoE-Colibri-parts.json` oraz `join_release_parts.py`.
 2. Na komputerze z Pythonem 3.11 lub nowszym uruchom w tym folderze:
 
    ```powershell
@@ -69,11 +82,12 @@ zdalnych commitów i listy plików wydania.
 
 ## Sprawdzenie narzędzi dystrybucji
 
-21 testów Python zakończono wynikiem PASS, w tym sześć testów nowego składania:
+22 testy Python zakończono wynikiem PASS, w tym siedem testów nowego składania:
 poprawny wynik i ponowne użycie gotowego ZIP, uszkodzona część o prawidłowej
 długości, ochrona istniejącego pliku, niedozwolona ścieżka, brak części i duplikat
-nazwy. Wykonano również rzeczywiste złożenie wszystkich siedmiu części —
-7 416 461 483 B, SHA-256 identyczny z oryginalnym ZIP.
+nazwy oraz złożenie 111 fragmentów i odrzucenie przekroczenia limitu 128.
+Wykonano rzeczywiste złożenie zarówno pierwotnych siedmiu, jak i końcowych
+111 części — 7 416 461 483 B, SHA-256 identyczny z oryginalnym ZIP.
 
 Dowody przygotowania są w `test-results/github-2026-10-27/`. Kontrola wzorców
 poświadczeń objęła 14 wcześniejszych commitów, 3769 blobów i 76 611 200 B;

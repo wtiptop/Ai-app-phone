@@ -1,0 +1,564 @@
+{
+  "schemaVersion": 1,
+  "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip",
+  "bytes": 7416461483,
+  "sha256": "f0edda8eb956aef77f1820ba6e50bf317c9d233b5e83f9a3a83dfffbd6da24e2",
+  "partBytes": 67108864,
+  "parts": [
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part001",
+      "bytes": 67108864,
+      "sha256": "47e1b4c71ad59087a6abb4dbc2e7addd31cce4740e736c8dd8a9c3e60e274dfc"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part002",
+      "bytes": 67108864,
+      "sha256": "e2084e445805625e3f98cfa115491ac4eb2cd9a74f789c0585ce0a254958d35a"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part003",
+      "bytes": 67108864,
+      "sha256": "9825316bde77cbf1462327ae07ef747b1e1f090ec68dec7a0baa6664bb9f0e48"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part004",
+      "bytes": 67108864,
+      "sha256": "99ac74344acbd72005919bd525b0973e397855051f0df4d660dcac74933451b7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part005",
+      "bytes": 67108864,
+      "sha256": "764d21da1f4951b193ab45890b0c09d17a4256e8a95f2043d97222d80f506018"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part006",
+      "bytes": 67108864,
+      "sha256": "f15cb715768f49eb494a4d0e0a5bc654cbddb8a2a5c77751ebf106910940b9b6"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part007",
+      "bytes": 67108864,
+      "sha256": "a3b7ceba92508cd36149cee9fc33a5c5a8012c9a131a1d9d3a5fee1b61bbafe5"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part008",
+      "bytes": 67108864,
+      "sha256": "c7cef32d3877c5c4012c110e8bc7cd3e3d75a8a4ddf5dfed6fd57382a59e6ceb"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part009",
+      "bytes": 67108864,
+      "sha256": "31d2ccd3ffa967874d0bc5368ee63ab49466847fa953385bf5bf6c36a6fc5eb4"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part010",
+      "bytes": 67108864,
+      "sha256": "6509c3a91c294df1e74895c0a2f73ee6003f82b7e28c8b193b5856cdbe61d1d0"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part011",
+      "bytes": 67108864,
+      "sha256": "a85a542de041405af36dba1ea04a36d667eced9ac5170f8b2aa91369011ecd18"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part012",
+      "bytes": 67108864,
+      "sha256": "572d1653ed31fc9ca5b2a1b9ef18d154466dae2353dad64439e0d69df148acb6"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part013",
+      "bytes": 67108864,
+      "sha256": "9a82688ee6048ba4d68d6b1aa9e8aef2de387f8d35dbd9f64b63f67b9e706423"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part014",
+      "bytes": 67108864,
+      "sha256": "dfe640103878caece23264738de96ba145b575f1b20889bdc2e5b61f9c2c64ad"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part015",
+      "bytes": 67108864,
+      "sha256": "c4dbb15359412550d9dddd4f8457f0c45bf2b2c746f0d41584e09376cfe86b4a"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part016",
+      "bytes": 67108864,
+      "sha256": "33c10a531e6b77f27d1934795f443a13aaf928a6654e32a2bbf57582d6a94bfd"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part017",
+      "bytes": 67108864,
+      "sha256": "75142c0f6a5a75bde2db6e9a9f437b272e0323d76d08cbe17ae939a4facd6d3a"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part018",
+      "bytes": 67108864,
+      "sha256": "3b1cfb5ce9e0de8401cecd3da98ed7aa2961cef6b59026acb162bc8fd394404f"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part019",
+      "bytes": 67108864,
+      "sha256": "c9f1e9fe9ff93e870d5a42d775beb1cf60a1342e0bdca64d1dee67655082e6dd"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part020",
+      "bytes": 67108864,
+      "sha256": "03cd284299d9ad7be58f4a04180f63f66b1c3fea33a209ac4ff04d147e613f75"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part021",
+      "bytes": 67108864,
+      "sha256": "9fe731bd1a3aec159f162f9a23ee113a33ae46f020943163fca97961d61bd574"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part022",
+      "bytes": 67108864,
+      "sha256": "ec894213769bf2919842f5b30deef4df1e5bdd28bdee207082a7e89b49734fd9"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part023",
+      "bytes": 67108864,
+      "sha256": "5428f3c16623fa1064c93820bfa3dcc4297dc98346b74faebf404acdcc250779"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part024",
+      "bytes": 67108864,
+      "sha256": "7e1c05a2993f4573a3d637dcdd8cc1c11edcde8dd0494bf5ffc387f1767dbb65"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part025",
+      "bytes": 67108864,
+      "sha256": "0244d7d8bfeb28855b734e77769196ab89c49c1d92528340a20b8138fc84faee"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part026",
+      "bytes": 67108864,
+      "sha256": "95ab7005282071b811c84fca5481e9938d4620cde3d9032fee4a5fa01f05381b"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part027",
+      "bytes": 67108864,
+      "sha256": "7dedc42262c2500fe14ea7fa130fcc4585cd130bd688be72ad304e925d199df7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part028",
+      "bytes": 67108864,
+      "sha256": "23faba2830f7438e1525b757fc4fbec909af933a2b6b538541b2ae2f5cb4ea61"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part029",
+      "bytes": 67108864,
+      "sha256": "d187d31946ab9709112ac48c7a755210649cf9b973880ff1b13314aa241dad2c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part030",
+      "bytes": 67108864,
+      "sha256": "17e370f71951a39ee42b669ab230210c868b14a7093c4e1e6f918d7b80a8ede7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part031",
+      "bytes": 67108864,
+      "sha256": "05a1962875b61919d424f61c685f0485212b65e97e14504902316e722537ab27"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part032",
+      "bytes": 67108864,
+      "sha256": "92e6f1258e6dc38e79d4511ff614251c18653fbf24dcd7711b03a178db4feb05"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part033",
+      "bytes": 67108864,
+      "sha256": "4bd164acf9fc3ec4f3e460b925f5425e51261a84476089740c9a2dfdaee27612"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part034",
+      "bytes": 67108864,
+      "sha256": "d34f54f62021bfe7e842bc0aa66bc5c65e8a0397c1252c39c748eb9807795712"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part035",
+      "bytes": 67108864,
+      "sha256": "e4f977afdeedb576b1164e6dcb7101fa6ea758cb5a7f1d9073797e40242d86fd"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part036",
+      "bytes": 67108864,
+      "sha256": "34eb8711407eed26e9f4deba107dc0ba4b64e963a051f6640e1edad9c54bc637"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part037",
+      "bytes": 67108864,
+      "sha256": "aacb551e599e0afb6d224c1d8a547a80ed055e035db493df153e9585913b7707"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part038",
+      "bytes": 67108864,
+      "sha256": "8940ad4100928ee825c94370abbcb81d84cf12d307c2e736172a77cf4ff9f20f"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part039",
+      "bytes": 67108864,
+      "sha256": "f8ac99236d156a53e16534f66d2136bc656ec596cefad25db1b9697d73092d15"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part040",
+      "bytes": 67108864,
+      "sha256": "87817f87693c31b9073d08b7dfc60567031775962ffc20c68edd576baead2181"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part041",
+      "bytes": 67108864,
+      "sha256": "90ee650e31402f03a8c333dc5afa7fd155dcfdcfb8c427ba21d5ec98e491300a"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part042",
+      "bytes": 67108864,
+      "sha256": "ac2be165ddf9980fbd6379aafa3f8a9a5499fc292ebe1bee516b8a072a800fa3"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part043",
+      "bytes": 67108864,
+      "sha256": "5df69ecc47936e7312337bc76f656099dd3ca9370a658fb78907ea86c505479e"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part044",
+      "bytes": 67108864,
+      "sha256": "e1e9c4e975e800886b45680fdfc72620453da73384cb3d3c79e8c2d9c8ad9e02"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part045",
+      "bytes": 67108864,
+      "sha256": "b3670beff668cba5771db087212148cda1eda98374f55232f0ff426364d27238"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part046",
+      "bytes": 67108864,
+      "sha256": "3cbbf93144a7631d8002a27dfd9955efdc0c9679bd204eb51c5178dc47d8126f"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part047",
+      "bytes": 67108864,
+      "sha256": "1871ca5c5361beac904d60fb53cff5774370a3457b7e18689431bcbd44c2c6d1"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part048",
+      "bytes": 67108864,
+      "sha256": "7212f7c807ba2f6b0880dc59d5cc759670d23df66990efeefe72b3b816651ed9"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part049",
+      "bytes": 67108864,
+      "sha256": "a2bde5102f271a4be137bf574a4ee05bc8fb35a64ee2f2eaf7a2b1cebc7133d7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part050",
+      "bytes": 67108864,
+      "sha256": "0ee31df4de41d102c310c1e4ce9b4841da531c9284bde49e9312334809436502"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part051",
+      "bytes": 67108864,
+      "sha256": "6dc77c1083731a9d5c7ce89f1c19a73dfb2e860192f73f83dd3edacff115d51c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part052",
+      "bytes": 67108864,
+      "sha256": "201699cc42067e0fa13671383c9fd1f8ba7bd77b4d8085a7fffa80bbbdabe5ac"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part053",
+      "bytes": 67108864,
+      "sha256": "e8bd52b6b6ac792a6ce10deac536cf98c4a15decb534a20181f084072ab72a13"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part054",
+      "bytes": 67108864,
+      "sha256": "86880cc59418686e0050ee0527e012effb58b95cde8941b01f87e659737a3246"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part055",
+      "bytes": 67108864,
+      "sha256": "392e4afea7d216ff8c93774ee731a1db99dd7c11cad4be82497ebf4decdb6d3c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part056",
+      "bytes": 67108864,
+      "sha256": "d252567fa7d99b6db84f7f02d409dea6df34d292f5fa934777b4d50f8760045e"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part057",
+      "bytes": 67108864,
+      "sha256": "57e63c4d7db1c1a9ac51247666a68cb21bcca8210bc800ae404318e8fb1c2df4"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part058",
+      "bytes": 67108864,
+      "sha256": "7343e9d8b8963576d5159006933296a1af8d0b496d845c512fc4402efcebe273"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part059",
+      "bytes": 67108864,
+      "sha256": "3d274ff8d968ac4b6bbcbb357f86f554bac1e7a81aa3f65f947b0d3463949de8"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part060",
+      "bytes": 67108864,
+      "sha256": "f5245dce0da034ac3ee24b725d26290f75a37713c8481e7a4c35956cc915a344"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part061",
+      "bytes": 67108864,
+      "sha256": "8f231bcd3511fcd4009726a84094a4361fc19611e051178a1e0fc668e71a7536"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part062",
+      "bytes": 67108864,
+      "sha256": "ba1bcc6825f3af52a80b8a569de101994807247abd227485522ea8a1c1053dfd"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part063",
+      "bytes": 67108864,
+      "sha256": "5eb1554c8e4f411dece4cc84c9e173f5c5c9f985ee31d9b9626425fbf660a4a2"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part064",
+      "bytes": 67108864,
+      "sha256": "762f169aca737bb0928aed4ac5f1a899d034e7c3f04641eea387ff2b908a7d71"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part065",
+      "bytes": 67108864,
+      "sha256": "94aaca74e3e30ff5ec8f927f6b5fdc5cbc0e13546c7e24d4a987e106bf974aa4"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part066",
+      "bytes": 67108864,
+      "sha256": "fb5124e6439f4d4ddb4afc35856540e14f40a4d7cbba852aec3f0eb16ba38a47"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part067",
+      "bytes": 67108864,
+      "sha256": "9b286c565b75d8c5351e0c2dc7817280be29ca26ff7f9bf3552b0dab4a105255"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part068",
+      "bytes": 67108864,
+      "sha256": "15f3781650ffda561d4f2f1a5aeb1216b42d58eb62036c119e94dfe1afd64839"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part069",
+      "bytes": 67108864,
+      "sha256": "d0644d685ad5983a9c6b68b431bcaf6659e0a3eb0490a172d30db5e645297a45"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part070",
+      "bytes": 67108864,
+      "sha256": "19b1fdfb21c184a045670b00ffe801f3755ea5f5fca2f546f56e4d305c680e82"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part071",
+      "bytes": 67108864,
+      "sha256": "e6c18c1ca3173614cbc037a1e1e5a8b315f91eeacd3a5fa75e30259e840f4dbf"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part072",
+      "bytes": 67108864,
+      "sha256": "16adb729b24399231ab8d0219ca9dcd5ecfcfd80707285a6354772d717e8d8f4"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part073",
+      "bytes": 67108864,
+      "sha256": "d8b66fbbb26ef66afd055d15b9952a78c9ec775f3fa4a5862b1d1857600264d1"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part074",
+      "bytes": 67108864,
+      "sha256": "f239d2ce30fb554e78130294caa4fa8928226d368640de2145363c6c82019bec"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part075",
+      "bytes": 67108864,
+      "sha256": "86b8e538f5d9fefe682b39d7f527f18f7a3828e1501bf09fd4d1366aa8d2413e"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part076",
+      "bytes": 67108864,
+      "sha256": "e6f45e6aa3ad965c5ab5d007fc6c63d8eb765b11d2a95ce7f9f7e29e7b053841"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part077",
+      "bytes": 67108864,
+      "sha256": "7defe0eb0ce388f645d2b7fdaa6d0419bf29b2cea121acce41df94c6d733f0a7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part078",
+      "bytes": 67108864,
+      "sha256": "e950754d93df7639d249e07adace2c17c89779b37f64aae5528a8ca1c88e7323"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part079",
+      "bytes": 67108864,
+      "sha256": "132666842daac1e983546a87cfca58e4d4dd0fdf38a22b4185fbe64568ea91d7"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part080",
+      "bytes": 67108864,
+      "sha256": "ce957f1ad631f28a749a0cf8d980ace880f4af4671b167fe1d0efa8a7440303a"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part081",
+      "bytes": 67108864,
+      "sha256": "6abd13d1e2aa630bd52077b8452cf8719aff796939c301b1efc1f4df0f304728"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part082",
+      "bytes": 67108864,
+      "sha256": "3b2a8ba27f9c9efa0bb6169a7218f1852a4689c2a9dbbb410adc83106146ec4c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part083",
+      "bytes": 67108864,
+      "sha256": "d7e55a36a8651a552fee01c234c2168eca063f6ca71ad36d48b0dfa2de968594"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part084",
+      "bytes": 67108864,
+      "sha256": "3aa5eb85c60c76d60a4c81324fdfc0b57ac962aecac0b5601fad9e87d798906b"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part085",
+      "bytes": 67108864,
+      "sha256": "96b2035c2b87a664f257e3c55c8d419e4001391110b7f4484e75d55a483047b0"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part086",
+      "bytes": 67108864,
+      "sha256": "a95bbf259cb7e9674b8570fa75127df2a52e2574337bc545f7d91a95ecbd9821"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part087",
+      "bytes": 67108864,
+      "sha256": "19eca7969b0b6206c0dff24f0afdf7880865c03ec2285277da67eff09bb8bf72"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part088",
+      "bytes": 67108864,
+      "sha256": "931e60552ec309390436e5be3e9377b043f0323313b9517e2324ea9791aa690c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part089",
+      "bytes": 67108864,
+      "sha256": "39a36ea61012bf282f12a715de6c271a49694888fed74919971326b88acf338d"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part090",
+      "bytes": 67108864,
+      "sha256": "97b141c9a132ce64e8c9893cb9c8ad7928c349e9043010579182d237e3308285"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part091",
+      "bytes": 67108864,
+      "sha256": "dfbe018f4ff74f1798f6410559aab46ed26beca6d6bcf4d1fd93eff8e1f0f440"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part092",
+      "bytes": 67108864,
+      "sha256": "bc9a805e20daa3ed87c2e86180d9cbb16a2417ab9ca14b7792a76f4f6159520e"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part093",
+      "bytes": 67108864,
+      "sha256": "5ef8b6b25c3ca416e2433e2bfbd7a11a07f09aa6a06c9c0a21107e67ec1a742d"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part094",
+      "bytes": 67108864,
+      "sha256": "316fc041ee261f7417de05a4671cdff2340a3a08af80ae45df4fde79a7fea17c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part095",
+      "bytes": 67108864,
+      "sha256": "b566381cb995ac4d5ae766141587ea2d8d1153b0f257464a6cf0d1d9029e40d1"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part096",
+      "bytes": 67108864,
+      "sha256": "0cf11a2ff20a733af5711f7c87edf4d76dbcfbad98d940cdcc8ccaf3a4e17f25"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part097",
+      "bytes": 67108864,
+      "sha256": "0d1937c81558011f76b96cb86d68c7b4f7d0b4d8bfbfae35a3a80aed1f7322e6"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part098",
+      "bytes": 67108864,
+      "sha256": "3e839067a6c8ec13db4f1700827437b826cb2ec71cc29a9f8448fc805e8dd938"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part099",
+      "bytes": 67108864,
+      "sha256": "7834a1a5d0185d462ba49b05059a89973029d986dffa1c86a8f3e1361490443e"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part100",
+      "bytes": 67108864,
+      "sha256": "4156484c799abad9aaadc055ed48c4129752af08ad9b1edf0bbdf030475d885b"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part101",
+      "bytes": 67108864,
+      "sha256": "a1e9bc403d2a80f1e3095d656782f6bb820052d03ba52700bd278b07b472e36d"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part102",
+      "bytes": 67108864,
+      "sha256": "b7bb1ae2f38ebcd2835c27c8d689f4c281c908fe36635320e639127b7a4d99e1"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part103",
+      "bytes": 67108864,
+      "sha256": "decbac1cc031026e6db5a73bb91ddd10c2fb6379a6772e3e0e31f1a92629e118"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part104",
+      "bytes": 67108864,
+      "sha256": "1aaf1bd9fff8b784063527f6842ae07adc3a8743623fdb3a66a43ef4c90bfba3"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part105",
+      "bytes": 67108864,
+      "sha256": "d0df7dcff4387aec77ea29b807b9d353e587997ebb643c24607d85ffd15f708f"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part106",
+      "bytes": 67108864,
+      "sha256": "666bafc2e8eb6dfb4f57bff66df013634dfea79d9d7bd7c5eb6f69cf0815d070"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part107",
+      "bytes": 67108864,
+      "sha256": "030c79b1a9938063b40e474b43bf1bded0413deaf236b6194e364b473562621c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part108",
+      "bytes": 67108864,
+      "sha256": "3d8bffbb6b4404a339dbacd58d6b90c538d6a11e5d808ff444ff67924aaf60bb"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part109",
+      "bytes": 67108864,
+      "sha256": "3002ebbf53c197bc7f5828009717e462beabe10f98531c7353df6b8953c99e76"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part110",
+      "bytes": 67108864,
+      "sha256": "0df5b57fa3ec1e3aa1f7e7621ffa1f158276ddbcc3d6af424f10787136562a0c"
+    },
+    {
+      "file": "OLMoE-1B-7B-0125-Instruct-Colibri-int8.zip.part111",
+      "bytes": 34486443,
+      "sha256": "ad4607df654112b70c20733d5023459efb54f8d0f17a3a4793bcf889999730f9"
+    }
+  ]
+}

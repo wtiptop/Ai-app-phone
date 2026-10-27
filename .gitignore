@@ -22,6 +22,8 @@ work/
 *.gguf
 *.safetensors
 *.partial
+*.part[0-9][0-9][0-9]
+/pobrane-modele/
 # Prywatne kopie właściciela nie są kodem projektu.
 *.scalabackup
 !docs/test-results/emulator-0.5.0/*.log
